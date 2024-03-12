@@ -16,8 +16,12 @@ dependencies:
   dio: ^5.4.1
   change_app_package_name: ^1.1.0
   kakao_flutter_sdk: ^1.9.0
+
   flutter_dotenv: ^5.1.0
   encrypt: ^5.0.3
+
+  credit_card_scanner: ^1.0.5
+
 
 dev_dependencies:
   flutter_test:
@@ -30,22 +34,56 @@ flutter:
 
   assets:
     - .env
+
+  fonts:
+    - family: SUIT
+      fonts:
+        - asset: assets/fonts/SUIT/SUIT-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/SUIT/SUIT-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/SUIT/SUIT-Light.ttf
+          weight: 300
+        - asset: assets/fonts/SUIT/SUIT-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SUIT/SUIT-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SUIT/SUIT-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/SUIT/SUIT-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SUIT/SUIT-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/SUIT/SUIT-Heavy.ttf
+          weight: 900
+    - family: SCDream
+      fonts:
+        - asset: assets/fonts/SCDream/SCDream1.otf
+          weight: 100
+        - asset: assets/fonts/SCDream/SCDream2.otf
+          weight: 200
+        - asset: assets/fonts/SCDream/SCDream3.otf
+          weight: 300
+        - asset: assets/fonts/SCDream/SCDream4.otf
+          weight: 400
+        - asset: assets/fonts/SCDream/SCDream5.otf
+          weight: 500
+        - asset: assets/fonts/SCDream/SCDream6.otf
+          weight: 600
+        - asset: assets/fonts/SCDream/SCDream7.otf
+          weight: 700
+        - asset: assets/fonts/SCDream/SCDream8.otf
+          weight: 800
+        - asset: assets/fonts/SCDream/SCDream9.otf
+          weight: 900
+
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
 
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -57,6 +95,3 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages

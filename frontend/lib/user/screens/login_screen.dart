@@ -9,7 +9,8 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login Page"),
+        title: Text("Login Page",
+        style: TextStyle(fontFamily: 'SUIT'),),
       ),
       body: Center(
         child:Column(
