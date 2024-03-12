@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/services/kakao_login_service.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
@@ -32,9 +33,18 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  void logout() {
+  Future logout(BuildContext context) async{
     _kakaoToken = null;
     _isLoggedIn = false;
+
+    try{
+      await UserApi.instance.logout();
+      print("카카오 로그아웃");
+    } catch (e) {
+      print("카카오 로그아웃 실패 : ${e}");
+    }
+
     notifyListeners();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }
