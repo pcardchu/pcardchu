@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:frontend/utils/aes_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_user.dart';
 
 class KakaoLoginService {
@@ -10,6 +11,9 @@ class KakaoLoginService {
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
           print("카카오톡으로 로그인 성공, 액세스 토큰: ${token.accessToken}");
+
+          var encrypted = AesUtil.encryptAES(token.idToken); //암호화 테스트
+
           return token;
         } catch (error) {
           print('카카오톡으로 로그인 실패 $error');
@@ -28,6 +32,7 @@ class KakaoLoginService {
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
           print("카카오계정으로 로그인 성공, 액세스 토큰: ${token.accessToken}");
+
           return token;
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
