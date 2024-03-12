@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
-///카카오 버튼 위젯입니다.
+///카카오 로그인 버튼 위젯
 class KakaoLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: Text("카카오로 로그인"),
+    return ElevatedButton.icon(
+      icon: Image.asset('assets/images/kakao_logo.png', height: 20.0), // 카카오 로고 이미지
+      label: Text(
+        "카카오로 로그인",
+        style: TextStyle(
+          color: Colors.black87, // 텍스트 색상
+          fontSize: 16.0, // 텍스트 크기
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xFFFEE500), // 버튼 배경색
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0), // 버튼의 둥근 모서리
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // 패딩 조정
+      ),
       onPressed: () async {
         await Provider.of<LoginProvider>(context, listen: false).login();
         // 로그인 작업이 완료된 후에 isLoggedIn 상태를 체크
