@@ -23,27 +23,31 @@ class _CardNumberCheckState extends State<CardNumberCheck> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'SUIT',
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+        leading: IconButton(
+          icon: Image.asset('assets/images/back_icon.png'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
-      home: Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: CardForm(
-                    formKey: formKey,
-                    onCardNumSaved: onCardNumSaved,
-                    scanNumber: widget.scanNumber,
-                    cardInputNumber: cardInputNumber,
-                  ),
+      body: SafeArea(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CardForm(
+                  formKey: formKey,
+                  onCardNumSaved: onCardNumSaved,
+                  scanNumber: widget.scanNumber,
+                  cardInputNumber: cardInputNumber,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

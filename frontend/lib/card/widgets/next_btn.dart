@@ -38,6 +38,7 @@ class NextBtn extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 14.0,
+              fontFamily: 'SUIT',
               fontWeight: FontWeight.w700,
             ),
           ),

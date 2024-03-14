@@ -26,27 +26,31 @@ class _CardRegistrationState extends State<CardRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'SUIT',
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+        leading: IconButton(
+          icon: Image.asset('assets/images/back_icon.png'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
-      home: Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                /// 메인 바디 위젯
-                CardRegistrationMain(),
+      body: SafeArea(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /// 메인 바디 위젯
+              CardRegistrationMain(),
 
-                /// 다음 버튼 위젯
-                NextBtn(
-                  title: '등록하기',
-                  onPressed: btnOnPressed,
-                ),
-              ],
-            ),
+              /// 다음 버튼 위젯
+              NextBtn(
+                title: '등록하기',
+                onPressed: btnOnPressed,
+              ),
+            ],
           ),
         ),
       ),

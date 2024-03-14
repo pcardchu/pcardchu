@@ -19,25 +19,29 @@ class _CardOcrState extends State<CardOcr> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'SUIT',
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+        leading: IconButton(
+          icon: Image.asset('assets/images/back_icon.png'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
-      home: Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                Expanded(
-                  child: SizedBox(),
-                ),
-                NextBtn(
-                  title: '스캔하기',
-                  onPressed: scan,
-                ),
-              ],
-            ),
+      body: SafeArea(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              Expanded(
+                child: SizedBox(),
+              ),
+              NextBtn(
+                title: '스캔하기',
+                onPressed: scan,
+              ),
+            ],
           ),
         ),
       ),
@@ -58,6 +62,7 @@ class _CardOcrState extends State<CardOcr> {
   Future<void> scanCard() async {
     final CardDetails? cardDetails =
         await CardScanner.scanCard(scanOptions: scanOptions);
+
     /// 정상 동작이면 카드 스캔 정보 저장
     if (!mounted || cardDetails == null) return;
     setState(() {
