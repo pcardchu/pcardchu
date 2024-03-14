@@ -1,6 +1,8 @@
 import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/card_form.dart';
+import 'package:frontend/card/widgets/card_registration_bottom.dart';
+import 'package:frontend/card/widgets/card_registration_main.dart';
+import 'package:frontend/card/widgets/next_btn.dart';
 
 class CardRegistration extends StatefulWidget {
   const CardRegistration({super.key});
@@ -24,73 +26,52 @@ class _CardRegistrationState extends State<CardRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32.0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                /// 카드 정보 입력 Form
-                CardForm(
-                  numCtrl: numCtrl,
-                  formKey: formKey,
-                  onCardNumSaved: onCardNumSaved,
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+        leading: IconButton(
+          icon: Image.asset('assets/images/back_icon.png'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+      body: SafeArea(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /// 메인 바디 위젯
+              CardRegistrationMain(),
 
-                /// 카드 스캔 버튼
-                MaterialButton(
-                  color: Colors.blue,
-                  onPressed: scan,
-                  child: const Text('카드 스캔'),
-                ),
-
-                /// 스캔 결과 확인용
-                Text('스캔 결과 : $_cardDetails'),
-
-                /// 제출 결과 확인용
-                Text('제출 결과 : $inputNumber'),
-              ],
-            ),
+              /// 다음 버튼 위젯
+              NextBtn(
+                title: '등록하기',
+                onPressed: btnOnPressed,
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  /// 카드 스캔 설정 함수
-  /// 지금은 기본 설정
-  CardScanOptions scanOptions = const CardScanOptions(
-    scanCardHolderName: true,
-    validCardsToScanBeforeFinishingScan: 5,
-    possibleCardHolderNamePositions: [
-      CardHolderNameScanPosition.aboveCardNumber,
-    ],
-  );
-
-  /// 스캐너 함수
-  Future<void> scanCard() async {
-    final CardDetails? cardDetails =
-        await CardScanner.scanCard(scanOptions: scanOptions);
-    if (!mounted || cardDetails == null) return;
-    setState(() {
-      _cardDetails = cardDetails;
-      numCtrl.text = _cardDetails!.cardNumber;
-    });
-  }
-
-  /// 카드 스캔 함수
-  void scan() async {
-    scanCard();
-  }
-
-  /// 제출 버튼이 눌렸을떄 카드 번호 텍스트창 값을 저장하는 함수
-  void onCardNumSaved(String? val) {
-    setState(() {
-      inputNumber = val;
-    });
+  /// 바텀시트를 호출하는 함수입니다.
+  btnOnPressed() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      builder: (context) {
+        return CardRegistrationBottom();
+      },
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+    );
   }
 }
