@@ -4,6 +4,7 @@ import 'package:frontend/user/services/password_service.dart';
 
 class PasswordProvider with ChangeNotifier {
   String _inputValue = "";
+  String tmpAnswer = "123456";
 
   String get inputValue => _inputValue;
 
@@ -24,5 +25,9 @@ class PasswordProvider with ChangeNotifier {
   void clearInput() {
     _inputValue = "";
     notifyListeners(); // 상태가 변경되었음을 알림
+  }
+
+  bool checkPassword() {
+    return _inputValue == tmpAnswer;
   }
 }
