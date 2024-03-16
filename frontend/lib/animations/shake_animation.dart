@@ -27,7 +27,7 @@ class ShakeAnimation {
       AnimationController controller, {
         double start = 0.0,
         double end = 10.0,
-        Curve curve = Curves.elasticIn,
+        Curve curve = Curves.elasticInOut,
       }) {
     // 흔들림 애니메이션의 범위를 정의합니다.
     return Tween<double>(begin: start, end: end).animate(

@@ -8,6 +8,15 @@ import 'package:frontend/utils/app_fonts.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
+      textTheme: TextTheme(
+        bodyLarge: AppFonts.suit(fontSize: 16, fontWeight: FontWeight.normal).copyWith(color: AppColors.textBlack),
+        bodyMedium: AppFonts.suit(fontSize: 14, fontWeight: FontWeight.normal).copyWith(color: AppColors.textBlack),
+        displayLarge: AppFonts.suit(fontSize: 24, fontWeight: FontWeight.bold).copyWith(color: AppColors.textBlack),
+        displayMedium: AppFonts.suit(fontSize: 22, fontWeight: FontWeight.bold).copyWith(color: AppColors.textBlack),
+        // 추가적으로 필요한 텍스트 스타일을 여기에 정의할 수 있습니다.
+      ),
+
+
       //textButton
       textButtonTheme: TextButtonThemeData(
         style: _commonButtonStyle(),

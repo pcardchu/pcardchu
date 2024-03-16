@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
 import 'package:frontend/user/screens/login_screen.dart';
+import 'package:frontend/utils/screen_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'providers/login_provider.dart';
@@ -22,6 +23,7 @@ Future main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
