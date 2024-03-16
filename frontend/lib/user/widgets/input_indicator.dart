@@ -15,6 +15,11 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
+    final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
+
+    passwordProvider.clearInput();
+    passwordProvider.clearWrongCount();
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 150),
       vsync: this,
@@ -27,7 +32,6 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
           _controller!.reverse();
         } else if (status == AnimationStatus.dismissed) {
           _controller!.stop(); // 애니메이션이 끝나면 정지합니다.
-          final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
           passwordProvider.clearInput();
         }
       });

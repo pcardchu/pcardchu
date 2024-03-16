@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/widgets/custom_number_pad.dart';
 import 'package:frontend/user/widgets/input_indicator.dart';
 import 'package:frontend/utils/screen_util.dart';
-import 'package:provider/provider.dart';
 
 class NumberInputScreen extends StatefulWidget {
   @override
@@ -20,13 +18,13 @@ class _NumberInputScreenState extends State<NumberInputScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(height: ScreenUtil.h(10),),
+          Container(height: ScreenUtil.h(15),),
 
           Expanded(
             // flex: 1,
             child: InputIndicator(),
           ),
-          Container(height: ScreenUtil.h(10),),
+          Container(height: ScreenUtil.h(5),),
 
           Expanded(
             // flex: 1,

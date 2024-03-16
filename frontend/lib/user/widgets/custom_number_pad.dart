@@ -16,7 +16,10 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
   @override
   void initState() {
     super.initState();
-    Provider.of<PasswordProvider>(context, listen: false).shuffleNums();
+    final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
+    passwordProvider.shuffleNums();
+    passwordProvider.clearWrongCount();
+    passwordProvider.clearInput();
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
 import 'package:frontend/user/screens/login_screen.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => PasswordProvider()),
+        ChangeNotifierProvider<CardProvider>(create: (_) => CardProvider()),
       ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
