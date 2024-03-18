@@ -23,7 +23,7 @@ class PasswordProvider with ChangeNotifier {
           _wrongCount++;
           notifyListeners();
 
-          if (_wrongCount >= 6) {
+          if (_wrongCount >= 5) {
             // wrongCount가 6이 되었을 때의 처리 로직
             // 예: 사용자에게 경고 메시지를 보여주기
             // 추가적인 사용자 조치를 여기서 취할 수 있습니다.

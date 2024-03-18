@@ -16,6 +16,17 @@ class LoginProvider with ChangeNotifier {
 
   final KakaoLoginService _kakaoLoginService = KakaoLoginService();
 
+  Future<void> checkToken() async {
+    try {
+      if(await _kakaoLoginService.checkKakaoSignIn()) {
+        _isLoggedIn = true;
+      }
+    } catch(e) {
+      _errorMessage = e.toString();
+      print(e);
+    }
+  }
+
   Future<void> login() async {
     _isLoading = true;
     _errorMessage = null;

@@ -3,6 +3,7 @@ import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
 import 'package:frontend/user/screens/login_screen.dart';
+import 'package:frontend/user/screens/splash_screen.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
-        home: LoginScreen(),
+        home: SplashScreen(),
       ),
     );
   }

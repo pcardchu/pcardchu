@@ -2,7 +2,29 @@ import 'package:flutter/services.dart';
 import 'package:frontend/utils/aes_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_user.dart';
 
+///카카오 소셜 로그인 서비스입니다.
 class KakaoLoginService {
+  ///기존에 발급된 토큰이 있는지 확인합니다.
+  Future<bool> checkKakaoSignIn() async {
+    bool result = false;
+    if (await AuthApi.instance.hasToken()) {
+      try {
+        AccessTokenInfo tokenInfo =
+        await UserApi.instance.accessTokenInfo();
+        print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
+        result = true;
+      } catch (error) {
+        if (error is KakaoException && error.isInvalidTokenError()) {
+          print('토큰 만료 $error');
+        } else {
+          print('토큰 정보 조회 실패 $error');
+        }
+      }
+    }
+
+    return result;
+  }
+
   Future<OAuthToken?> signInWithKakao() async {
     try {
       // 카카오톡 실행 가능 여부 확인
