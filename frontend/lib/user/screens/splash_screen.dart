@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 import 'login_screen.dart';
@@ -19,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkLoginStatus() async {
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     await loginProvider.checkToken();
+
     if (loginProvider.isLoggedIn) {
       //기존 토큰이 확인 되었을 때 로직
       Navigator.of(context).pushReplacement(
@@ -30,14 +32,13 @@ class _SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     }
-  }
+    FlutterNativeSplash.remove();
+  } 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        // child: CircularProgressIndicator(),
-      ),
+      body: Container()
     );
   }
 }
