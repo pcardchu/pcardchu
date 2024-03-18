@@ -32,8 +32,7 @@ class CardRegistrationBottom extends StatelessWidget {
       ),
     );
   }
-
-  /// 동의하기 버튼 콜백함수
+  // 동의하기 버튼 콜백함수
   void onPressed(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(

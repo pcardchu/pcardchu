@@ -3,10 +3,9 @@ import 'package:frontend/card/widgets/category_chip.dart';
 
 /// 카테고리 스크롤뷰
 class CategoryList extends StatelessWidget {
-  /// 어떤 카테고리를 선택했는지 확인하는 인덱스
+  // 어떤 카테고리를 선택했는지 확인하는 인덱스
   final int selectedChoiceIndex;
-
-  /// 카테고리를 선택했을때 인덱스 저장하는 함수
+  // 카테고리를 선택했을때 인덱스 저장하는 함수
   final Function(int) selectedChip;
 
   const CategoryList({

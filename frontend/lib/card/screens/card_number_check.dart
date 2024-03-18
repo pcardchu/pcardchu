@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/card/widgets/card_form.dart';
 
 class CardNumberCheck extends StatefulWidget {
-  /// 카드 스캔 번호
+  // 카드 스캔 번호
   final String scanNumber;
 
   const CardNumberCheck({
@@ -15,10 +15,10 @@ class CardNumberCheck extends StatefulWidget {
 }
 
 class _CardNumberCheckState extends State<CardNumberCheck> {
-  /// 카드 정보 입력 Form Key
+  // 카드 정보 입력 Form Key
   final GlobalKey<FormState> formKey = GlobalKey();
 
-  /// 카드 번호 텍스트창 값
+  // 카드 번호 텍스트창 값
   String? cardInputNumber;
 
   @override

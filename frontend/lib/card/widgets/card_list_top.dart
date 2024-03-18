@@ -15,7 +15,7 @@ class CardListTop extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       color: Color(0xFFF5F5F5),
-      /// 컨테이너 높이 = 화면 전체 높이 - 앱바 높이 - 상태표시줄 높이
+      // 컨테이너 높이 = 화면 전체 높이 - 앱바 높이 - 상태표시줄 높이
       height: MediaQuery.of(context).size.height -
           AppBar().preferredSize.height -
           MediaQuery.of(context).padding.top,
@@ -42,25 +42,27 @@ class CardListTop extends StatelessWidget {
           SizedBox(height: 48.0),
           Image.asset('assets/images/card_list_card_logo.png'),
           SizedBox(height: 78.0),
-          Text(
-            '이용하러 가기',
-            style: AppFonts.suit(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xff8F99A5),
-            ),
-          ),
-          SizedBox(height: 12.0),
-
-          /// 스크롤 이동 버튼
+          // 스크롤 이동 버튼
           GestureDetector(
-            child: Image.asset('assets/images/scroll_down_logo.png'),
+            child: Column(
+              children: [
+                Text(
+                  '이용하러 가기',
+                  style: AppFonts.suit(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xff8F99A5),
+                  ),
+                ),
+                SizedBox(height: 12.0),
+                Image.asset('assets/images/scroll_down_logo.png'),
+              ],
+            ),
             onTap: () {
               Scrollable.ensureVisible(
-                /// 바텀키 위젯으로 이동
+                // 바텀키 위젯으로 이동
                 bottomKey.currentContext!,
-
-                /// 애니메이션 동작 시간
+                // 애니메이션 동작 시간
                 duration: Duration(seconds: 1),
               );
             },
