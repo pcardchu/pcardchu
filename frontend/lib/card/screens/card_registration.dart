@@ -12,16 +12,16 @@ class CardRegistration extends StatefulWidget {
 }
 
 class _CardRegistrationState extends State<CardRegistration> {
-  /// 스캔한 카드 정보
+  // 스캔한 카드 정보
   CardDetails? _cardDetails;
 
-  /// 카드 정보 입력 Form Key
+  // 카드 정보 입력 Form Key
   final GlobalKey<FormState> formKey = GlobalKey();
 
-  /// 카드 번호 값
+  // 카드 번호 값
   String? inputNumber;
 
-  /// 스캔값 자동 입력을 위한 컨트롤러
+  // 스캔값 자동 입력을 위한 컨트롤러
   var numCtrl = TextEditingController();
 
   @override
@@ -42,10 +42,9 @@ class _CardRegistrationState extends State<CardRegistration> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /// 메인 바디 위젯
+              // 메인 바디 위젯
               CardRegistrationMain(),
-
-              /// 다음 버튼 위젯
+              // 다음 버튼 위젯
               NextBtn(
                 title: '등록하기',
                 onPressed: btnOnPressed,

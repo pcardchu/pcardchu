@@ -11,10 +11,10 @@ class CardOcr extends StatefulWidget {
 }
 
 class _CardOcrState extends State<CardOcr> {
-  /// 스캔한 카드 정보
+  // 스캔한 카드 정보
   CardDetails? _cardDetails;
 
-  /// 카드 정보 입력 Form Key
+  // 카드 정보 입력 Form Key
   final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
@@ -63,7 +63,7 @@ class _CardOcrState extends State<CardOcr> {
     final CardDetails? cardDetails =
         await CardScanner.scanCard(scanOptions: scanOptions);
 
-    /// 정상 동작이면 카드 스캔 정보 저장
+    // 정상 동작이면 카드 스캔 정보 저장
     if (!mounted || cardDetails == null) return;
     setState(() {
       _cardDetails = cardDetails;

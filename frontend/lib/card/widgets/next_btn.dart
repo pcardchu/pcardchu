@@ -14,7 +14,7 @@ class NextBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// 버튼 스타일
+    // 버튼 스타일
     final _btnStyle = ElevatedButton.styleFrom(
       backgroundColor: Color(0xff051D40),
       foregroundColor: Colors.white,
