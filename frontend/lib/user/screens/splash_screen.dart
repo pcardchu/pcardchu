@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
       );
     }
     FlutterNativeSplash.remove();
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {

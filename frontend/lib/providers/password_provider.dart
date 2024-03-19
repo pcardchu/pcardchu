@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/user/services/password_service.dart';
+import 'package:frontend/utils/crypto_util.dart';
 
 
 class PasswordProvider with ChangeNotifier {
@@ -19,6 +20,9 @@ class PasswordProvider with ChangeNotifier {
 
       // 비밀번호 길이가 6자리가 되었을 때의 로직
       if (_inputValue.length == 6) {
+        // _inputValue
+        String digest = CryptoUtil.hashPassword(_inputValue, "1234");
+        // print("입력값 : ${_inputValue}, 해싱 : ${digest}");
         if (!checkPassword()) {
           _wrongCount++;
           notifyListeners();

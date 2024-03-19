@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/password_provider.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
@@ -17,9 +18,12 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
   void initState() {
     super.initState();
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
-    passwordProvider.shuffleNums();
-    passwordProvider.clearWrongCount();
-    passwordProvider.clearInput();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      passwordProvider.shuffleNums();
+    });
+    //
+    // passwordProvider.clearWrongCount();
+    // passwordProvider.clearInput();
   }
 
   @override
@@ -46,6 +50,11 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
             return IconButton(
               icon: Icon(Icons.backspace),
               onPressed: () => provider.deleteLast(), // -1을 전달하여 삭제를 알림
+              style: TextButton.styleFrom(
+                  foregroundColor: AppColors.mainBlue,
+                  textStyle: AppFonts.suit(fontSize: 20, fontWeight: FontWeight.w600),
+                  backgroundColor: Colors.transparent
+              ),
             );
           }
 
@@ -58,7 +67,9 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
             child: Text("${randomNums[number]}"),
             onPressed: () => provider.addNumber(randomNums[number]),
             style: TextButton.styleFrom(
-              textStyle: AppFonts.suit(fontSize: 20, fontWeight: FontWeight.w600)
+              foregroundColor: AppColors.mainBlue,
+              textStyle: AppFonts.suit(fontSize: 20, fontWeight: FontWeight.w600),
+              backgroundColor: Colors.transparent
             ),
           );
         }),
