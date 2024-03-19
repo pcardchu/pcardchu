@@ -25,22 +25,16 @@ class NextBtn extends StatelessWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 35,
-          right: 35,
-          bottom: 22,
-        ),
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: _btnStyle,
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 14.0,
-              fontFamily: 'SUIT',
-              fontWeight: FontWeight.w700,
-            ),
+      height: 54,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: _btnStyle,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 14.0,
+            fontFamily: 'SUIT',
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

@@ -14,6 +14,10 @@ class CardProvider with ChangeNotifier {
   // 로딩 상태 관리
   bool loading = false;
 
+  // 카테고리 리스트 로드 상태
+  // 참이면 카테고리 배열에 이미 데이터가 있는 상태 >> Get할 필요 없음
+  bool loadCategory = false;
+
   // 카드 api 서비스
   CardService cardService = CardService();
 
@@ -37,6 +41,7 @@ class CardProvider with ChangeNotifier {
 
     // categoryAll = await cardService.getCategoryCards(_categoryId.toString());
     loading = false;
+    loadCategory = true;
 
     notifyListeners();
   }
