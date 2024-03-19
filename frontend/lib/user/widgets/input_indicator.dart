@@ -16,9 +16,11 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
   void initState() {
     super.initState();
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      passwordProvider.clearInput();
+      passwordProvider.clearWrongCount();
+    });
 
-    passwordProvider.clearInput();
-    passwordProvider.clearWrongCount();
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 150),
@@ -56,17 +58,6 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Image.asset('assets/images/lock.png', width: 100, height: 100),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Text(
-            "비밀번호를 입력해 주세요",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-        ),
         AnimatedBuilder(
           animation: _shakeAnimation!,
           builder: (context, child) {

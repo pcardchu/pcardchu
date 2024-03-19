@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
@@ -11,7 +12,8 @@ import 'providers/login_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
     await dotenv.load(fileName: ".env");
     KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']);
@@ -25,12 +27,13 @@ Future main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    precacheImage(AssetImage('assets/images/kakao_logo.png'), context);
     ScreenUtil.init(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => PasswordProvider()),
-        ChangeNotifierProvider<CardProvider>(create: (_) => CardProvider()),
+        ChangeNotifierProvider(create: (context) => CardProvider()),
       ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
