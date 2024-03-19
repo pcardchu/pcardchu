@@ -36,6 +36,7 @@ class _CardListState extends State<CardList> {
           icon: Image.asset('assets/images/back_icon.png'),
           onPressed: () {
             Navigator.of(context).pop();
+            context.read<CardProvider>().changeCategory(0);
           },
         ),
         // 스크롤할때 앱바 색 안바뀌게
@@ -68,8 +69,10 @@ class _CardListState extends State<CardList> {
   }
 
   /// 카테고리 카드 리스트 Get
-  Future<void> loadData()async{
-    // await Provider.of<CardProvider>(context, listen: false).getCategoryCards(context);
-    await context.read<CardProvider>().getCategoryCards(context);
+  Future<void> loadData() async {
+    // 카테고리 카드 리스트 배열에 정보가 없을때만 Get 호출
+    if (!context.read<CardProvider>().loadCategory) {
+      await context.read<CardProvider>().getCategoryCards(context);
+    }
   }
 }

@@ -37,9 +37,16 @@ class _CardOcrState extends State<CardOcr> {
               Expanded(
                 child: SizedBox(),
               ),
-              NextBtn(
-                title: '스캔하기',
-                onPressed: scan,
+              Container(
+                margin: const EdgeInsets.only(
+                left: 35,
+                right: 35,
+                bottom: 22,
+              ),
+                child: NextBtn(
+                  title: '스캔하기',
+                  onPressed: scan,
+                ),
               ),
             ],
           ),
