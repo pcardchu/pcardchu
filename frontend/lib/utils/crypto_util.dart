@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class AesUtil {
+class CryptoUtil {
   static final _aesKey = dotenv.env['AES_KEY'] ?? 'key오류';
   static final _key = encrypt.Key.fromUtf8(_aesKey); // 16자리 비밀키
   static final _iv = encrypt.IV.fromLength(16); // 16자리 IV (CBC 모드에 필요)
@@ -24,5 +28,13 @@ class AesUtil {
     final encrypter = encrypt.Encrypter(encrypt.AES(_key, mode: encrypt.AESMode.cbc));
     final decrypted = encrypter.decrypt(encrypt.Encrypted.fromBase64(encryptedText), iv: _iv);
     return decrypted;
+  }
+
+  //해싱
+  static String hashPassword(String value, String salt) {
+    Uint8List bytes = utf8.encode(value + salt);
+    Digest digest = sha256.convert(bytes);
+
+    return digest.toString();
   }
 }

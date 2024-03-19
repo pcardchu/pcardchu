@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
-        backgroundColor: Color(0xFFF5F5F5),
+        // backgroundColor: Color(0xFFF5F5F5),
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,

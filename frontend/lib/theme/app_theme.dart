@@ -16,15 +16,26 @@ class AppTheme {
         // 추가적으로 필요한 텍스트 스타일을 여기에 정의할 수 있습니다.
       ),
 
+      appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(
+          color: AppColors.mainBlue, // AppBar 아이콘 색상
+        ),
+        actionsIconTheme: IconThemeData(
+          // color: AppColors.mainBlue, // AppBar 액션 버튼 아이콘 색상
+        ),
+        // AppBar 배경 색상을 투명으로 설정
+        // color: Colors.transparent,
 
+        elevation: 0, // AppBar의 그림자를 없애기
+      ),
       //textButton
       textButtonTheme: TextButtonThemeData(
         style: _commonButtonStyle(),
       ),
       //iconButton
-      iconButtonTheme: IconButtonThemeData(
-        style: _commonButtonStyle(),
-      ),
+      // iconButtonTheme: IconButtonThemeData(
+      //   style: _commonButtonStyle(),
+      // ),
 
       //elevatedButton
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -47,16 +58,16 @@ ButtonStyle _commonButtonStyle() {
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
     //글자색
-    foregroundColor: MaterialStateProperty.all(AppColors.mainBlue),
+    foregroundColor: MaterialStateProperty.all(AppColors.mainWhite),
     textStyle: MaterialStateProperty.all<TextStyle>(
         AppFonts.suit(fontSize: 16, fontWeight: FontWeight.w600)
     ),
     // 배경색 (투명)
-    backgroundColor: MaterialStateProperty.all(Colors.transparent),
+    backgroundColor: MaterialStateProperty.all(AppColors.mainBlue),
     overlayColor: MaterialStateProperty.resolveWith<Color?>(
           (Set<MaterialState> states) {
         if (states.contains(MaterialState.pressed)) {
-          return AppColors.splashBlue; // 스플래시 색상 설정
+          return AppColors.lightGrey; // 스플래시 색상 설정
         }
         return null; // 기본값 사용
       },

@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:frontend/utils/aes_util.dart';
+import 'package:frontend/utils/crypto_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_user.dart';
 
 ///카카오 소셜 로그인 서비스입니다.
@@ -11,7 +11,7 @@ class KakaoLoginService {
       try {
         AccessTokenInfo tokenInfo =
         await UserApi.instance.accessTokenInfo();
-        print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
+        print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}, ${tokenInfo.appId}');
         result = true;
       } catch (error) {
         if (error is KakaoException && error.isInvalidTokenError()) {
@@ -34,7 +34,7 @@ class KakaoLoginService {
           OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
           print("카카오톡으로 로그인 성공, 액세스 토큰: ${token.accessToken}");
 
-          var encrypted = AesUtil.encryptAES(token.idToken); //암호화 테스트
+          var encrypted = CryptoUtil.encryptAES(token.idToken); //암호화 테스트
 
           return token;
         } catch (error) {
