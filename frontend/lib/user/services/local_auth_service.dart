@@ -26,6 +26,7 @@ class LocalAuthService {
 
   // 생체 인증을 사용하여 인증 시도
   Future<bool> authenticateWithBiometrics(String localizedReason) async {
+    print("생체인증 시도");
     try {
       return await _auth.authenticate(
         localizedReason: localizedReason,
