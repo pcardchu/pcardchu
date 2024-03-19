@@ -8,13 +8,13 @@ import 'package:frontend/utils/app_fonts.dart';
 
 /// 카드리스트 - 아래쪽 메인화면입니다.
 class CardListBottom extends StatelessWidget {
-  /// 스크롤 자동이동을 위한 키
+  // 스크롤 자동이동을 위한 키
   final GlobalKey bottomKey;
 
-  /// 어떤 카테고리를 선택했는지 확인하는 인덱스
+  // 어떤 카테고리를 선택했는지 확인하는 인덱스
   final int selectedChoiceIndex;
 
-  /// 카테고리를 선택했을때 인덱스 저장하는 함수
+  // 카테고리를 선택했을때 인덱스 저장하는 함수
   final Function(int) selectedChip;
 
   const CardListBottom({
@@ -30,8 +30,7 @@ class CardListBottom extends StatelessWidget {
       key: bottomKey,
       width: MediaQuery.of(context).size.width,
       color: Color(0xFFF5F5F5),
-
-      /// 화면 전체 높이 - 앱바 높이 - 상태표시줄 높이
+      // 화면 전체 높이 - 앱바 높이 - 상태표시줄 높이
       height: MediaQuery.of(context).size.height -
           AppBar().preferredSize.height -
           MediaQuery.of(context).padding.top,
@@ -39,7 +38,7 @@ class CardListBottom extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 상단부
+          // 상단부
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 39),
             child: Row(
@@ -58,8 +57,7 @@ class CardListBottom extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30),
-
-          /// 카테고리 리스트 스크롤
+          // 카테고리 리스트 스크롤
           CategoryList(
             selectedChoiceIndex: selectedChoiceIndex,
             selectedChip: selectedChip,
@@ -73,8 +71,7 @@ class CardListBottom extends StatelessWidget {
             height: 27,
             color: Color(0xFFF5F5F5),
           ),
-
-          /// 하단부
+          // 하단부
           Expanded(
             child: Container(
               color: Color(0xFF5F5F5),

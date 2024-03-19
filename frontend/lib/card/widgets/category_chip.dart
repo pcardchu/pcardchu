@@ -5,15 +5,13 @@ import 'package:provider/provider.dart';
 
 /// 카테고리 칩
 class CategoryChip extends StatelessWidget {
+  // 카테고리 이름
   final String title;
-
-  /// 카테고리 인덱스
+  // 카테고리 인덱스
   final int categoryIndex;
-
-  /// 어떤 카테고리를 선택했는지 확인하는 인덱스
+  // 어떤 카테고리를 선택했는지 확인하는 인덱스
   final int selectedChoiceIndex;
-
-  /// 카테고리를 선택했을때 인덱스 저장하는 함수
+  // 카테고리를 선택했을때 인덱스 저장하는 함수
   final Function(int) selectedChip;
 
   const CategoryChip({
@@ -43,7 +41,7 @@ class CategoryChip extends StatelessWidget {
         context.read<CardProvider>().changeCategory(categoryIndex);
       },
       backgroundColor: Color(0xFFECECEC),
-      /// 선택했을때 색 다르게
+      // 선택했을때 색 다르게
       selectedColor: Color(0xFF051D40),
       shape: RoundedRectangleBorder(
         side: BorderSide(
@@ -51,7 +49,7 @@ class CategoryChip extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(8),
       ),
-      /// 선택시 체크 버튼 삭제
+      // 선택시 체크 버튼 삭제
       showCheckmark: false,
     );
   }

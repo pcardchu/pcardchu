@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/widgets/card_list_bottom.dart';
 import 'package:frontend/card/widgets/card_list_top.dart';
+import 'package:frontend/providers/card_provider.dart';
+import 'package:provider/provider.dart';
 
 class CardList extends StatefulWidget {
   const CardList({super.key});
@@ -17,32 +19,36 @@ class _CardListState extends State<CardList> {
   int selectedChoiceIndex = 0;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
         backgroundColor: Color(0xFFF5F5F5),
-
-        /// 뒤로가기 버튼
+        // 뒤로가기 버튼
         leading: IconButton(
           icon: Image.asset('assets/images/back_icon.png'),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-
-        /// 스크롤할때 앱바 색 안바뀌게
+        // 스크롤할때 앱바 색 안바뀌게
         scrolledUnderElevation: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            /// 윗 페이지
+            // 윗 페이지
             CardListTop(
               bottomKey: bottomKey,
             ),
-
-            /// 아래 페이지
+            // 아래 페이지
             CardListBottom(
               bottomKey: bottomKey,
               selectedChoiceIndex: selectedChoiceIndex,
@@ -59,5 +65,11 @@ class _CardListState extends State<CardList> {
     setState(() {
       selectedChoiceIndex = index;
     });
+  }
+
+  /// 카테고리 카드 리스트 Get
+  Future<void> loadData()async{
+    // await Provider.of<CardProvider>(context, listen: false).getCategoryCards(context);
+    await context.read<CardProvider>().getCategoryCards(context);
   }
 }

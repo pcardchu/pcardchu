@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:frontend/card/widgets/next_btn.dart';
 
 class CardForm extends StatelessWidget {
-  /// 카드 정보 입력 Form Key
+  // 카드 정보 입력 Form Key
   final GlobalKey<FormState> formKey;
 
-  /// 카드 번호 스캔 값
+  // 카드 번호 스캔 값
   final String scanNumber;
 
-  /// 카드 번호 텍스트창 값
+  // 카드 번호 텍스트창 값
   final String? cardInputNumber;
 
-  /// 제출 버튼을 누를때 카드 번호 인풋값을 저장하는 함수
+  // 제출 버튼을 누를때 카드 번호 인풋값을 저장하는 함수
   final FormFieldSetter<String> onCardNumSaved;
 
   const CardForm({
@@ -25,7 +25,7 @@ class CardForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// 텍스트폼필드 데코
+    // 텍스트폼필드 데코
     const textDeco = InputDecoration(
       label: Text(
         '카드번호',
@@ -34,23 +34,20 @@ class CardForm extends StatelessWidget {
           color: Color(0xff8F99A5),
         ),
       ),
-
-      /// 각 상태마다 보더 지정
-      /// 안눌렀을때
+      // 각 상태마다 보더 지정
+      // 안눌렀을때
       disabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           color: Colors.black,
         ),
       ),
-
-      /// 포커스됐을때
+      // 포커스됐을때
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           color: Colors.black,
         ),
       ),
-
-      /// 눌렀을때
+      // 눌렀을때
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           color: Colors.black,
@@ -63,28 +60,23 @@ class CardForm extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 50.0),
-
-          /// 카드 번호 입력창
+          // 카드 번호 입력창
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: TextFormField(
-                /// 스캔 값이 자동으로 들어가게
+                // 스캔 값이 자동으로 들어가게
                 initialValue: scanNumber,
-
-                /// Form 제출 버튼이 눌렸을 때 실행
+                // Form 제출 버튼이 눌렸을 때 실행
                 onSaved: onCardNumSaved,
-
-                /// 유효성 검증
+                // 유효성 검증
                 validator: validator,
                 decoration: textDeco,
               ),
             ),
           ),
-
           Text('확인용 : $cardInputNumber'),
-
-          /// 제출 버튼
+          // 제출 버튼
           NextBtn(
             onPressed: submitOnPressed,
             title: '등록하기',
