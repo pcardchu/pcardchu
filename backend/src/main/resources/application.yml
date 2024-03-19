@@ -13,6 +13,9 @@ spring:
     url: jdbc:mariadb://localhost:3306/test?serverTimezone=Asia/Seoul
     username: root
     password: 1234
+  data:  # MongoDB
+    mongodb:
+      uri: mongodb://localhost:27017/pickachu
 
   jpa:
     hibernate:
@@ -35,3 +38,11 @@ springdoc:
     disable-swagger-default-url: true
   show-login-endpoint: true
 #    display-request-duration: true #Try it out 실행 후 api 실행 시간 표시
+
+# 이미지 저장 경로
+image:
+  upload:
+    path: src/main/resources/ststic/images/
+    target: https://www.card-gorilla.com/chart/top100
+    regist: https://www.card-gorilla.com/card/bridge/
+    cond: gorilla
