@@ -26,6 +26,11 @@ class CardProvider with ChangeNotifier {
 
   int get categoryId => _categoryId;
 
+  // 카드 스캔 번호
+  String _scanNumber = '';
+
+  String get scanNumber => _scanNumber;
+
   /// 카테고리별 카드 리스트 GET
   /// 0 : 전체
   /// 1 : 교통
@@ -35,7 +40,7 @@ class CardProvider with ChangeNotifier {
   getCategoryCards(context) async {
     loading = true;
 
-    for (int i = 0; i < 5; i ++){
+    for (int i = 0; i < 5; i++) {
       categoryCards.add(await cardService.getCategoryCards(i.toString()));
     }
 
@@ -49,7 +54,7 @@ class CardProvider with ChangeNotifier {
   /// 카테고리 인덱스 변경
   /// int index는 카테고리 인덱스
   /// 해당 카테고리에 맞는 카드 리스트를 Get 요청
-  void changeCategory(int index) async {
+  void setCategory(int index) async {
     if (_categoryId != index) {
       _categoryId = index;
       // loading = true;
@@ -59,6 +64,13 @@ class CardProvider with ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  /// 카드 스캔 번호 변경
+  void setScanNumber(String num) async{
+    _scanNumber = num;
+
+    notifyListeners();
   }
 
   /// 카드 디테일 정보 Get 요청

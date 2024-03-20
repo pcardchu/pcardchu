@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_list.dart';
 import 'package:frontend/card/screens/card_registration.dart';
+import 'package:frontend/card/widgets/registration_modal.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,13 +27,21 @@ class HomeScreen extends StatelessWidget {
                 child: Text("로그아웃")),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CardRegistration(),
-                  ),
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) => CardRegistration(),
+                //   ),
+                // );
+
+                // 등록된 카드가 없다면 보여주는 모달
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return RegistrationModal();
+                  },
                 );
               },
-              child: Text('ocr 테스트'),
+              child: Text('카드 등록 모달'),
             ),
             ElevatedButton(
               onPressed: () {
