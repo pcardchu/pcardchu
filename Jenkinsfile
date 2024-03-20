@@ -27,7 +27,10 @@ pipeline {
             }
         }
         failure {
-            withCredentials([string(credentialsId: 'mattermost', variable: 'WEBHOOK_URL')]) {
+            withCredentials(
+                string(credentialsId: 'webhook_url', variable: 'WEBHOOK_URL'),
+                string(credentialsId: 'channel', variable: 'CHANNEL')
+                ]) {
                 script {
                     def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>' ${BRANCH_NAME}", returnStdout: true).trim()
                     def commitMessage = sh(script: "git log -1 --pretty=%B ${BRANCH_NAME}", returnStdout: true).trim()
