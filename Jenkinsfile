@@ -18,7 +18,7 @@ pipeline {
                 script {
                     def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
                     def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
-                    mattermostSend color: 'good', message: "[Backend] SUCCESS - [${env.BUILD_NUMBER}]\n : ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"
+                    mattermostSend color: 'good', message: "[Backend] SUCCESS: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\n ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
                 script {
                     def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
                     def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
-                    mattermostSend color: 'good', message: "[Backend] FAILURE - [${env.BUILD_NUMBER}]\n : ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"
+                    mattermostSend color: 'good', message: "[Backend] FAILURE: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\n ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"
                 }
             }
         }
