@@ -20,8 +20,8 @@ pipeline {
                 string(credentialsId: 'channel', variable: 'CHANNEL')
                 ]) {
                 script {
-                    def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>' ${BRANCH_NAME}", returnStdout: true).trim()
-                    def commitMessage = sh(script: "git log -1 --pretty=%B ${BRANCH_NAME}", returnStdout: true).trim()
+                    def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
+                    def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                     mattermostSend color: 'good', message: "[Backend] SUCCESS: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\n ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"
                 }
             }
@@ -32,8 +32,8 @@ pipeline {
                 string(credentialsId: 'channel', variable: 'CHANNEL')
                 ]) {
                 script {
-                    def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>' ${BRANCH_NAME}", returnStdout: true).trim()
-                    def commitMessage = sh(script: "git log -1 --pretty=%B ${BRANCH_NAME}", returnStdout: true).trim()
+                    def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
+                    def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                     mattermostSend color: 'good', message: "[Backend] FAILURE: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\n ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"                }
             }
         }
