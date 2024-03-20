@@ -10,7 +10,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/test?serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://localhost:3307/test?serverTimezone=Asia/Seoul
     username: root
     password: 1234
   data:  # MongoDB
@@ -42,7 +42,7 @@ springdoc:
 # 이미지 저장 경로
 image:
   upload:
-    path: src/main/resources/ststic/images/
+    path: src/main/resources/static/images/
     target: https://www.card-gorilla.com/chart/top100
     regist: https://www.card-gorilla.com/card/bridge/
     cond: gorilla

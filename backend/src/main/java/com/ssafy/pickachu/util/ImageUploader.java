@@ -16,10 +16,9 @@ public class ImageUploader {
     @Value("${image.upload.path}")
     String UPLOAD_URL_PATH;
 
-    public String ImgaeUpload(String imgUrl, String fileName ){
+    public String ImgaeUpload(String imgUrl, String fileName, String extension){
 
         BufferedImage image = null;
-        String extension = imgUrl.substring(imgUrl.lastIndexOf('.') + 1);
         String fileNm = fileName+"."+extension;
         try {
             image = ImageIO.read(new URL(imgUrl));
