@@ -2,5 +2,5 @@ package com.ssafy.pickachu.crawling.service;
 
 public interface CrawlingService {
 
-    public void CrawlingCards();
+    public void CrawlingCards(String cardCompanyId);
 }

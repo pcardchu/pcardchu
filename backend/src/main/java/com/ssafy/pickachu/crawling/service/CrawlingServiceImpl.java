@@ -30,14 +30,14 @@ import java.util.regex.Pattern;
 @Service
 public class CrawlingServiceImpl implements CrawlingService{
 
-    @Value("${image.upload.target}")
-    private String TARGET;
 
-    @Value("${image.upload.regist}")
+    @Value("${crawling.cards.regist}")
     private String REGIST_CARD;
 
-    @Value("${image.upload.cond}")
+    @Value("${crawling.cards.cond}")
     private String COND;
+    @Value("${crawling.cards.url}")
+    private String CRAWLING_URL;
 
     private final WebDriverChrome webDriver;
     private final ImageUploader imageUploader;
@@ -57,37 +57,52 @@ public class CrawlingServiceImpl implements CrawlingService{
 
 
     @Override
-    public void CrawlingCards() {
+    public void CrawlingCards(String cardCompanyId) {
         log.info("Crawling Start");
 
         org.openqa.selenium.WebDriver driver = webDriver.getWebDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 최대 10초까지 로딩 대기
-        driver.get(TARGET);
-        // TODO 여기가 나중에는 카드사별 카드 리스트 가져오기로 바꿔야함 모든 카드를 가져와야 하기 떄문
-        // XXX Top 100에 대한 카드 detail URL 주소 가져오기 : top100CardUrls
-        List<String> top100CardUrls = new ArrayList<String>();
 
-        List<WebElement> elements = driver.findElements(By.className("rk_lst"));
-        for (WebElement element : elements) {
-            WebElement a = element.findElement(By.tagName("a"));
-            String hrefValue = a.getAttribute("href");
-            top100CardUrls.add(hrefValue);
+
+        // XXX 카드사 보유 카드 detail URL 주소 가져오기 : cardsList
+
+        // 여기는 진짜 카드사 모든 카드 가져오는 코드
+        List<String> cardsList = new ArrayList<>();
+        String target = CRAWLING_URL + cardCompanyId;
+        driver.get(target);
+        WebElement moreCards = driver.findElement(By.className("lst_more"));
+        while(!moreCards.getAttribute("style").equals("display: none;")){
+            try{
+                moreCards = driver.findElement(By.className("lst_more"));
+                moreCards.click();
+                log.info(moreCards.getAttribute("style"));
+//                Thread.sleep(150);
+            } catch (ElementNotInteractableException | NoSuchElementException e) {  }
         }
 
+        WebElement cardsLst = driver.findElements(By.className("lst")).get(1);
+        List<WebElement> elements = cardsLst.findElements(By.cssSelector("a.b_view"));
+
+        for (WebElement element : elements) {
+            cardsList.add(element.getAttribute("href"));
+        }
+
+
+        int ii = 1;
         // driver 사용 횟수 카운트 : 세션유지 -> for문 10번마다 driver 갱신
         int driverUseCount = 0;
-        for (String top100CardUrl : top100CardUrls){
+        for (String cardUrl : cardsList){
 
             // XXX 카드 고유값 가지고 오기 : CardId
-            String cardId = top100CardUrl.substring(top100CardUrl.lastIndexOf('/') + 1);
-
+            String cardId = cardUrl.substring(cardUrl.lastIndexOf('/') + 1);
+            log.info(ii++ + " : " +cardId);
             // 저장한 카드 패스
             if(cardsRepository.findById(cardId).isPresent()){
+                log.info("EXIST CARD ");
                 continue;
             }
 
             // 여기에 각 URL을 이용하여 card html 가져오기
-            driver.get(top100CardUrl);
+            driver.get(cardUrl);
             try{
                 Thread.sleep(1000); // 로딩 시간 벌기
             }catch(InterruptedException e){
