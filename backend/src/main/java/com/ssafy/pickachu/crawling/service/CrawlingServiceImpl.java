@@ -5,7 +5,7 @@ import com.ssafy.pickachu.cards.entity.CardInfo;
 import com.ssafy.pickachu.cards.entity.Cards;
 import com.ssafy.pickachu.cards.repository.CardInfoRepository;
 import com.ssafy.pickachu.cards.repository.CardsRepository;
-import com.ssafy.pickachu.util.WebDriver;
+import com.ssafy.pickachu.util.WebDriverChrome;
 import com.ssafy.pickachu.crawling.dto.BenefitCalc;
 import com.ssafy.pickachu.util.ImageUploader;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +30,6 @@ import java.util.regex.Pattern;
 @Service
 public class CrawlingServiceImpl implements CrawlingService{
 
-    @Value("${image.upload.path}")
-    private String UPLOAD_URL_PATH;
-
     @Value("${image.upload.target}")
     private String TARGET;
 
@@ -42,7 +39,7 @@ public class CrawlingServiceImpl implements CrawlingService{
     @Value("${image.upload.cond}")
     private String COND;
 
-    private final WebDriver webDriver;
+    private final WebDriverChrome webDriver;
     private final ImageUploader imageUploader;
     private final CardsRepository cardsRepository;
     private final CardInfoRepository cardInfoRepository;
@@ -126,8 +123,7 @@ public class CrawlingServiceImpl implements CrawlingService{
             String imgUrl = img.getAttribute("src");
             String extension = imgUrl.substring(imgUrl.lastIndexOf('.') + 1);
             String saveName = cardCompany+"_"+cardName.replaceAll("[\\\\/:*?\"<>| ]", "")+"_"+cardId;
-            String fileNm = saveName+"."+extension;
-            String imgPath = imageUploader.ImgaeUpload(imgUrl, fileNm);
+            String imgPath = imageUploader.ImgaeUpload(imgUrl, saveName, extension);
 
             // XXX 카드 혜택 요소 클릭하기 (자세히 보기)-> Accordion
             elements = driver.findElements(By.cssSelector("dl[data-v-e76ea864][data-v-35734774]"));
@@ -271,8 +267,8 @@ public class CrawlingServiceImpl implements CrawlingService{
                     .id(cardId)
                     .cardName(cardName)
                     .organization_id(cardCompany)
-                    .imageName(fileNm)
-                    .imageUrl(UPLOAD_URL_PATH+fileNm)
+                    .imageName(saveName + extension)
+                    .imageUrl(imgPath)
                     .registrationUrl(makeCardUrl)
                     .build();
             cardsRepository.save(cards);
