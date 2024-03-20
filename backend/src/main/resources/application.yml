@@ -43,6 +43,9 @@ springdoc:
 image:
   upload:
     path: src/main/resources/static/images/
-    target: https://www.card-gorilla.com/chart/top100
+
+crawling:
+  cards:
+    url: https://card-gorilla.com/team/detail/
     regist: https://www.card-gorilla.com/card/bridge/
     cond: gorilla
