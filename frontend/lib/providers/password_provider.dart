@@ -12,7 +12,7 @@ class PasswordProvider with ChangeNotifier {
 
   String _inputValue = "";
   int _wrongCount = 0;
-  String tmpAnswer = "123456";
+  String tmpAnswer = "000000";
   List _nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   // 생체 인증 로그인이 활성화되어 있는지 확인하는 Getter
@@ -33,6 +33,11 @@ class PasswordProvider with ChangeNotifier {
   Future<void> loadBiometricEnabled() async {
     _isBiometricEnabled = await _localAuthService.isBiometricEnabled();
     notifyListeners();
+  }
+
+  void changeAuthenticated(bool authentication){
+    _isAuthenticated = authentication;
+    // notifyListeners();
   }
 
   // 사용자의 생체 인증 로그인 설정을 업데이트
@@ -75,11 +80,11 @@ class PasswordProvider with ChangeNotifier {
             // 필요한 경우, 사용자에게 경고 메시지를 보여주는 등의 UI 업데이트
           }
         } else {
-          print("비밀번호가 정확합니다.");
           // 정확한 비밀번호 입력 후의 동작
+          _isAuthenticated = true;
+          print("비밀번호가 정확합니다.");
         }
       }
-
     }
   }
 
@@ -92,6 +97,11 @@ class PasswordProvider with ChangeNotifier {
       _inputValue = _inputValue.substring(0, _inputValue.length - 1);
       notifyListeners(); // 상태가 변경되었음을 알림
     }
+  }
+
+  void clearAll(){
+    _inputValue = "";
+    _wrongCount = 0;
   }
 
   void clearInput() {

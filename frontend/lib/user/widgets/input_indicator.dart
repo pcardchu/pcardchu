@@ -16,11 +16,11 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
   void initState() {
     super.initState();
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      passwordProvider.clearInput();
-      passwordProvider.clearWrongCount();
-    });
-
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   passwordProvider.clearInput();
+    //   passwordProvider.clearWrongCount();
+    // });
+    passwordProvider.clearAll();
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 150),
@@ -51,7 +51,7 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
     final inputLength = passwordProvider.inputValue.length;
 
     // 비밀번호 길이가 6에 도달하면 흔들림 애니메이션을 시작합니다.
-    if (inputLength == 6 && _controller!.status != AnimationStatus.forward) {
+    if(inputLength == 6 && _controller!.status != AnimationStatus.forward) {
       _controller!.forward(from: 0.0);
     }
 

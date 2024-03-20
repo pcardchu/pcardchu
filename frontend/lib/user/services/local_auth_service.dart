@@ -30,7 +30,7 @@ class LocalAuthService {
     try {
       return await _auth.authenticate(
         localizedReason: localizedReason,
-        options: const AuthenticationOptions(biometricOnly: true),
+        options: const AuthenticationOptions(biometricOnly: true, stickyAuth: true),
       );
     } on PlatformException {
       return false;
