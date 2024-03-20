@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/next_btn.dart';
+import 'package:frontend/providers/card_provider.dart';
+import 'package:frontend/utils/app_colors.dart';
+import 'package:frontend/utils/app_fonts.dart';
+import 'package:provider/provider.dart';
 
-class CardForm extends StatelessWidget {
+class CardForm extends StatefulWidget {
   // 카드 정보 입력 Form Key
   final GlobalKey<FormState> formKey;
-
-  // 카드 번호 스캔 값
-  final String scanNumber;
 
   // 카드 번호 텍스트창 값
   final String? cardInputNumber;
@@ -19,21 +18,20 @@ class CardForm extends StatelessWidget {
     super.key,
     required this.formKey,
     required this.onCardNumSaved,
-    required this.scanNumber,
     required this.cardInputNumber,
   });
 
   @override
+  State<CardForm> createState() => _CardFormState();
+}
+
+class _CardFormState extends State<CardForm> {
+  @override
   Widget build(BuildContext context) {
-    // 텍스트폼필드 데코
+    String? scanNumber = context.watch<CardProvider>().scanNumber;
+
+    // 텍스트폼필드 스타일
     const textDeco = InputDecoration(
-      label: Text(
-        '카드번호',
-        style: TextStyle(
-          fontSize: 12.0,
-          color: Color(0xff8F99A5),
-        ),
-      ),
       // 각 상태마다 보더 지정
       // 안눌렀을때
       disabledBorder: UnderlineInputBorder(
@@ -53,54 +51,51 @@ class CardForm extends StatelessWidget {
           color: Colors.black,
         ),
       ),
+      // 글자수 체크 텍스트 안보이게
+      counterText: '',
     );
 
     return Form(
-      key: formKey,
+      key: widget.formKey,
       child: Column(
         children: [
-          SizedBox(height: 50.0),
+          const SizedBox(height: 50),
           // 카드 번호 입력창
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: TextFormField(
-                // 스캔 값이 자동으로 들어가게
-                initialValue: scanNumber,
-                // Form 제출 버튼이 눌렸을 때 실행
-                onSaved: onCardNumSaved,
-                // 유효성 검증
-                validator: validator,
-                decoration: textDeco,
+            child: TextFormField(
+              style: AppFonts.suit(
+                fontSize: 28,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textBlack,
               ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              maxLength: 19,
+              initialValue: scanNumber,
+              // Form 제출 버튼이 눌렸을 때 실행
+              onSaved: widget.onCardNumSaved,
+              // 유효성 검증
+              validator: validator,
+              decoration: textDeco,
             ),
           ),
-          Text('확인용 : $cardInputNumber'),
-          // 제출 버튼
-          NextBtn(
-            onPressed: submitOnPressed,
-            title: '등록하기',
-          ),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  /// 제출 버튼 콜백함수
-  void submitOnPressed() {
-    /// 유효성 검증을 통과 하면
-    /// TextFormField의 onSaved 수행
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-    }
-  }
-
   /// 유효성 검사 함수
-  /// 16자리인지 체크
+  /// 0000-0000-0000-0000 형식에 맞는지 체크
   String? validator(String? val) {
-    if (val?.length != 16) {
-      return '정확한 값을 입력 해 주세요';
+    // 정규 표현식 패턴
+    RegExp regex = RegExp(r'^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$');
+
+    // 입력된 문자열이 정규 표현식에 맞는지 확인
+    if (val == null || !regex.hasMatch(val)) {
+      return '정확한 값을 입력해주세요';
+    } else {
+      return null;
     }
-    return null;
   }
 }

@@ -36,10 +36,11 @@ class _CardWebViewState extends State<CardWebView> {
       ));
 
     return Scaffold(
-        body: SafeArea(
-      child: WebViewWidget(
-        controller: controller,
+      body: SafeArea(
+        child: WebViewWidget(
+          controller: controller,
+        ),
       ),
-    ));
+    );
   }
 }

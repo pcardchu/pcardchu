@@ -44,7 +44,7 @@ class _CardDetailState extends State<CardDetail> {
         backgroundColor: Color(0xFFF5F5F5),
         // 뒤로가기 버튼
         leading: IconButton(
-          icon: Image.asset('assets/images/back_icon.png'),
+          icon: Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.of(context).pop();
           },
