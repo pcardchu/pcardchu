@@ -30,7 +30,7 @@ pipeline {
                 script {
                     def commitAuthor = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
                     def commitMessage = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
-                    mattermostSend color: 'good', message: "[Frontend] FAILURE: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\n ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"
+                    mattermostSend color: 'danger', message: "[Frontend] FAILURE: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\n ${commitMessage}\n by ${commitAuthor}", webhookUrl: "${WEBHOOK_URL}"
                 }
             }
         }
