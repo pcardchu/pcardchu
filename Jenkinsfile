@@ -27,7 +27,7 @@ pipeline {
             }
         }
         failure {
-            withCredentials(
+            withCredentials([
                 string(credentialsId: 'webhook_url', variable: 'WEBHOOK_URL'),
                 string(credentialsId: 'channel', variable: 'CHANNEL')
                 ]) {
