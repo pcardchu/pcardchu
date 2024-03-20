@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/services/kakao_login_service.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -56,6 +57,6 @@ class LoginProvider with ChangeNotifier {
     }
 
     notifyListeners();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    Navigator.pushReplacement(context, SlideTransitionPageRoute(page: LoginScreen(), beginOffset: Offset(-1, 0)));
   }
 }
