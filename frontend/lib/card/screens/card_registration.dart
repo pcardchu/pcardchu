@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_number_check.dart';
 import 'package:frontend/card/widgets/card_registration_main.dart';
 import 'package:frontend/providers/card_provider.dart';
+import 'package:frontend/utils/app_colors.dart';
+import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
 class CardRegistration extends StatefulWidget {
@@ -27,7 +29,7 @@ class _CardRegistrationState extends State<CardRegistration> {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: AppColors.mainWhite,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new),
           onPressed: () {
@@ -37,29 +39,31 @@ class _CardRegistrationState extends State<CardRegistration> {
       ),
       body: SafeArea(
         child: Container(
-          color: Color(0xFFF5F5F5),
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              children: [
-                // 메인 바디 위젯
-                CardRegistrationMain(),
-                // 다음 버튼 위젯
-                Row(
-                  children: [
-                    Expanded(
-                      // 스캔하기 버튼
-                      // 누르면 Ocr로 이동
-                      child: ElevatedButton(
-                        onPressed: scan,
-                        child: Text('스캔하기'),
+          color: AppColors.mainWhite,
+          child: Center(
+            child: Container(
+              color: AppColors.mainWhite,
+              width: ScreenUtil.w(85),
+              child: Column(
+                children: [
+                  // 메인 바디 위젯
+                  CardRegistrationMain(),
+                  // 다음 버튼 위젯
+                  Row(
+                    children: [
+                      Expanded(
+                        // 스캔하기 버튼
+                        // 누르면 Ocr로 이동
+                        child: ElevatedButton(
+                          onPressed: scan,
+                          child: Text('스캔하기'),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-              ],
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ),
