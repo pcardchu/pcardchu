@@ -30,8 +30,6 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
   Widget build(BuildContext context) {
     final provider = Provider.of<PasswordProvider>(context);
     final randomNums = provider.nums;
-    // randomNums.shuffle(); // 배열을 무작위로 섞음
-    // final numbers = provider.numbers; // 숫자 배열 상태를 가져옴
 
     return Container(
       // height: ScreenUtil.w(100),

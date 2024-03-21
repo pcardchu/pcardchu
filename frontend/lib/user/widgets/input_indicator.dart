@@ -16,10 +16,6 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
   void initState() {
     super.initState();
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   passwordProvider.clearInput();
-    //   passwordProvider.clearWrongCount();
-    // });
     passwordProvider.clearAll();
 
     _controller = AnimationController(
@@ -58,6 +54,19 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Visibility(
+          visible: passwordProvider.wrongCount >= 1,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Text(
+              "비밀번호가 맞지 않아요(${passwordProvider.wrongCount}/5)",
+              style: TextStyle(color: AppColors.mainRed, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
         AnimatedBuilder(
           animation: _shakeAnimation!,
           builder: (context, child) {
@@ -86,19 +95,7 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
             }),
           ),
         ),
-        Visibility(
-          visible: passwordProvider.wrongCount >= 1,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "비밀번호가 맞지 않아요(${passwordProvider.wrongCount}/5)",
-              style: TextStyle(color: AppColors.mainRed, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
+
       ],
     );
   }

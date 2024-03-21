@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
+import 'package:frontend/animations/fade_transition_page_route.dart';
+import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/password_screen.dart';
 import 'package:provider/provider.dart';
@@ -25,12 +28,20 @@ class _SplashScreenState extends State<SplashScreen> {
     if (loginProvider.isLoggedIn) {
       //기존 토큰이 확인 되었을 때 로직
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => PasswordScreen()),
+          FadeTransitionPageRoute(
+              page: PasswordScreen(),
+              transitionDuration: Duration(milliseconds: 200),
+              reverseTransitionDuration: Duration(milliseconds: 200)
+          )
       );
     } else {
       //기존 토큰이 없을 시 로그인 화면으로 이동 로직
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+          FadeTransitionPageRoute(
+              page: LoginScreen(),
+              transitionDuration: Duration(milliseconds: 200),
+              reverseTransitionDuration: Duration(milliseconds: 200)
+          )
       );
     }
     FlutterNativeSplash.remove();
