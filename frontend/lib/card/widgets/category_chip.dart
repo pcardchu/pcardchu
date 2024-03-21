@@ -38,7 +38,7 @@ class CategoryChip extends StatelessWidget {
       selected: selectedChoiceIndex == categoryIndex,
       onSelected: (selected) {
         selectedChip(categoryIndex);
-        context.read<CardProvider>().changeCategory(categoryIndex);
+        context.read<CardProvider>().setCategory(categoryIndex);
       },
       backgroundColor: Color(0xFFECECEC),
       // 선택했을때 색 다르게

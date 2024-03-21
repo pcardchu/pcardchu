@@ -33,10 +33,10 @@ class _CardListState extends State<CardList> {
         backgroundColor: Color(0xFFF5F5F5),
         // 뒤로가기 버튼
         leading: IconButton(
-          icon: Image.asset('assets/images/back_icon.png'),
+          icon: Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.of(context).pop();
-            context.read<CardProvider>().changeCategory(0);
+            context.read<CardProvider>().setCategory(0);
           },
         ),
         // 스크롤할때 앱바 색 안바뀌게
