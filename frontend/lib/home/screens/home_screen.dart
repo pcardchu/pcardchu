@@ -3,6 +3,7 @@ import 'package:frontend/card/screens/card_list.dart';
 import 'package:frontend/card/screens/card_registration.dart';
 import 'package:frontend/card/widgets/registration_modal.dart';
 import 'package:frontend/providers/login_provider.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,8 +12,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
-        // backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: AppColors.mainWhite,
       ),
+      backgroundColor: AppColors.mainWhite,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
