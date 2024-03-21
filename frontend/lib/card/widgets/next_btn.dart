@@ -25,7 +25,7 @@ class NextBtn extends StatelessWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 54,
+      height: 45,
       child: ElevatedButton(
         onPressed: onPressed,
         style: _btnStyle,

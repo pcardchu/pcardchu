@@ -41,7 +41,7 @@ class _CardDetailState extends State<CardDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: AppColors.mainWhite,
         // 뒤로가기 버튼
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new),
@@ -54,7 +54,7 @@ class _CardDetailState extends State<CardDetail> {
       ),
       backgroundColor: AppColors.mainWhite,
       body: Container(
-        color: Color(0xFFF5F5F5),
+        color: AppColors.mainWhite,
         width: MediaQuery.of(context).size.width,
         // 로딩중 이거나 값이 없을 경우 로딩 표시
         child: loading || card == null

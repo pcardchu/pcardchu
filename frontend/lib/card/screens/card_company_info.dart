@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/screens/card_company_info.dart';
-import 'package:frontend/card/widgets/company_select.dart';
+import 'package:frontend/card/widgets/company_info_form.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
-// 카드 등록 - 카드사 선택 페이지
-class CardCompany extends StatefulWidget {
-  const CardCompany({super.key});
+class CardCompanyInfo extends StatefulWidget {
+  const CardCompanyInfo({super.key});
 
   @override
-  State<CardCompany> createState() => _CardCompanyState();
+  State<CardCompanyInfo> createState() => _CardCompanyInfoState();
 }
 
-class _CardCompanyState extends State<CardCompany> {
-  bool isSelected = false;
+class _CardCompanyInfoState extends State<CardCompanyInfo> {
+  // 카드사 회원 정보 입력 Form Key
+  final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +39,15 @@ class _CardCompanyState extends State<CardCompany> {
               width: ScreenUtil.w(85),
               child: Column(
                 children: [
+                  // 화면 메인 부분
                   Expanded(
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '카드사를 선택해주세요',
+                              '카드사 정보를 입력해주세요',
                               style: AppFonts.suit(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
@@ -57,11 +56,11 @@ class _CardCompanyState extends State<CardCompany> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 50),
-                        // 카드사 선택 위젯
-                        CompanySelect(
-                          isSelected: isSelected,
-                          onSelected: onSelected,
+                        // 카드사 회원 정보 입력 Form
+                        CompanyInfoForm(
+                          formKey: formKey,
+                          idOnSaved: idOnSaved,
+                          pwOnSaved: pwOnSaved,
                         ),
                       ],
                     ),
@@ -71,7 +70,7 @@ class _CardCompanyState extends State<CardCompany> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: onPressed,
+                          onPressed: submitOnPressed,
                           child: Text('확인'),
                         ),
                       ),
@@ -87,23 +86,23 @@ class _CardCompanyState extends State<CardCompany> {
     );
   }
 
-  // 카드 회원 정보 입력 페이지로 이동
-  void onPressed() {
-    // 카드사를 선택했을때만 다음 페이지로 넘어가게
-    if (isSelected) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => CardCompanyInfo(),
-        ),
-      );
+  /// 제출 버튼 콜백 함수
+  /// 다음 페이지로 넘어간다
+  void submitOnPressed() {
+    /// 유효성 검증을 통과 하면
+    /// TextFormField의 onSaved 수행
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
     }
   }
 
-  // 카드사를 선택했는지 체크하는 변수
-  void onSelected() {
-    setState(() {
-      // 하나라도 선택을 했으니 참
-      isSelected = true;
-    });
+  /// id 입력 유효성 검사를 통과했을때 실행되는 함수
+  void idOnSaved(String? val) {
+    context.read<CardProvider>().setCompanyId(val!);
+  }
+
+  /// pw 입력 유효성 검사를 통과했을때 실행되는 함수
+  void pwOnSaved(String? val) {
+    context.read<CardProvider>().setCompanyPw(val!);
   }
 }

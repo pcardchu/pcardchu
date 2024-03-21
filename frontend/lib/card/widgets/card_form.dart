@@ -92,7 +92,7 @@ class _CardFormState extends State<CardForm> {
     RegExp regex = RegExp(r'^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$');
 
     // 입력된 문자열이 정규 표현식에 맞는지 확인
-    if (val == null || !regex.hasMatch(val)) {
+    if (val == null || !regex.hasMatch(val) || val.isEmpty) {
       return '정확한 값을 입력해주세요';
     } else {
       return null;
