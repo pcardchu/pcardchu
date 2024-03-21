@@ -1,10 +1,59 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_TAG = 'latest'
+    }
     
     stages {
-        stage('Example') {
+        stage('Checkout') {
             steps {
-                echo 'An example build step.'
+                checkout scm
+            }
+        }
+
+        stage('Prepare application.yml') {
+            steps {
+                withCredentials(file(credentialsId: 'application_yml', variable: 'APPLICATION_YML')]){
+                    script {
+                        sh 'cp $APPLICATION_YML backend/src/main/resources/'
+                    }
+                }
+            }
+        }
+
+        stage('Build with Gradle') {
+            steps {
+                dir('backend') {
+                    sh './gradlew build'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                withCredentials([string(credentialsId: 'docker_username', variable: 'DOCKER_USERNAME')]){
+                    script {
+                        sh 'docker build -t ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG} .'
+                    }
+}
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: docker_id, usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                    sh 'echo $DOCKERHUB_PASS | docker login --username $DOCKERHUB_USER --password-stdin'
+                    sh "docker push ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG}"
+                }
+            }
+        }
+
+        stage('Deploy to EC2'){
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: ec2_key, keyFileVariable: 'EC2_KEY')]) {
+                    sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@13.124.88.19 'docker pull ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG}'"
+                }
             }
         }
     }
