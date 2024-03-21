@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
@@ -24,10 +25,11 @@ class KakaoLoginButton extends StatelessWidget {
           // isLoggedIn이 true인 경우, PasswordScreen으로 이동
           Navigator.pushReplacement(
             context,
-              FadeTransitionPageRoute(
+              FadeAndSlideTransitionPageRoute(
                   page: PasswordScreen(),
-                  transitionDuration: Duration(milliseconds: 130),
-                  reverseTransitionDuration: Duration(milliseconds: 130)
+                  duration: Duration(milliseconds: 130),
+                  // transitionDuration: Duration(milliseconds: 130),
+                  // reverseTransitionDuration: Duration(milliseconds: 130)
               )
           );
         }

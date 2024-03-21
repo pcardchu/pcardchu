@@ -9,6 +9,7 @@ class PasswordProvider with ChangeNotifier {
   final LocalAuthService _localAuthService = LocalAuthService();
   bool _isBiometricEnabled = false;
   bool _isAuthenticated = false;
+  bool _isNumpad = false;
 
   String _inputValue = "";
   int _wrongCount = 0;
@@ -19,6 +20,8 @@ class PasswordProvider with ChangeNotifier {
   bool get isBiometricEnabled => _isBiometricEnabled;
   // 사용자가 인증되었는지 확인하는 Getter
   bool get isAuthenticated => _isAuthenticated;
+  // numpad 활성화 여부
+  bool get isNumpad => _isNumpad;
 
   String get inputValue => _inputValue;
   int get wrongCount => _wrongCount;
@@ -90,6 +93,7 @@ class PasswordProvider with ChangeNotifier {
 
   void shuffleNums(){
     _nums.shuffle();
+    notifyListeners();
   }
 
   void deleteLast() {

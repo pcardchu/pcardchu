@@ -7,9 +7,12 @@ import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/services/local_auth_service.dart';
+import 'package:frontend/user/widgets/biometric_button.dart';
 import 'package:frontend/user/widgets/custom_number_pad.dart';
+import 'package:frontend/user/widgets/forgot_password_button.dart';
 import 'package:frontend/user/widgets/input_indicator.dart';
 import 'package:frontend/utils/screen_util.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
 class PasswordScreen extends StatefulWidget {
@@ -55,13 +58,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
           Consumer<PasswordProvider>(
               builder : (context, provider, child) {
                 if(provider.isAuthenticated) {
-                  print("인증됨");
-
                   provider.changeAuthenticated(false);
-                  // provider.clearAll();
-                  // provider.clearInput();
-                  // provider.clearWrongCount();
-
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     Navigator.of(context).pushReplacement(
                         FadeTransitionPageRoute(
@@ -98,13 +95,17 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   // height: ScreenUtil.h(15),
                   child: InputIndicator(),
                 ),
-
               ],
             ),
           ),
 
-          // Container(height: ScreenUtil.h(5),),
-
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              BiometricButton(),
+              ForgotPasswordButton(),
+            ],
+          ),
           Flexible(
             flex: 1,
             child: Container(child: CustomNumberPad(),)

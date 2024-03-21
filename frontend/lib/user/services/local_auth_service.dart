@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:local_auth_android/local_auth_android.dart';
+import 'package:local_auth_darwin/local_auth_darwin.dart';
 
 ///생체인증 관리 서비스
 class LocalAuthService {
@@ -30,6 +32,13 @@ class LocalAuthService {
     try {
       return await _auth.authenticate(
         localizedReason: localizedReason,
+        authMessages: const <AuthMessages>[
+          AndroidAuthMessages(
+            signInTitle: "생체 정보로 인증해주세요",
+            biometricHint: " ",
+            cancelButton: "비밀번호로 잠금해제"
+          )
+        ],
         options: const AuthenticationOptions(biometricOnly: true, stickyAuth: true),
       );
     } on PlatformException {
