@@ -16,6 +16,16 @@ class LoginScreen extends StatelessWidget {
           children: [
             Image.asset('assets/images/pickachu_logo.png', height: ScreenUtil.h(25)),
             SizedBox(height: ScreenUtil.h(20),),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => HomeScreen(),
+                  ),
+                );
+              },
+              child: Text('HOME'),
+            ),
             Container(
               width: ScreenUtil.w(70),
               child: KakaoLoginButton(),
