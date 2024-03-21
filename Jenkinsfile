@@ -14,7 +14,7 @@ pipeline {
 
         stage('Prepare application.yml') {
             steps {
-                withCredentials(file(credentialsId: 'application_yml', variable: 'APPLICATION_YML')]){
+                withCredentials([file(credentialsId: 'application_yml', variable: 'APPLICATION_YML')]){
                     script {
                         sh 'cp $APPLICATION_YML backend/src/main/resources/'
                     }
