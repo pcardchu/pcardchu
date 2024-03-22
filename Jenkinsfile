@@ -35,7 +35,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'docker_username', variable: 'DOCKER_USERNAME')]){
                     script {
-                        sh 'docker build -t ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG} -f backend/Dockerfile .'
+                        sh 'docker build -t ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG} -f .'
                     }
                 }
             }
