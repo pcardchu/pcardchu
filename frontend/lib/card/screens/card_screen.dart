@@ -16,33 +16,35 @@ class _CardScreenState extends State<CardScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    showInitialDialog(); // 조건에 따라 다이얼로그 호출
+    // 화면 초기화 시 다이얼로그 조건 체크
+    if (widget.myCardFlag == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showDialog());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // myCardFlag 값에 따라 화면에 보여줄 내용 결정
+    Widget content = widget.myCardFlag == 1
+        ? Center(child: Text('카드 화면'))
+        : Center(child: Container()); // myCardFlag가 0일 경우, 다이얼로그가 띄워집니다.
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.mainWhite,
       ),
       backgroundColor: AppColors.mainWhite,
-      body: Center(child: Container()),
+      body: content,
     );
-  }
-
-  void showInitialDialog() {
-    if (widget.myCardFlag == 0) {
-      // 조건 체크 후에
-      WidgetsBinding.instance.addPostFrameCallback((_) => _showDialog());
-    }
   }
 
   void _showDialog() {
     showDialog(
       context: context,
-      builder: (_) {
-        return const RegistrationModal();
-      },
-    );
+      builder: (_) => const RegistrationModal(),
+    ).then((_) {
+      // 다이얼로그가 닫히고 나면 상태 업데이트를 위해 setState 호출
+      setState(() {});
+    });
   }
 }
