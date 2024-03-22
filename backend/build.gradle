@@ -41,7 +41,7 @@ dependencies {
 
 
 	// cassandra
-	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra
+	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
 	
 	// Selenium  Crawling
 	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.5.0'
