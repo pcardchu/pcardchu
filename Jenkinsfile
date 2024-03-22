@@ -41,7 +41,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: docker_id, usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker_id', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
                     sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
                     sh 'docker push pickachu:${DOCKER_TAG}'
                 }
@@ -50,7 +50,7 @@ pipeline {
 
         stage('Deploy to EC2'){
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: ec2_key, keyFileVariable: 'EC2_KEY')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'ec2_key', keyFileVariable: 'EC2_KEY')]) {
                     sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@13.124.88.19 'docker pull pickachu:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 pickachu:${DOCKER_TAG}'"
                 }
             }
