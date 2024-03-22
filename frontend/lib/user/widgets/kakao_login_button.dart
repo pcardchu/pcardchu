@@ -28,18 +28,14 @@ class KakaoLoginButton extends StatelessWidget {
               FadeAndSlideTransitionPageRoute(
                   page: PasswordScreen(),
                   duration: Duration(milliseconds: 130),
-                  // transitionDuration: Duration(milliseconds: 130),
-                  // reverseTransitionDuration: Duration(milliseconds: 130)
               )
           );
         }
       },
       child: Row(
-        // mainAxisSize: MainAxisSize.min, // 버튼 내용물 크기에 맞게 버튼 크기 조절
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Image.asset('assets/images/kakao_logo.png', height: 20.0), // 카카오 로고 이미지
-           // 아이콘과 텍스트 사이 간격
           Text(
             "카카오로 로그인",
             style: TextStyle(
