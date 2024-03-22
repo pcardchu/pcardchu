@@ -38,3 +38,6 @@ out/
 
 ### Card Image ###
 **/resources/static/images/**
+
+### application.yml ###
+application.yml
