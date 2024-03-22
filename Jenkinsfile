@@ -33,10 +33,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                withCredentials([string(credentialsId: 'docker_username', variable: 'DOCKER_USERNAME')]){
-                    script {
-                        sh 'docker build -t ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG} -f .'
-                    }
+                script {
+                    sh 'docker build -t localhost/pickachu:${DOCKER_TAG} -f .'
                 }
             }
         }
@@ -45,7 +43,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: docker_id, usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
                     sh 'echo $DOCKERHUB_PASS | docker login --username $DOCKERHUB_USER --password-stdin'
-                    sh "docker push ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG}"
+                    sh "docker push localhost/pickachu:${DOCKER_TAG}"
                 }
             }
         }
@@ -53,7 +51,7 @@ pipeline {
         stage('Deploy to EC2'){
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: ec2_key, keyFileVariable: 'EC2_KEY')]) {
-                    sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@13.124.88.19 'docker pull ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 ${DOCKER_USERNAME}/pickachu:${DOCKER_TAG}'"
+                    sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@13.124.88.19 'docker pull localhost/pickachu:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 $localhost/pickachu:${DOCKER_TAG}'"
                 }
             }
         }
