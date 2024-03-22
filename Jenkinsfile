@@ -34,7 +34,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t pickachu:${DOCKER_TAG} -f .'
+                    sh 'docker build -t pickachu:${DOCKER_TAG} .'
                 }
             }
         }
