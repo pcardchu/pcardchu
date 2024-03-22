@@ -1,0 +1,57 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.ssafy'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// SpringDoc
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
+	// jjwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.4'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.4'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.4'
+
+
+	// cassandra
+	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra
+	
+	// Selenium  Crawling
+	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.5.0'
+	
+	// MongoDB
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
