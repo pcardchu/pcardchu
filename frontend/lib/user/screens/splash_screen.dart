@@ -9,6 +9,7 @@ import 'package:frontend/user/screens/password_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'login_screen.dart';
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -49,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
       //기존 토큰이 없을 시 로그인 화면으로 이동 로직
       Navigator.of(context).pushReplacement(
           FadeTransitionPageRoute(
+              // page: BottomNavScreen(),
               page: LoginScreen(),
               transitionDuration: const Duration(milliseconds: 200),
               reverseTransitionDuration: const Duration(milliseconds: 200)

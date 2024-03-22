@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CardProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false, // 디버그 표시 제거
         theme: AppTheme.lightTheme,
         home: SplashScreen(),
       ),

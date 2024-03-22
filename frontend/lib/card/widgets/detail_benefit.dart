@@ -3,6 +3,7 @@ import 'package:frontend/card/models/card_model.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
+import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
 /// 카드 디테일 화면에서 혜택 배너 위젯
@@ -28,18 +29,20 @@ class DetailBenefit extends StatelessWidget {
       '영화/문화': 'assets/images/benefit_4.png',
     };
 
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        child: Row(
-          children: [
-            // 혜택 이미지
-            SizedBox(
-                height: 46,
-                width: 46,
-                child: Image.asset(benefitsDic[card!.benefits![index][0]])),
-            SizedBox(width: 10),
-            Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 혜택 이미지
+          SizedBox(
+              height: 46,
+              width: 46,
+              child: Image.asset(benefitsDic[card!.benefits![index][0]])),
+          SizedBox(width: 10),
+          Container(
+            width: ScreenUtil.w(50),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 혜택 종류
@@ -57,11 +60,12 @@ class DetailBenefit extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: AppColors.textBlack),
+                  softWrap: true,
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

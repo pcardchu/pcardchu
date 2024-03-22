@@ -19,4 +19,6 @@ class AppColors {
   static const Color textBlack = Color(0xFF26282B);
   static const Color mainBlue = Color(0xFF051D40); // Already existed, included for completeness
   static const Color splashBlue = Color(0x41071C57); // Already existed, included for completeness
+  static const Color noSelected = Color(0xFFF2F4F5);
+  static const Color selected = Color(0xFFD1D6DA);
 }

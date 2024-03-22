@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/services/local_auth_service.dart';
@@ -60,7 +61,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     Navigator.of(context).pushReplacement(
                         FadeTransitionPageRoute(
-                            page: HomeScreen(),
+                            page: BottomNavScreen(),
                             transitionDuration: Duration(milliseconds: 130),
                             reverseTransitionDuration: Duration(milliseconds: 130)
                         )

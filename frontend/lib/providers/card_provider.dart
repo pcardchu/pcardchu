@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/models/card_model.dart';
 import 'package:frontend/card/services/card_service.dart';
+import 'package:frontend/utils/card_company.dart';
 
 class CardProvider with ChangeNotifier {
   // 나에게 맞는 추천 카드 리스트
@@ -27,9 +28,30 @@ class CardProvider with ChangeNotifier {
   int get categoryId => _categoryId;
 
   // 카드 스캔 번호
+  // 텍스트로 입력한 카드 번호도 마지막엔 이곳에 저장된다
   String _scanNumber = '';
 
+  // 카드 스캔 번호 getter
   String get scanNumber => _scanNumber;
+
+  // 카드사 아이디
+  String _companyId = '';
+  String get companyId => _companyId;
+
+  // 카드사 비번
+  String _companyPw = '';
+  String get companyPw => _companyPw;
+
+  // 카드 등록시 선택한 카드사 인덱스
+  int _companyIndex = -1;
+
+  int get companyIndex => _companyIndex;
+
+  // 카드사 정보
+  final CardCompany _cardCompany = CardCompany();
+
+  // 카드사 정보 getter
+  List get companyList => _cardCompany.companyList;
 
   /// 카테고리별 카드 리스트 GET
   /// 0 : 전체
@@ -57,18 +79,37 @@ class CardProvider with ChangeNotifier {
   void setCategory(int index) async {
     if (_categoryId != index) {
       _categoryId = index;
-      // loading = true;
-      // categoryAll =
-      //     await cardService.getCategoryCards(_categoryId.toString());
-      // loading = false;
+
+      notifyListeners();
+    }
+  }
+
+  // 카드 등록시 카드사를 선택할때마다 인덱스 수정
+  void setCompanyIndex(int index) async {
+    if (_companyIndex != index) {
+      _companyIndex = index;
 
       notifyListeners();
     }
   }
 
   /// 카드 스캔 번호 변경
-  void setScanNumber(String num) async{
+  void setScanNumber(String num) async {
     _scanNumber = num;
+
+    notifyListeners();
+  }
+
+  /// 카드사 아이디 변경
+  void setCompanyId(String id) async {
+    _companyId = id;
+
+    notifyListeners();
+  }
+
+  /// 카드사 비밀번호 변경
+  void setCompanyPw(String pw) async {
+    _companyPw = pw;
 
     notifyListeners();
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/card/widgets/card_list_bottom.dart';
 import 'package:frontend/card/widgets/card_list_top.dart';
 import 'package:frontend/providers/card_provider.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class CardList extends StatefulWidget {
@@ -30,7 +31,7 @@ class _CardListState extends State<CardList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: AppColors.mainWhite,
         // 뒤로가기 버튼
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new),
