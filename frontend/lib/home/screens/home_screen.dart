@@ -29,12 +29,6 @@ class HomeScreen extends StatelessWidget {
                 child: Text("로그아웃")),
             ElevatedButton(
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => CardRegistration(),
-                //   ),
-                // );
-
                 // 등록된 카드가 없다면 보여주는 모달
                 showDialog(
                   context: context,
