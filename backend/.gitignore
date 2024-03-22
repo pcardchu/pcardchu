@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Card Image ###
+**/resources/static/images/**
+
+### application.yml ###
+application.yml
