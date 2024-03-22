@@ -4,8 +4,10 @@ import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
+import 'package:frontend/user/screens/intro_screen.dart';
 import 'package:frontend/user/screens/password_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,17 +23,26 @@ class _SplashScreenState extends State<SplashScreen> {
     checkLoginStatus();
   }
 
+
   void checkLoginStatus() async {
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     await loginProvider.checkToken();
 
-    if (loginProvider.isLoggedIn) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+
+    if (!_seen) {
+      await prefs.setBool('seen', true);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const IntroScreen()));
+    }
+    else if (loginProvider.isLoggedIn) {
       //기존 토큰이 확인 되었을 때 로직
       Navigator.of(context).pushReplacement(
           FadeTransitionPageRoute(
               page: PasswordScreen(),
-              transitionDuration: Duration(milliseconds: 200),
-              reverseTransitionDuration: Duration(milliseconds: 200)
+              transitionDuration: const Duration(milliseconds: 200),
+              reverseTransitionDuration: const Duration(milliseconds: 200)
           )
       );
     } else {
@@ -39,8 +50,8 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushReplacement(
           FadeTransitionPageRoute(
               page: LoginScreen(),
-              transitionDuration: Duration(milliseconds: 200),
-              reverseTransitionDuration: Duration(milliseconds: 200)
+              transitionDuration: const Duration(milliseconds: 200),
+              reverseTransitionDuration: const Duration(milliseconds: 200)
           )
       );
     }
