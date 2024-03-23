@@ -1,12 +1,14 @@
 package com.ssafy.pickachu.serviceImpl;
 
 import com.ssafy.pickachu.dto.top3category.dto.Top3Category;
+import com.ssafy.pickachu.dto.top3category.response.PeakTimeAgeResponse;
 import com.ssafy.pickachu.dto.top3category.response.Top3CategoryResponse;
+import com.ssafy.pickachu.entity.PeakTimeAgeEntity;
 import com.ssafy.pickachu.entity.Top3CategoryEntity;
+import com.ssafy.pickachu.repository.PeakTimeAgeEntityRepository;
 import com.ssafy.pickachu.repository.Top3CategoryEntityRepository;
-import com.ssafy.pickachu.service.Top3CategoryService;
+import com.ssafy.pickachu.service.StatisticsService;
 import com.ssafy.pickachu.util.IndustryCode;
-import jnr.ffi.annotations.In;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,11 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class Top3CategoryServiceImpl implements Top3CategoryService {
+public class StatisticsServiceImpl implements StatisticsService {
     private final Top3CategoryEntityRepository top3CategoryEntityRepository;
+    private final PeakTimeAgeEntityRepository peakTimeAgeEntityRepository;
     private IndustryCode code = IndustryCode.getInstance();
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     public ResponseEntity<Top3CategoryResponse> getTop3Categories() {
@@ -52,6 +56,26 @@ public class Top3CategoryServiceImpl implements Top3CategoryService {
 
         return ResponseEntity.ok(response);
 
+    }
+
+    @Override
+    public ResponseEntity<PeakTimeAgeResponse> getPeakTimeAge() {
+        List<PeakTimeAgeEntity> datas = peakTimeAgeEntityRepository.findAll();
+        int currentTime = calendar.get(Calendar.HOUR_OF_DAY);
+
+        String age = "";
+        for(PeakTimeAgeEntity data : datas){
+            if(data.getTime() == currentTime){
+                age = data.getAge();
+                break;
+            }
+        }
+
+        PeakTimeAgeResponse response = PeakTimeAgeResponse
+                .createPeakTimeAgeResponse(
+                        HttpStatus.OK.value(), "Success", age
+                );
+        return ResponseEntity.ok(response);
     }
 
     @Data
