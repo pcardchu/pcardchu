@@ -22,15 +22,15 @@ import java.util.*;
 public class StatisticsServiceImpl implements StatisticsService {
     private final Top3CategoryEntityRepository top3CategoryEntityRepository;
     private final PeakTimeAgeEntityRepository peakTimeAgeEntityRepository;
-    private IndustryCode code = IndustryCode.getInstance();
-    private Calendar calendar = Calendar.getInstance();
+    private final IndustryCode code = IndustryCode.getInstance();
+    private final Calendar calendar = Calendar.getInstance();
 
     @Override
     public ResponseEntity<Top3CategoryResponse> getTop3Categories() {
         List<Top3CategoryEntity> top3categories =  top3CategoryEntityRepository.findAll();
         Collections.sort(top3categories);
 
-        HashMap<CategoryKey, Top3Category> hm = new HashMap<CategoryKey, Top3Category>();
+        HashMap<CategoryKey, Top3Category> hm = new HashMap<>();
         for(Top3CategoryEntity entity : top3categories){
             CategoryKey categoryKey = new CategoryKey(entity.getAge(), entity.getGender());
 
