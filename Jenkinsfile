@@ -52,12 +52,14 @@ pipeline {
         stage('Deploy to EC2'){
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2_key', keyFileVariable: 'EC2_KEY'), usernamePassword(credentialsId: 'docker_id', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                    sh 'ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@j10d110.p.ssafy.io'
-                    sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
-                    sh 'docker pull ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
-                    sh 'docker stop spring-app || true'
-                    sh 'docker rm spring-app || true'
-                    sh 'docker run --name spring-app -d -p 8081:8081 ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
+                    sh '''
+                    ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@j10d110.p.ssafy.io "
+                    echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin;
+                    docker pull ${DOCKER_REPOSITORY}:${DOCKER_TAG};
+                    docker stop spring-app || true;
+                    docker rm spring-app || true;
+                    docker run --name spring-app -d -p 8080:8080 ${DOCKER_REPOSITORY}:${DOCKER_TAG}"
+                    '''
                 }
             }
         }
