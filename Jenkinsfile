@@ -49,12 +49,6 @@ pipeline {
             }
         }
 
-        stage('Clean Image') {
-            steps {
-                sh 'docker rm ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
-            }
-        }
-
         stage('Deploy to EC2'){
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2_key', keyFileVariable: 'EC2_KEY')]) {
