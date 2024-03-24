@@ -57,7 +57,7 @@ pipeline {
                     sh 'docker pull ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
                     sh 'docker stop spring-app || true'
                     sh 'docker rm spring-app || true'
-                    sh 'docker run --name spring-app -d -p 8080:8080 ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
+                    sh 'docker run --name spring-app -d -p 8081:8081 ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
                 }
             }
         }
