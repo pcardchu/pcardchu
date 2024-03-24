@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        DOCKER_REPOSITORY = credentials('repository')
         DOCKER_TAG = '0.0.1'
     }
     
@@ -34,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t pickachu:${DOCKER_TAG} .'
+                    sh 'docker build -t ${DOCKER_REPOSITORY}:${DOCKER_TAG} .'
                 }
             }
         }
@@ -43,15 +44,21 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker_id', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
                     sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
-                    sh 'docker push pickachu:${DOCKER_TAG}'
+                    sh 'docker push ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
                 }
+            }
+        }
+
+        stage('Clean Image') {
+            steps {
+                sh 'docker rm ${DOCKER_REPOSITORY}:${DOCKER_TAG}'
             }
         }
 
         stage('Deploy to EC2'){
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2_key', keyFileVariable: 'EC2_KEY')]) {
-                    sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@13.124.88.19 'docker pull pickachu:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 pickachu:${DOCKER_TAG}'"
+                    sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@13.124.88.19 'docker pull ${DOCKER_REPOSITORY}:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 ${DOCKER_REPOSITORY}:${DOCKER_TAG}'"
                 }
             }
         }
