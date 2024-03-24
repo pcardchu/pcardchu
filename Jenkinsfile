@@ -52,7 +52,7 @@ pipeline {
         stage('Deploy to EC2'){
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2_key', keyFileVariable: 'EC2_KEY')]) {
-                    sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@13.124.88.19 'docker pull ${DOCKER_REPOSITORY}:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 ${DOCKER_REPOSITORY}:${DOCKER_TAG}'"
+                    sh "ssh -i $EC2_KEY -o StrictHostKeyChecking=no ubuntu@j10d110.p.ssafy.io 'docker pull ${DOCKER_REPOSITORY}:${DOCKER_TAG} && docker stop spring-app || true && docker rm spring-app || true && docker run --name spring-app -d -p 8080:8080 ${DOCKER_REPOSITORY}:${DOCKER_TAG}'"
                 }
             }
         }
