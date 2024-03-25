@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_company_info.dart';
 import 'package:frontend/card/widgets/company_select.dart';
-import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
-import 'package:provider/provider.dart';
 
 // 카드 등록 - 카드사 선택 페이지
 class CardCompany extends StatefulWidget {

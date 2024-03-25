@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:frontend/providers/card_provider.dart';
+import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
-import 'package:frontend/user/screens/login_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:frontend/user/screens/splash_screen.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_user.dart';
@@ -12,6 +13,12 @@ import 'providers/login_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future main() async {
+  /// 플러터가 준비될때까지 기다린다.
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /// intl을 사용하기 위해선 초기화를 한번 해줘야한다.
+  await initializeDateFormatting();
+
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
@@ -34,6 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => PasswordProvider()),
         ChangeNotifierProvider(create: (context) => CardProvider()),
+        ChangeNotifierProvider(create: (context) => ConsumptionProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // 디버그 표시 제거
