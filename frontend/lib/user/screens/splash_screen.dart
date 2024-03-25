@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       //기존 토큰이 없을 시 로그인 화면으로 이동 로직
       Navigator.of(context).pushReplacement(
           FadeTransitionPageRoute(
-              page: BottomNavScreen(),
+              page: LoginScreen(),
               transitionDuration: Duration(milliseconds: 200),
               reverseTransitionDuration: Duration(milliseconds: 200)
           )
