@@ -12,6 +12,8 @@ class KakaoLoginService {
         AccessTokenInfo tokenInfo =
         await UserApi.instance.accessTokenInfo();
         print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}, ${tokenInfo.appId}');
+        var enc = CryptoUtil.encryptAES(tokenInfo.id.toString());
+        print('${tokenInfo.id}\n${enc}');
         result = true;
       } catch (error) {
         if (error is KakaoException && error.isInvalidTokenError()) {
@@ -35,7 +37,12 @@ class KakaoLoginService {
           print("카카오톡으로 로그인 성공, 액세스 토큰: ${token.accessToken}");
 
           var encrypted = CryptoUtil.encryptAES(token.idToken); //암호화 테스트
-
+          print('id토큰 : ${token.idToken}');
+          print('암호화 : ${encrypted.toString()}');
+          var dec = CryptoUtil.decryptAES(encrypted);
+          print("dec : ${dec}");
+          
+          
           return token;
         } catch (error) {
           print('카카오톡으로 로그인 실패 $error');

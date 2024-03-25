@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
+import 'package:frontend/providers/user_info_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
 import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/screens/splash_screen.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => PasswordProvider()),
         ChangeNotifierProvider(create: (context) => CardProvider()),
+        ChangeNotifierProvider(create: (_) => UserInfoProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // 디버그 표시 제거
