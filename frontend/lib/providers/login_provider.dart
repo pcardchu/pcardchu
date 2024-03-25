@@ -10,7 +10,6 @@ class LoginProvider with ChangeNotifier {
   bool _isLoggedIn = false;
   OAuthToken? _kakaoToken;
 
-
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isLoggedIn => _isLoggedIn;

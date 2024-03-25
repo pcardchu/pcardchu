@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
+import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
 class InputIndicator extends StatefulWidget {
@@ -79,7 +80,7 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(6, (index) {
               final bool isActive = index < inputLength;
-              final double size = isActive ? 40 : 35;
+              final double size = isActive ? ScreenUtil.h(5) : ScreenUtil.h(4.5);
 
               return AnimatedContainer(
                 duration: Duration(milliseconds: 250),

@@ -8,6 +8,7 @@ import 'package:frontend/utils/app_fonts.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
+      scaffoldBackgroundColor: AppColors.mainWhite, //기본 배경 색
       textTheme: TextTheme(
         bodyLarge: AppFonts.suit(fontSize: 16, fontWeight: FontWeight.normal).copyWith(color: AppColors.textBlack),
         bodyMedium: AppFonts.suit(fontSize: 14, fontWeight: FontWeight.normal).copyWith(color: AppColors.textBlack),
@@ -24,7 +25,7 @@ class AppTheme {
           // color: AppColors.mainBlue, // AppBar 액션 버튼 아이콘 색상
         ),
         // AppBar 배경 색상을 투명으로 설정
-        // color: Colors.transparent,
+        color: AppColors.mainWhite,
 
         elevation: 0, // AppBar의 그림자를 없애기
       ),
@@ -32,10 +33,6 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: _commonButtonStyle(),
       ),
-      //iconButton
-      // iconButtonTheme: IconButtonThemeData(
-      //   style: _commonButtonStyle(),
-      // ),
 
       //elevatedButton
       elevatedButtonTheme: ElevatedButtonThemeData(

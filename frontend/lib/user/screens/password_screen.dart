@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
-import 'package:frontend/animations/scale_transition_page_route.dart';
-import 'package:frontend/animations/slide_transition_page_route.dart';
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/services/local_auth_service.dart';
@@ -12,7 +11,6 @@ import 'package:frontend/user/widgets/custom_number_pad.dart';
 import 'package:frontend/user/widgets/forgot_password_button.dart';
 import 'package:frontend/user/widgets/input_indicator.dart';
 import 'package:frontend/utils/screen_util.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
 class PasswordScreen extends StatefulWidget {
@@ -55,6 +53,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          // Container(),
           Consumer<PasswordProvider>(
               builder : (context, provider, child) {
                 if(provider.isAuthenticated) {
@@ -62,7 +61,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     Navigator.of(context).pushReplacement(
                         FadeTransitionPageRoute(
-                            page: HomeScreen(),
+                            page: BottomNavScreen(),
                             transitionDuration: Duration(milliseconds: 130),
                             reverseTransitionDuration: Duration(milliseconds: 130)
                         )
@@ -72,7 +71,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 return Container();
               }
           ),
-          Container(height: ScreenUtil.h(17),),
+          Container(height: ScreenUtil.h(15),),
           Flexible(
             flex: 1,
             child:
@@ -81,7 +80,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: Image.asset('assets/images/lock.png', width: 100, height: 100),
+                  child: Image.asset('assets/images/lock.png', height: ScreenUtil.h(13)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -106,9 +105,15 @@ class _PasswordScreenState extends State<PasswordScreen> {
               ForgotPasswordButton(),
             ],
           ),
+          Container(
+            width: ScreenUtil.w(80),
+            child: Divider(height: 0,),
+          ),
           Flexible(
             flex: 1,
-            child: Container(child: CustomNumberPad(),)
+            child: Container(
+              // height: ScreenUtil.h(50),
+              child: CustomNumberPad(),)
           ),
         ],
       ),

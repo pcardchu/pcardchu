@@ -26,7 +26,7 @@ class CompanyInfoForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           // 카드사 아이디 입력창
           TextFormField(
             style: AppFonts.suit(
