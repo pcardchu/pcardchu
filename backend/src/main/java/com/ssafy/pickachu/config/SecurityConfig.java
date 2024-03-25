@@ -28,7 +28,8 @@ public class SecurityConfig {
                 .httpBasic(hb -> hb.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
-                        .requestMatchers( "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "api/statistics/**").permitAll()
+                        .requestMatchers( "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers( "/api/statistics/**", "/user/**").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();
