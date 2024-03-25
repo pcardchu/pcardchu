@@ -1,12 +1,17 @@
 package com.ssafy.pickachu.serviceImpl;
 
 import com.ssafy.pickachu.dto.top3category.dto.Top3Category;
+import com.ssafy.pickachu.dto.top3category.response.PeakTimeAgeResponse;
 import com.ssafy.pickachu.dto.top3category.response.Top3CategoryResponse;
+import com.ssafy.pickachu.entity.PeakTimeAgeEntity;
 import com.ssafy.pickachu.entity.Top3CategoryEntity;
+import com.ssafy.pickachu.repository.PeakTimeAgeEntityRepository;
 import com.ssafy.pickachu.repository.Top3CategoryEntityRepository;
 import com.ssafy.pickachu.service.Top3CategoryService;
 import com.ssafy.pickachu.global.util.IndustryCode;
 import jnr.ffi.annotations.In;
+import com.ssafy.pickachu.service.StatisticsService;
+import com.ssafy.pickachu.util.IndustryCode;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,16 +22,18 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class Top3CategoryServiceImpl implements Top3CategoryService {
+public class StatisticsServiceImpl implements StatisticsService {
     private final Top3CategoryEntityRepository top3CategoryEntityRepository;
-    private IndustryCode code = IndustryCode.getInstance();
+    private final PeakTimeAgeEntityRepository peakTimeAgeEntityRepository;
+    private final IndustryCode code = IndustryCode.getInstance();
+    private final Calendar calendar = Calendar.getInstance();
 
     @Override
     public ResponseEntity<Top3CategoryResponse> getTop3Categories() {
         List<Top3CategoryEntity> top3categories =  top3CategoryEntityRepository.findAll();
         Collections.sort(top3categories);
 
-        HashMap<CategoryKey, Top3Category> hm = new HashMap<CategoryKey, Top3Category>();
+        HashMap<CategoryKey, Top3Category> hm = new HashMap<>();
         for(Top3CategoryEntity entity : top3categories){
             CategoryKey categoryKey = new CategoryKey(entity.getAge(), entity.getGender());
 
@@ -52,6 +59,26 @@ public class Top3CategoryServiceImpl implements Top3CategoryService {
 
         return ResponseEntity.ok(response);
 
+    }
+
+    @Override
+    public ResponseEntity<PeakTimeAgeResponse> getPeakTimeAge() {
+        List<PeakTimeAgeEntity> datas = peakTimeAgeEntityRepository.findAll();
+        int currentTime = calendar.get(Calendar.HOUR_OF_DAY);
+
+        String age = "";
+        for(PeakTimeAgeEntity data : datas){
+            if(data.getTime() == currentTime){
+                age = data.getAge();
+                break;
+            }
+        }
+
+        PeakTimeAgeResponse response = PeakTimeAgeResponse
+                .createPeakTimeAgeResponse(
+                        HttpStatus.OK.value(), "Success", age
+                );
+        return ResponseEntity.ok(response);
     }
 
     @Data
