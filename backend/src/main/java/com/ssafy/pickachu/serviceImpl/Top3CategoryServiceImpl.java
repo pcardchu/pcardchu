@@ -5,7 +5,7 @@ import com.ssafy.pickachu.dto.top3category.response.Top3CategoryResponse;
 import com.ssafy.pickachu.entity.Top3CategoryEntity;
 import com.ssafy.pickachu.repository.Top3CategoryEntityRepository;
 import com.ssafy.pickachu.service.Top3CategoryService;
-import com.ssafy.pickachu.util.IndustryCode;
+import com.ssafy.pickachu.global.util.IndustryCode;
 import jnr.ffi.annotations.In;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

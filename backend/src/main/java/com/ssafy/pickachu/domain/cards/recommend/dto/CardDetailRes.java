@@ -1,4 +1,4 @@
-package com.ssafy.pickachu.cards.dto;
+package com.ssafy.pickachu.domain.cards.recommend.dto;
 
 
 import lombok.Builder;
