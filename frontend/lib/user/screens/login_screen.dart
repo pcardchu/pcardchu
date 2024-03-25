@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/password_screen.dart';
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => HomeScreen(),
+                    builder: (_) => BottomNavScreen(),
                   ),
                 );
               },
