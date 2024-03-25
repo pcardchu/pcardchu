@@ -14,7 +14,6 @@ public class CardsRes {
     private String id;
     private String cardName;
     private String imageUrl;
-    private List<String> categories;
     private String simpleBenefit;
 
 
