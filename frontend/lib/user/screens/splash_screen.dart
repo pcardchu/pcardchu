@@ -24,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
     checkLoginStatus();
   }
 
-
   void checkLoginStatus() async {
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     await loginProvider.checkToken();
