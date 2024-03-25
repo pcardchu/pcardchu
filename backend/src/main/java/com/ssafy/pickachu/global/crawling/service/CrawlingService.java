@@ -1,4 +1,4 @@
-package com.ssafy.pickachu.crawling.service;
+package com.ssafy.pickachu.global.crawling.service;
 
 public interface CrawlingService {
 
