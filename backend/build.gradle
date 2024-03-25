@@ -40,8 +40,13 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.4'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.4'
 
+
+	// cassandra
+	implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
+	
 	// Selenium  Crawling
 	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.5.0'
+	
 	// MongoDB
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	//querydsl
@@ -49,6 +54,7 @@ dependencies {
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
 
 }
 
