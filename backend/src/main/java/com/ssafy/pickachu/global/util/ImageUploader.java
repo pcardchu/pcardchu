@@ -15,6 +15,7 @@ public class ImageUploader {
 
     @Value("${image.upload.path}")
     String UPLOAD_URL_PATH;
+    // test용 주석
 
     public String ImgaeUpload(String imgUrl, String fileName, String extension){
 
