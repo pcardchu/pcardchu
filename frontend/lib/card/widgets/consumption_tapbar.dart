@@ -43,32 +43,35 @@ class _ConsumptionTapbarState extends State<ConsumptionTapbar>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          controller: _tabController,
-          indicatorColor: AppColors.mainBlue,
-          indicatorWeight: 3,
-          indicatorSize: TabBarIndicatorSize.tab,
-          // 탭바 라벨
-          tabs: [
-            Column(
-              children: [
-                Text(
-                  '내 소비',
-                  style: tabTextStyle,
-                ),
-                SizedBox(height: 8),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  '카드 추천',
-                  style: tabTextStyle,
-                ),
-                SizedBox(height: 8),
-              ],
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: TabBar(
+            controller: _tabController,
+            indicatorColor: AppColors.mainBlue,
+            indicatorWeight: 3,
+            indicatorSize: TabBarIndicatorSize.tab,
+            // 탭바 라벨
+            tabs: [
+              Column(
+                children: [
+                  Text(
+                    '내 소비',
+                    style: tabTextStyle,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '카드 추천',
+                    style: tabTextStyle,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
+            ],
+          ),
         ),
         Expanded(
           child: TabBarView(
