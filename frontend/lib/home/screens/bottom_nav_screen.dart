@@ -3,15 +3,17 @@ import 'package:frontend/utils/screen_util.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/home/screens/home_screen.dart';
+import 'package:frontend/home/screens/home_second_screen.dart';
 import 'package:frontend/card/widgets/registration_modal.dart';
 import 'package:frontend/chart/screens/expense_analytics_screen.dart';
+import 'package:frontend/card/screens/card_screen.dart';
 
 enum NavigationTab { home, myCards, expenses }
 
 Widget _getPageForTab(NavigationTab tab) {
   switch (tab) {
     case NavigationTab.home:
-      return HomeScreen(); // 홈화면으로 이동
+      return HomeSecondScreen(); // 홈화면으로 이동
     case NavigationTab.myCards:
       return RegistrationModal(); // 지금은 카드가 없을 때 모달 화면으로 이동, 임시입니다.
     case NavigationTab.expenses:
