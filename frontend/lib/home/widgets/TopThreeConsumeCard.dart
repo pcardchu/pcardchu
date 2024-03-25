@@ -9,7 +9,7 @@ class TopThreeConsumeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ScreenUtil.h(24),
+      height: ScreenUtil.h(26),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
@@ -17,12 +17,12 @@ class TopThreeConsumeCard extends StatelessWidget {
         color: const Color(0xFFC5D8FC),
         child: Center(
           child: Container(
-            width: ScreenUtil.w(80),
+            width: ScreenUtil.w(83),
+            height: ScreenUtil.h(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Text(
                   '20대 여성이 가장 많이 한 소비',
                   style: AppFonts.suit(
@@ -40,6 +40,7 @@ class TopThreeConsumeCard extends StatelessWidget {
                 Row(children: [
                   Column(
                     children: [
+                      SizedBox(width: ScreenUtil.w(24),),
                       Text(
                         '1. 쇼핑',
                         style: AppFonts.suit(
@@ -63,11 +64,11 @@ class TopThreeConsumeCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(width: ScreenUtil.w(30),),
+                  SizedBox(width: ScreenUtil.w(34),),
                   Image.asset(
                     'assets/images/donut_chart_icon.png',
-                    width: ScreenUtil.w(30),
-                    height: ScreenUtil.w(30),
+                    width: ScreenUtil.w(24),
+                    height: ScreenUtil.w(24),
                     fit: BoxFit.contain,
                   )
                 ]),

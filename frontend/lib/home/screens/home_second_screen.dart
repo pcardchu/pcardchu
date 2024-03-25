@@ -3,6 +3,8 @@ import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:frontend/home/widgets/TopThreeConsumeCard.dart';
+import 'package:frontend/home/widgets/ToListCard.dart';
+import 'package:frontend/home/widgets/CosumeDifferCard.dart';
 
 class HomeSecondScreen extends StatefulWidget {
   const HomeSecondScreen({super.key});
@@ -62,21 +64,6 @@ class TimeAnalyzeCard extends StatelessWidget {
   }
 }
 
-class ConsumeDifferCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: ScreenUtil.h(20),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Color(0xFFC2F4D8),
-      ),
-    );
-  }
-}
-
 class ToRegisterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -119,19 +106,6 @@ class VerticalSpace extends StatelessWidget {
   }
 }
 
-class ToListCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: ScreenUtil.h(10),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Color(0xFFF6EFCB),
-      ),
-    );
-  }
-}
+
 
 
