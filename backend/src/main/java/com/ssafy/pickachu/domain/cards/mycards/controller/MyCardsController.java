@@ -3,6 +3,7 @@ package com.ssafy.pickachu.domain.cards.mycards.controller;
 import com.ssafy.pickachu.domain.cards.mycards.service.MyCardsService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,9 @@ public class MyCardsController {
 
     @DeleteMapping("api/cards/my-cards/{cardId}")
     public ResponseEntity<Object> DeleteMyCards(@PathVariable String cardId){
-        return null;
+        myCardsService.DeleteMyCards(cardId);
+        return ResponseEntity.status(HttpStatus.OK).body("delete success");
     }
+
+
 }
