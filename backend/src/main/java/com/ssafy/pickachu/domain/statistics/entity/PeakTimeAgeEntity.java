@@ -1,4 +1,4 @@
-package com.ssafy.pickachu.entity;
+package com.ssafy.pickachu.domain.statistics.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

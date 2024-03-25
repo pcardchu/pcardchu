@@ -1,4 +1,4 @@
-package com.ssafy.pickachu.user.controller;
+package com.ssafy.pickachu.domain.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
