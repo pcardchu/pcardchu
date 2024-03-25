@@ -62,13 +62,12 @@ public class CardsAggregationImpl implements CardsAggregation {
                 .filter(cardInfo -> cardInfo.getCardId().equals(cardsRes.getId()))
                 .findFirst();
             matchingCardInfo.ifPresent(cardInfo -> {
-                cardsRes.setCategories(cardInfo.getCategories());
                 cardsRes.setSimpleBenefit((String)((Map<String, Object>)cardInfo
                     .getContents().get(cardsListReq.getCategory()).get(1))
                     .get("benefitSummary"));
             });
         });
-        return new CardsListPage(cardsResList, cardsListReq.getPageNumber(), cardsListReq.getPageSize(), nextPage);
+        return new CardsListPage(cardsResList, cardsListReq.getPageNumber(), cardsListReq.getPageSize(), !nextPage);
     }
 
 
