@@ -1,14 +1,14 @@
-package com.ssafy.pickachu.serviceImpl;
+package com.ssafy.pickachu.domain.statistics.serviceImpl;
 
-import com.ssafy.pickachu.dto.top3category.dto.Top3Category;
-import com.ssafy.pickachu.dto.top3category.response.PeakTimeAgeResponse;
-import com.ssafy.pickachu.dto.top3category.response.Top3CategoryResponse;
-import com.ssafy.pickachu.entity.PeakTimeAgeEntity;
-import com.ssafy.pickachu.entity.Top3CategoryEntity;
-import com.ssafy.pickachu.repository.PeakTimeAgeEntityRepository;
-import com.ssafy.pickachu.repository.Top3CategoryEntityRepository;
+import com.ssafy.pickachu.domain.statistics.dto.Top3Category;
+import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
+import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
+import com.ssafy.pickachu.domain.statistics.entity.PeakTimeAgeEntity;
+import com.ssafy.pickachu.domain.statistics.entity.Top3CategoryEntity;
+import com.ssafy.pickachu.domain.statistics.repository.PeakTimeAgeEntityRepository;
+import com.ssafy.pickachu.domain.statistics.repository.Top3CategoryEntityRepository;
 import com.ssafy.pickachu.global.util.IndustryCode;
-import com.ssafy.pickachu.service.StatisticsService;
+import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

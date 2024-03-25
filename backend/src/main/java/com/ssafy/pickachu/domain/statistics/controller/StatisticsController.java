@@ -1,8 +1,8 @@
-package com.ssafy.pickachu.controller;
+package com.ssafy.pickachu.domain.statistics.controller;
 
-import com.ssafy.pickachu.dto.top3category.response.PeakTimeAgeResponse;
-import com.ssafy.pickachu.dto.top3category.response.Top3CategoryResponse;
-import com.ssafy.pickachu.service.StatisticsService;
+import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
+import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
+import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

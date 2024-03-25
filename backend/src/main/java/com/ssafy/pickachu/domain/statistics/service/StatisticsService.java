@@ -1,7 +1,7 @@
-package com.ssafy.pickachu.service;
+package com.ssafy.pickachu.domain.statistics.service;
 
-import com.ssafy.pickachu.dto.top3category.response.PeakTimeAgeResponse;
-import com.ssafy.pickachu.dto.top3category.response.Top3CategoryResponse;
+import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
+import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
 import org.springframework.http.ResponseEntity;
 
 public interface StatisticsService {

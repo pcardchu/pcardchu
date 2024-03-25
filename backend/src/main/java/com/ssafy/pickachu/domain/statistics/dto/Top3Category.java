@@ -1,4 +1,4 @@
-package com.ssafy.pickachu.dto.top3category.dto;
+package com.ssafy.pickachu.domain.statistics.dto;
 
 import lombok.Data;
 
