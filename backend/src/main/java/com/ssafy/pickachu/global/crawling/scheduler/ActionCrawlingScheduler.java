@@ -8,7 +8,7 @@
 
 // public class ActionCrawlingScheduler {
 
-//     private static CrawlingService crawlingService;
+//     private final CrawlingService crawlingService;
 
 //     private int cardNum = 0;
 //     private static Map<Integer, String> CARD_COMPANY_CODE = new HashMap<>(){{

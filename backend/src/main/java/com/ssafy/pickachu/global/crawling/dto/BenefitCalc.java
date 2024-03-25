@@ -1,4 +1,4 @@
-package com.ssafy.pickachu.crawling.dto;
+package com.ssafy.pickachu.global.crawling.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
