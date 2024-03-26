@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/card/widgets/consumption_tapbar.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
-import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
 /// 개인 소비 패턴을 보여주는  페이지
@@ -56,7 +54,6 @@ class _ConsumptionState extends State<Consumption> {
                     // 화면 메인 컬럼
                     child: Column(
                       children: [
-
                         // 탭바
                         Expanded(
                           child: ConsumptionTapbar(),
@@ -75,6 +72,10 @@ class _ConsumptionState extends State<Consumption> {
     // 내 소비내역 정보 배열에 정보가 없을때만 Get 호출
     if (!context.read<ConsumptionProvider>().loadMyConsumption) {
       await context.read<ConsumptionProvider>().getMyConsumption('1');
+    }
+    // 내 추천 카드 정보 배열에 정보가 없을때만 Get 호출
+    if (!context.read<ConsumptionProvider>().loadMyRecommend) {
+      await context.read<ConsumptionProvider>().getMyRecommend('1');
     }
   }
 }

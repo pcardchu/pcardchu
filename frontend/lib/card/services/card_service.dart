@@ -33,7 +33,6 @@ class CardService {
       final Response response = await dio.get(
           "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/card",
           queryParameters: {'id': id});
-
       if (response.statusCode == 200) {
         // CardModel 객체로 변환;
         final cardModel = CardModel.fromJson(response.data);
