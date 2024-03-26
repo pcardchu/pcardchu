@@ -2,6 +2,7 @@ package com.ssafy.pickachu.domain.statistics.controller;
 
 import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
 import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
+import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
 import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
-@RequestMapping("api/statistics")
+@RequestMapping("/api/statistics")
 public class StatisticsController {
 
     private final StatisticsService statisticsService;
+    private final CardHistoryService service;
 
     @Operation(summary = "전체 트렌드 통계", description = "연령별 상위 3개 업종 카테고리")
     @ApiResponses({
@@ -42,4 +44,7 @@ public class StatisticsController {
     public ResponseEntity<PeakTimeAgeResponse> getPeakTimeAge(){
         return statisticsService.getPeakTimeAge();
     }
+
+    @GetMapping("/testinsert")
+    public String insertData(){return service.saveCardHistories();}
 }
