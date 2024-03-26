@@ -1,25 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
 
-class ConsumeDifferCard extends StatelessWidget {
-  const ConsumeDifferCard({super.key});
+class TimeAnalyzeCard extends StatelessWidget {
+  const TimeAnalyzeCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ScreenUtil.h(26),
+      height: ScreenUtil.h(24),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
-        color: Color(0xFFC2F4D8),
+        color: Color(0xFFFAD7D7),
         child: Center(
           child: Container(
             width: ScreenUtil.w(83),
-            height: ScreenUtil.h(26),
+            height: ScreenUtil.h(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -32,14 +31,14 @@ class ConsumeDifferCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '내 또래의 여성들은',
+                          '피카추에서만 알 수 있는',
                           style: AppFonts.suit(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
                               color: AppColors.textBlack),
                         ),
                         Text(
-                          '2월에 얼마나 썼을까?',
+                          '새로운 사실',
                           style: AppFonts.suit(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
@@ -48,7 +47,7 @@ class ConsumeDifferCard extends StatelessWidget {
                       ],
                     ),
                     Image.asset(
-                      'assets/images/card_graph_icon.png',
+                      'assets/images/questionmark_icon.png',
                       width: ScreenUtil.w(20),
 
                       fit: BoxFit.contain,
@@ -65,18 +64,18 @@ class ConsumeDifferCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '박설연님은 20대 여성에 비해',
+                          '지금 시간에는 70대의 소비가 ',
                           style: AppFonts.suit(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF61806F)),
+                              color: Color(0xFFFA7878)),
                         ),
                         Text(
-                          '평균 xx% 적게 소비하고 있어요.',
+                          '가장 두드러졌어요.',
                           style: AppFonts.suit(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF61806F)),
+                              color: Color(0xFFFA7878)),
                         ),
                       ],
                     ),

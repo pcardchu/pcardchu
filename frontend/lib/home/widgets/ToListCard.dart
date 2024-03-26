@@ -9,7 +9,7 @@ class ToListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ScreenUtil.h(18),
+      height: ScreenUtil.h(16),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
@@ -18,9 +18,9 @@ class ToListCard extends StatelessWidget {
         child: Center(
           child: Container(
             width: ScreenUtil.w(83),
-            height: ScreenUtil.h(18),
+            height: ScreenUtil.h(16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

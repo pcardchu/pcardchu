@@ -5,6 +5,9 @@ import 'package:frontend/utils/screen_util.dart';
 import 'package:frontend/home/widgets/TopThreeConsumeCard.dart';
 import 'package:frontend/home/widgets/ToListCard.dart';
 import 'package:frontend/home/widgets/CosumeDifferCard.dart';
+import 'package:frontend/home/widgets/TopThreePopularCard.dart';
+import 'package:frontend/home/widgets/ToRegisterCard.dart';
+import 'package:frontend/home/widgets/TimeAnalyzeCard.dart';
 
 class HomeSecondScreen extends StatefulWidget {
   const HomeSecondScreen({super.key});
@@ -49,51 +52,6 @@ class _HomeSecondScreenState extends State<HomeSecondScreen> {
   }
 }
 
-class TimeAnalyzeCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: ScreenUtil.h(20),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Color(0xFFFAD7D7),
-      ),
-    );
-  }
-}
-
-class ToRegisterCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: ScreenUtil.h(20),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Color(0xFFFCDABC),
-      ),
-    );
-  }
-}
-
-class TopThreePopularCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: ScreenUtil.h(20),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Color(0xFFF7D6F0),
-      ),
-    );
-  }
-}
-
 class VerticalSpace extends StatelessWidget {
   final double? height;
 
@@ -105,7 +63,3 @@ class VerticalSpace extends StatelessWidget {
     return SizedBox(height: finalHeight);
   }
 }
-
-
-
-
