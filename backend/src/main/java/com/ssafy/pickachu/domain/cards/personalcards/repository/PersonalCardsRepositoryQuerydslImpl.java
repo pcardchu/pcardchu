@@ -1,7 +1,7 @@
 package com.ssafy.pickachu.domain.cards.personalcards.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.pickachu.domain.cards.mycards.entity.QPersonalCards;
+import com.ssafy.pickachu.domain.cards.personalcards.entity.QPersonalCards;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
