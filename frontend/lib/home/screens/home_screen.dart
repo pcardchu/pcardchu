@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_list.dart';
 import 'package:frontend/card/screens/card_registration.dart';
+import 'package:frontend/card/screens/consumption.dart';
 import 'package:frontend/card/widgets/registration_modal.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
@@ -48,6 +49,16 @@ class HomeScreen extends StatelessWidget {
                 );
               },
               child: Text('카드 리스트'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => Consumption(),
+                  ),
+                );
+              },
+              child: Text('소비 패턴'),
             ),
           ],
         ),
