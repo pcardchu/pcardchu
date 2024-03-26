@@ -8,7 +8,6 @@ import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/user_info_provider.dart';
 import 'package:frontend/user/screens/login_screen.dart';
-import 'package:frontend/user/screens/password_submit_screen.dart';
 import 'package:frontend/user/screens/scond_screen.dart';
 import 'package:frontend/user/widgets/gender_button.dart';
 import 'package:frontend/user/widgets/user_info_dialog.dart';
@@ -17,14 +16,14 @@ import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
-class MoreInfoScreen extends StatefulWidget {
-  const MoreInfoScreen({super.key});
+class PasswordSubmitScreen extends StatefulWidget {
+  const PasswordSubmitScreen({super.key});
 
   @override
-  State<MoreInfoScreen> createState() => _MoreInfoScreenState();
+  State<PasswordSubmitScreen> createState() => _PasswordSubmitScreenState();
 }
 
-class _MoreInfoScreenState extends State<MoreInfoScreen> {
+class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> {
   final FocusNode _yearFocusNode = FocusNode();
   final List<String> _months = List.generate(12, (index) => '${index + 1}');
 
@@ -149,9 +148,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                                   gender: userInfo.gender,
                                   onConfirm: () {
                                     Navigator.of(context).pop(); // 다이얼로그 닫기
-                                    Navigator.of(context).push(
-                                        SlideTransitionPageRoute(page: const PasswordSubmitScreen())
-                                    );
+                                    Navigator.of(context).push(SlideTransitionPageRoute(page: const SecondScreen()));
                                   },
                                 );
                               },

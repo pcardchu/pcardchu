@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
+import 'package:frontend/user/models/login_response.dart';
 import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/services/kakao_login_service.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -9,10 +10,14 @@ class LoginProvider with ChangeNotifier {
   String? _errorMessage;
   bool _isLoggedIn = false;
   OAuthToken? _kakaoToken;
+  bool _isFirst = false;
+
+  String? _firstJwt;
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isLoggedIn => _isLoggedIn;
+  bool get isFirst => _isFirst;
 
   final KakaoLoginService _kakaoLoginService = KakaoLoginService();
 
@@ -35,6 +40,11 @@ class LoginProvider with ChangeNotifier {
     try {
       _kakaoToken = await _kakaoLoginService.signInWithKakao();
       _isLoggedIn = true;
+
+      LoginResponse? loginResponse = await _kakaoLoginService.sendFirstJwtRequest(_kakaoToken!!);
+      _isFirst = loginResponse!.isFirst!;
+      _firstJwt = loginResponse.token;
+
     } catch (e) {
       _errorMessage = e.toString();
       _isLoggedIn = false;

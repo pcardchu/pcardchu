@@ -61,7 +61,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                   onPressed: (){
                     Navigator.of(context).pushAndRemoveUntil(
                       SlideTransitionPageRoute(
-                        page: const RegistrationIntroScreen(),
+                        page: LoginScreen(),
                         beginOffset: const Offset(1, 0),
                         transitionDuration: const Duration(milliseconds: 350),
                         reverseTransitionDuration: const Duration(milliseconds: 350)
