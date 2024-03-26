@@ -1,4 +1,4 @@
-package com.ssafy.pickachu.domain.cards.mycards.entity;
+package com.ssafy.pickachu.domain.cards.personalcards.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

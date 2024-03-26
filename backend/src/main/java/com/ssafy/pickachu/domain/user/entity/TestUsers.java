@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 @Entity
-public class Users {
+public class TestUsers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
