@@ -13,13 +13,11 @@ import 'providers/login_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future main() async {
-  /// 플러터가 준비될때까지 기다린다.
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   /// intl을 사용하기 위해선 초기화를 한번 해줘야한다.
   await initializeDateFormatting();
 
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
     await dotenv.load(fileName: ".env");

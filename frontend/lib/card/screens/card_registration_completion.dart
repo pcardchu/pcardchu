@@ -41,11 +41,10 @@ class CardRegistrationCompletion extends StatelessWidget {
                           height: 185,
                           child: Image.asset('assets/images/complete.png'),
                         ),
-                        const SizedBox(height: 45),
                         Text(
                           '카드 등록이 완료되었어요 !',
                           style: AppFonts.scDream(
-                            fontSize: 28,
+                            fontSize: 25,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textBlack,
                           ),

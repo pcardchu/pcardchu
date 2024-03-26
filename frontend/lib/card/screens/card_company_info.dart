@@ -23,6 +23,8 @@ class _CardCompanyInfoState extends State<CardCompanyInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // 키패드 나와도 위젯 재배치 안하기
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(''),
         backgroundColor: AppColors.mainWhite,
