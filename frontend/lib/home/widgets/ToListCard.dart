@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
+import 'package:frontend/card/screens/card_list.dart';
 
 class ToListCard extends StatelessWidget {
   const ToListCard({super.key});
@@ -39,10 +40,14 @@ class ToListCard extends StatelessWidget {
                       height: ScreenUtil.h(1),
                     ),
                     Container(
-                      width: ScreenUtil.w(54),
+                      width: ScreenUtil.w(53),
                       height: ScreenUtil.h(4),
+                      margin: EdgeInsets.only(left: 10),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => CardList()));
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.mainWhite,
                           shape: RoundedRectangleBorder(

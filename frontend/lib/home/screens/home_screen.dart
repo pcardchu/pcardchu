@@ -1,68 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/screens/card_list.dart';
-import 'package:frontend/card/screens/card_registration.dart';
-import 'package:frontend/card/screens/consumption.dart';
-import 'package:frontend/card/widgets/registration_modal.dart';
-import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
-import 'package:provider/provider.dart';
+import 'package:frontend/utils/app_fonts.dart';
+import 'package:frontend/utils/screen_util.dart';
+import 'package:frontend/home/widgets/TopThreeConsumeCard.dart';
+import 'package:frontend/home/widgets/ToListCard.dart';
+import 'package:frontend/home/widgets/CosumeDifferCard.dart';
+import 'package:frontend/home/widgets/TopThreePopularCard.dart';
+import 'package:frontend/home/widgets/ToRegisterCard.dart';
+import 'package:frontend/home/widgets/TimeAnalyzeCard.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final List<Widget> items = [
+    TopThreeConsumeCard(),
+    ToListCard(),
+    ConsumeDifferCard(),
+    TopThreePopularCard(),
+    ToRegisterCard(),
+    TimeAnalyzeCard(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
         backgroundColor: AppColors.mainWhite,
+        scrolledUnderElevation: 0,
       ),
       backgroundColor: AppColors.mainWhite,
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Home'),
-            ElevatedButton(
-                onPressed: () {
-                  Provider.of<LoginProvider>(context, listen: false)
-                      .logout(context);
-                },
-                child: Text("로그아웃")),
-            ElevatedButton(
-              onPressed: () {
-                // 등록된 카드가 없다면 보여주는 모달
-                showDialog(
-                  context: context,
-                  builder: (_) {
-                    return RegistrationModal();
-                  },
-                );
-              },
-              child: Text('카드 등록 모달'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => CardList(),
-                  ),
-                );
-              },
-              child: Text('카드 리스트'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => Consumption(),
-                  ),
-                );
-              },
-              child: Text('소비 패턴'),
-            ),
-          ],
-        ),
+      body: SafeArea(
+        child: Center(
+            child: Container(
+          width: ScreenUtil.w(90),
+          child: ListView.separated(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              // 아이템 빌더
+              return items[index];
+            },
+            separatorBuilder: (context, index) => VerticalSpace(), // 간격을 설정해줍니다
+          ),
+        )),
       ),
     );
+  }
+}
+
+class VerticalSpace extends StatelessWidget {
+  final double? height;
+
+  const VerticalSpace({this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    final double finalHeight = height ?? ScreenUtil.h(1); // 기본값을 10.h로 설정합니다.
+    return SizedBox(height: finalHeight);
   }
 }

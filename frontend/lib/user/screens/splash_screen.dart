@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
-import 'package:frontend/home/screens/home_screen.dart';
+import 'package:frontend/home/screens/home_screen_second.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/intro_screen.dart';
 import 'package:frontend/user/screens/password_screen.dart';
