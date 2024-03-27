@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 
 import 'package:frontend/card/models/card_info_model.dart';
 
@@ -18,8 +17,6 @@ class CardListProvider with ChangeNotifier {
   /// 카드 리스트 반환하는 서비스
   final CardListService _cardService = CardListService();
 
-
-
   void checkUserCards() async {
     loading = true;
     cardList = await _cardService.getCardList();
@@ -35,5 +32,4 @@ class CardListProvider with ChangeNotifier {
 
     notifyListeners();
   }
-
 }
