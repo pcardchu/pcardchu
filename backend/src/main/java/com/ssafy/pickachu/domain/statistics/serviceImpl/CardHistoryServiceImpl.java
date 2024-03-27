@@ -1,28 +1,14 @@
 package com.ssafy.pickachu.domain.statistics.serviceImpl;
 
 import com.google.gson.Gson;
-import com.ssafy.pickachu.domain.statistics.dto.CardHistory;
-import com.ssafy.pickachu.domain.statistics.dto.Top3Category;
 import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
-import com.ssafy.pickachu.domain.statistics.entity.PeakTimeAgeEntity;
-import com.ssafy.pickachu.domain.statistics.entity.Top3CategoryEntity;
 import com.ssafy.pickachu.domain.statistics.repository.CardHistoryEntityRepository;
-import com.ssafy.pickachu.domain.statistics.repository.PeakTimeAgeEntityRepository;
-import com.ssafy.pickachu.domain.statistics.repository.Top3CategoryEntityRepository;
-import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
-import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
 import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
-import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
-import com.ssafy.pickachu.global.util.IndustryCode;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
