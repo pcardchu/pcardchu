@@ -1,5 +1,6 @@
 package com.ssafy.pickachu.domain.statistics.entity;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -7,8 +8,8 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 @Data
 @NoArgsConstructor
-@Table("mytop3")
-public class MyTop3Entity implements Comparable<MyTop3Entity> {
+@Table("myconsumption")
+public class MyConsumptionEntity implements Comparable<MyConsumptionEntity> {
 
     @PrimaryKey
     private int id;
@@ -19,8 +20,11 @@ public class MyTop3Entity implements Comparable<MyTop3Entity> {
 
     private String category;
 
+    @SerializedName("totalamount")
+    private int totalAmount;
+
     @Override
-    public int compareTo(MyTop3Entity o) {
+    public int compareTo(MyConsumptionEntity o) {
         return this.id-o.id;
     }
 }

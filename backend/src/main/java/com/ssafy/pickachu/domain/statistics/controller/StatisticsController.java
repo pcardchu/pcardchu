@@ -1,5 +1,6 @@
 package com.ssafy.pickachu.domain.statistics.controller;
 
+import com.ssafy.pickachu.domain.statistics.response.MyConsumptionResponse;
 import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
 import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
 import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
@@ -45,6 +46,15 @@ public class StatisticsController {
         return statisticsService.getPeakTimeAge();
     }
 
+    @Operation(summary = "codef 연동 전 데이터 삽입용임", description = "건들지마시오")
     @GetMapping("/testinsert")
     public String insertData(){return service.saveCardHistories();}
+
+    @Operation(summary = "개인 소비 통계", description = "지난달 소비 내역과 업종 분석, 일자별 소비 금액 합계")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "(message : \"Success\", code : 200)",
+                    content = @Content(schema = @Schema(implementation = MyConsumptionResponse.class)))
+    })
+    @GetMapping("/consumption")
+    public ResponseEntity<MyConsumptionResponse> getConsumption(){return statisticsService.getMyConsumption();}
 }
