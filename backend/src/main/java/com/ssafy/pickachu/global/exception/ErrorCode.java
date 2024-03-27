@@ -22,11 +22,11 @@ public enum ErrorCode {
     EXCEPTION(500, "GLOBAL-ERR-500", "exception"),
 
     // JWT Token
-    EXPIRED_TOKEN(403, "JWT-ERR-404", "ExpiredJwtException: 만료된 토큰입니다."),
-    INVALID_SIGNATURE_TOKEN(403, "JWT-ERR-404", "SignatureException: 서명 검증에 실패하였습니다."),
-    MALFORMED_TOKEN(403, "JWT-ERR-404", "MalformedJwtException: 잘못된 형식입니다."),
-    UNSUPPORTED_TOKEN(403, "JWT-ERR-404", "UnsupportedJwtException: 지원하지 않는 토큰 형식입니다."),
-    ILLEGAL_ARG_TOKEN(403, "JWT-ERR-404", "IllegalArgumentException: 토큰 값이 비었거나 null 입니다."),
+    EXPIRED_TOKEN(401, "JWT-ERR-401", "ExpiredJwtException: 만료된 토큰입니다."),
+    INVALID_SIGNATURE_TOKEN(403, "JWT-ERR-403", "SignatureException: 서명 검증에 실패하였습니다."),
+    MALFORMED_TOKEN(403, "JWT-ERR-403", "MalformedJwtException: 잘못된 형식입니다."),
+    UNSUPPORTED_TOKEN(403, "JWT-ERR-403", "UnsupportedJwtException: 지원하지 않는 토큰 형식입니다."),
+    ILLEGAL_ARG_TOKEN(403, "JWT-ERR-403", "IllegalArgumentException: 토큰 값이 비었거나 null 입니다."),
     TOKEN_NOT_MATCHED(404, "JWT-ERR-404", "TokenNotMatchedException: 토큰이 일치하지 않습니다."),
 
     // User
