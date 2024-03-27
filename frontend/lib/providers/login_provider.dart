@@ -32,7 +32,7 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  Future<void> login() async {
+  Future<bool> login() async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -48,10 +48,20 @@ class LoginProvider with ChangeNotifier {
     } catch (e) {
       _errorMessage = e.toString();
       _isLoggedIn = false;
+
+      try {
+        await UserApi.instance.logout();
+        print("토큰 폐기됨");
+      } catch (error) {
+        print("로그아웃 실패: $error");
+      }
+      return false;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+
+    return true;
   }
 
   Future logout(BuildContext context) async{

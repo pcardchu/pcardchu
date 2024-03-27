@@ -7,8 +7,6 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_user.dart';
 
 ///카카오 소셜 로그인 서비스입니다.
 class KakaoLoginService {
-  final Dio _dio = Dio();
-
   ///기존에 발급된 토큰이 있는지 확인합니다.
   Future<bool> checkKakaoSignIn() async {
     bool result = false;
@@ -75,6 +73,15 @@ class KakaoLoginService {
   }
 
   Future<LoginResponse?> sendFirstJwtRequest(OAuthToken token) async {
+    Dio dio = Dio();
+
+    // 연결 시도 최대 시간을 5초로 설정
+    dio.options.connectTimeout = const Duration(milliseconds: 1000);
+    // 서버로부터 데이터 수신 최대 시간을 7초로 설정
+    dio.options.receiveTimeout = const Duration(milliseconds: 1000);
+    // 데이터 전송 최대 시간을 5초로 설정
+    dio.options.sendTimeout = const Duration(milliseconds: 1000);
+
     String url = "${dotenv.env['API_URL']!}/user/login/kakao";
 
     String encrypted = CryptoUtil.encryptAES(token.idToken);
@@ -90,7 +97,7 @@ class KakaoLoginService {
     };
 
     try {
-      final Response response = await _dio.post(
+      final Response response = await dio.post(
         url,
         data: requestData,
         options: Options(

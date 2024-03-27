@@ -19,10 +19,15 @@ class KakaoLoginButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0), // 버튼의 둥근 모서리
         ),
-        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // 패딩 조정
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // 패딩 조정
       ),
       onPressed: () async {
-        await provider.login();
+        if(!await provider.login()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("잠시 후 다시 시도해주세요", textAlign: TextAlign.center,))
+          );
+        }
+
         // 로그인 작업이 완료된 후에 isLoggedIn 상태를 체크
         if(provider.isFirst) {
           //회원가입 화면
