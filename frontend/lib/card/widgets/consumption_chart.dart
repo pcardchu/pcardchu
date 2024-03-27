@@ -1,11 +1,11 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:frontend/utils/category_colors.dart';
+import 'package:intl/intl.dart';
+import 'package:pie_chart/pie_chart.dart';
+import 'package:provider/provider.dart';
 
 /// 내 소비 차트 위젯
 class ConsumptionChart extends StatelessWidget {
@@ -16,26 +16,34 @@ class ConsumptionChart extends StatelessWidget {
     // 소비 내역 정보
     final data = context.watch<ConsumptionProvider>().myConsumption;
 
-    // 소비 패턴 분류별 색상
+    /// 소비 패턴 분류별 색상
     CategoryColors categoryColors = CategoryColors();
     Map<String, Color> colorDict = categoryColors.categoryColors;
+
+
+
+    // 소비 패턴 분류별 색상
+    final List<Color> colorList = [
+      colorDict[data!.mainConsumption![0][0]]!,
+      colorDict[data.mainConsumption![1][0]]!,
+      colorDict[data.mainConsumption![2][0]]!,
+      colorDict[data.mainConsumption![3][0]]!,
+      colorDict[data.mainConsumption![4][0]]!,
+    ];
 
     // 현재 날짜 가져오기
     DateTime now = DateTime.now();
     // 현재 월
     int month = now.month;
 
-    // PieChartSectionData를 생성하기 위한 함수
-    List<PieChartSectionData> sectionDataList(List data) {
-      return data.map<PieChartSectionData>((item) {
-        return PieChartSectionData(
-          value: (item[1] as int).toDouble(),
-          color: colorDict[item[0]],
-          showTitle: false,
-          radius: 70,
-        );
-      }).toList();
-    }
+    /// 소비 내역 정보
+    Map<String, double> dataMap = {
+      "${data!.mainConsumption![0][0]}": data.mainConsumption![0][1].toDouble(),
+      "${data.mainConsumption![1][0]}": data.mainConsumption![1][1].toDouble(),
+      "${data.mainConsumption![2][0]}": data.mainConsumption![2][1].toDouble(),
+      "${data.mainConsumption![3][0]}": data.mainConsumption![3][1].toDouble(),
+      "${data.mainConsumption![4][0]}": data.mainConsumption![4][1].toDouble(),
+    };
 
     return Column(
       children: [
@@ -44,7 +52,7 @@ class ConsumptionChart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              '$month월 ${data!.userName}님의 소비',
+              '${month - 1}월 ${data!.userName}님의 소비',
               style: AppFonts.suit(
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
@@ -68,20 +76,26 @@ class ConsumptionChart extends StatelessWidget {
             ),
           ],
         ),
-        // 도넛 차트
+
         SizedBox(
           height: 240,
+          width: 240,
           child: PieChart(
-            PieChartData(
-              // 섹션 사이 공간
-              sectionsSpace: 2,
-              // 도넛 차트 중앙 원 반지름
-              centerSpaceRadius: 40,
-              // 도넛 차트 데이터
-              sections: sectionDataList(data.mainConsumption!),
+            dataMap: dataMap,
+            colorList: colorList,
+            animationDuration: Duration(milliseconds: 1500),
+            chartValuesOptions: ChartValuesOptions(
+              showChartValues: false,
             ),
-            swapAnimationDuration: Duration(milliseconds: 150), // Optional
-            swapAnimationCurve: Curves.linear, // Optional
+            legendOptions: LegendOptions(showLegends: false),
+            centerWidget: Container(
+              width: 80.0, // 너비 설정
+              height: 80.0, // 높이 설정
+              decoration: BoxDecoration(
+                color: AppColors.mainWhite, // 배경색 설정
+                borderRadius: BorderRadius.circular(50.0), // 둥근 모서리 설정
+              ),
+            ),
           ),
         ),
       ],

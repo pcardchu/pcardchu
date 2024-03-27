@@ -3,9 +3,14 @@ import 'package:frontend/card/screens/card_registration.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 
-class RegistrationModal extends StatelessWidget {
+class RegistrationModal extends StatefulWidget {
   const RegistrationModal({super.key});
 
+  @override
+  State<RegistrationModal> createState() => _RegistrationModalState();
+}
+
+class _RegistrationModalState extends State<RegistrationModal> {
   @override
   Widget build(BuildContext context) {
     return Dialog(

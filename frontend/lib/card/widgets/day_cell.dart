@@ -24,14 +24,14 @@ Widget dayCell(BuildContext context, DateTime day, DateTime focusedDay) {
           style: AppFonts.suit(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.lightGrey),
+              color: AppColors.grey),
         ),
         if (data!.calender!.length >= day.day)
         Text(
           NumberFormat('-#,###원', 'ko_KR').format(data.calender![day.day-1]),
           style: AppFonts.suit(
-              fontSize: 7,
-              fontWeight: FontWeight.w600,
+              fontSize: 8,
+              fontWeight: FontWeight.w700,
               color: top5.contains(day.day-1) ? AppColors.mainRed : AppColors.lightGrey),
         ),
       ],

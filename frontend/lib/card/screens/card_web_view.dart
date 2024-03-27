@@ -25,6 +25,7 @@ class _CardWebViewState extends State<CardWebView> {
     // 웹뷰 컨트롤러
     WebViewController controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(NavigationDelegate(onPageFinished: (String url){} ))
       ..loadRequest(url);
 
     return Scaffold(
