@@ -147,7 +147,6 @@ class CardProvider with ChangeNotifier {
     cardRegisterResult =
         await cardService.cardRegistration(companyList[companyIndex]['name'], scanNumber, companyId, companyPw);
     loading = false;
-
     notifyListeners();
   }
 }
