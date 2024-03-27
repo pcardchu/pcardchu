@@ -6,6 +6,8 @@ import com.ssafy.pickachu.domain.cards.personalcards.repository.PersonalCardsRep
 import com.ssafy.pickachu.domain.cards.recommend.entity.Cards;
 import com.ssafy.pickachu.domain.cards.recommend.repository.CardsRepository;
 import com.ssafy.pickachu.domain.user.entity.TestUsers;
+import com.ssafy.pickachu.global.exception.ErrorCode;
+import com.ssafy.pickachu.global.exception.ErrorException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +32,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         int userId = 1;
 
         PersonalCards personalCards = personalCardsRepository.findPersonalCardsByUserIdAndCardsId(userId, cardid)
-            .orElseThrow(() -> new RuntimeException("not exist personal card"));
+            .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
 
         if(users.getId() != personalCards.getUserId()){
             throw new RuntimeException("not match user");
