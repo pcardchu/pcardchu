@@ -27,6 +27,7 @@ public enum ErrorCode {
     MALFORMED_TOKEN(403, "JWT-ERR-404", "MalformedJwtException: 잘못된 형식입니다."),
     UNSUPPORTED_TOKEN(403, "JWT-ERR-404", "UnsupportedJwtException: 지원하지 않는 토큰 형식입니다."),
     ILLEGAL_ARG_TOKEN(403, "JWT-ERR-404", "IllegalArgumentException: 토큰 값이 비었거나 null 입니다."),
+    TOKEN_NOT_MATCHED(404, "JWT-ERR-404", "TokenNotMatchedException: 토큰이 일치하지 않습니다."),
 
     // User
     USER_NOT_FOUND(404, "USER-ERR", "UserNotFoundException: 잘못된 유저 정보입니다.")

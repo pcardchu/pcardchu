@@ -36,7 +36,9 @@ public class SecondJwtFilter extends OncePerRequestFilter {
         if (requestUri.startsWith("/api/swagger-ui") || requestUri.startsWith("/api/v3/api-docs")
                 || requestUri.startsWith("/api/auth-test")
                 || requestUri.equals("/api/user/login/kakao")
-                || requestUri.equals("/api/user/basic-info")){
+                || requestUri.equals("/api/user/basic-info")
+                || requestUri.equals("/api/user/login/password")
+                || requestUri.equals("/api/user/refresh")){
             filterChain.doFilter(request, response);
             return;
         }
@@ -54,7 +56,7 @@ public class SecondJwtFilter extends OncePerRequestFilter {
         String token = jwtHeader.replace("Bearer ", "");
 
         try {
-            jwtUtil.validateToken(token, false);
+            jwtUtil.validateAccessToken(token, false);
         }
         catch (ExpiredJwtException e){
             exceptionUtil.setErrorResponse(response, ErrorCode.EXPIRED_TOKEN);
@@ -77,7 +79,7 @@ public class SecondJwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        Long id = jwtUtil.getId(token, false);
+        Long id = jwtUtil.getIdFromAccessToken(token, false);
         String role = jwtUtil.getRole(token, false);
 
         if (id != null){

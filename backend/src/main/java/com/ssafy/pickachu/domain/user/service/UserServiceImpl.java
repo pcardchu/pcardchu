@@ -1,14 +1,22 @@
 package com.ssafy.pickachu.domain.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.pickachu.domain.user.dto.BasicInfoDto;
-import com.ssafy.pickachu.domain.user.dto.IdTokenDto;
+import com.ssafy.pickachu.domain.user.exception.TokenNotMatchedException;
+import com.ssafy.pickachu.domain.user.request.BasicInfoReq;
+import com.ssafy.pickachu.domain.user.request.IdTokenReq;
 import com.ssafy.pickachu.domain.user.dto.KakaoPayloadDto;
 import com.ssafy.pickachu.domain.user.entity.User;
 import com.ssafy.pickachu.domain.user.exception.UserNotFoundException;
 import com.ssafy.pickachu.domain.user.repository.UserRepository;
 import com.ssafy.pickachu.domain.auth.jwt.JwtUtil;
-import jakarta.persistence.EntityNotFoundException;
+import com.ssafy.pickachu.domain.user.request.PasswordReq;
+import com.ssafy.pickachu.domain.user.request.TokenReissueReq;
+import com.ssafy.pickachu.domain.user.response.TokenRes;
+import com.ssafy.pickachu.global.exception.ErrorCode;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,11 +40,12 @@ public class UserServiceImpl implements UserService{
     @Value("${key.idtoken}")
     String idTokenKey; // 16자리의 키
 
+    @Transactional
     @Override
-    public Map<String, Object> loginWithKakao(IdTokenDto idTokenDto) {
+    public Map<String, Object> loginWithKakao(IdTokenReq idTokenReq) {
 
         // idToken 얻기
-        String idToken = decryptAES(idTokenDto);
+        String idToken = decryptAES(idTokenReq);
 
         // idToken Kakao 검증
 
@@ -63,8 +72,17 @@ public class UserServiceImpl implements UserService{
             result.put("flag_basicInfo", true);
         }
 
-        String jwtToken = jwtUtil.createJwt(user.getId(),60*60*60L, true);
-        result.put("jwt", jwtToken);
+        String accessToken = jwtUtil.createJwtForAccess(user.getId(), true);
+        String refreshToken = jwtUtil.createJwtForRefresh(user.getId(), true);
+
+        user.setFirstRefreshToken(refreshToken);
+
+        TokenRes tokenRes = TokenRes.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken
+                ).build();
+
+        result.put("token", tokenRes);
 
         // 1차 JWT 발급
         return result;
@@ -72,19 +90,101 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public boolean updateBasicInfo(Long id, BasicInfoDto basicInfoDto) {
-        if (!basicInfoDto.getGender().equals("M") && !basicInfoDto.getGender().equals("F")){
+    public Map<String, Object> loginWithPassword(Long id, String shortPw) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if (user.getShortPw().equals(shortPw)){
+            result.put("result", true);
+
+            String accessToken = jwtUtil.createJwtForAccess(user.getId(), false);
+            String refreshToken = jwtUtil.createJwtForRefresh(user.getId(), false);
+
+            user.setSecondRefreshToken(refreshToken);
+
+            TokenRes tokenRes = TokenRes.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken
+                    ).build();
+
+            result.put("token", tokenRes);
+        }else{
+            result.put("result", false);
+        }
+
+        return result;
+    }
+
+    @Override
+    public TokenRes reissueToken(TokenReissueReq tokenReissueReq) {
+
+        String token = tokenReissueReq.getRefreshToken();
+        boolean isFlagFirst = tokenReissueReq.isFlagFirst();
+
+        jwtUtil.validateRefreshToken(token, isFlagFirst);
+
+        Long id = jwtUtil.getIdFromRefreshToken(token, isFlagFirst);
+        User user = userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+
+        String accessToken = "";
+        String refreshToken = "";
+
+        if (isFlagFirst){
+            if (user.getFirstRefreshToken().equals(token)){
+                accessToken = jwtUtil.createJwtForAccess(user.getId(), isFlagFirst);
+                refreshToken = jwtUtil.createJwtForRefresh(user.getId(), isFlagFirst);
+
+                user.setFirstRefreshToken(refreshToken);
+            }else{
+                throw new TokenNotMatchedException();
+            }
+        }else{
+            if (user.getSecondRefreshToken().equals(token)){
+                accessToken = jwtUtil.createJwtForAccess(user.getId(), isFlagFirst);
+                refreshToken = jwtUtil.createJwtForRefresh(user.getId(), isFlagFirst);
+
+                user.setSecondRefreshToken(refreshToken);
+            }else{
+                throw new TokenNotMatchedException();
+            }
+        }
+
+        TokenRes tokenRes = TokenRes.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken).build();
+
+        return tokenRes;
+    }
+
+    @Transactional
+    @Override
+    public boolean updateBasicInfo(Long id, BasicInfoReq basicInfoReq) {
+        if (!basicInfoReq.getGender().equals("M") && !basicInfoReq.getGender().equals("F")){
             return false;
         }else{
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new UserNotFoundException());
 
-            user.setGender(basicInfoDto.getGender());
-            user.setBirth(basicInfoDto.getBirth());
-            user.setShortPw(basicInfoDto.getShortPw());
+            user.setGender(basicInfoReq.getGender());
+            user.setBirth(basicInfoReq.getBirth());
+            user.setShortPw(basicInfoReq.getShortPw());
 
             return true;
         }
+    }
+
+    @Transactional
+    @Override
+    public boolean updateShortPw(Long id, String shortPw) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        user.setShortPw(shortPw);
+        return true;
     }
 
     @Transactional
@@ -114,10 +214,10 @@ public class UserServiceImpl implements UserService{
 
 
 
-    private String decryptAES(IdTokenDto idTokenDto){
+    private String decryptAES(IdTokenReq idTokenReq){
 
-        String base64IV = idTokenDto.getBase64IV();
-        String encryptedIdToken = idTokenDto.getEncryptedIdToken();
+        String base64IV = idTokenReq.getBase64IV();
+        String encryptedIdToken = idTokenReq.getEncryptedIdToken();
 
         byte[] initVector = Base64.getDecoder().decode(base64IV);
         byte[] encryptedString = Base64.getDecoder().decode(encryptedIdToken);

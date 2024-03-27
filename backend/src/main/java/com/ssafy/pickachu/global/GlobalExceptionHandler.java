@@ -1,9 +1,14 @@
 package com.ssafy.pickachu.global;
 
+import com.ssafy.pickachu.domain.user.exception.TokenNotMatchedException;
 import com.ssafy.pickachu.domain.user.exception.UserNotFoundException;
 import com.ssafy.pickachu.global.exception.ErrorCode;
 import com.ssafy.pickachu.global.exception.ErrorException;
 import com.ssafy.pickachu.global.exception.ErrorResponse;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +30,44 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex) {
-        ErrorResponse response = new ErrorResponse(ErrorCode.USER_NOT_FOUND);
+    protected ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(USER_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
+    }
+
+    @ExceptionHandler(TokenNotMatchedException.class)
+    protected ResponseEntity<?> handleTokenNotMatchedException(TokenNotMatchedException ex) {
+        ErrorResponse response = new ErrorResponse(TOKEN_NOT_MATCHED);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    protected ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException ex) {
+        ErrorResponse response = new ErrorResponse(EXPIRED_TOKEN);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    protected ResponseEntity<?> handleSignatureException(SignatureException ex) {
+        ErrorResponse response = new ErrorResponse(INVALID_SIGNATURE_TOKEN);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    protected ResponseEntity<?> handleMalformedJwtException(MalformedJwtException ex) {
+        ErrorResponse response = new ErrorResponse(MALFORMED_TOKEN);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
+    }
+
+    @ExceptionHandler(UnsupportedJwtException.class)
+    protected ResponseEntity<?> handleUnsupportedJwtException(UnsupportedJwtException ex) {
+        ErrorResponse response = new ErrorResponse(UNSUPPORTED_TOKEN);
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+        ErrorResponse response = new ErrorResponse(ILLEGAL_ARG_TOKEN);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatus()));
     }
 
