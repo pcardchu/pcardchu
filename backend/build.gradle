@@ -56,6 +56,9 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+	// Google Gson
+	implementation 'com.google.code.gson:gson:2.8.5'
+	implementation 'org.json:json:20240303'
 
 }
 

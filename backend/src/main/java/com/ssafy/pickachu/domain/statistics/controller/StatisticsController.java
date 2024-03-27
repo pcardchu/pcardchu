@@ -1,7 +1,9 @@
 package com.ssafy.pickachu.domain.statistics.controller;
 
+import com.ssafy.pickachu.domain.statistics.response.MyConsumptionResponse;
 import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
 import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
+import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
 import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,10 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
-@RequestMapping("api/statistics")
+@RequestMapping("/statistics")
 public class StatisticsController {
 
     private final StatisticsService statisticsService;
+    private final CardHistoryService service;
 
     @Operation(summary = "전체 트렌드 통계", description = "연령별 상위 3개 업종 카테고리")
     @ApiResponses({
@@ -42,4 +45,16 @@ public class StatisticsController {
     public ResponseEntity<PeakTimeAgeResponse> getPeakTimeAge(){
         return statisticsService.getPeakTimeAge();
     }
+
+    @Operation(summary = "codef 연동 전 데이터 삽입용임", description = "건들지마시오")
+    @GetMapping("/testinsert")
+    public String insertData(){return service.saveCardHistories();}
+
+    @Operation(summary = "개인 소비 통계", description = "지난달 소비 내역과 업종 분석, 일자별 소비 금액 합계")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "(message : \"Success\", code : 200)",
+                    content = @Content(schema = @Schema(implementation = MyConsumptionResponse.class)))
+    })
+    @GetMapping("/consumption")
+    public ResponseEntity<MyConsumptionResponse> getConsumption(){return statisticsService.getMyConsumption();}
 }
