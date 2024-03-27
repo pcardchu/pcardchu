@@ -61,7 +61,9 @@ public class UserServiceImpl implements UserService{
                     .nickname(kakaoPayloadDto.getNickname())
                     .provider("kakao")
                     .identifier("kakao_"+kakaoPayloadDto.getSub())
-                    .role("ROLE_USER").build();
+                    .role("ROLE_USER")
+                    .flagBiometrics(0)
+                    .pwWrongCount(0).build();
             userRepository.save(user);
 
             result.put("flag_basicInfo", false);

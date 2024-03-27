@@ -63,7 +63,7 @@ public class UserController {
     @Operation(summary = "JWT 재발급", description = "1차 또는 2차 리프레시 토큰을 받아 JWT 재발급")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "JWT 재발급 성공"),
-            @ApiResponse(responseCode = "400", description = "JWT 재발급 실패") })
+            @ApiResponse(responseCode = "404", description = "JWT 재발급 실패 - 리프레시 토큰 만료")})
     @PatchMapping("/refresh")
     public ResponseEntity<?> reissueToken(@RequestBody TokenReissueReq tokenReissueReq){
 

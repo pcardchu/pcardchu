@@ -42,7 +42,6 @@ public class User {
     private String identifier;
     @Column(nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'role'")
     private String role;
-    @Column(nullable = false, columnDefinition = "VARCHAR(255) DEFAULT 'firstRefreshToken'")
     private String firstRefreshToken;
     private String secondRefreshToken;
 
