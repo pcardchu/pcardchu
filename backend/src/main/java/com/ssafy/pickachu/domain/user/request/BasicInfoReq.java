@@ -1,14 +1,13 @@
-package com.ssafy.pickachu.domain.user.dto;
+package com.ssafy.pickachu.domain.user.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.sql.Date;
 
-@Schema(description = "초기 정보 수정에 대한 요청 DTO")
+@Schema(description = "초기 정보 입력에 대한 요청 DTO")
 @Data
-public class BasicInfoDto {
+public class BasicInfoReq {
 
 	@Schema(example = "M")
 	private String gender;

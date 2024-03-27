@@ -33,7 +33,7 @@ public class FirstJwtFilter extends OncePerRequestFilter {
 
         String requestUri = request.getRequestURI();
 
-        if (!requestUri.equals("/api/user/basic-info")){
+        if (!requestUri.equals("/api/user/basic-info") && !requestUri.equals("/api/user/login/password")){
             filterChain.doFilter(request, response);
             return;
         }
@@ -51,7 +51,7 @@ public class FirstJwtFilter extends OncePerRequestFilter {
         String token = jwtHeader.replace("Bearer ", "");
 
         try {
-            jwtUtil.validateToken(token, true);
+            jwtUtil.validateAccessToken(token, true);
         }
         catch (ExpiredJwtException e){
             exceptionUtil.setErrorResponse(response, ErrorCode.EXPIRED_TOKEN);
@@ -74,7 +74,7 @@ public class FirstJwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        Long id = jwtUtil.getId(token, true);
+        Long id = jwtUtil.getIdFromAccessToken(token, true);
         String role = jwtUtil.getRole(token, true);
 
         if (id != null){

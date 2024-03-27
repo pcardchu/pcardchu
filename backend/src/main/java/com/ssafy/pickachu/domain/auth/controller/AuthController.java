@@ -25,7 +25,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "테스트 성공", content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<?> test1(){
-        String jwt = jwtUtil.createJwt(1L, 60*60*60L, true);
+        String jwt = jwtUtil.createJwtForAccess(1L, true);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 
@@ -35,7 +35,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "테스트 성공", content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<?> test2(){
-        String jwt = jwtUtil.createJwt(1L, 60*60*60L, false);
+        String jwt = jwtUtil.createJwtForAccess(1L, false);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 
