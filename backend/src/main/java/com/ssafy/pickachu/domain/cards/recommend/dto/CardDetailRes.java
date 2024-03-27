@@ -5,13 +5,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 public class CardDetailRes {
-    /** TODO 피그마 보고 만들어야함
-     내일 피그마보고 만들자 이것은
 
-     **/
-
+    String cardId;
+    String cardImg;
+    String cardName;
+    String company;
+    String registrationUrl;
+    List<String> tag;
+    List<ArrayList<String>> benefits;
 }
