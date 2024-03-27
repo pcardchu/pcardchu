@@ -5,6 +5,7 @@ import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:provider/provider.dart';
 
+/// 소비 - 카드 추천 탭의 카드 위젯
 class RecommendCard extends StatelessWidget {
   // 카테고리 인덱스
   final int categoryIndex;

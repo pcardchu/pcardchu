@@ -12,6 +12,7 @@ class CardListWg extends StatefulWidget {
 }
 
 class _CardListWgState extends State<CardListWg> {
+
   @override
   Widget build(BuildContext context) {
     // 로딩 플래그, true면 로딩중

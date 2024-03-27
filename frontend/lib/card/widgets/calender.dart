@@ -45,12 +45,12 @@ class Calender extends StatelessWidget {
               weekdayStyle: AppFonts.suit(
                   fontSize: 15,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.calenderGrey),
+                  color: AppColors.grey),
               // 주말 컬럼 텍스트 스타일 수정
               weekendStyle: AppFonts.suit(
                   fontSize: 15,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.calenderGrey),
+                  color: AppColors.grey),
             ),
             // 캘린더 스타일
             calendarStyle: CalendarStyle(

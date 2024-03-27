@@ -44,6 +44,7 @@ class _CardListState extends State<CardList> {
         scrolledUnderElevation: 0,
       ),
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             // 윗 페이지

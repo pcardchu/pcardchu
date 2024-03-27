@@ -32,8 +32,15 @@ class _ConsumptionTapbarState extends State<ConsumptionTapbar>
     super.dispose();
   }
 
-  /// 라벨 텍스트 스타일
+  /// 현재 라벨 텍스트 스타일
   TextStyle tabTextStyle = AppFonts.scDream(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textBlack,
+  );
+
+  /// 선택 안 된 라벨 텍스트 스타일
+  TextStyle noTabTextStyle = AppFonts.scDream(
     fontSize: 20,
     fontWeight: FontWeight.w600,
     color: AppColors.textBlack,
@@ -50,13 +57,16 @@ class _ConsumptionTapbarState extends State<ConsumptionTapbar>
             indicatorColor: AppColors.mainBlue,
             indicatorWeight: 3,
             indicatorSize: TabBarIndicatorSize.tab,
+            labelColor: AppColors.textBlack,
+            labelStyle: tabTextStyle,
+            unselectedLabelColor: AppColors.lightGrey,
+            unselectedLabelStyle: noTabTextStyle,
             // 탭바 라벨
             tabs: [
               Column(
                 children: [
                   Text(
                     '내 소비',
-                    style: tabTextStyle,
                   ),
                   const SizedBox(height: 8),
                 ],
@@ -65,7 +75,6 @@ class _ConsumptionTapbarState extends State<ConsumptionTapbar>
                 children: [
                   Text(
                     '카드 추천',
-                    style: tabTextStyle,
                   ),
                   const SizedBox(height: 8),
                 ],
