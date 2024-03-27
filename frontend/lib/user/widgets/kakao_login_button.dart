@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
-import 'package:frontend/animations/fade_transition_page_route.dart';
-import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
-import 'package:frontend/user/screens/password_screen.dart';
 import 'package:frontend/user/screens/registration_intro_screen.dart';
 import 'package:provider/provider.dart';
 
-///카카오 로그인 버튼 위젯
-class KakaoLoginButton extends StatelessWidget {
+/// 카카오 로그인 버튼 위젯
+class KakaoLoginButton extends StatefulWidget {
+  @override
+  _KakaoLoginButtonState createState() => _KakaoLoginButtonState();
+}
+
+class _KakaoLoginButtonState extends State<KakaoLoginButton> {
+  bool _isLoggingIn = false; // 로그인 진행 중인지 확인하는 변수
+
   @override
   Widget build(BuildContext context) {
     LoginProvider provider = Provider.of<LoginProvider>(context, listen: false);
@@ -21,16 +25,19 @@ class KakaoLoginButton extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // 패딩 조정
       ),
-      onPressed: () async {
-        if(!await provider.login()) {
+      onPressed: _isLoggingIn ? null : () async { // _isLoggingIn이 true면 onPressed를 null로 설정하여 클릭 무시
+        setState(() {
+          _isLoggingIn = true; // 로그인 시도 상태로 설정
+        });
+
+        if (!await provider.login()) {
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("잠시 후 다시 시도해주세요", textAlign: TextAlign.center,))
+              const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,))
           );
         }
 
-        // 로그인 작업이 완료된 후에 isLoggedIn 상태를 체크
-        if(provider.isFirst) {
-          //회원가입 화면
+        if (provider.isFirst) {
+          // 회원가입 화면으로 이동
           Navigator.pushReplacement(
               context,
               FadeAndSlideTransitionPageRoute(
@@ -38,17 +45,20 @@ class KakaoLoginButton extends StatelessWidget {
                 duration: const Duration(milliseconds: 130),
               )
           );
-        }
-        else if (provider.isLoggedIn) {
-          // isLoggedIn이 true인 경우, PasswordScreen으로 이동
+        } else if (provider.isLoggedIn) {
+          // PasswordScreen으로 이동
           Navigator.pushReplacement(
-            context,
+              context,
               FadeAndSlideTransitionPageRoute(
-                  page: RegistrationIntroScreen(),
-                  duration: const Duration(milliseconds: 130),
+                page: RegistrationIntroScreen(),
+                duration: const Duration(milliseconds: 130),
               )
           );
         }
+
+        setState(() {
+          _isLoggingIn = false; // 로그인 시도 상태 해제
+        });
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +71,7 @@ class KakaoLoginButton extends StatelessWidget {
               fontSize: 16.0, // 텍스트 크기
             ),
           ),
-          SizedBox(),
+          Opacity(opacity: 0.0, child: Image.asset('assets/images/kakao_logo.png', height: 20.0)), // 공간을 맞추기 위한 투명 이미지
         ],
       ),
     );

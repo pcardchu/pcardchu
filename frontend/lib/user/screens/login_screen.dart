@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
               },
               child: Text('HOME'),
             ),
-            Container(
+            SizedBox(
               width: ScreenUtil.w(70),
               child: KakaoLoginButton(),
             ),
