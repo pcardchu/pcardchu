@@ -29,7 +29,8 @@ class _CardDetailState extends State<CardDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    // 처음 한번만 로딩 모달 띄우기
+    WidgetsBinding.instance.addPostFrameCallback((_) => showLoadingModal());
     loadData();
   }
 
@@ -67,7 +68,7 @@ class _CardDetailState extends State<CardDetail> {
         // 로딩중 이거나 값이 없을 경우 로딩 표시
         child: loading || card == null
             // 로딩중 일 때
-            ? LoadingModal()
+            ? Container()
             // 로딩 끝났을 때
             // 스크롤 가능하게
             : SingleChildScrollView(
@@ -108,6 +109,8 @@ class _CardDetailState extends State<CardDetail> {
   Future<void> loadData() async {
     final cardProvider = context.read<CardProvider>();
     await cardProvider.getCardsDetail(widget.cardId);
+    // 데이터를 다 불러왔으니 로딩 모달 끄기
+    Navigator.of(context).pop();
   }
 
   /// 하단 고정 카드 신청 버튼 함수
@@ -125,7 +128,7 @@ class _CardDetailState extends State<CardDetail> {
   }
 
   /// 로딩중일때 보여지는 모달
-  void showLoadingModal() {
+  Future<void> showLoadingModal() async{
     showGeneralDialog(
       context: context,
       pageBuilder: (BuildContext context, Animation<double> animation,
