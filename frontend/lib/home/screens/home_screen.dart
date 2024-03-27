@@ -8,6 +8,9 @@ import 'package:frontend/home/widgets/CosumeDifferCard.dart';
 import 'package:frontend/home/widgets/TopThreePopularCard.dart';
 import 'package:frontend/home/widgets/ToRegisterCard.dart';
 import 'package:frontend/home/widgets/TimeAnalyzeCard.dart';
+import 'package:provider/provider.dart';
+
+import 'package:frontend/providers/card_list_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,14 +20,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Widget> items = [
-    TopThreeConsumeCard(),
-    ToListCard(),
-    ConsumeDifferCard(),
-    TopThreePopularCard(),
-    ToRegisterCard(),
-    TimeAnalyzeCard(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    /// 위젯 트리가 완전히 만들어졌을 때 호출되도록
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CardListProvider>(context, listen: false).checkUserCards();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,30 +39,53 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.mainWhite,
       body: SafeArea(
         child: Center(
-            child: Container(
-          width: ScreenUtil.w(90),
-          child: ListView.separated(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              // 아이템 빌더
-              return items[index];
-            },
-            separatorBuilder: (context, index) => VerticalSpace(), // 간격을 설정해줍니다
+          child: Container(
+            width: ScreenUtil.w(90),
+            child: Consumer<CardListProvider>(
+              builder: (context, provider, child) {
+                final items = _createItemList(provider.isCardRegistered);
+                return ListView.separated(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => items[index],
+                  separatorBuilder: (context, index) => const VerticalSpace(),
+                );
+              },
+            ),
           ),
-        )),
+        ),
       ),
     );
+  }
+
+  List<Widget> _createItemList(bool isCardRegistered) {
+    List<Widget> items = [
+      TopThreeConsumeCard(),
+      ToListCard(),
+      TopThreePopularCard(),
+    ];
+
+    if (isCardRegistered) {
+      items.addAll([
+        ConsumeDifferCard(),
+        TimeAnalyzeCard(),
+      ]);
+    } else {
+      items.add(ToRegisterCard());
+    }
+
+    items.add(const VerticalSpace());
+    return items;
   }
 }
 
 class VerticalSpace extends StatelessWidget {
   final double? height;
 
-  const VerticalSpace({this.height});
+  const VerticalSpace({super.key, this.height});
 
   @override
   Widget build(BuildContext context) {
-    final double finalHeight = height ?? ScreenUtil.h(1); // 기본값을 10.h로 설정합니다.
+    final double finalHeight = height ?? ScreenUtil.h(1);
     return SizedBox(height: finalHeight);
   }
 }
