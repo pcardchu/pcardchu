@@ -1,6 +1,8 @@
 package com.ssafy.pickachu.domain.cards.personalcards.controller;
 
 import com.ssafy.pickachu.domain.cards.personalcards.service.PersonalCardsService;
+import com.ssafy.pickachu.global.result.SuccessCode;
+import com.ssafy.pickachu.global.result.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,8 @@ public class PersonalCardsController {
     @Operation(summary = "내 카드 리스트 조회")
     @GetMapping("api/cards/my-cards")
     public ResponseEntity<Object> getMyCardsList(){
-        return ResponseEntity.status(HttpStatus.FOUND).body(
-            personalCardsService.GetPersonalCardsList());
+        return ResponseEntity.ok(SuccessResponse
+            .of(SuccessCode.PERSONAL_CARDS_LIST_SUCCESS,
+                personalCardsService.GetPersonalCardsList()));
     }
 }
