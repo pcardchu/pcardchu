@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/home/screens/bottom_nav_screen.dart';
-import 'package:frontend/home/screens/home_screen_second.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/password_screen.dart';
 import 'package:frontend/user/widgets/kakao_login_button.dart';

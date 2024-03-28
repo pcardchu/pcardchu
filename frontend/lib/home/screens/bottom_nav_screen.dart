@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
-import 'package:frontend/home/screens/home_screen_second.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/card/widgets/registration_modal.dart';
 import 'package:frontend/chart/screens/expense_analytics_screen.dart';
