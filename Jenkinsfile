@@ -14,15 +14,6 @@ pipeline {
             }
         }
 
-        stage('Clean Build'){
-            steps {
-                dir('backend'){
-                    sh 'chmod +x ./gradlew'
-                    sh './gradlew clean'
-                }
-            }
-        }
-
         stage('Checkout') {
             steps {
                 checkout scm
