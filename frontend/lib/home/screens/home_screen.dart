@@ -62,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
       TopThreeConsumeCard(),
       ToListCard(),
       TopThreePopularCard(),
+      ConsumeDifferCard(),
+      TimeAnalyzeCard(),
     ];
 
     if (isCardRegistered) {

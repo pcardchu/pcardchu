@@ -5,9 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_slide_animation.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
-import 'package:frontend/home/screens/home_screen_second.dart';
 import 'package:frontend/user/screens/login_screen.dart';
-import 'package:frontend/user/screens/scond_screen.dart';
+import 'package:frontend/user/screens/registration_intro_screen.dart';
+import 'package:frontend/user/screens/second_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
@@ -58,13 +58,14 @@ class _ThirdScreenState extends State<ThirdScreen> {
                 width: ScreenUtil.w(85),
                 child: ElevatedButton(
                   onPressed: (){
-                    Navigator.of(context).push(
-                        SlideTransitionPageRoute(
+                    Navigator.of(context).pushAndRemoveUntil(
+                      SlideTransitionPageRoute(
                         page: LoginScreen(),
                         beginOffset: const Offset(1, 0),
                         transitionDuration: const Duration(milliseconds: 350),
                         reverseTransitionDuration: const Duration(milliseconds: 350)
-                    )
+                      ),
+                      (Route<dynamic> route) => false,
                     );
                   },
                   child: Text('사용하러 가기'),

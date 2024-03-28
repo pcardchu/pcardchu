@@ -6,19 +6,19 @@ import 'package:frontend/animations/fade_slide_animation.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/user/screens/login_screen.dart';
-import 'package:frontend/user/screens/second_screen.dart';
+import 'package:frontend/user/screens/third_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 
-class IntroScreen extends StatefulWidget {
-  const IntroScreen({super.key});
+class SecondScreen extends StatefulWidget {
+  const SecondScreen({super.key});
 
   @override
-  State<IntroScreen> createState() => _IntroScreenState();
+  State<SecondScreen> createState() => _SecondScreenState();
 }
 
-class _IntroScreenState extends State<IntroScreen> {
+class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,17 +34,17 @@ class _IntroScreenState extends State<IntroScreen> {
               children: [
                 Container(
                   height: ScreenUtil.h(18),
-                  child: Image.asset("assets/images/intro_chat_bubble.png"),
+                  child: Image.asset("assets/images/intro_chart.png"),
                 ),
                 SizedBox(height: ScreenUtil.h(2.5),),
                 Text(
-                  "지갑 속 내 카드 \n잘 쓰는지 궁금해요",
+                  "나는 어떤 소비를\n하는 사람일까?",
                   textAlign: TextAlign.center,
                   style: AppFonts.scDream(fontSize: 28, fontWeight: FontWeight.w700),
                 ),
                 SizedBox(height: ScreenUtil.h(1.5),),
                 Text(
-                  "카드별 혜택 비교",
+                  "개인 소비패턴 분석",
                   style: AppFonts.suit(fontSize: 14,fontWeight: FontWeight.w600, color: AppColors.lightGrey),
                 )
               ],
@@ -59,7 +59,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   onPressed: (){
                     Navigator.of(context).push(
                         SlideTransitionPageRoute(
-                        page: const SecondScreen(),
+                        page: const ThirdScreen(),
                         beginOffset: const Offset(1, 0),
                         transitionDuration: const Duration(milliseconds: 350),
                         reverseTransitionDuration: const Duration(milliseconds: 350)

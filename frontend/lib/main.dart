@@ -4,6 +4,7 @@ import 'package:frontend/providers/card_list_provider.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
+import 'package:frontend/providers/user_info_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:frontend/user/screens/splash_screen.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => PasswordProvider()),
         ChangeNotifierProvider(create: (context) => CardProvider()),
+        ChangeNotifierProvider(create: (_) => UserInfoProvider()),
         ChangeNotifierProvider(create: (context) => ConsumptionProvider()),
         ChangeNotifierProvider(create: (context) => CardListProvider()),
       ],
