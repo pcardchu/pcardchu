@@ -29,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
+    // bool _seen = false;
 
     if (!_seen) {
       await prefs.setBool('seen', true);
