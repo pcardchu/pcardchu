@@ -1,20 +1,19 @@
 package com.ssafy.pickachu.domain.statistics.serviceImpl;
 
+import com.ssafy.pickachu.domain.auth.PrincipalDetails;
 import com.ssafy.pickachu.domain.statistics.dto.CalendarAmount;
 import com.ssafy.pickachu.domain.statistics.dto.Category;
 import com.ssafy.pickachu.domain.statistics.dto.MyConsumption;
 import com.ssafy.pickachu.domain.statistics.dto.Top3Category;
-import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
-import com.ssafy.pickachu.domain.statistics.entity.MyConsumptionEntity;
-import com.ssafy.pickachu.domain.statistics.repository.CardHistoryEntityRepository;
-import com.ssafy.pickachu.domain.statistics.repository.MyConsumptionEntityRepository;
-import com.ssafy.pickachu.domain.statistics.response.MyConsumptionResponse;
-import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeResponse;
-import com.ssafy.pickachu.domain.statistics.response.Top3CategoryResponse;
-import com.ssafy.pickachu.domain.statistics.entity.PeakTimeAgeEntity;
-import com.ssafy.pickachu.domain.statistics.entity.Top3CategoryEntity;
-import com.ssafy.pickachu.domain.statistics.repository.PeakTimeAgeEntityRepository;
-import com.ssafy.pickachu.domain.statistics.repository.Top3CategoryEntityRepository;
+import com.ssafy.pickachu.domain.statistics.entity.*;
+import com.ssafy.pickachu.domain.statistics.exception.UserInfoUnavailableException;
+import com.ssafy.pickachu.domain.statistics.repository.*;
+import com.ssafy.pickachu.domain.statistics.response.AverageComparisonRes;
+import com.ssafy.pickachu.domain.statistics.response.MyConsumptionRes;
+import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeRes;
+import com.ssafy.pickachu.domain.statistics.response.Top3CategoryRes;
+import com.ssafy.pickachu.domain.user.entity.User;
+import com.ssafy.pickachu.domain.user.repository.UserRepository;
 import com.ssafy.pickachu.global.util.CommonUtil;
 import com.ssafy.pickachu.global.util.IndustryCode;
 import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
@@ -33,12 +32,14 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final PeakTimeAgeEntityRepository peakTimeAgeEntityRepository;
     private final MyConsumptionEntityRepository myConsumptionEntityRepository;
     private final CardHistoryEntityRepository cardHistoryEntityRepository;
+    private final AverageAmountEntityRepository averageAmountEntityRepository;
+    private final UserRepository userRepository;
     private final IndustryCode code = IndustryCode.getInstance();
     private final Calendar calendar = Calendar.getInstance();
     CommonUtil commonUtil = new CommonUtil();
 
     @Override
-    public ResponseEntity<Top3CategoryResponse> getTop3Categories() {
+    public ResponseEntity<Top3CategoryRes> getTop3Categories() {
         List<Top3CategoryEntity> top3categories =  top3CategoryEntityRepository.findAll();
         Collections.sort(top3categories);
 
@@ -61,7 +62,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         List<Top3Category> values = hm.values().stream().toList();
 
-        Top3CategoryResponse response = Top3CategoryResponse
+        Top3CategoryRes response = Top3CategoryRes
                 .createTop3CategoryResponse(
                         HttpStatus.OK.value(), "Success", values
                 );
@@ -71,7 +72,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public ResponseEntity<PeakTimeAgeResponse> getPeakTimeAge() {
+    public ResponseEntity<PeakTimeAgeRes> getPeakTimeAge() {
         List<PeakTimeAgeEntity> datas = peakTimeAgeEntityRepository.findAll();
         int currentTime = calendar.get(Calendar.HOUR_OF_DAY);
 
@@ -83,7 +84,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             }
         }
 
-        PeakTimeAgeResponse response = PeakTimeAgeResponse
+        PeakTimeAgeRes response = PeakTimeAgeRes
                 .createPeakTimeAgeResponse(
                         HttpStatus.OK.value(), "Success", age
                 );
@@ -91,9 +92,12 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public ResponseEntity<MyConsumptionResponse> getMyConsumption() {
+    public ResponseEntity<MyConsumptionRes> getMyConsumption(PrincipalDetails principalDetails) {
 
-        List<MyConsumptionEntity> datas = myConsumptionEntityRepository.findMyConsumptionById(1);
+        Long userid = principalDetails.getUserDto().getId();
+        Optional<User> user = userRepository.findById(userid);
+
+        List<MyConsumptionEntity> datas = myConsumptionEntityRepository.findMyConsumptionById(Math.toIntExact(userid));
         Collections.sort(datas);
 
         String thisMonth = commonUtil.getCurrentYearAndMonth();
@@ -128,17 +132,58 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         // 수정 예정
         MyConsumption data = new MyConsumption();
-        data.setUserName("옹곤");
+        data.setUserName(user.get().getNickname());
         data.setTotalAmount(lastTotalAmount);
         data.setAmountGap(currentTotalAmount-lastTotalAmount);
         data.setMainConsumption(mainConsumption);
         data.setThisMonthAmount(currentTotalAmount);
         data.setCalendar(calendarAmountList);
 
-        MyConsumptionResponse response = MyConsumptionResponse
+        MyConsumptionRes response = MyConsumptionRes
                 .createMyConsumptionResponse(
                         HttpStatus.OK.value(), "Success", data
                 );
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    @Override
+    public ResponseEntity<AverageComparisonRes> getAverageComparison(PrincipalDetails principalDetails) {
+
+        Long userid = principalDetails.getUserDto().getId();
+        Optional<User> user = userRepository.findById(userid);
+
+        Date userBirth = user.get().getBirth();
+        String userGender = user.get().getGender();
+
+        if(userBirth == null || userGender == null) throw new UserInfoUnavailableException("성별 또는 나이가 입력되지 않아 통계 정보를 제공할 수 없습니다.");
+        String userAgeGroup = commonUtil.calculateAge(userBirth);
+
+
+        List<MyConsumptionEntity> historyDatas = myConsumptionEntityRepository.findMyConsumptionById(1);
+        int totalAmount = 0;
+        String lastMonth = commonUtil.getLastYearAndMonth();
+        for(MyConsumptionEntity history : historyDatas){
+            if(history.getDate().equals(lastMonth)) totalAmount += history.getTotalAmount();
+        }
+
+        totalAmount = totalAmount/historyDatas.size();
+
+        int average = 0;
+        List<AverageAmountEntity> totalDatas = averageAmountEntityRepository.findAll();
+        for(AverageAmountEntity total : totalDatas){
+            if(total.getAge().equals(userAgeGroup) && total.getGender().equals(userGender)){
+                average = total.getAverage();
+                break;
+            }
+        }
+
+        int data = (int)(((double)(totalAmount - average) / average) * 100);
+
+        AverageComparisonRes response = AverageComparisonRes.createPeakTimeAgeResponse(
+                HttpStatus.OK.value(), "Success", data
+        );
 
         return ResponseEntity.ok(response);
     }

@@ -1,25 +1,22 @@
 package com.ssafy.pickachu.domain.statistics.response;
 
-import com.ssafy.pickachu.domain.statistics.dto.Top3Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
-public class Top3CategoryResponse {
+public class AverageComparisonRes {
     @Schema(description = "상태 코드", example = "200")
-    private int code;
+    private int status;
     @Schema(description = "상태 메세지", example = "Success")
     private String message;
     @Schema(description = "데이터")
-    public List<Top3Category> data;
+    public int data;
 
-    public static Top3CategoryResponse createTop3CategoryResponse(int code, String message, List<Top3Category> data){
-        return Top3CategoryResponse.builder()
-                .code(code)
+    public static AverageComparisonRes createPeakTimeAgeResponse(int code, String message, int data){
+        return AverageComparisonRes.builder()
+                .status(code)
                 .message(message)
                 .data(data)
                 .build();
