@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/api/cards")
+@RequestMapping("/cards")
 @RequiredArgsConstructor
 @Tag(name="CardsController", description = "내 카드 관련 api")
 public class PersonalCardsController {
@@ -30,7 +30,7 @@ public class PersonalCardsController {
 
 
     @Operation(summary = "내 카드 리스트 조회")
-    @GetMapping("/cards/my-cards")
+    @GetMapping("/my-cards")
     public ResponseEntity<SuccessResponse> getMyCardsList(){
         return ResponseEntity.ok(SuccessResponse
             .of(SuccessCode.PERSONAL_CARDS_LIST_SUCCESS,
