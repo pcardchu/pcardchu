@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/app_fonts.dart';
+import 'package:frontend/utils/screen_util.dart';
 
 /// 카드 리스트 - 윗쪽 메인화면입니다.
 class CardListTop extends StatelessWidget {
@@ -39,9 +40,12 @@ class CardListTop extends StatelessWidget {
               color: Color(0xff26282B),
             ),
           ),
-          SizedBox(height: 48.0),
-          Image.asset('assets/images/card_list_card_logo.png'),
-          SizedBox(height: 78.0),
+          SizedBox(height: 90.0),
+          Image.asset('assets/images/list_card_logo.png',
+            width: ScreenUtil.w(72),
+            fit: BoxFit.contain
+          ),
+          SizedBox(height: 100.0),
           // 스크롤 이동 버튼
           GestureDetector(
             child: Column(
@@ -55,7 +59,8 @@ class CardListTop extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12.0),
-                Image.asset('assets/images/scroll_down_logo.png'),
+                Image.asset('assets/images/scroll_down_logo.png'
+                ),
               ],
             ),
             onTap: () {
