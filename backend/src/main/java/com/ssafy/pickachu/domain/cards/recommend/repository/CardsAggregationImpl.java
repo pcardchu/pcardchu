@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class CardsAggregationImpl implements CardsAggregation {
@@ -26,7 +27,7 @@ public class CardsAggregationImpl implements CardsAggregation {
 
     @Override
     public CardsListPage GetCardsCategoryList(CardsListReq cardsListReq, List<String> cardsRanking) {
-
+        log.info("TEST LOG  : " + cardsListReq.getPageNumber(), cardsListReq.getPageSize());
         Query query = new Query(Criteria.where("categories").in(cardsListReq.getCategory()));
         List<CardInfo> findCategoryCards = mongoTemplate.find(query, CardInfo.class);
 
