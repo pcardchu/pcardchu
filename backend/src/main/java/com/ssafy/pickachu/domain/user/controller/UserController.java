@@ -3,6 +3,7 @@ package com.ssafy.pickachu.domain.user.controller;
 import com.ssafy.pickachu.domain.auth.PrincipalDetails;
 import com.ssafy.pickachu.domain.user.request.*;
 import com.ssafy.pickachu.domain.user.response.TokenRes;
+import com.ssafy.pickachu.domain.user.response.UserInfoRes;
 import com.ssafy.pickachu.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -60,6 +61,24 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "생체 인증 로그인", description = "앱 내 생체 인증 로그인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공"),
+            @ApiResponse(responseCode = "400", description = "로그인 실패") })
+    @PostMapping("/login/bio")
+    public ResponseEntity<?> loginWithBio(@AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Long id = principalDetails.getUserDto().getId();
+
+        Map<String, Object> result = userService.loginWithBio(id);
+
+        if ((boolean) result.get("result")){
+            return new ResponseEntity<>(result.get("token"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @Operation(summary = "JWT 재발급", description = "1차 또는 2차 리프레시 토큰을 받아 JWT 재발급")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "JWT 재발급 성공"),
@@ -84,6 +103,40 @@ public class UserController {
         Long id = principalDetails.getUserDto().getId();
 
         boolean result = userService.updateBasicInfo(id, basicInfoReq);
+
+        if (result){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @Operation(summary = "회원 정보 조회", description = "마이페이지 회원 정보 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "회원 정보 조회 실패") })
+    @GetMapping("/info")
+    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Long id = principalDetails.getUserDto().getId();
+
+        UserInfoRes userInfoRes = userService.getUserInfo(id);
+
+        return new ResponseEntity<>(userInfoRes, HttpStatus.OK);
+
+    }
+
+    @Operation(summary = "생체 인증 사용 여부 수정", description = "앱 내 생체 인증 사용 여부 수정 - default: 0")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "400", description = "수정 실패") })
+    @PatchMapping("/flag-biometrics")
+    public ResponseEntity<?> updateFlagBiometrics(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody FlagBiometricsReq flagBiometricsReq){
+
+        Long id = principalDetails.getUserDto().getId();
+
+        boolean result = userService.updateFlagBiometrics(id, flagBiometricsReq.isFlagBiometrics());
 
         if (result){
             return new ResponseEntity<>(HttpStatus.OK);

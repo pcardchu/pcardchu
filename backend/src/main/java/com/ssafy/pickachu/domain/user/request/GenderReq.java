@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class GenderReq {
 	
-	@Schema(description = "성별", nullable = false, example = "M")
-	@NotEmpty(message = "성별을 입력해주세요. (M, F)")
+	@Schema(description = "성별", example = "남성")
+	@NotEmpty(message = "성별을 입력해주세요. (남성, 여성)")
 	private String gender;
 }

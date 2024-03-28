@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers( "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers( "/auth-test/**").permitAll()
                         .requestMatchers("/user/login/kakao", "/user/refresh").permitAll()
-                        .requestMatchers("/user/basic-info", "/user/login/password").hasAnyAuthority("ROLE_FIRST_AUTH")
+                        .requestMatchers("/user/basic-info", "/user/login/password", "/user/login/bio").hasAnyAuthority("ROLE_FIRST_AUTH")
                         .anyRequest().hasAnyAuthority("ROLE_SECOND_AUTH"));
 
         return http.build();

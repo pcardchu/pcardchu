@@ -9,7 +9,7 @@ import java.sql.Date;
 @Data
 public class BasicInfoReq {
 
-	@Schema(example = "M")
+	@Schema(example = "남성")
 	private String gender;
 	private Date birth;
 	private String shortPw;
