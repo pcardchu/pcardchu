@@ -92,9 +92,12 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public ResponseEntity<MyConsumptionRes> getMyConsumption() {
+    public ResponseEntity<MyConsumptionRes> getMyConsumption(PrincipalDetails principalDetails) {
 
-        List<MyConsumptionEntity> datas = myConsumptionEntityRepository.findMyConsumptionById(1);
+        Long userid = principalDetails.getUserDto().getId();
+        Optional<User> user = userRepository.findById(userid);
+
+        List<MyConsumptionEntity> datas = myConsumptionEntityRepository.findMyConsumptionById(Math.toIntExact(userid));
         Collections.sort(datas);
 
         String thisMonth = commonUtil.getCurrentYearAndMonth();
@@ -129,7 +132,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         // 수정 예정
         MyConsumption data = new MyConsumption();
-        data.setUserName("옹곤");
+        data.setUserName(user.get().getNickname());
         data.setTotalAmount(lastTotalAmount);
         data.setAmountGap(currentTotalAmount-lastTotalAmount);
         data.setMainConsumption(mainConsumption);

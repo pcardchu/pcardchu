@@ -59,7 +59,7 @@ public class StatisticsController {
                     content = @Content(schema = @Schema(implementation = MyConsumptionRes.class)))
     })
     @GetMapping("/consumption")
-    public ResponseEntity<MyConsumptionRes> getConsumption(){return statisticsService.getMyConsumption();}
+    public ResponseEntity<MyConsumptionRes> getConsumption(@AuthenticationPrincipal PrincipalDetails principalDetails){return statisticsService.getMyConsumption(principalDetails);}
 
     @Operation(summary = "내 또래와 나의 평균 결제금액 차이(%)", description = "지난달 소비내역 기준으로 비교함")
     @ApiResponses({

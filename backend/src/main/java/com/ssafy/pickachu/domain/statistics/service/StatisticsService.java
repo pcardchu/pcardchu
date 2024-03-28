@@ -14,7 +14,7 @@ public interface StatisticsService {
 
     ResponseEntity<PeakTimeAgeRes> getPeakTimeAge();
 
-    ResponseEntity<MyConsumptionRes> getMyConsumption();
+    ResponseEntity<MyConsumptionRes> getMyConsumption(@AuthenticationPrincipal PrincipalDetails principalDetails);
 
     ResponseEntity<AverageComparisonRes> getAverageComparison(@AuthenticationPrincipal PrincipalDetails principalDetails);
 }
