@@ -99,8 +99,17 @@ public class UserServiceImpl implements UserService{
 
         Map<String, Object> result = new HashMap<>();
 
-        if (user.getShortPw().equals(shortPw)){
+        if (user.getPwWrongCount() == 3){
+            result.put("result", false);
+            result.put("wrongCount", user.getPwWrongCount());
+        }else if (!user.getShortPw().equals(shortPw)){
+            user.setPwWrongCount(user.getPwWrongCount()+1);
+
+            result.put("result", false);
+            result.put("wrongCount", user.getPwWrongCount());
+        }else {
             result.put("result", true);
+            user.setPwWrongCount(0);
 
             String accessToken = jwtUtil.createJwtForAccess(user.getId(), false);
             String refreshToken = jwtUtil.createJwtForRefresh(user.getId(), false);
@@ -113,8 +122,6 @@ public class UserServiceImpl implements UserService{
                     ).build();
 
             result.put("token", tokenRes);
-        }else{
-            result.put("result", false);
         }
 
         return result;

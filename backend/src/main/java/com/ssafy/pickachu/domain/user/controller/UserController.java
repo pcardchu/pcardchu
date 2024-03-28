@@ -46,7 +46,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공"),
             @ApiResponse(responseCode = "400", description = "로그인 실패") })
-    @PatchMapping("/login/password")
+    @PostMapping("/login/password")
     public ResponseEntity<?> loginWithPassword(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody PasswordReq shortPw){
 
         Long id = principalDetails.getUserDto().getId();
@@ -56,7 +56,7 @@ public class UserController {
         if ((boolean) result.get("result")){
             return new ResponseEntity<>(result.get("token"), HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result.get("wrongCount"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -64,7 +64,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "JWT 재발급 성공"),
             @ApiResponse(responseCode = "404", description = "JWT 재발급 실패 - 리프레시 토큰 만료")})
-    @PatchMapping("/refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<?> reissueToken(@RequestBody TokenReissueReq tokenReissueReq){
 
         TokenRes tokenRes = userService.reissueToken(tokenReissueReq);

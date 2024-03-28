@@ -1,6 +1,7 @@
 package com.ssafy.pickachu.domain.auth.controller;
 
 import com.ssafy.pickachu.domain.auth.jwt.JwtUtil;
+import com.ssafy.pickachu.domain.auth.response.TestTokenRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,8 +26,10 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "테스트 성공", content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<?> test1(){
-        String jwt = jwtUtil.createJwtForAccess(1L, true);
-        return new ResponseEntity<>(jwt, HttpStatus.OK);
+        TestTokenRes tokenRes = TestTokenRes.builder()
+                .accessToken(jwtUtil.createJwtForAccess(1L, true))
+                .build();
+        return new ResponseEntity<>(tokenRes, HttpStatus.OK);
     }
 
     @GetMapping("/second")
@@ -35,8 +38,10 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "테스트 성공", content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<?> test2(){
-        String jwt = jwtUtil.createJwtForAccess(1L, false);
-        return new ResponseEntity<>(jwt, HttpStatus.OK);
+        TestTokenRes tokenRes = TestTokenRes.builder()
+                .accessToken(jwtUtil.createJwtForAccess(1L, false))
+                .build();
+        return new ResponseEntity<>(tokenRes, HttpStatus.OK);
     }
 
 }
