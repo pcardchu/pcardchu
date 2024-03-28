@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 public class MyConsumptionRes {
     @Schema(description = "상태 코드", example = "200")
-    private int code;
+    private int status;
     @Schema(description = "상태 메세지", example = "Success")
     private String message;
     @Schema(description = "데이터")
@@ -17,7 +17,7 @@ public class MyConsumptionRes {
 
     public static MyConsumptionRes createMyConsumptionResponse(int code, String message, MyConsumption data){
         return MyConsumptionRes.builder()
-                .code(code)
+                .status(code)
                 .message(message)
                 .data(data)
                 .build();

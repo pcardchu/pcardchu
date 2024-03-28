@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 public class AverageComparisonRes {
     @Schema(description = "상태 코드", example = "200")
-    private int code;
+    private int status;
     @Schema(description = "상태 메세지", example = "Success")
     private String message;
     @Schema(description = "데이터")
@@ -16,7 +16,7 @@ public class AverageComparisonRes {
 
     public static AverageComparisonRes createPeakTimeAgeResponse(int code, String message, int data){
         return AverageComparisonRes.builder()
-                .code(code)
+                .status(code)
                 .message(message)
                 .data(data)
                 .build();

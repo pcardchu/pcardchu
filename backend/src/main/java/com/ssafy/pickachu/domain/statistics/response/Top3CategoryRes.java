@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public class Top3CategoryRes {
     @Schema(description = "상태 코드", example = "200")
-    private int code;
+    private int status;
     @Schema(description = "상태 메세지", example = "Success")
     private String message;
     @Schema(description = "데이터")
@@ -19,7 +19,7 @@ public class Top3CategoryRes {
 
     public static Top3CategoryRes createTop3CategoryResponse(int code, String message, List<Top3Category> data){
         return Top3CategoryRes.builder()
-                .code(code)
+                .status(code)
                 .message(message)
                 .data(data)
                 .build();

@@ -26,7 +26,7 @@ public class StatisticsErrorHandler {
     // 에러 메시지와 에러 코드를 JSON으로 변환하는 메서드
     public String stringToGson(int errorCode, String message) {
         Map<String, String> response = new HashMap<>();
-        response.put("code", String.valueOf(errorCode));
+        response.put("status", String.valueOf(errorCode));
         response.put("message", message);
         return gson.toJson(response);
     }
