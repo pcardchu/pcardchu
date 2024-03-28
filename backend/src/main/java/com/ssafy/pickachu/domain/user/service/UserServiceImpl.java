@@ -1,6 +1,7 @@
 package com.ssafy.pickachu.domain.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.pickachu.domain.user.dto.UserInfoDto;
 import com.ssafy.pickachu.domain.user.exception.TokenNotMatchedException;
 import com.ssafy.pickachu.domain.user.request.BasicInfoReq;
 import com.ssafy.pickachu.domain.user.request.IdTokenReq;
@@ -12,6 +13,7 @@ import com.ssafy.pickachu.domain.auth.jwt.JwtUtil;
 import com.ssafy.pickachu.domain.user.request.PasswordReq;
 import com.ssafy.pickachu.domain.user.request.TokenReissueReq;
 import com.ssafy.pickachu.domain.user.response.TokenRes;
+import com.ssafy.pickachu.domain.user.response.UserInfoRes;
 import com.ssafy.pickachu.global.exception.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -128,6 +130,34 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Map<String, Object> loginWithBio(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if (user.getFlagBiometrics() == 0){
+            result.put("result", false);
+        }else {
+            result.put("result", true);
+
+            String accessToken = jwtUtil.createJwtForAccess(user.getId(), false);
+            String refreshToken = jwtUtil.createJwtForRefresh(user.getId(), false);
+
+            user.setSecondRefreshToken(refreshToken);
+
+            TokenRes tokenRes = TokenRes.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken
+                    ).build();
+
+            result.put("token", tokenRes);
+        }
+
+        return result;
+    }
+
+    @Override
     public TokenRes reissueToken(TokenReissueReq tokenReissueReq) {
 
         String token = tokenReissueReq.getRefreshToken();
@@ -172,7 +202,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public boolean updateBasicInfo(Long id, BasicInfoReq basicInfoReq) {
-        if (!basicInfoReq.getGender().equals("M") && !basicInfoReq.getGender().equals("F")){
+        if (!basicInfoReq.getGender().equals("남성") && !basicInfoReq.getGender().equals("여성")){
             return false;
         }else{
             User user = userRepository.findById(id)
@@ -184,6 +214,27 @@ public class UserServiceImpl implements UserService{
 
             return true;
         }
+    }
+
+    @Override
+    public UserInfoRes getUserInfo(Long id) {
+        UserInfoDto userInfoDto = userRepository.getUserInfo(id);
+        return userInfoDto.toUserInfoRes();
+    }
+
+    @Transactional
+    @Override
+    public boolean updateFlagBiometrics(Long id, boolean flagBiometrics) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        if (flagBiometrics){
+            user.setFlagBiometrics(1);
+        }else {
+            user.setFlagBiometrics(0);
+        }
+
+        return true;
     }
 
     @Transactional
@@ -199,7 +250,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public boolean updateGender(Long id, String gender) {
-        if (!gender.equals("M") && !gender.equals("F")){
+        if (!gender.equals("남성") && !gender.equals("여성")){
             return false;
         }else{
             User user = userRepository.findById(id)

@@ -38,6 +38,7 @@ public class SecondJwtFilter extends OncePerRequestFilter {
                 || requestUri.equals("/api/user/login/kakao")
                 || requestUri.equals("/api/user/basic-info")
                 || requestUri.equals("/api/user/login/password")
+                || requestUri.equals("/api/user/login/bio")
                 || requestUri.equals("/api/user/refresh")){
             filterChain.doFilter(request, response);
             return;
