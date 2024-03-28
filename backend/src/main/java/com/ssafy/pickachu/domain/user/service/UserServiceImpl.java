@@ -20,6 +20,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -69,11 +71,14 @@ public class UserServiceImpl implements UserService{
             userRepository.save(user);
 
             result.put("flag_basicInfo", false);
+            log.info("신규 유저, 추가 정보 없음");
         }else{
             if (user.getShortPw() == null){
                 result.put("flag_basicInfo", false);
+                log.info("기존 유저, 추가 정보 없음");
             }
             result.put("flag_basicInfo", true);
+            log.info("기존 유저, 추가 정보 있음");
         }
 
         String accessToken = jwtUtil.createJwtForAccess(user.getId(), true);
@@ -211,6 +216,8 @@ public class UserServiceImpl implements UserService{
             user.setGender(basicInfoReq.getGender());
             user.setBirth(basicInfoReq.getBirth());
             user.setShortPw(basicInfoReq.getShortPw());
+
+            log.info("추가 정보 입력 완료");
 
             return true;
         }
