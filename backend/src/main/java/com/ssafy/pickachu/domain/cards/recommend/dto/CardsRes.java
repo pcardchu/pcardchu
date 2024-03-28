@@ -11,10 +11,8 @@ import java.util.List;
 @Setter
 @Builder
 public class CardsRes {
-    private String id;
+    private String cardId;
     private String cardName;
-    private String imageUrl;
-    private String simpleBenefit;
-
-
+    private String cardImg;
+    private String cardContent;
 }
