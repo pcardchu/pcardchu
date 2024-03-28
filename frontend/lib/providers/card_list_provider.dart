@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/card/models/card_info_model.dart';
+import 'package:frontend/home/models/card_info_model.dart';
 
-import 'package:frontend/card/services/card_list_service.dart';
+import 'package:frontend/home/services/card_list_service.dart';
 
 class CardListProvider with ChangeNotifier {
   /// 등록한 카드 리스트
