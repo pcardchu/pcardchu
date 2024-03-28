@@ -17,7 +17,7 @@ class AppTheme {
         // 추가적으로 필요한 텍스트 스타일을 여기에 정의할 수 있습니다.
       ),
 
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         iconTheme: IconThemeData(
           color: AppColors.mainBlue, // AppBar 아이콘 색상
         ),
@@ -37,6 +37,23 @@ class AppTheme {
       //elevatedButton
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: _commonButtonStyle(),
+      ),
+
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: AppColors.mainBlue,
+        selectionColor: AppColors.mainBlue,
+        selectionHandleColor: AppColors.mainBlue,
+      ),
+
+      //input 박스
+      inputDecorationTheme: InputDecorationTheme(
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.mainBlue, width: 2.0),
+        ),
+        labelStyle: AppFonts.suit(color: AppColors.lightGrey),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.lightGrey),
+        ),
       ),
 
     );
