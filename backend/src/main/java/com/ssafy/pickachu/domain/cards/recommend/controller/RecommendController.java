@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/cards")
+@RequestMapping("/cards")
 @RequiredArgsConstructor
 @Tag(name="CardsController", description = "카드 추천 관련 api")
 public class RecommendController {
@@ -29,8 +29,8 @@ public class RecommendController {
 
     @Operation(summary = "카드 디테일 조회")
     @GetMapping("/list/detail/{cardsId}")
-    public ResponseEntity<Object> getCardDetail(@PathVariable String cardsId){
-        return ResponseEntity.status(HttpStatus.FOUND).body(recommendService.getCardDetail(cardsId));
+    public ResponseEntity<SuccessResponse> getCardDetail(@PathVariable String cardsId){
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_LIST_SUCCESS ,recommendService.getCardDetail(cardsId)));
     }
 
 }
