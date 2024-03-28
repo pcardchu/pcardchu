@@ -76,9 +76,10 @@ public class UserServiceImpl implements UserService{
             if (user.getShortPw() == null){
                 result.put("flag_basicInfo", false);
                 log.info("기존 유저, 추가 정보 없음");
+            }else{
+                result.put("flag_basicInfo", true);
+                log.info("기존 유저, 추가 정보 있음");
             }
-            result.put("flag_basicInfo", true);
-            log.info("기존 유저, 추가 정보 있음");
         }
 
         String accessToken = jwtUtil.createJwtForAccess(user.getId(), true);
