@@ -6,6 +6,7 @@ import com.ssafy.pickachu.domain.cards.recommend.dto.CardsRes;
 import com.ssafy.pickachu.domain.cards.recommend.entity.CardInfo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
@@ -29,7 +30,7 @@ public class CardsAggregationImpl implements CardsAggregation {
     public CardsListPage GetCardsCategoryList(CardsListReq cardsListReq, List<String> cardsRanking) {
         Query query = new Query(Criteria.where("categories").in(cardsListReq.getCategory()));
         List<CardInfo> findCategoryCards = mongoTemplate.find(query, CardInfo.class);
-
+        log.info("TEST LOG : " + cardsListReq.getPageSize()  + " " + cardsListReq.getPageNumber());
         findCategoryCards.sort(Comparator.comparingInt(cardId -> {
             int index = cardsRanking.indexOf(cardId.getCardId());
             return index != -1 ? index : Integer.MAX_VALUE;
