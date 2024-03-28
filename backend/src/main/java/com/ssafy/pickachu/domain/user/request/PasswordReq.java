@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class PasswordReq {
 	
-	@Schema(description = "비밀번호", example = "해시")
+	@Schema(description = "비밀번호", example = "비밀번호 해시")
 	private String password;
 }

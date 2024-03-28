@@ -11,6 +11,8 @@ public class BasicInfoReq {
 
 	@Schema(example = "남성")
 	private String gender;
+	@Schema(example = "1997-01-10")
 	private Date birth;
+	@Schema(example = "비밀번호 해시")
 	private String shortPw;
 }
