@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/api/cards")
 @RequiredArgsConstructor
@@ -28,10 +30,10 @@ public class PersonalCardsController {
 
 
     @Operation(summary = "내 카드 리스트 조회")
-    @GetMapping("api/cards/my-cards")
-    public ResponseEntity<Object> getMyCardsList(){
+    @GetMapping("/cards/my-cards")
+    public ResponseEntity<SuccessResponse> getMyCardsList(){
         return ResponseEntity.ok(SuccessResponse
             .of(SuccessCode.PERSONAL_CARDS_LIST_SUCCESS,
-                personalCardsService.GetPersonalCardsList()));
+                new ArrayList<>()));
     }
 }
