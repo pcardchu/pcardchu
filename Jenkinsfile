@@ -25,6 +25,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'application_yml', variable: 'APPLICATION_YML'), file(credentialsId: 'card_list', variable: 'CARD_LIST')]){
                     script {
                         sh 'cp $APPLICATION_YML backend/src/main/resources/'
+                        sh 'mkdir -p backend/src/main/resources/static/images/'
                         sh 'cp $CARD_LIST backend/src/main/resources/static/images/'
                     }
                 }
