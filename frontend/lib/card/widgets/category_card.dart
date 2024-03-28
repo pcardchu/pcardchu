@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_detail.dart';
 import 'package:frontend/providers/card_provider.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +60,7 @@ class CategoryCard extends StatelessWidget {
                   style: AppFonts.suit(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF26282B),
+                    color: AppColors.textBlack,
                   ),
                 ),
                 SizedBox(height: 11),
@@ -69,7 +70,7 @@ class CategoryCard extends StatelessWidget {
                   style: AppFonts.suit(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF8F99A5),
+                    color: AppColors.textBlack,
                   ),
                 ),
               ],

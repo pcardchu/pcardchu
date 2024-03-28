@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
-import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/intro_screen.dart';
 import 'package:frontend/user/screens/password_screen.dart';
@@ -23,7 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     checkLoginStatus();
   }
-
 
   void checkLoginStatus() async {
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);

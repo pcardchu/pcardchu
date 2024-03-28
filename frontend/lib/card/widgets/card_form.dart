@@ -64,7 +64,7 @@ class _CardFormState extends State<CardForm> {
           Expanded(
             child: TextFormField(
               style: AppFonts.suit(
-                fontSize: 28,
+                fontSize: 25,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textBlack,
               ),

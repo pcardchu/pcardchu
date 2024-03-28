@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/home/screens/bottom_nav_screen.dart';
-import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/services/local_auth_service.dart';
 import 'package:frontend/user/widgets/biometric_button.dart';

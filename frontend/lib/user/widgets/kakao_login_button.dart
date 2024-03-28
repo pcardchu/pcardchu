@@ -56,15 +56,6 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           );
         }
 
-        // 임시코드
-        Navigator.pushReplacement(
-            context,
-            FadeAndSlideTransitionPageRoute(
-              page: const RegistrationIntroScreen(),
-              duration: const Duration(milliseconds: 130),
-            )
-        );
-
         setState(() {
           _isLoggingIn = false; // 로그인 시도 상태 해제
         });

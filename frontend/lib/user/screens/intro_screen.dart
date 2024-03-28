@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_slide_animation.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
-import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/screens/second_screen.dart';
 import 'package:frontend/utils/app_colors.dart';

@@ -12,7 +12,9 @@ class AppColors {
   static const Color mainGreen = Color(0xFF00662C);
   static const Color subBlue = Color(0xFF0F77BE);
   static const Color subLightBlue = Color(0xFF5B98BA);
+  static const Color emphasisBlue = Color(0xFF659EEC);
   static const Color grey = Color(0xFF3C4045);
+  static const Color calenderGrey = Color(0xFFA7ADB5);
   static const Color gray = Color(0xFFE4E4E4);
   static const Color amazingGrey = Color(0xFFCECECE);
   static const Color lightGrey = Color(0xFF8F99A5);

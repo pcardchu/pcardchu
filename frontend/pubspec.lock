@@ -264,6 +264,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  graphs:
+    dependency: transitive
+    description:
+      name: graphs
+      sha256: aedc5a15e78fc65a6e23bcd927f24c64dd995062bcd1ca6eda65a3cff92a4d19
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.1"
   html:
     dependency: transitive
     description:
@@ -272,6 +280,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.4"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   http_parser:
     dependency: transitive
     description:
@@ -289,7 +305,7 @@ packages:
     source: hosted
     version: "4.1.7"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -552,6 +568,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
+  pie_chart:
+    dependency: "direct main"
+    description:
+      name: pie_chart
+      sha256: "58e6a46999ac938bfa1c3e5be414d6e149f037647197dca03ba3614324c12c82"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.0"
   platform:
     dependency: transitive
     description:
@@ -584,6 +608,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  rive:
+    dependency: "direct main"
+    description:
+      name: rive
+      sha256: ec44b6cf7341e21727c4b0e762f4ac82f9a45f7e52df3ebad2d1289a726fbaaf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.1"
+  rive_common:
+    dependency: transitive
+    description:
+      name: rive_common
+      sha256: "0f070bc0e764c570abd8b34d744ef30d1292bd4051f2e0951bbda755875fce6a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -640,6 +680,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      sha256: ba2cd5af24ff20a0b8d609cec3f40e5b0744d2a71804a2616ae086b9c19d19a3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -677,6 +725,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      sha256: b759eb6caa88dda8e51c70ee43c19d1682f8244458f84cced9138ee35b2ce416
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   term_glyph:
     dependency: transitive
     description:

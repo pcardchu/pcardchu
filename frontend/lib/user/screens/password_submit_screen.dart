@@ -149,7 +149,7 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
                       child: ElevatedButton(
                         onPressed: () {
                           var data = userInfoProvider.getRegistrationData();
-                          loginInfoProvider.registration(data);
+                          var result = loginInfoProvider.registration(data);
                         },
                         child: const Text('계속하기'),
                       ),
