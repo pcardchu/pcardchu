@@ -18,18 +18,7 @@ class ConsumptionChart extends StatelessWidget {
 
     /// 소비 패턴 분류별 색상
     CategoryColors categoryColors = CategoryColors();
-    Map<String, Color> colorDict = categoryColors.categoryColors;
-
-
-
-    // 소비 패턴 분류별 색상
-    final List<Color> colorList = [
-      colorDict[data!.mainConsumption![0][0]]!,
-      colorDict[data.mainConsumption![1][0]]!,
-      colorDict[data.mainConsumption![2][0]]!,
-      colorDict[data.mainConsumption![3][0]]!,
-      colorDict[data.mainConsumption![4][0]]!,
-    ];
+    List<Color> colorList = categoryColors.categoryColors;
 
     // 현재 날짜 가져오기
     DateTime now = DateTime.now();
@@ -37,13 +26,10 @@ class ConsumptionChart extends StatelessWidget {
     int month = now.month;
 
     /// 소비 내역 정보
-    Map<String, double> dataMap = {
-      "${data!.mainConsumption![0][0]}": data.mainConsumption![0][1].toDouble(),
-      "${data.mainConsumption![1][0]}": data.mainConsumption![1][1].toDouble(),
-      "${data.mainConsumption![2][0]}": data.mainConsumption![2][1].toDouble(),
-      "${data.mainConsumption![3][0]}": data.mainConsumption![3][1].toDouble(),
-      "${data.mainConsumption![4][0]}": data.mainConsumption![4][1].toDouble(),
-    };
+    Map<String, double> dataMap = {};
+    for (var consumption in data!.mainConsumption!) {
+      dataMap[consumption.categoryName] = consumption.amount.toDouble();
+    }
 
     return Column(
       children: [
@@ -67,7 +53,7 @@ class ConsumptionChart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              NumberFormat('#,###원', 'ko_KR').format(data.total),
+              NumberFormat('#,###원', 'ko_KR').format(data.totalAmount),
               style: AppFonts.suit(
                 fontSize: 18,
                 fontWeight: FontWeight.w900,

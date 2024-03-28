@@ -5,35 +5,20 @@ import 'package:frontend/card/models/card_model.dart';
 class CardService {
   final dio = Dio();
 
-  // /// 카테고리에 맞는 카드 리스트 GET 요청
-  // /// id는 카테고리 아이디
-  // Future<List<CardModel>> getCategoryCards(String id) async {
-  //   try {
-  //     final Response response = await dio.get(
-  //         "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/category",
-  //         queryParameters: {'id': id});
-  //
-  //     if (response.statusCode == 200) {
-  //       final List<dynamic> data = response.data;
-  //       final List<CardModel> cards =
-  //           data.map((json) => CardModel.fromJson(json)).toList();
-  //
-  //       return cards;
-  //     } else {
-  //       throw Exception('Failed to load cards');
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Failed to load cards: $e');
-  //   }
-  // }
-
   /// 카테고리에 맞는 카드 리스트 GET 요청
   /// id는 카테고리 아이디
   Future<List<CardModel>> getCategoryCards(String category) async {
     try {
       final Response response = await dio.get(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/category",
-          queryParameters: {'category': category, 'pageNumber': 1, 'pageSize': 5});
+          "https://j10d110.p.ssafy.io/api/cards/list",
+          queryParameters: {'category': '교통', 'pageNumber': 1, 'pageSize': 5},
+      options: Options(
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NDAxNTQsImV4cCI6MTcxMTY0MTk1NH0.WY0fHhjrIrVHEC5oljqx6EQSVWItfLwLXafUwtq2DhA'
+        }
+      )
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> cardsJson = response.data['data']['cardsRes'];
@@ -53,8 +38,14 @@ class CardService {
   Future<CardModel> getCardsDetail(String cardId) async {
     try {
       final Response response = await dio.get(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/detail",
-          queryParameters: {'cardId': cardId});
+          "https://j10d110.p.ssafy.io/api/cards/list/detail/$cardId",
+          queryParameters: {'cardId': cardId},
+      options: Options(
+          headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NDAxNTQsImV4cCI6MTcxMTY0MTk1NH0.WY0fHhjrIrVHEC5oljqx6EQSVWItfLwLXafUwtq2DhA'
+          }
+      ));
       if (response.statusCode == 200) {
         // CardModel 객체로 변환;
         final CardModel cards = CardModel.fromJson(response.data['data']);

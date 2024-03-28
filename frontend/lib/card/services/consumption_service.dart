@@ -9,12 +9,17 @@ class ConsumptionService{
   Future<ConsumptionModel> getMyConsumption(String id) async {
     try {
       final Response response = await dio.get(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/api/users/consumption",
-          queryParameters: {'id': id});
+          "https://j10d110.p.ssafy.io/api/statistics/consumption",
+          options: Options(
+            headers: {
+              'accept': 'application/json',
+              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NDAxNTQsImV4cCI6MTcxMTY0MTk1NH0.WY0fHhjrIrVHEC5oljqx6EQSVWItfLwLXafUwtq2DhA'
+            }
+          ));
 
       if (response.statusCode == 200) {
         // ConsumptionModel 객체로 변환;
-        final consumptionModel = ConsumptionModel.fromJson(response.data);
+        final consumptionModel = ConsumptionModel.fromJson(response.data['data']);
 
         return consumptionModel;
       } else {
@@ -29,8 +34,7 @@ class ConsumptionService{
   Future<RecommendModel> getMyRecommend(String id) async {
     try {
       final Response response = await dio.get(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/api/recommend",
-          queryParameters: {'id': id});
+          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/recommend/1");
 
       if (response.statusCode == 200) {
         // RecommendModel 객체로 변환;
