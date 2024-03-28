@@ -1,5 +1,8 @@
 package com.ssafy.pickachu.global.result;
 
+import lombok.Getter;
+
+@Getter
 public class SuccessResponse {
 
     private final int status;

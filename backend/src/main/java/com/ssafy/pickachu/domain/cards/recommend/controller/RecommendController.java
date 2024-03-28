@@ -23,7 +23,7 @@ public class RecommendController {
 
     @Operation(summary = "카테고리로 카드 리스트 조회")
     @GetMapping("/list")
-    public ResponseEntity<Object> getCardsList(@ModelAttribute @ParameterObject CardsListReq cardsListReq){
+    public ResponseEntity<SuccessResponse> getCardsList(@ModelAttribute @ParameterObject CardsListReq cardsListReq){
         return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_LIST_SUCCESS,recommendService.getCategoryCardsList(cardsListReq)));
     }
 
