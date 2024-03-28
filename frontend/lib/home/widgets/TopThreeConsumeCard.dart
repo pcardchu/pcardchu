@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/top_three_consume_provider.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
+import 'package:provider/provider.dart';
 
 class TopThreeConsumeCard extends StatelessWidget {
   const TopThreeConsumeCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    // 내 소비 패턴 정보
+    final data = context.watch<TopThreeConsumeProvider>().consumeList;
+
     return SizedBox(
       height: ScreenUtil.h(26),
       child: Card(

@@ -4,6 +4,7 @@ import 'package:frontend/providers/card_list_provider.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
+import 'package:frontend/providers/top_three_consume_provider.dart';
 import 'package:frontend/providers/user_info_provider.dart';
 import 'package:frontend/theme/app_theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserInfoProvider()),
         ChangeNotifierProvider(create: (context) => ConsumptionProvider()),
         ChangeNotifierProvider(create: (context) => CardListProvider()),
+        ChangeNotifierProvider(create: (context) => TopThreeConsumeProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // 디버그 표시 제거
