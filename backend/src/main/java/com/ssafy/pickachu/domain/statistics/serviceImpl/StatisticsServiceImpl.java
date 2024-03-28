@@ -6,6 +6,7 @@ import com.ssafy.pickachu.domain.statistics.dto.Category;
 import com.ssafy.pickachu.domain.statistics.dto.MyConsumption;
 import com.ssafy.pickachu.domain.statistics.dto.Top3Category;
 import com.ssafy.pickachu.domain.statistics.entity.*;
+import com.ssafy.pickachu.domain.statistics.exception.UserInfoUnavailableException;
 import com.ssafy.pickachu.domain.statistics.repository.*;
 import com.ssafy.pickachu.domain.statistics.response.AverageComparisonRes;
 import com.ssafy.pickachu.domain.statistics.response.MyConsumptionRes;
@@ -150,9 +151,11 @@ public class StatisticsServiceImpl implements StatisticsService {
         Long userid = principalDetails.getUserDto().getId();
         Optional<User> user = userRepository.findById(userid);
 
-        // Date userBirth = user.get().getBirth();
-        // String userAgeGroup = commonUtil.calculateAge(userBirth);
-        // String userGender = user.get().getGender();
+        Date userBirth = user.get().getBirth();
+        String userGender = user.get().getGender();
+
+        if(userBirth == null || userGender == null) throw new UserInfoUnavailableException("성별 또는 나이가 입력되지 않아 통계 정보를 제공할 수 없습니다.");
+        String userAgeGroup = commonUtil.calculateAge(userBirth);
 
 
         List<MyConsumptionEntity> historyDatas = myConsumptionEntityRepository.findMyConsumptionById(1);
@@ -167,7 +170,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         int average = 0;
         List<AverageAmountEntity> totalDatas = averageAmountEntityRepository.findAll();
         for(AverageAmountEntity total : totalDatas){
-            if(total.getAge().equals("20대") && total.getGender().equals("남성")){
+            if(total.getAge().equals(userAgeGroup) && total.getGender().equals(userGender)){
                 average = total.getAverage();
                 break;
             }

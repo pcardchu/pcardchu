@@ -61,6 +61,12 @@ public class StatisticsController {
     @GetMapping("/consumption")
     public ResponseEntity<MyConsumptionRes> getConsumption(){return statisticsService.getMyConsumption();}
 
+    @Operation(summary = "내 또래와 나의 평균 결제금액 차이(%)", description = "지난달 소비내역 기준으로 비교함")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "(message : \"Success\", code : 200)",
+                    content = @Content(schema = @Schema(implementation = AverageComparisonRes.class))),
+            @ApiResponse(responseCode = "404", description = "(message: \"성별 또는 나이를 찾을 수 없음\", cdoe : 404)")
+    })
     @GetMapping("/averagecomparison")
     public ResponseEntity<AverageComparisonRes> getAverageComparison(@AuthenticationPrincipal PrincipalDetails principalDetails){return statisticsService.getAverageComparison(principalDetails);}
 
