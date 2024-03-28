@@ -17,7 +17,7 @@ class ToRegisterCard extends StatelessWidget {
         ),
         color: Color(0xFFFCDABC),
         child: Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
+          margin: EdgeInsets.only(left: 20, right: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

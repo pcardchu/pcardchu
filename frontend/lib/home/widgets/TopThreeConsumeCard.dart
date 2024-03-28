@@ -16,7 +16,7 @@ class TopThreeConsumeCard extends StatelessWidget {
         ),
         color: const Color(0xFFC5D8FC),
         child: Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
+          margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -35,38 +35,39 @@ class TopThreeConsumeCard extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                     color: AppColors.textBlack),
               ),
-              Row(children: [
-                Column(
-                  children: [
-                    SizedBox(width: ScreenUtil.w(24),),
-                    Text(
-                      '1. 쇼핑',
-                      style: AppFonts.suit(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF365592)),
-                    ),
-                    Text(
-                      '2. 쇼핑',
-                      style: AppFonts.suit(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF365592)),
-                    ),
-                    Text(
-                      '3. 쇼핑',
-                      style: AppFonts.suit(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF365592)),
-                    ),
-                  ],
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
+                    children: [
+                      Text(
+                        '1. 쇼핑',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF365592)),
+                      ),
+                      Text(
+                        '2. 쇼핑',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF365592)),
+                      ),
+                      Text(
+                        '3. 쇼핑',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF365592)),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(width: ScreenUtil.w(34),),
                 Image.asset(
                   'assets/images/donut_chart_icon.png',
-                  width: ScreenUtil.w(24),
-                  height: ScreenUtil.w(24),
+                  width: ScreenUtil.w(21),
+                  height: ScreenUtil.w(21),
                   fit: BoxFit.contain,
                 )
               ]),

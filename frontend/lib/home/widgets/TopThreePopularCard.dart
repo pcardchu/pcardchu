@@ -16,7 +16,7 @@ class TopThreePopularCard extends StatelessWidget {
         ),
         color: const Color(0xFFF7D6F0),
         child: Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
+          margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -35,45 +35,42 @@ class TopThreePopularCard extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                     color: AppColors.textBlack),
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          width: ScreenUtil.w(40),
-                        ),
-                        Text(
-                          '1. 신한 xx 카드',
-                          style: AppFonts.suit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFFA0478B)),
-                        ),
-                        Text(
-                          '2. 신한 xx 카드',
-                          style: AppFonts.suit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFFA0478B)),
-                        ),
-                        Text(
-                          '3. 신한 xx 카드',
-                          style: AppFonts.suit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFFA0478B)),
-                        ),
-                      ],
-                    ),
-                    //SizedBox(width: ScreenUtil.w(32),),
-                    Image.asset(
-                      'assets/images/medal_icon.png',
-                      width: ScreenUtil.w(24),
-                      height: ScreenUtil.w(24),
-                      fit: BoxFit.contain,
-                    )
-                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
+                    children: [
+                      Text(
+                        '1. 신한 xx 카드',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFA0478B)),
+                      ),
+                      Text(
+                        '2. 신한 xx 카드',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFA0478B)),
+                      ),
+                      Text(
+                        '3. 신한 xx 카드',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFA0478B)),
+                      ),
+                    ],
+                  ),
+                ),
+                Image.asset(
+                  'assets/images/medal_icon.png',
+                  width: ScreenUtil.w(21),
+                  height: ScreenUtil.w(21),
+                  fit: BoxFit.contain,
+                )
+              ]),
             ],
           ),
         ),

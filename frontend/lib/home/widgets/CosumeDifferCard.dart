@@ -16,74 +16,68 @@ class ConsumeDifferCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: Color(0xFFC2F4D8),
-        child: Center(
-          child: Container(
-            width: ScreenUtil.w(83),
-            height: ScreenUtil.h(26),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Container(
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '내 또래의 여성들은',
+                        style: AppFonts.suit(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textBlack),
+                      ),
+                      Text(
+                        '2월에 얼마나 썼을까?',
+                        style: AppFonts.suit(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textBlack),
+                      ),
+                    ],
+                  ),
+                  Image.asset(
+                    'assets/images/card_graph_icon.png',
+                    width: ScreenUtil.w(20),
+                    fit: BoxFit.contain,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: ScreenUtil.h(4),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '내 또래의 여성들은',
-                          style: AppFonts.suit(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.textBlack),
-                        ),
-                        Text(
-                          '2월에 얼마나 썼을까?',
-                          style: AppFonts.suit(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.textBlack),
-                        ),
-                      ],
+                    Text(
+                      '박설연님은 20대 여성에 비해',
+                      style: AppFonts.suit(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF61806F)),
                     ),
-                    Image.asset(
-                      'assets/images/card_graph_icon.png',
-                      width: ScreenUtil.w(20),
-
-                      fit: BoxFit.contain,
+                    Text(
+                      '평균 xx% 적게 소비하고 있어요.',
+                      style: AppFonts.suit(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF61806F)),
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: ScreenUtil.h(4),
-                ),
-                Row(
-                  children: [
-                    SizedBox(width: ScreenUtil.w(4),),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '박설연님은 20대 여성에 비해',
-                          style: AppFonts.suit(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF61806F)),
-                        ),
-                        Text(
-                          '평균 xx% 적게 소비하고 있어요.',
-                          style: AppFonts.suit(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF61806F)),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

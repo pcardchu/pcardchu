@@ -10,14 +10,14 @@ class ToListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: ScreenUtil.h(16),
+      height: ScreenUtil.h(20),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: Color(0xFFFFF7C5),
         child: Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
+          margin: EdgeInsets.only(left: 20, right: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -25,17 +25,22 @@ class ToListCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    child: Text(
-                      '고객님! 새 카드를 찾으시나요?',
-                      style: AppFonts.suit(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.textBlack),
-                    ),
+                  Text(
+                    '고객님!',
+                    style: AppFonts.suit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textBlack),
+                  ),
+                  Text(
+                    '새 카드를 찾으시나요?',
+                    style: AppFonts.suit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textBlack),
                   ),
                   SizedBox(
-                    height: ScreenUtil.h(1),
+                    height: ScreenUtil.h(2),
                   ),
                   Container(
                     width: ScreenUtil.w(53),
