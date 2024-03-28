@@ -119,10 +119,19 @@ class CardProvider with ChangeNotifier {
   /// 3 : 배달
   /// 4 : 영화/문화
   getCategoryCards(context) async {
+
+    Map<String, String> categoryDic = {
+      '0': '',
+      '1': '교통',
+      '2': '카페',
+      '3': '배달',
+      '4': '영화/문화',
+    };
+
     loading = true;
 
     for (int i = 0; i < 5; i++) {
-      categoryCards.add(await cardService.getCategoryCards(i.toString()));
+      categoryCards.add(await cardService.getCategoryCards(categoryDic[i.toString()]!));
     }
 
     loading = false;

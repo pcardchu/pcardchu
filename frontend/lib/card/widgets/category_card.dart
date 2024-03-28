@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_detail.dart';
 import 'package:frontend/providers/card_provider.dart';
@@ -51,29 +52,35 @@ class CategoryCard extends StatelessWidget {
             ),
             // 텍스트 부분
             SizedBox(width: 18),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 카드 간단 설명
-                Text(
-                  cards[categoryId][index].cardContent!,
-                  style: AppFonts.suit(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textBlack,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 카드 간단 설명
+                  Text(
+                    cards[categoryId][index].cardContent!,
+                    style: AppFonts.suit(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textBlack,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
-                ),
-                SizedBox(height: 11),
-                // 카드 이름
-                Text(
-                  cards[categoryId][index].cardName!,
-                  style: AppFonts.suit(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textBlack,
+                  SizedBox(height: 11),
+                  // 카드 이름
+                  Text(
+                    cards[categoryId][index].cardName!,
+                    style: AppFonts.suit(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textBlack,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
