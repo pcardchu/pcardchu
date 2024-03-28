@@ -9,6 +9,6 @@ import java.sql.Date;
 @Data
 public class BirthReq {
 	
-	@Schema(description = "생일", nullable = false)
+	@Schema(example = "1997-01-10")
 	private Date birth;
 }

@@ -8,8 +8,12 @@ import lombok.Data;
 @Builder
 @Data
 public class UserInfoRes {
+    @Schema(example = "곤이")
     private String nickname;
+    @Schema(example = "1997-01-10")
     private String birth;
+    @Schema(example = "남성")
     private String gender;
+    @Schema(example = "0")
     private int flagBiometrics;
 }

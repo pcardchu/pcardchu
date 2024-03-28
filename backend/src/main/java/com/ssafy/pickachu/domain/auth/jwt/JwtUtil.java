@@ -76,7 +76,7 @@ public class JwtUtil {
                     .claim("id", id)
                     .claim("role", "ROLE_FIRST_AUTH")
                     .issuedAt(new Date(System.currentTimeMillis()))
-                    .expiration(new Date(System.currentTimeMillis() + 60*60*60L))
+                    .expiration(new Date(System.currentTimeMillis() + 1000*60*30))
                     .signWith(secretKeyForFirstAccess)
                     .compact();
         }else{
@@ -84,7 +84,7 @@ public class JwtUtil {
                     .claim("id", id)
                     .claim("role", "ROLE_SECOND_AUTH")
                     .issuedAt(new Date(System.currentTimeMillis()))
-                    .expiration(new Date(System.currentTimeMillis() + 60*60*60L))
+                    .expiration(new Date(System.currentTimeMillis() + 1000*60*30))
                     .signWith(secretKeyForSecondAccess)
                     .compact();
         }
@@ -95,14 +95,14 @@ public class JwtUtil {
             return Jwts.builder()
                     .claim("id", id)
                     .issuedAt(new Date(System.currentTimeMillis()))
-                    .expiration(new Date(System.currentTimeMillis() + 60*60*60L))
+                    .expiration(new Date(System.currentTimeMillis() + 1000*60*60))
                     .signWith(secretKeyForFirstRefresh)
                     .compact();
         }else{
             return Jwts.builder()
                     .claim("id", id)
                     .issuedAt(new Date(System.currentTimeMillis()))
-                    .expiration(new Date(System.currentTimeMillis() + 60*60*60L))
+                    .expiration(new Date(System.currentTimeMillis() + 1000*60*60))
                     .signWith(secretKeyForSecondRefresh)
                     .compact();
         }
