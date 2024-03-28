@@ -15,69 +15,63 @@ class TopThreePopularCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: const Color(0xFFF7D6F0),
-        child: Center(
-          child: Container(
-            width: ScreenUtil.w(83),
-            height: ScreenUtil.h(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '30대 남성이 선호하는 카드',
-                  style: AppFonts.suit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textBlack),
-                ),
-                Text(
-                  'BEST 3',
-                  style: AppFonts.suit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textBlack),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Container(
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '30대 남성이 선호하는 카드',
+                style: AppFonts.suit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textBlack),
+              ),
+              Text(
+                'BEST 3',
+                style: AppFonts.suit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textBlack),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
                     children: [
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: ScreenUtil.w(40),
-                          ),
-                          Text(
-                            '1. 신한 xx 카드',
-                            style: AppFonts.suit(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Color(0xFFA0478B)),
-                          ),
-                          Text(
-                            '2. 신한 xx 카드',
-                            style: AppFonts.suit(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Color(0xFFA0478B)),
-                          ),
-                          Text(
-                            '3. 신한 xx 카드',
-                            style: AppFonts.suit(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Color(0xFFA0478B)),
-                          ),
-                        ],
+                      Text(
+                        '1. 신한 xx 카드',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFA0478B)),
                       ),
-                      //SizedBox(width: ScreenUtil.w(32),),
-                      Image.asset(
-                        'assets/images/medal_icon.png',
-                        width: ScreenUtil.w(24),
-                        height: ScreenUtil.w(24),
-                        fit: BoxFit.contain,
-                      )
-                    ]),
-              ],
-            ),
+                      Text(
+                        '2. 신한 xx 카드',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFA0478B)),
+                      ),
+                      Text(
+                        '3. 신한 xx 카드',
+                        style: AppFonts.suit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFA0478B)),
+                      ),
+                    ],
+                  ),
+                ),
+                Image.asset(
+                  'assets/images/medal_icon.png',
+                  width: ScreenUtil.w(21),
+                  height: ScreenUtil.w(21),
+                  fit: BoxFit.contain,
+                )
+              ]),
+            ],
           ),
         ),
       ),
