@@ -6,7 +6,23 @@ pipeline {
         DOCKER_TAG = '0.0.1'
     }
     
+
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Clean Build'){
+            steps {
+                dir('backend'){
+                    sh 'chmod +x ./gradlew'
+                    sh './gradlew clean'
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 checkout scm
