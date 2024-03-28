@@ -4,17 +4,13 @@ import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 
 class UserInfoDialog extends StatelessWidget{
-  final String year;
-  final String month;
-  final String day;
+  final String date;
   final String gender;
   final VoidCallback onConfirm;
 
   const UserInfoDialog({
     Key? key,
-    required this.year,
-    required this.month,
-    required this.day,
+    required this.date,
     required this.gender,
     required this.onConfirm,
   }) : super(key: key);
@@ -31,7 +27,7 @@ class UserInfoDialog extends StatelessWidget{
               style: AppFonts.suit(color: AppColors.lightGrey, fontSize: 10, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 10,),
-            Text('생년월일: $year년 $month월 $day일',
+            Text('생년월일: $date',
               style: AppFonts.suit(color: AppColors.mainBlue, fontSize: 15, fontWeight: FontWeight.w600),
             ),
             Text('성별: $gender',

@@ -19,7 +19,7 @@ class GenderButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: gender == selectedGender
               ? AppColors.mainBlue
-              : AppColors.gray,
+              : AppColors.amazingGrey,
         ),
         child: Text(gender),
       ),

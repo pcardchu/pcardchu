@@ -4,12 +4,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_slide_animation.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
+import 'package:frontend/animations/shake_animation.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/providers/user_info_provider.dart';
 import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/screens/password_submit_screen.dart';
-import 'package:frontend/user/screens/scond_screen.dart';
+import 'package:frontend/user/screens/second_screen.dart';
+import 'package:frontend/user/widgets/birthday_input_widget.dart';
 import 'package:frontend/user/widgets/gender_button.dart';
 import 'package:frontend/user/widgets/user_info_dialog.dart';
 import 'package:frontend/utils/app_colors.dart';
@@ -24,9 +26,12 @@ class MoreInfoScreen extends StatefulWidget {
   State<MoreInfoScreen> createState() => _MoreInfoScreenState();
 }
 
-class _MoreInfoScreenState extends State<MoreInfoScreen> {
+class _MoreInfoScreenState extends State<MoreInfoScreen> with SingleTickerProviderStateMixin {
   final FocusNode _yearFocusNode = FocusNode();
-  final List<String> _months = List.generate(12, (index) => '${index + 1}');
+  final FocusNode _dayFocusNode = FocusNode();
+  final FocusNode _monthFocusNode = FocusNode();
+
+  ShakeAnimation? _shakeAnimation;
 
   @override
   void initState() {
@@ -34,11 +39,22 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _yearFocusNode.requestFocus();
     });
+    _shakeAnimation = ShakeAnimation(
+      vsync: this,
+      begin: 15, // 시작점을 -20으로 설정
+      end: -15, // 끝점을 20으로 설정
+      durationMilliseconds: 80, // 지속 시간을 300ms로 설정
+    );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _shakeAnimation?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<UserInfoProvider>(context);
+    final userInfoProvider = Provider.of<UserInfoProvider>(context);
 
     return GestureDetector(
       onTap: () {
@@ -47,6 +63,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SingleChildScrollView(
               child: Center(
@@ -56,7 +73,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                   children: [
                     SizedBox(height: ScreenUtil.h(10),),
                     Text(
-                      "생일과 성별을 입력해주세요",
+                      "생일과 성별을 입력해 주세요",
                       style: AppFonts.suit(fontWeight: FontWeight.w700, color: AppColors.mainBlue, fontSize: 22),
                     ),
                     SizedBox(
@@ -65,90 +82,96 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 16.0),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: TextField(
-                                  onChanged: (value) => userInfo.year = value,
-                                  focusNode: _yearFocusNode,
-                                  decoration: const InputDecoration(
-                                    labelText: '연도',
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                              const SizedBox(width: 16.0),
-                              Expanded(
-                                child: DropdownButtonFormField<String>(
-                                  decoration: const InputDecoration(
-                                    labelText: '월',
-                                  ),
-                                  value: userInfo.month.isNotEmpty ? userInfo.month : null,
-                                  onChanged: (newValue) => userInfo.month = newValue ?? '',
-                                  items: [
-                                    DropdownMenuItem<String>(
-                                      value: null, // '월 선택' 항목에 대한 value를 null로 설정
-                                      child: Text('', style: AppFonts.suit(color: Colors.black, fontWeight: FontWeight.w500),),
-                                    ),
-                                  ]..addAll(_months.map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value, style: AppFonts.suit(color: AppColors.mainBlue, fontWeight: FontWeight.w500),),
-                                    );
-                                  }).toList()),
-                                ),
-                              ),
-                              const SizedBox(width: 16.0),
-                              Expanded(
-                                child: TextField(
-                                  onChanged: (value) => userInfo.day = value,
-                                  decoration: const InputDecoration(
-                                    labelText: '일',
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ],
+                          AnimatedBuilder(
+                            animation: _shakeAnimation!.controller,
+                            builder: (context, child) {
+                              return Transform.translate(
+                                offset: Offset(_shakeAnimation!.value * (_shakeAnimation!.controller.value <= 0.1 ? 0 : 1), 0),
+                                child: child,
+                              );
+                            },
+                            child: BirthdayInputWidget(
+                              userInfoProvider: userInfoProvider,
+                              yearFocusNode: _yearFocusNode,
+                              monthFocusNode: _monthFocusNode,
+                              dayFocusNode: _dayFocusNode,
+                            ),
                           ),
-                          const SizedBox(height: 32.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              GenderButton(gender: '남성', selectedGender: userInfo.gender,
-                                  onTap: () {
-                                    userInfo.gender = '남성';
-                                    FocusScope.of(context).requestFocus(FocusNode());
-                                  }
-                              ),
-                              const SizedBox(width: 16,),
-                              GenderButton(gender: '여성', selectedGender: userInfo.gender,
-                                  onTap: () {
-                                    userInfo.gender = '여성';
-                                    FocusScope.of(context).requestFocus(FocusNode());
-                                  }
+                          Center(
+                            // height: ScreenUtil.h(3),
+                            child: Visibility(
+                              visible: userInfoProvider.isWrongDate,
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: const Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(
+                                  "생일을 확인해 주세요",
+                                  style: TextStyle(
+                                      color: AppColors.mainRed,
+                                      fontWeight: FontWeight.bold
+                                  ),
                                 ),
-                            ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 19.0),
+                          Visibility(
+                            visible: userInfoProvider.isAllBirthdayFilled,
+                            child:FadeSlideAnimation(
+                              durationMilliseconds: 400,
+                                beginOffset: const Offset(0, 1),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    GenderButton(gender: '남성', selectedGender: userInfoProvider.gender,
+                                        onTap: () {
+                                          userInfoProvider.gender = '남성';
+                                          FocusScope.of(context).requestFocus(FocusNode());
+                                        }
+                                    ),
+                                    const SizedBox(width: 16,),
+                                    GenderButton(gender: '여성', selectedGender: userInfoProvider.gender,
+                                        onTap: () {
+                                          userInfoProvider.gender = '여성';
+                                          FocusScope.of(context).requestFocus(FocusNode());
+                                        }
+                                    ),
+                                  ],
+                                ),
+                            )
                           ),
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: userInfo.isAllFieldsFilled,
-                      child: SizedBox(
-                        height: 45,
-                        width: ScreenUtil.w(85),
-                        child: ElevatedButton(
-                          onPressed: () {
+
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                Visibility(
+                  visible: userInfoProvider.isAllFieldsFilled,
+                  child: FadeSlideAnimation(
+                    durationMilliseconds: 400,
+                    beginOffset: const Offset(0, 1),
+                    child: SizedBox(
+                      height: 45,
+                      width: ScreenUtil.w(85),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (userInfoProvider.isValidDate()) {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return UserInfoDialog(
-                                  year: userInfo.year,
-                                  month: userInfo.month,
-                                  day: userInfo.day,
-                                  gender: userInfo.gender,
+                                  gender: userInfoProvider.gender,
+                                  date: userInfoProvider.formatDate(),
                                   onConfirm: () {
                                     Navigator.of(context).pop(); // 다이얼로그 닫기
+                                    userInfoProvider.initPasswordSubmit();
                                     Navigator.of(context).push(
                                         SlideTransitionPageRoute(page: const PasswordSubmitScreen())
                                     );
@@ -156,15 +179,18 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                                 );
                               },
                             );
-                          },
-                          child: const Text('계속하기'),
-                        ),
+                          } else {
+                            _shakeAnimation?.startAnimation();
+                            print("날짜 오류");
+                          }
+                        },
+                        child: const Text('계속하기'),
                       ),
                     ),
-                    const SizedBox(height: 20,),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 20,),
+              ],
             ),
           ],
         ),

@@ -41,7 +41,8 @@ class AppTheme {
 
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.mainBlue,
-        selectionColor: AppColors.mainBlue
+        selectionColor: AppColors.mainBlue,
+        selectionHandleColor: AppColors.mainBlue,
       ),
 
       //input 박스

@@ -25,7 +25,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // 패딩 조정
       ),
-      onPressed: _isLoggingIn ? null : () async { // _isLoggingIn이 true면 onPressed를 null로 설정하여 클릭 무시
+      onPressed: _isLoggingIn ? (){} : () async { // _isLoggingIn이 true면 onPressed를 null로 설정하여 클릭 무시
         setState(() {
           _isLoggingIn = true; // 로그인 시도 상태로 설정
         });
@@ -50,11 +50,20 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           Navigator.pushReplacement(
               context,
               FadeAndSlideTransitionPageRoute(
-                page: RegistrationIntroScreen(),
+                page: const RegistrationIntroScreen(),
                 duration: const Duration(milliseconds: 130),
               )
           );
         }
+
+        // 임시코드
+        Navigator.pushReplacement(
+            context,
+            FadeAndSlideTransitionPageRoute(
+              page: const RegistrationIntroScreen(),
+              duration: const Duration(milliseconds: 130),
+            )
+        );
 
         setState(() {
           _isLoggingIn = false; // 로그인 시도 상태 해제

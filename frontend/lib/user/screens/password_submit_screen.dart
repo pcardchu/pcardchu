@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_slide_animation.dart';
-import 'package:frontend/animations/fade_transition_page_route.dart';
-import 'package:frontend/animations/slide_transition_page_route.dart';
-import 'package:frontend/home/screens/home_screen.dart';
+import 'package:frontend/animations/shake_animation.dart';
+import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/providers/user_info_provider.dart';
-import 'package:frontend/user/screens/login_screen.dart';
-import 'package:frontend/user/screens/scond_screen.dart';
-import 'package:frontend/user/widgets/gender_button.dart';
-import 'package:frontend/user/widgets/user_info_dialog.dart';
+import 'package:frontend/user/models/login_response.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
@@ -23,21 +19,34 @@ class PasswordSubmitScreen extends StatefulWidget {
   State<PasswordSubmitScreen> createState() => _PasswordSubmitScreenState();
 }
 
-class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> {
-  final FocusNode _yearFocusNode = FocusNode();
-  final List<String> _months = List.generate(12, (index) => '${index + 1}');
+class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with SingleTickerProviderStateMixin {
+  final FocusNode _firstPasswordNode = FocusNode();
+  final FocusNode _passwordSubmitNode = FocusNode();
+  ShakeAnimation? _shakeAnimation;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _yearFocusNode.requestFocus();
+      _firstPasswordNode.requestFocus();
     });
+    _shakeAnimation = ShakeAnimation(
+      vsync: this,
+      begin: 15, // 시작점을 -20으로 설정
+      end: -15, // 끝점을 20으로 설정
+      durationMilliseconds: 80, // 지속 시간을 300ms로 설정
+    );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _shakeAnimation?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<UserInfoProvider>(context);
+    final userInfoProvider = Provider.of<UserInfoProvider>(context);
+    final loginInfoProvider = Provider.of<LoginProvider>(context);
 
     return GestureDetector(
       onTap: () {
@@ -46,6 +55,7 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SingleChildScrollView(
               child: Center(
@@ -55,7 +65,7 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> {
                   children: [
                     SizedBox(height: ScreenUtil.h(10),),
                     Text(
-                      "생일과 성별을 입력해주세요",
+                      "여섯 자리 비밀번호를 입력해 주세요",
                       style: AppFonts.suit(fontWeight: FontWeight.w700, color: AppColors.mainBlue, fontSize: 22),
                     ),
                     SizedBox(
@@ -64,104 +74,90 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 16.0),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: TextField(
-                                  onChanged: (value) => userInfo.year = value,
-                                  focusNode: _yearFocusNode,
-                                  decoration: const InputDecoration(
-                                    labelText: '연도',
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
+                          TextField(
+                            onChanged: (value) {
+                              userInfoProvider.password = value;
+                              if(userInfoProvider.password.length == 6) {
+                                userInfoProvider.isSix = true;
+                              }
+                            },
+                            obscureText: true,
+                            maxLength: 6,
+                            onSubmitted: (value) =>
+                              FocusScope.of(context).requestFocus(_passwordSubmitNode),
+                            focusNode: _firstPasswordNode,
+                            decoration:InputDecoration(
+                              labelText: '비밀번호',
+                              counter: Consumer<UserInfoProvider>( // 예제로 Provider 패턴 사용, 실제 상황에 맞게 조정 필요
+                                builder: (context, userInfoProvider, child) {
+                                  if(userInfoProvider.password.isNotEmpty && !userInfoProvider.isPasswordCorrect()){
+                                    return const Text('숫자만 입력해 주세요', style: TextStyle(color: AppColors.mainRed),);
+                                  } else if (userInfoProvider.isSix && userInfoProvider.password.length != 6) {
+                                    return const Text('여섯 자리를 모두 입력해 주세요', style: TextStyle(color: AppColors.mainRed),);
+                                  } else {
+                                    return Text('${userInfoProvider.password.length}/6');
+                                  }
+                                },
                               ),
-                              const SizedBox(width: 16.0),
-                              Expanded(
-                                child: DropdownButtonFormField<String>(
-                                  decoration: const InputDecoration(
-                                    labelText: '월',
-                                  ),
-                                  value: userInfo.month.isNotEmpty ? userInfo.month : null,
-                                  onChanged: (newValue) => userInfo.month = newValue ?? '',
-                                  items: [
-                                    DropdownMenuItem<String>(
-                                      value: null, // '월 선택' 항목에 대한 value를 null로 설정
-                                      child: Text('', style: AppFonts.suit(color: Colors.black, fontWeight: FontWeight.w500),),
-                                    ),
-                                  ]..addAll(_months.map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value, style: AppFonts.suit(color: AppColors.mainBlue, fontWeight: FontWeight.w500),),
-                                    );
-                                  }).toList()),
-                                ),
-                              ),
-                              const SizedBox(width: 16.0),
-                              Expanded(
-                                child: TextField(
-                                  onChanged: (value) => userInfo.day = value,
-                                  decoration: const InputDecoration(
-                                    labelText: '일',
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ],
+                            ),
+                            keyboardType: TextInputType.number,
                           ),
-                          const SizedBox(height: 32.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              GenderButton(gender: '남성', selectedGender: userInfo.gender,
-                                  onTap: () {
-                                    userInfo.gender = '남성';
-                                    FocusScope.of(context).requestFocus(FocusNode());
-                                  }
-                              ),
-                              const SizedBox(width: 16,),
-                              GenderButton(gender: '여성', selectedGender: userInfo.gender,
-                                  onTap: () {
-                                    userInfo.gender = '여성';
-                                    FocusScope.of(context).requestFocus(FocusNode());
-                                  }
+                          Visibility(
+                            visible: userInfoProvider.isSix,
+                            child: FadeSlideAnimation(
+                              child: TextField(
+                                onChanged: (value) => userInfoProvider.passwordSubmit = value,
+                                obscureText: true,
+                                maxLength: 6,
+                                focusNode: _passwordSubmitNode,
+                                decoration:InputDecoration(
+                                  labelText: '비밀번호 확인',
+                                  counter: Consumer<UserInfoProvider>( // 예제로 Provider 패턴 사용, 실제 상황에 맞게 조정 필요
+                                    builder: (context, userInfoProvider, child) {
+                                      if (userInfoProvider.passwordSubmit.length == 6 && userInfoProvider.isPasswordMatch()) {
+                                        return const Text('비밀번호가 일치해요', style: TextStyle(color: AppColors.mainGreen),);
+                                      } else if(userInfoProvider.passwordSubmit.length == 6 && !userInfoProvider.isPasswordMatch()) {
+                                        return const Text('비밀번호가 일치하지 않아요', style: TextStyle(color: AppColors.mainRed),);
+                                      } else {
+                                        return Text('${userInfoProvider.passwordSubmit.length}/6');
+                                      }
+                                    },
+                                  ),
                                 ),
-                            ],
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: userInfo.isAllFieldsFilled,
-                      child: SizedBox(
-                        height: 45,
-                        width: ScreenUtil.w(85),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return UserInfoDialog(
-                                  year: userInfo.year,
-                                  month: userInfo.month,
-                                  day: userInfo.day,
-                                  gender: userInfo.gender,
-                                  onConfirm: () {
-                                    Navigator.of(context).pop(); // 다이얼로그 닫기
-                                    Navigator.of(context).push(SlideTransitionPageRoute(page: const SecondScreen()));
-                                  },
-                                );
-                              },
-                            );
-                          },
-                          child: const Text('계속하기'),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20,),
+
                   ],
                 ),
               ),
+            ),
+            Column(
+              children: [
+                Visibility(
+                  visible: userInfoProvider.isAllFieldsFilled,
+                  child: FadeSlideAnimation(
+                    durationMilliseconds: 400,
+                    beginOffset: const Offset(0, 1),
+                    child: SizedBox(
+                      height: 45,
+                      width: ScreenUtil.w(85),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          var data = userInfoProvider.getRegistrationData();
+                          loginInfoProvider.registration(data);
+                        },
+                        child: const Text('계속하기'),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+              ],
             ),
           ],
         ),

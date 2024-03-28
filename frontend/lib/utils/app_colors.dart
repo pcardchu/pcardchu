@@ -14,6 +14,7 @@ class AppColors {
   static const Color subLightBlue = Color(0xFF5B98BA);
   static const Color grey = Color(0xFF3C4045);
   static const Color gray = Color(0xFFE4E4E4);
+  static const Color amazingGrey = Color(0xFFCECECE);
   static const Color lightGrey = Color(0xFF8F99A5);
   static const Color bottomGrey = Color(0xFFE6E4F1);
   static const Color textBlack = Color(0xFF26282B);

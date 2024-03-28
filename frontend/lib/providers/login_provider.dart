@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
+import 'package:frontend/user/models/jwt_token.dart';
 import 'package:frontend/user/models/login_response.dart';
 import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/services/kakao_login_service.dart';
+import 'package:frontend/user/services/token_service.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class LoginProvider with ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
   bool _isLoggedIn = false;
-  OAuthToken? _kakaoToken;
   bool _isFirst = false;
 
-  String? _firstJwt;
+  JwtToken? _firstJwt;
+  JwtToken? _secondJwt;
+  OAuthToken? _kakaoToken;
+
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
@@ -20,10 +24,13 @@ class LoginProvider with ChangeNotifier {
   bool get isFirst => _isFirst;
 
   final KakaoLoginService _kakaoLoginService = KakaoLoginService();
+  final TokenService _tokenService = TokenService();
 
   Future<void> checkToken() async {
     try {
-      if(await _kakaoLoginService.checkKakaoSignIn()) {
+      _firstJwt = await _tokenService.getFirstToken();
+
+      if(await _kakaoLoginService.checkKakaoSignIn() && _firstJwt != null) {
         _isLoggedIn = true;
       }
     } catch(e) {
@@ -41,10 +48,11 @@ class LoginProvider with ChangeNotifier {
       _kakaoToken = await _kakaoLoginService.signInWithKakao();
       _isLoggedIn = true;
 
-      LoginResponse? loginResponse = await _kakaoLoginService.sendFirstJwtRequest(_kakaoToken!!);
+      LoginResponse? loginResponse = await _tokenService.firstJwtRequest(_kakaoToken!!);
       _isFirst = loginResponse!.isFirst!;
-      _firstJwt = loginResponse.token;
+      _firstJwt = JwtToken.fromLoginResponse(loginResponse, true);
 
+      _tokenService.saveFirstToken(_firstJwt!);
     } catch (e) {
       _errorMessage = e.toString();
       _isLoggedIn = false;
@@ -77,5 +85,20 @@ class LoginProvider with ChangeNotifier {
 
     notifyListeners();
     Navigator.pushReplacement(context, SlideTransitionPageRoute(page: LoginScreen(), beginOffset: Offset(-1, 0)));
+  }
+
+  Future<bool> registration(var data) async {
+    try {
+      print(data);
+      print(_firstJwt?.accessToken);
+      bool? result = await _tokenService.registrationRequest(_firstJwt!, data['gender'], data['shortPw'], data['birth']);
+
+      return result!;
+    } catch(e) {
+      print("회원가입 실패 : $e");
+      return false;
+    } finally {
+      print("회원가입 end");
+    }
   }
 }
