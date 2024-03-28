@@ -31,7 +31,10 @@ public class CardsAggregationImpl implements CardsAggregation {
 
     @Override
     public CardsListPage GetCardsCategoryList(CardsListReq cardsListReq, List<String> cardsRanking) {
-        Query query = new Query(Criteria.where("categories").in(cardsListReq.getCategory()));
+        Query query = new Query();
+        if (!cardsListReq.getCategory().equals("all")){
+            query.addCriteria(Criteria.where("categories").in(cardsListReq.getCategory()));
+        }
         List<CardInfo> findCategoryCards = mongoTemplate.find(query, CardInfo.class);
         log.info("TEST LOG : " + cardsListReq.getPageSize()  + " " + cardsListReq.getPageNumber());
         findCategoryCards.sort(Comparator.comparingInt(cardId -> {
@@ -44,12 +47,12 @@ public class CardsAggregationImpl implements CardsAggregation {
         for (int i = cardsSize; i < cardsSize + cardsListReq.getPageSize() + 1; i++) {
             try {
                 returnPageCards.add(findCategoryCards.get(i));
-            } catch (IndexOutOfBoundsException ignored) {
+            } catch (IndexOutOfBoundsException|NullPointerException ignored) {
             }
         }
         Boolean nextPage = false;
-        if (returnPageCards.size() == 6) {
-            returnPageCards.remove(5);
+        if (returnPageCards.size() == cardsListReq.getPageSize() + 1) {
+            returnPageCards.remove(cardsListReq.getPageSize());
             nextPage = true;
         }
 
@@ -69,9 +72,24 @@ public class CardsAggregationImpl implements CardsAggregation {
                 .findFirst();
             CardsRes tmpRes = cardsMapper.toCardsRes(cards);
             matchingCardInfo.ifPresent(cardInfo -> {
-                tmpRes.setCardContent((String)((Map<String, Object>)cardInfo
-                    .getContents().get(cardsListReq.getCategory()).get(1))
-                    .get("benefitSummary"));
+                String category = cardsListReq.getCategory();
+                if(cardsListReq.getCategory().equals("all")){
+                    for (int i = 0; i < cardInfo.getCategories().size(); i++){
+                        if (cardInfo.getContents().get(cardInfo.getCategories().get(i)) != null){
+                            category = cardInfo.getCategories().get(i);
+                            break;
+                        }
+                    }
+                }
+
+                try {
+                    tmpRes.setCardContent((String)((Map<String, Object>)cardInfo
+                            .getContents().get(category).get(1))
+                            .get("benefitSummary"));
+                }catch (NullPointerException ignore){
+                    tmpRes.setCardContent(cardInfo.getCategories().toString());
+                }
+
                 cardsResList.add(tmpRes);
             });
         });
