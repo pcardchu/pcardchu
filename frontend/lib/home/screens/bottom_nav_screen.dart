@@ -14,7 +14,7 @@ Widget _getPageForTab(NavigationTab tab) {
     case NavigationTab.home:
       return HomeScreen(); // 홈화면으로 이동
     case NavigationTab.myCards:
-      return RegistrationModal(); // 지금은 카드가 없을 때 모달 화면으로 이동, 임시입니다.
+      return CardScreen(myCardFlag: 1); // 지금은 카드가 없을 때 모달 화면으로 이동, 임시입니다.
     case NavigationTab.expenses:
       return ExpenseAnalyticsScreen(); // 내 소비 통계 페이지로 이동
     default:
@@ -42,10 +42,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedTab.index,
-        children:
-            NavigationTab.values.map((tab) => _getPageForTab(tab)).toList(),
+      body: SafeArea(
+        child: _getPageForTab(_selectedTab),
       ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
