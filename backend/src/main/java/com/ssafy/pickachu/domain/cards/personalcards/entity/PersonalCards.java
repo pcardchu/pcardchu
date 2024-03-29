@@ -20,7 +20,7 @@ public class PersonalCards {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String name;
-    int userId;
+    long userId;
     String cardsId;
     String cardNo;
     String cardPw;

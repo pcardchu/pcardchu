@@ -11,5 +11,5 @@ public interface PersonalCardsRepository extends JpaRepository<PersonalCards, Lo
 
     Optional<PersonalCards> findPersonalCardsByUserIdAndCardsId(int userId, String cardsId);
 
-    List<SimplePersonalCardsRes> findAllByUserIdAndUseYN(int userId, String userYN);
+    List<PersonalCards> findAllByUserIdAndUseYN(long userId, String userYN);
 }
