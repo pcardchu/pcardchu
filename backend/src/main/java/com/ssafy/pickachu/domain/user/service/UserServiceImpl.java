@@ -22,6 +22,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,7 @@ public class UserServiceImpl implements UserService{
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Value("${key.idtoken}")
     String idTokenKey; // 16자리의 키
@@ -279,7 +281,13 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
+    @Override
+    public boolean sendEmail(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
 
+        return emailService.sendEmail(user.getEmail());
+    }
 
 
     private String decryptAES(IdTokenReq idTokenReq){
