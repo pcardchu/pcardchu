@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_slide_animation.dart';
+import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/animations/shake_animation.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/providers/user_info_provider.dart';
 import 'package:frontend/user/models/login_response.dart';
+import 'package:frontend/user/screens/password_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
@@ -147,9 +149,26 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
                       height: 45,
                       width: ScreenUtil.w(85),
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           var data = userInfoProvider.getRegistrationData();
-                          var result = loginInfoProvider.registration(data);
+                          String result = await loginInfoProvider.registration(data);
+
+                          if(result == '성공') {
+                            loginInfoProvider.saveFirstJwt();
+                            Navigator.of(context).pushReplacement(
+                                FadeTransitionPageRoute(
+                                    page: PasswordScreen(),
+                                    transitionDuration: const Duration(milliseconds: 200),
+                                    reverseTransitionDuration: const Duration(milliseconds: 200)
+                                )
+                            );
+                          } else if(result == '토큰만료'){
+                            //토큰 만료 재시도 로직
+                            const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                          } else {
+                            //실패
+                            const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                          }
                         },
                         child: const Text('계속하기'),
                       ),

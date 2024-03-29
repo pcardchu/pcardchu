@@ -105,10 +105,9 @@ class UserInfoProvider with ChangeNotifier {
   }
 
   Map<String, dynamic> getRegistrationData() {
-    String gender = _gender == '남자' ? 'M' : 'F';
     String shortPw = CryptoUtil.hashPassword(_password, '1');
     return {
-      "gender" : gender,
+      "gender" : _gender,
       "birth" : formatDate(),
       "shortPw" : shortPw,
     };

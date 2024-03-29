@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/user/models/jwt_token.dart';
 import 'package:frontend/user/models/login_response.dart';
+import 'package:frontend/user/models/second_jwt_response.dart';
 import 'package:frontend/utils/crypto_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
@@ -32,7 +33,28 @@ class TokenService {
     await storage.delete(key: 'firstRefreshToken');
   }
 
-  Future<bool?> registrationRequest(JwtToken token, String gender, String shortPw, String birth) async {
+  Future<void> saveSecondToken(JwtToken jwtToken) async {
+    await storage.write(key: 'secondAccessToken', value: jwtToken.accessToken);
+    await storage.write(key: 'secondRefreshToken', value: jwtToken.refreshToken);
+  }
+
+  Future<JwtToken?> getSecondToken() async {
+    String? accessToken = await storage.read(key: 'secondAccessToken');
+    String? refreshToken = await storage.read(key: 'secondRefreshToken');
+
+    if (accessToken != null && refreshToken != null) {
+      return JwtToken(accessToken: accessToken, refreshToken: refreshToken);
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> deleteSecondToken() async {
+    await storage.delete(key: 'secondAccessToken');
+    await storage.delete(key: 'secondRefreshToken');
+  }
+
+  Future<String?> registrationRequest(JwtToken token, String gender, String shortPw, String birth) async {
     dio.options.connectTimeout = const Duration(milliseconds: 1000);
     dio.options.receiveTimeout = const Duration(milliseconds: 1000);
     dio.options.sendTimeout = const Duration(milliseconds: 1000);
@@ -44,6 +66,8 @@ class TokenService {
       'birth': birth,
       'shortPw': shortPw,
     };
+
+    print("요청 데이터 :ㅣ ${requestData}");
 
     try {
       print("registrationRequest 시작");
@@ -61,19 +85,96 @@ class TokenService {
 
       if (response.statusCode == 200) {
         print('정보 등록 성공');
-        return true;
-      } if(response.statusCode == 401) {
+        return '성공';
+      } else if(response.statusCode == 401) {
         //토큰 만료 로직
         print('토큰 만료: ${response.statusCode}');
+        return '토큰 만료';
       } else {
         // 서버에서 반환된 오류 처리
         print('서버 오류: ${response.data}');
+        return '실패';
       }
     } catch (e) {
       print('요청 실패: $e');
     }
 
-    return false;
+    return '실패';
+  }
+
+  Future<SecondJwtResponse> secondJwtRequestWithPassword(digest, JwtToken token) async {
+    dio.options.connectTimeout = const Duration(milliseconds: 1000);
+    dio.options.receiveTimeout = const Duration(milliseconds: 1000);
+    dio.options.sendTimeout = const Duration(milliseconds: 1000);
+
+    String url = "${baseUrl}/user/login/password";
+
+    var requestData = {
+      'password': digest,
+    };
+
+    var header = {
+      'accept' : 'application/json',
+      'Content-Type' : 'application/json', // 요청 헤더에 Content-Type 지정
+      'Authorization' : 'Bearer ${token.accessToken}'
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: requestData,
+        options: Options(headers: header),
+      );
+
+      // 성공 응답 처리
+      print("2차 jwt 발급 성공 ${response.data}");
+      return SecondJwtResponse(
+        code: response.statusCode,
+        count: 0,
+        accessToken: response.data['accessToken'],
+        refreshToken: response.data['refreshToken'],
+      );
+    } on DioException catch (e) {
+      // DioError에서 응답 객체 접근
+      final response = e.response;
+
+      // 상태 코드가 있을 경우 그에 따라 처리
+      if (response != null) {
+        print("응답 에러 코드: ${response.statusCode}");
+        print("응답 에러 내용: ${response.data}");
+
+        if (response.statusCode == 400) {
+          // 비밀번호 오류 처리
+          return SecondJwtResponse(
+            code: response.statusCode,
+            count: response.data,
+            accessToken: null,
+            refreshToken: null,
+          );
+        } else if (response.statusCode == 401) {
+          // 토큰 만료 처리
+          print("토큰 만료");
+        } else {
+          // 그 외 오류 처리
+          print("기타 오류 처리");
+        }
+      } else {
+        // 응답 없이 발생한 예외 처리
+        print("응답 없음: $e");
+      }
+    } catch (e) {
+      // 그 외 예외 처리
+      print("2차 Jwt 토큰 발급 실패 : $e");
+    }
+
+// 기본 반환 값 설정, 실패 시 반환할 객체
+    return SecondJwtResponse(
+      code: 0,
+      count: 0,
+      accessToken: 'null',
+      refreshToken: 'null',
+    );
+
   }
 
   Future<LoginResponse?> firstJwtRequest(OAuthToken token) async {

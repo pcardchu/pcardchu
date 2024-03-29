@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
 import 'package:frontend/providers/login_provider.dart';
+import 'package:frontend/providers/password_provider.dart';
+import 'package:frontend/user/screens/password_screen.dart';
 import 'package:frontend/user/screens/registration_intro_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +40,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
 
         if (provider.isFirst) {
           // 회원가입 화면으로 이동
+          provider.isFirst = false;
           Navigator.pushReplacement(
               context,
               FadeAndSlideTransitionPageRoute(
@@ -45,12 +48,14 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
                 duration: const Duration(milliseconds: 130),
               )
           );
-        } else if (provider.isLoggedIn) {
+        } else if (!provider.isFirst && provider.isLoggedIn) {
+          final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
+          passwordProvider.clearAll();
           // PasswordScreen으로 이동
           Navigator.pushReplacement(
               context,
               FadeAndSlideTransitionPageRoute(
-                page: const RegistrationIntroScreen(),
+                page: PasswordScreen(),
                 duration: const Duration(milliseconds: 130),
               )
           );
@@ -64,7 +69,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Image.asset('assets/images/kakao_logo.png', height: 20.0), // 카카오 로고 이미지
-          Text(
+          const Text(
             "카카오로 로그인",
             style: TextStyle(
               color: Colors.black87, // 텍스트 색상
