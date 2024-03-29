@@ -22,40 +22,24 @@ class CategoryList extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: 39),
-          CategoryChip(
-            title: '전체',
-            selectedChoiceIndex: selectedChoiceIndex,
-            selectedChip: selectedChip,
-            categoryIndex: 0,
-          ),
-          SizedBox(width: 15),
-          CategoryChip(
-            title: '교통',
-            selectedChoiceIndex: selectedChoiceIndex,
-            selectedChip: selectedChip,
-            categoryIndex: 1,
-          ),
-          SizedBox(width: 15),
-          CategoryChip(
-            title: '카페',
-            selectedChoiceIndex: selectedChoiceIndex,
-            selectedChip: selectedChip,
-            categoryIndex: 2,
-          ),
-          SizedBox(width: 15),
-          CategoryChip(
-            title: '배달',
-            selectedChoiceIndex: selectedChoiceIndex,
-            selectedChip: selectedChip,
-            categoryIndex: 3,
-          ),
-          SizedBox(width: 15),
-          CategoryChip(
-            title: '영화 / 문화',
-            selectedChoiceIndex: selectedChoiceIndex,
-            selectedChip: selectedChip,
-            categoryIndex: 4,
-          ),
+          ...['전체', '적립', '카페', '할인', '대중교통', '영화', '편의점', '음식']
+              .asMap()
+              .entries
+              .map((entry) {
+            int idx = entry.key;
+            String title = entry.value;
+            return Row(
+              children: [
+                CategoryChip(
+                  title: title,
+                  selectedChoiceIndex: selectedChoiceIndex,
+                  selectedChip: selectedChip,
+                  categoryIndex: idx,
+                ),
+                SizedBox(width: idx < 7 ? 15 : 0),
+              ],
+            );
+          }).toList(),
         ],
       ),
     );

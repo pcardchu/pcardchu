@@ -50,7 +50,7 @@ class _ConsumptionState extends State<Consumption> {
           color: AppColors.mainWhite,
           child: Center(
             child: loading
-                ? CircularProgressIndicator()
+                ? Container()
                 : Container(
                     color: AppColors.mainWhite,
                     // 화면 메인 컬럼

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/card/screens/card_company.dart';
 import 'package:frontend/card/widgets/card_form.dart';
 import 'package:frontend/providers/card_provider.dart';
@@ -123,9 +124,15 @@ class _CardNumberCheckState extends State<CardNumberCheck> {
       formKey.currentState!.save();
       // 다음 카드사 입력 페이지로 이동
       Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => CardCompany(),
-        ),
+          SlideTransitionPageRoute(
+              page: const CardCompany(),
+              beginOffset: const Offset(1, 0),
+              transitionDuration: const Duration(milliseconds: 350),
+              reverseTransitionDuration: const Duration(milliseconds: 350)
+          )
+        // MaterialPageRoute(
+        //   builder: (_) => CardCompany(),
+        // ),
       );
     }
   }

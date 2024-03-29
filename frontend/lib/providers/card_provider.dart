@@ -122,15 +122,18 @@ class CardProvider with ChangeNotifier {
 
     Map<String, String> categoryDic = {
       '0': 'all',
-      '1': '교통',
+      '1': '적립',
       '2': '카페',
-      '3': '통신',
-      '4': '통신',
+      '3': '할인',
+      '4': '대중교통',
+      '5': '영화',
+      '6': '영화',
+      '7': '영화',
     };
 
     loading = true;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 8; i++) {
       categoryCards.add(await cardService.getCategoryCards(categoryDic[i.toString()]!));
     }
 

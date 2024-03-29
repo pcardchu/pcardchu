@@ -13,7 +13,7 @@ class ConsumptionService{
           options: Options(
             headers: {
               'accept': 'application/json',
-              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NzQ2OTIsImV4cCI6MTcxMTY3NjQ5Mn0.oD-nwRsk2J6W2N8hc3u9PQtq2vLelRZXfK4oPLr_-vI'
+              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2ODYyMDEsImV4cCI6MTcxMTY4ODAwMX0.sI5iqSZ7PTtmTV1oA3crO1OFa4qDQTZ_LtcPjgIKRy0'
             }
           ));
 
