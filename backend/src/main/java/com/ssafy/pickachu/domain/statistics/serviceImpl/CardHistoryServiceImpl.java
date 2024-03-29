@@ -52,7 +52,11 @@ public class CardHistoryServiceImpl implements CardHistoryService {
             e.printStackTrace();
         }
 
-        return "Success";
+        CardHistoryRes cardHistoryRes = CardHistoryRes.createCardHistoryResponse(
+                        HttpStatus.OK.value(), "Success", "Success"
+        );
+
+        return ResponseEntity.ok(cardHistoryRes);
 
     }
 
