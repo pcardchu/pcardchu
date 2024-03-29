@@ -21,4 +21,5 @@ public interface UserService {
     boolean updateShortPw(Long id, String shortPw);
     boolean updateGender(Long id, String gender);
     boolean updateBirth(Long id, Date birth);
+    boolean sendEmail(Long id);
 }

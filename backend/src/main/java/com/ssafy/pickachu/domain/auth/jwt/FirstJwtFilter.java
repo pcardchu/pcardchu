@@ -35,7 +35,8 @@ public class FirstJwtFilter extends OncePerRequestFilter {
 
         if (!requestUri.equals("/api/user/basic-info")
                 && !requestUri.equals("/api/user/login/password")
-                && !requestUri.equals("/api/user/login/bio")){
+                && !requestUri.equals("/api/user/login/bio")
+                && !requestUri.equals("/api/user/login/temp")){
             filterChain.doFilter(request, response);
             return;
         }

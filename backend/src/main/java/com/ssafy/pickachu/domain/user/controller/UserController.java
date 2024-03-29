@@ -215,4 +215,23 @@ public class UserController {
         }
 
     }
+
+    @Operation(summary = "비밀번호 찾기", description = "회원 이메일로 임시 비밀번호 발급")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "임시 비밀번호 발급 성공", content = {@Content(mediaType = "application/json", schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "임시 비밀번호 발급 실패", content = {@Content(mediaType = "application/json", schema = @Schema())}) })
+    @GetMapping("/login/temp")
+    public ResponseEntity<?> sendEmail(@AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Long id = principalDetails.getUserDto().getId();
+
+        boolean result = userService.sendEmail(id);
+
+        if (result){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
 }
