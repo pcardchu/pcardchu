@@ -10,19 +10,13 @@ import com.ssafy.pickachu.domain.user.entity.User;
 import com.ssafy.pickachu.domain.user.exception.UserNotFoundException;
 import com.ssafy.pickachu.domain.user.repository.UserRepository;
 import com.ssafy.pickachu.domain.auth.jwt.JwtUtil;
-import com.ssafy.pickachu.domain.user.request.PasswordReq;
 import com.ssafy.pickachu.domain.user.request.TokenReissueReq;
-import com.ssafy.pickachu.domain.user.response.TokenRes;
+import com.ssafy.pickachu.domain.user.response.FirstTokenRes;
+import com.ssafy.pickachu.domain.user.response.SecondTokenRes;
 import com.ssafy.pickachu.domain.user.response.UserInfoRes;
-import com.ssafy.pickachu.global.exception.ErrorCode;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,12 +83,12 @@ public class UserServiceImpl implements UserService{
 
         user.setFirstRefreshToken(refreshToken);
 
-        TokenRes tokenRes = TokenRes.builder()
+        FirstTokenRes firstTokenRes = FirstTokenRes.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken
-                ).build();
+                .refreshToken(refreshToken)
+                .flagBiometrics(user.getFlagBiometrics()).build();
 
-        result.put("token", tokenRes);
+        result.put("tokenAndFlag", firstTokenRes);
 
         // 1차 JWT 발급
         return result;
@@ -126,12 +120,12 @@ public class UserServiceImpl implements UserService{
 
             user.setSecondRefreshToken(refreshToken);
 
-            TokenRes tokenRes = TokenRes.builder()
+            SecondTokenRes secondTokenRes = SecondTokenRes.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken
                     ).build();
 
-            result.put("token", tokenRes);
+            result.put("token", secondTokenRes);
         }
 
         return result;
@@ -154,19 +148,19 @@ public class UserServiceImpl implements UserService{
 
             user.setSecondRefreshToken(refreshToken);
 
-            TokenRes tokenRes = TokenRes.builder()
+            SecondTokenRes secondTokenRes = SecondTokenRes.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken
                     ).build();
 
-            result.put("token", tokenRes);
+            result.put("token", secondTokenRes);
         }
 
         return result;
     }
 
     @Override
-    public TokenRes reissueToken(TokenReissueReq tokenReissueReq) {
+    public SecondTokenRes reissueToken(TokenReissueReq tokenReissueReq) {
 
         String token = tokenReissueReq.getRefreshToken();
         boolean isFlagFirst = tokenReissueReq.isFlagFirst();
@@ -200,11 +194,11 @@ public class UserServiceImpl implements UserService{
             }
         }
 
-        TokenRes tokenRes = TokenRes.builder()
+        SecondTokenRes secondTokenRes = SecondTokenRes.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken).build();
 
-        return tokenRes;
+        return secondTokenRes;
     }
 
     @Transactional
