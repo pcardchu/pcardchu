@@ -1,10 +1,7 @@
 package com.ssafy.pickachu.domain.statistics.controller;
 
 import com.ssafy.pickachu.domain.auth.PrincipalDetails;
-import com.ssafy.pickachu.domain.statistics.response.AverageComparisonRes;
-import com.ssafy.pickachu.domain.statistics.response.MyConsumptionRes;
-import com.ssafy.pickachu.domain.statistics.response.PeakTimeAgeRes;
-import com.ssafy.pickachu.domain.statistics.response.Top3CategoryRes;
+import com.ssafy.pickachu.domain.statistics.response.*;
 import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
 import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +48,7 @@ public class StatisticsController {
 
     @Operation(summary = "codef 연동 전 데이터 삽입용임", description = "건들지마시오")
     @GetMapping("/testinsert")
-    public String insertData(){return service.saveCardHistories();}
+    public ResponseEntity<CardHistoryRes> insertData(){return service.saveCardHistories();}
 
     @Operation(summary = "개인 소비 통계", description = "지난달 소비 내역과 업종 분석, 일자별 소비 금액 합계")
     @ApiResponses({
