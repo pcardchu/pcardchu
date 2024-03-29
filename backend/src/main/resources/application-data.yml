@@ -1,0 +1,31 @@
+# 변수 값 들을 저장하는 yml 파일입니다.
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: ENC(F+Tfqgh7eSKxyNTnRRMzHg==)
+    username: ENC(EFs0vCXrVpZXBsOh1JOSK6rOUcj0L54HViN8EpsB748=)
+    password: ENC(XcfYBOyHE+LUo2Xx7gN3saHColz75ZXbXKAeQO44LHw=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+image:
+  upload:
+    path: ENC(jOxza9PjOStLKr5pgD0XE9IdePCftefRsth2f1J0tr7DeIfnLJKyciVXm7mMDHTQ)
+
+crawling:
+  cards:
+    url: ENC(3lmLAesUCl5Wcr2ia9F8RDAqNjIWLGS6VadXjCEoRieXDRQJeV/VBaIFXO0aOIco)
+    regist: ENC(mN7poQi6TX8Llwu5xCzRpDHKH4lcNJux3NaQOtYhMzc50rWOHLA2avxPYJXt5BQazac4hvJeG4I=)
+    cond: ENC(uFxofluO/NAeIWrpWJLXKA==)
+
+key:
+  idtoken: ENC(5/by/wGdbUV8Jbh4WepsEbqe/fdPtR6B76tQoDsfPVYVN7d06o9Fdw==)
+  first-jwt-access: ENC(/qPyG1JvF/JTXbUDmMb4vkYpE6C7f244ZlsnF3PnpFSmwX/U/ClIASCEJPs81LhUh9u/PJHPKCBzyzkQmwj6VQ==)
+  first-jwt-refresh: ENC(lpUMFN4AKoezjXVE+nXnWdYxeqoliMaKeM56sI7mhNm1FYst4y/v0HKHWAGbtaxX51TVrgm1gnOq+2wzsRn3+A==)
+  second-jwt-access: ENC(i7MQwBCTXrVFS8WzFkDes1fwSmsXIEG4esV0h07TNoDgQrVytj5bL6YbannZJmFhO8ajqpzWlRf9iWKwYKwHeNNeTLr2Q7fX)
+  second-jwt-refresh: ENC(seyGl7qFJihdJfuN0xO2kBIh1I+iXWleHel94l6v8xSvDYeGZg7FBdMxIlDrBECNz2JYBG95p68=)
+
