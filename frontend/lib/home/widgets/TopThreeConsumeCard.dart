@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/top_three_consume_provider.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
+import 'package:provider/provider.dart';
 
 class TopThreeConsumeCard extends StatelessWidget {
   const TopThreeConsumeCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    // 내 소비 패턴 정보
+    final data = context.watch<TopThreeConsumeProvider>().consumeList;
+
     return SizedBox(
       height: ScreenUtil.h(26),
       child: Card(
@@ -15,32 +21,31 @@ class TopThreeConsumeCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: const Color(0xFFC5D8FC),
-        child: Center(
-          child: Container(
-            width: ScreenUtil.w(83),
-            height: ScreenUtil.h(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '20대 여성이 가장 많이 한 소비',
-                  style: AppFonts.suit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textBlack),
-                ),
-                Text(
-                  'BEST 3',
-                  style: AppFonts.suit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textBlack),
-                ),
-                Row(children: [
-                  Column(
+        child: Container(
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '20대 여성이 가장 많이 한 소비',
+                style: AppFonts.suit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textBlack),
+              ),
+              Text(
+                'BEST 3',
+                style: AppFonts.suit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textBlack),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
                     children: [
-                      SizedBox(width: ScreenUtil.w(24),),
                       Text(
                         '1. 쇼핑',
                         style: AppFonts.suit(
@@ -64,16 +69,15 @@ class TopThreeConsumeCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(width: ScreenUtil.w(34),),
-                  Image.asset(
-                    'assets/images/donut_chart_icon.png',
-                    width: ScreenUtil.w(24),
-                    height: ScreenUtil.w(24),
-                    fit: BoxFit.contain,
-                  )
-                ]),
-              ],
-            ),
+                ),
+                Image.asset(
+                  'assets/images/donut_chart_icon.png',
+                  width: ScreenUtil.w(21),
+                  height: ScreenUtil.w(21),
+                  fit: BoxFit.contain,
+                )
+              ]),
+            ],
           ),
         ),
       ),

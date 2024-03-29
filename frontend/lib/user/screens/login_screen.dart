@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
         child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/pickachu_logo.png', height: ScreenUtil.h(25)),
+            Image.asset('assets/images/app_icon.png', width: ScreenUtil.w(70),),
             SizedBox(height: ScreenUtil.h(20),),
             ElevatedButton(
               onPressed: () async {
