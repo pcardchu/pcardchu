@@ -2,9 +2,8 @@ package com.ssafy.pickachu.domain.user.service;
 
 import com.ssafy.pickachu.domain.user.request.BasicInfoReq;
 import com.ssafy.pickachu.domain.user.request.IdTokenReq;
-import com.ssafy.pickachu.domain.user.request.PasswordReq;
 import com.ssafy.pickachu.domain.user.request.TokenReissueReq;
-import com.ssafy.pickachu.domain.user.response.TokenRes;
+import com.ssafy.pickachu.domain.user.response.SecondTokenRes;
 import com.ssafy.pickachu.domain.user.response.UserInfoRes;
 
 import java.sql.Date;
@@ -14,7 +13,7 @@ public interface UserService {
     Map<String, Object> loginWithKakao(IdTokenReq idTokenReq);
     Map<String, Object> loginWithPassword(Long id, String shortPw);
     Map<String, Object> loginWithBio(Long id);
-    TokenRes reissueToken(TokenReissueReq tokenReissueReq);
+    SecondTokenRes reissueToken(TokenReissueReq tokenReissueReq);
     boolean updateBasicInfo(Long id, BasicInfoReq basicInfoReq);
     UserInfoRes getUserInfo(Long id);
     boolean updateFlagBiometrics(Long id, boolean flagBiometrics);
