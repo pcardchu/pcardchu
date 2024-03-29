@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/detail_tag.dart';
+import 'package:frontend/card/widgets/card_detail/detail_tag.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../models/card_model.dart';
+import '../../models/card_model.dart';
 
 class DetailTop extends StatelessWidget {
   const DetailTop({super.key});

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/card/screens/card_company_info.dart';
-import 'package:frontend/card/widgets/company_select.dart';
+import 'package:frontend/card/widgets/card_company/company_select.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';

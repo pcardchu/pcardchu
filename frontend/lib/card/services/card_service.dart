@@ -1,31 +1,28 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/card/models/api_response_model.dart';
 import 'package:frontend/card/models/card_model.dart';
+import 'package:frontend/utils/dio_util.dart';
 
 class CardService {
   final dio = Dio();
 
   /// 카테고리에 맞는 카드 리스트 GET 요청
   /// id는 카테고리 아이디
-  Future<List<CardModel>> getCategoryCards(String category) async {
-    print(category);
+  Future<ApiResponseModel> getCategoryCards(String category) async {
     try {
-      final Response response = await dio.get(
-          "https://j10d110.p.ssafy.io/api/cards/list",
+      final Response response = await DioUtil().dio.get(
+          "/cards/list",
           queryParameters: {'category': category, 'pageNumber': 1, 'pageSize': 10},
-      options: Options(
-        headers: {
-          'accept': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2ODYyMDEsImV4cCI6MTcxMTY4ODAwMX0.sI5iqSZ7PTtmTV1oA3crO1OFa4qDQTZ_LtcPjgIKRy0'
-        }
-      )
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> cardsJson = response.data['data']['cardsRes'];
-        final List<CardModel> cards = cardsJson.map<CardModel>((json) => CardModel.fromJson(json)).toList();
+        // final List<dynamic> cardsJson = response.data['data']['cardsRes'];
+        // final List<CardModel> cards = cardsJson.map<CardModel>((json) => CardModel.fromJson(json)).toList();
 
-        return cards;
+        ApiResponseModel apiResponse = ApiResponseModel.fromJson(response.data);
+        // List<CardModel> cards = apiResponse.data?.cardsRes ?? [];
+
+        return apiResponse;
       } else {
         throw Exception('Failed to load cards');
       }
@@ -38,15 +35,9 @@ class CardService {
   /// id는 카드 아이디
   Future<CardModel> getCardsDetail(String cardId) async {
     try {
-      final Response response = await dio.get(
-          "https://j10d110.p.ssafy.io/api/cards/list/detail/$cardId",
-          queryParameters: {'cardId': cardId},
-      options: Options(
-          headers: {
-            'accept': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2ODYyMDEsImV4cCI6MTcxMTY4ODAwMX0.sI5iqSZ7PTtmTV1oA3crO1OFa4qDQTZ_LtcPjgIKRy0eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2ODYyMDEsImV4cCI6MTcxMTY4ODAwMX0.sI5iqSZ7PTtmTV1oA3crO1OFa4qDQTZ_LtcPjgIKRy0'
-          }
-      ));
+      final Response response = await DioUtil().dio.get(
+          "/cards/list/detail/$cardId",
+          queryParameters: {'cardId': cardId});
       if (response.statusCode == 200) {
         // CardModel 객체로 변환;
         final CardModel cards = CardModel.fromJson(response.data['data']);

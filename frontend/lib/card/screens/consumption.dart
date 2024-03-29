@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/consumption_tapbar.dart';
+import 'package:frontend/card/widgets/consumption/consumption_tapbar.dart';
 import 'package:frontend/card/widgets/loading_modal.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/providers/login_provider.dart';

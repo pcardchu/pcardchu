@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/card/screens/card_company.dart';
-import 'package:frontend/card/widgets/card_form.dart';
+import 'package:frontend/card/widgets/card_number_check/card_form.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';

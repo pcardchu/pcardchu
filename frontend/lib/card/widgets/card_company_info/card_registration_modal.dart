@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/screens/card_registration.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 

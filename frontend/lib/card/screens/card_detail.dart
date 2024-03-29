@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/models/card_model.dart';
 import 'package:frontend/card/screens/card_web_view.dart';
-import 'package:frontend/card/widgets/detail_bottom.dart';
-import 'package:frontend/card/widgets/detail_top.dart';
+import 'package:frontend/card/widgets/card_detail/detail_bottom.dart';
+import 'package:frontend/card/widgets/card_detail/detail_top.dart';
 import 'package:frontend/card/widgets/loading_modal.dart';
 import 'package:frontend/card/widgets/next_btn.dart';
 import 'package:frontend/providers/card_provider.dart';

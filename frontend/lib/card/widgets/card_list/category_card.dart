@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_detail.dart';
 import 'package:frontend/providers/card_provider.dart';

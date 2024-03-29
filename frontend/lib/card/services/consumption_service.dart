@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/card/models/consumption_model.dart';
 import 'package:frontend/card/models/recommend_model.dart';
+import 'package:frontend/utils/dio_util.dart';
 
 class ConsumptionService{
   final dio = Dio();
@@ -8,14 +9,8 @@ class ConsumptionService{
   /// 내 소비 패턴 정보 GET 요청
   Future<ConsumptionModel> getMyConsumption(String id) async {
     try {
-      final Response response = await dio.get(
-          "https://j10d110.p.ssafy.io/api/statistics/consumption",
-          options: Options(
-            headers: {
-              'accept': 'application/json',
-              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2ODYyMDEsImV4cCI6MTcxMTY4ODAwMX0.sI5iqSZ7PTtmTV1oA3crO1OFa4qDQTZ_LtcPjgIKRy0'
-            }
-          ));
+      final Response response = await DioUtil().dio.get(
+          "/statistics/consumption");
 
       if (response.statusCode == 200) {
         // ConsumptionModel 객체로 변환;

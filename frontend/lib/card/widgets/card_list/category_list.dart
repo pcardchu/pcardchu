@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/category_chip.dart';
+import 'package:frontend/card/widgets/card_list/category_chip.dart';
 
 /// 카테고리 스크롤뷰
 class CategoryList extends StatelessWidget {
