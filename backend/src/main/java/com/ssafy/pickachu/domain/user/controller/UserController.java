@@ -2,6 +2,7 @@ package com.ssafy.pickachu.domain.user.controller;
 
 import com.ssafy.pickachu.domain.auth.PrincipalDetails;
 import com.ssafy.pickachu.domain.user.request.*;
+import com.ssafy.pickachu.domain.user.response.FirstTokenRes;
 import com.ssafy.pickachu.domain.user.response.SecondTokenRes;
 import com.ssafy.pickachu.domain.user.response.UserInfoRes;
 import com.ssafy.pickachu.domain.user.service.UserService;
@@ -30,9 +31,9 @@ public class UserController {
     @Operation(summary = "카카오 로그인", description = "기존 회원일 경우 로그인, 신규 회원일 경우 회원가입 후 로그인")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공, 초기 정보 입력 완료",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SecondTokenRes.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FirstTokenRes.class))}),
             @ApiResponse(responseCode = "201", description = "로그인 성공, 초기 정보 입력 필요",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SecondTokenRes.class))}),
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = FirstTokenRes.class))}),
             @ApiResponse(responseCode = "400", description = "로그인 실패",
                     content = {@Content(mediaType = "application/json", schema = @Schema())}) })
     @PostMapping("/login/kakao")
