@@ -5,6 +5,8 @@ import com.ssafy.pickachu.domain.cards.recommend.dto.CardsListReq;
 import com.ssafy.pickachu.domain.cards.recommend.dto.CardsRes;
 import com.ssafy.pickachu.domain.cards.recommend.entity.CardInfo;
 
+import com.ssafy.pickachu.domain.cards.recommend.entity.Cards;
+import com.ssafy.pickachu.domain.cards.recommend.mapper.CardsMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -25,10 +27,14 @@ public class CardsAggregationImpl implements CardsAggregation {
 
 
     private final MongoTemplate mongoTemplate;
+    private final CardsMapper cardsMapper;
 
     @Override
     public CardsListPage GetCardsCategoryList(CardsListReq cardsListReq, List<String> cardsRanking) {
-        Query query = new Query(Criteria.where("categories").in(cardsListReq.getCategory()));
+        Query query = new Query();
+        if (!cardsListReq.getCategory().equals("all")){
+            query.addCriteria(Criteria.where("categories").in(cardsListReq.getCategory()));
+        }
         List<CardInfo> findCategoryCards = mongoTemplate.find(query, CardInfo.class);
         log.info("TEST LOG : " + cardsListReq.getPageSize()  + " " + cardsListReq.getPageNumber());
         findCategoryCards.sort(Comparator.comparingInt(cardId -> {
@@ -41,12 +47,12 @@ public class CardsAggregationImpl implements CardsAggregation {
         for (int i = cardsSize; i < cardsSize + cardsListReq.getPageSize() + 1; i++) {
             try {
                 returnPageCards.add(findCategoryCards.get(i));
-            } catch (IndexOutOfBoundsException ignored) {
+            } catch (IndexOutOfBoundsException|NullPointerException ignored) {
             }
         }
         Boolean nextPage = false;
-        if (returnPageCards.size() == 6) {
-            returnPageCards.remove(5);
+        if (returnPageCards.size() == cardsListReq.getPageSize() + 1) {
+            returnPageCards.remove(cardsListReq.getPageSize());
             nextPage = true;
         }
 
@@ -56,16 +62,35 @@ public class CardsAggregationImpl implements CardsAggregation {
             .collect(Collectors.toList())));
         Aggregation aggregation = Aggregation.newAggregation(match, limit);
 
-        AggregationResults<CardsRes> results = mongoTemplate.aggregate(aggregation, "cards", CardsRes.class);
-        List<CardsRes> cardsResList = results.getMappedResults();
-        cardsResList.forEach(cardsRes -> {
+        List<CardsRes> cardsResList = new ArrayList<>();
+
+        AggregationResults<Cards> results = mongoTemplate.aggregate(aggregation, "cards", Cards.class);
+        List<Cards> cardsList = results.getMappedResults();
+        cardsList.forEach(cards -> {
             Optional<CardInfo> matchingCardInfo = findCategoryCards.stream()
-                .filter(cardInfo -> cardInfo.getCardId().equals(cardsRes.getId()))
+                .filter(cardInfo -> cardInfo.getCardId().equals(cards.getId()))
                 .findFirst();
+            CardsRes tmpRes = cardsMapper.toCardsRes(cards);
             matchingCardInfo.ifPresent(cardInfo -> {
-                cardsRes.setSimpleBenefit((String)((Map<String, Object>)cardInfo
-                    .getContents().get(cardsListReq.getCategory()).get(1))
-                    .get("benefitSummary"));
+                String category = cardsListReq.getCategory();
+                if(cardsListReq.getCategory().equals("all")){
+                    for (int i = 0; i < cardInfo.getCategories().size(); i++){
+                        if (cardInfo.getContents().get(cardInfo.getCategories().get(i)) != null){
+                            category = cardInfo.getCategories().get(i);
+                            break;
+                        }
+                    }
+                }
+
+                try {
+                    tmpRes.setCardContent((String)((Map<String, Object>)cardInfo
+                            .getContents().get(category).get(1))
+                            .get("benefitSummary"));
+                }catch (NullPointerException ignore){
+                    tmpRes.setCardContent(cardInfo.getCategories().toString());
+                }
+
+                cardsResList.add(tmpRes);
             });
         });
         return new CardsListPage(cardsResList, cardsListReq.getPageNumber(), cardsListReq.getPageSize(), !nextPage);
