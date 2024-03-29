@@ -121,11 +121,11 @@ class CardProvider with ChangeNotifier {
   getCategoryCards(context) async {
 
     Map<String, String> categoryDic = {
-      '0': '',
+      '0': 'all',
       '1': '교통',
       '2': '카페',
-      '3': '배달',
-      '4': '영화/문화',
+      '3': '통신',
+      '4': '통신',
     };
 
     loading = true;

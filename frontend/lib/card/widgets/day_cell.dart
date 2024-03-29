@@ -33,7 +33,6 @@ Widget dayCell(BuildContext context, DateTime day, DateTime focusedDay) {
             -1)
           Text(
             '${data.calendar[data.calendar.indexWhere((e) => e.date.substring(6, 8) == day.toString().split('-').join('').substring(6, 8))].amount}',
-            // '${data.calendar.indexWhere((e) => e.date.substring(6,8) == day.toString().split('-').join('').substring(0, 8))}',
             style: AppFonts.suit(
                 fontSize: 8,
                 fontWeight: FontWeight.w700,

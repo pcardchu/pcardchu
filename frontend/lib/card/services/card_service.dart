@@ -8,14 +8,15 @@ class CardService {
   /// 카테고리에 맞는 카드 리스트 GET 요청
   /// id는 카테고리 아이디
   Future<List<CardModel>> getCategoryCards(String category) async {
+    print(category);
     try {
       final Response response = await dio.get(
           "https://j10d110.p.ssafy.io/api/cards/list",
-          queryParameters: {'category': '교통', 'pageNumber': 1, 'pageSize': 5},
+          queryParameters: {'category': category, 'pageNumber': 1, 'pageSize': 10},
       options: Options(
         headers: {
           'accept': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NDAxNTQsImV4cCI6MTcxMTY0MTk1NH0.WY0fHhjrIrVHEC5oljqx6EQSVWItfLwLXafUwtq2DhA'
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NzA3OTAsImV4cCI6MTcxMTY3MjU5MH0.HVP7JX21NNaCb5AzmqZT0nacDHWkN4i7BMNqa7h5Gjg'
         }
       )
       );
@@ -43,7 +44,7 @@ class CardService {
       options: Options(
           headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NDAxNTQsImV4cCI6MTcxMTY0MTk1NH0.WY0fHhjrIrVHEC5oljqx6EQSVWItfLwLXafUwtq2DhA'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2NzA3OTAsImV4cCI6MTcxMTY3MjU5MH0.HVP7JX21NNaCb5AzmqZT0nacDHWkN4i7BMNqa7h5Gjg'
           }
       ));
       if (response.statusCode == 200) {
