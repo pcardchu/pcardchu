@@ -5,6 +5,7 @@ import 'package:frontend/card/widgets/compare.dart';
 import 'package:frontend/card/widgets/consumption_chart.dart';
 import 'package:frontend/card/widgets/consumption_list.dart';
 import 'package:frontend/utils/app_colors.dart';
+import 'package:frontend/utils/screen_util.dart';
 
 /// 소비패턴 - 내 소비 탭 화면
 class ConsumptionTab1 extends StatefulWidget {
@@ -59,6 +60,7 @@ class _ConsumptionTab1State extends State<ConsumptionTab1> {
           ),
           // 캘린더 아코디언바
           CalenderAccordion(scrollController: scrollController,),
+          SizedBox(height: 56)
         ],
       ),
     );

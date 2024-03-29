@@ -16,6 +16,7 @@ class _RegistrationModalState extends State<RegistrationModal> {
     return Dialog(
       // 배경색
       backgroundColor: AppColors.mainWhite,
+
       // 모양 설정
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(28),

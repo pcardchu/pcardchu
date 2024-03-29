@@ -43,25 +43,23 @@ class _ConsumptionState extends State<Consumption> {
           const SizedBox(width: 20),
         ],
       ),
-      body: SafeArea(
-        child: Container(
-          color: AppColors.mainWhite,
-          child: Center(
-            child: loading
-                ? CircularProgressIndicator()
-                : Container(
-                    color: AppColors.mainWhite,
-                    // 화면 메인 컬럼
-                    child: Column(
-                      children: [
-                        // 탭바
-                        Expanded(
-                          child: ConsumptionTapbar(),
-                        ),
-                      ],
-                    ),
+      body: Container(
+        color: AppColors.mainWhite,
+        child: Center(
+          child: loading
+              ? CircularProgressIndicator()
+              : Container(
+                  color: AppColors.mainWhite,
+                  // 화면 메인 컬럼
+                  child: Column(
+                    children: [
+                      // 탭바
+                      Expanded(
+                        child: ConsumptionTapbar(),
+                      ),
+                    ],
                   ),
-          ),
+                ),
         ),
       ),
     );
