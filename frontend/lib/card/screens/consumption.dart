@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/widgets/consumption_tapbar.dart';
 import 'package:frontend/providers/consumption_provider.dart';
+import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class _ConsumptionState extends State<Consumption> {
   @override
   Widget build(BuildContext context) {
     final loading = context.watch<ConsumptionProvider>().loading;
+    final loginInfoProvider = Provider.of<LoginProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +35,9 @@ class _ConsumptionState extends State<Consumption> {
         // 톱니 버튼
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              loginInfoProvider.logout(context);
+            },
             icon: Icon(
               Icons.settings,
               color: AppColors.textBlack,

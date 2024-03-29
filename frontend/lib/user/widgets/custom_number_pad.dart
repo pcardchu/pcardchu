@@ -3,7 +3,12 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/animations/fade_transition_page_route.dart';
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
+import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
+import 'package:frontend/user/models/jwt_token.dart';
+import 'package:frontend/user/models/second_jwt_response.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
@@ -28,13 +33,14 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PasswordProvider>(context);
-    final randomNums = provider.nums;
+    final passwordProvider = Provider.of<PasswordProvider>(context);
+    final loginProvider = Provider.of<LoginProvider>(context);
+    final randomNums = passwordProvider.nums;
 
     return Container(
       // height: ScreenUtil.w(100),
       child: GridView.count(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 3,
         childAspectRatio: 1.7,
         padding: const EdgeInsets.all(8),
@@ -46,8 +52,8 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
           if (index == 11) {
             // 삭제 버튼
             return IconButton(
-              icon: Icon(Icons.backspace),
-              onPressed: () => provider.deleteLast(), // -1을 전달하여 삭제를 알림
+              icon: const Icon(Icons.backspace),
+              onPressed: () => passwordProvider.deleteLast(), // -1을 전달하여 삭제를 알림
               style: TextButton.styleFrom(
                   foregroundColor: AppColors.mainBlue,
                   textStyle: AppFonts.suit(fontSize: 20, fontWeight: FontWeight.w600),
@@ -56,14 +62,46 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
             );
           }
 
-
-
           // 0을 포함하여 숫자 버튼 (0은 11번째 위치에 있으므로, 인덱스 조정 필요)
           final number = index < 9 ? index + 1 : 0;
 
           return TextButton(
             child: Text("${randomNums[number]}"),
-            onPressed: () => provider.addNumber(randomNums[number]),
+            onPressed: () async {
+              String digest = passwordProvider.addNumber(randomNums[number]);
+              if(digest.isNotEmpty){
+                SecondJwtResponse? result = await loginProvider.checkPassword(digest);
+
+                if(result != null) {
+                  if(result.code == 200) {
+                    //비밀번호 맞음
+                    loginProvider.secondJwt = JwtToken(
+                      accessToken: result.accessToken,
+                      refreshToken: result.refreshToken,
+                      isFirst: false,
+                    );
+
+                    //홈으로 이동
+                    Navigator.of(context).pushReplacement(
+                        FadeTransitionPageRoute(
+                            page: const BottomNavScreen(),
+                            transitionDuration: const Duration(milliseconds: 130),
+                            reverseTransitionDuration: const Duration(milliseconds: 130)
+                        )
+                    );
+
+                  } else if(result.code == 400) {
+                    //비밀번호 틀림
+                    passwordProvider.wrongCount = result.count!;
+                  } else {
+                    print('뭔가 잘못됨 : ${result.code}');
+                    loginProvider.logout(context);
+                    const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                  }
+
+                }
+              }
+            },
             style: TextButton.styleFrom(
               foregroundColor: AppColors.mainBlue,
               textStyle: AppFonts.suit(fontSize: 20, fontWeight: FontWeight.w600),
