@@ -1,45 +1,49 @@
+import 'package:frontend/card/models/calendar_model.dart';
+import 'package:frontend/card/models/main_consumption_model.dart';
+
 class ConsumptionModel {
   // 소비 분야 이름
-  String? userName;
+  final String userName;
 
   // 소비 금액
-  int? total;
+  final int totalAmount;
 
   // 주 소비분야 5개의 소비 금액
-  List<List<dynamic>>? mainConsumption;
+  final List<MainConsumptionModel> mainConsumption;
 
   // 비교1
-  int? compare1;
+  final int thisMonthAmount;
 
   // 비교2
-  int? compare2;
+  final int amountGap;
 
   // 한달간 소비 금액
-  List<int>? calender;
+  final List<CalendarModel> calendar;
 
   ConsumptionModel({
-    this.userName,
-    this.total,
-    this.mainConsumption,
-    this.compare1,
-    this.compare2,
-    this.calender,
+    required this.userName,
+    required this.totalAmount,
+    required this.mainConsumption,
+    required this.thisMonthAmount,
+    required this.amountGap,
+    required this.calendar,
   });
 
   /// 객체 형태로 변환
   factory ConsumptionModel.fromJson(Map<String, dynamic> json) {
+    var mainConsumptionJson = json['mainConsumption'] as List<dynamic>;
+    List<MainConsumptionModel> mainConsumptionList = mainConsumptionJson.map((item) {
+      return MainConsumptionModel.fromJson(item);
+    }).toList();
+
     return ConsumptionModel(
       userName: json['userName'],
-      total: json['total'],
-      mainConsumption: json['mainConsumption'] != null
-          ? (json['mainConsumption'] as List<dynamic>)
-              .map((list) => List<dynamic>.from(list))
-              .toList()
-          : null,
-      compare1: json['compare1'],
-      compare2: json['compare2'],
-      calender:
-          json['calender'] != null ? List<int>.from(json['calender']) : null,
+      totalAmount: json['totalAmount'],
+      mainConsumption: mainConsumptionList,
+      thisMonthAmount: json['thisMonthAmount'],
+      amountGap: json['amountGap'],
+      calendar:
+      (json['calendar'] as List).map((e) => CalendarModel.fromJson(e)).toList(),
     );
   }
 }

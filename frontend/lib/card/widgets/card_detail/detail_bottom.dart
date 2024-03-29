@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/models/card_model.dart';
-import 'package:frontend/card/widgets/detail_benefit.dart';
-import 'package:frontend/card/widgets/detail_terms.dart';
+import 'package:frontend/card/widgets/card_detail/detail_benefit.dart';
+import 'package:frontend/card/widgets/card_detail/detail_terms.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:provider/provider.dart';

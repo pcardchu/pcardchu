@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/card/models/api_response_model.dart';
 import 'package:frontend/card/models/card_model.dart';
 import 'package:frontend/card/services/card_service.dart';
 import 'package:frontend/utils/card_company.dart';
@@ -58,6 +59,9 @@ class CardProvider with ChangeNotifier {
   /// 카드 등록 가능 여부
   Map<String, dynamic>? cardRegisterResult;
 
+  /// 페이지네이션 다음 페이지 있는지 여부 확인용
+  bool isNextPage = false;
+
   /// 선택한 카드사 회원가입 url
   String get companyUrl {
     // _companyIndex가 유효한지 확인.
@@ -114,21 +118,42 @@ class CardProvider with ChangeNotifier {
 
   /// 카테고리별 카드 리스트 GET 요청
   /// 0 : 전체
-  /// 1 : 교통
+  /// 1 : 적립
   /// 2 : 카페
-  /// 3 : 배달
-  /// 4 : 영화/문화
+  /// 3 : 할인
+  /// 4 : 대중교통
+  /// 5 : 영화
+  /// 6 : 편의점
+  /// 7 : 음식
   getCategoryCards(context) async {
+
+    Map<String, String> categoryDic = {
+      '0': 'all',
+      '1': '적립',
+      '2': '카페',
+      '3': '할인',
+      '4': '대중교통',
+      '5': '영화',
+      '6': '편의점',
+      '7': '영화',
+    };
+
     loading = true;
 
-    for (int i = 0; i < 5; i++) {
-      categoryCards.add(await cardService.getCategoryCards(i.toString()));
+    for (int i = 0; i < 8; i++) {
+      ApiResponseModel data =  await cardService.getCategoryCards(categoryDic[i.toString()]!);
+      categoryCards.add(data.data!.cardsRes!);
     }
 
     loading = false;
     loadCategory = true;
 
     notifyListeners();
+  }
+
+  /// 페이지네이션 요청
+  getNextPage() async{
+
   }
 
   /// 카드 디테일 정보 GET 요청

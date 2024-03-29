@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:frontend/card/widgets/card_list_wg.dart';
-import 'package:frontend/card/widgets/category_chip.dart';
-import 'package:frontend/card/widgets/category_list.dart';
+import 'package:frontend/card/widgets/card_list/card_list_wg.dart';
+import 'package:frontend/card/widgets/card_list/category_list.dart';
 import 'package:frontend/utils/app_fonts.dart';
 
 /// 카드리스트 - 아래쪽 메인화면입니다.

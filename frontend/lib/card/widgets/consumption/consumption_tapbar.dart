@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/consumption_tab_1.dart';
-import 'package:frontend/card/widgets/consumption_tab_2.dart';
+import 'package:frontend/card/widgets/consumption/consumption_tab_1.dart';
+import 'package:frontend/card/widgets/consumption/consumption_tab_2.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 

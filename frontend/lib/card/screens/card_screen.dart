@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/app_colors.dart';
-import 'package:frontend/card/widgets/registration_modal.dart';
+import 'package:frontend/card/widgets/card_screen/registration_modal.dart';
 
 class CardScreen extends StatefulWidget {
   final int? myCardFlag;
