@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService{
 
         Map<String, Object> result = new HashMap<>();
 
-        if (user.getPwWrongCount() == 3){
+        if (user.getPwWrongCount() == 5){
             result.put("result", false);
             result.put("wrongCount", user.getPwWrongCount());
         }else if (!user.getShortPw().equals(shortPw)){
