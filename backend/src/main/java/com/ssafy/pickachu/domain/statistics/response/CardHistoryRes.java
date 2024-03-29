@@ -1,6 +1,5 @@
 package com.ssafy.pickachu.domain.statistics.response;
 
-import com.ssafy.pickachu.domain.statistics.dto.MyConsumption;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +15,7 @@ public class CardHistoryRes {
     public String data;
 
     public static CardHistoryRes createCardHistoryResponse(int code, String message, String data){
-        return MyConsumptionRes.builder()
+        return CardHistoryRes.builder()
                 .status(code)
                 .message(message)
                 .data(data)
