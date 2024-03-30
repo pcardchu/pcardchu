@@ -47,7 +47,7 @@ class DetailBenefit extends StatelessWidget {
               children: [
                 // 혜택 종류
                 Text(
-                  card.benefits![index][0],
+                  card!.benefits![index][0],
                   style: AppFonts.suit(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,

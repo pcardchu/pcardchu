@@ -21,11 +21,7 @@ class DiscountModel {
     return DiscountModel(
       category: json['category'],
       total: json['total'],
-      card: json['card'] != null
-          ? (json['card'] as List)
-              .map((e) => CardModel.fromJson(e as Map<String, dynamic>))
-              .toList()
-          : [],
+      card: List<CardModel>.from(json['card'].map((x) => CardModel.fromJson(x))),
     );
   }
 }

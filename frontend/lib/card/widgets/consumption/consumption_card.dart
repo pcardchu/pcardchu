@@ -23,12 +23,12 @@ class ConsumptionCard extends StatelessWidget {
 
     /// 소비 패턴 분류별 색상
     CategoryColors categoryColors = CategoryColors();
-    Map<String, Color> colorDict = categoryColors.categoryColors;
+    List<Color> colorList = categoryColors.categoryColors;
 
     /// 퍼센트 계산
-    final double percent = data!.mainConsumption![index][1] /
+    final double percent = data!.mainConsumption![index].amount /
         data.mainConsumption!
-            .map<int>((e) => e[1] as int)
+            .map<int>((e) => e.amount as int)
             .reduce((a, c) => a + c) *
         100;
 
@@ -40,7 +40,7 @@ class ConsumptionCard extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: colorDict[data.mainConsumption![index][0]],
+              color: colorList[index],
               shape: BoxShape.circle,
             ),
           ),
@@ -50,7 +50,7 @@ class ConsumptionCard extends StatelessWidget {
             children: [
               // 분야 이름
               Text(
-                data.mainConsumption![index][0],
+                data.mainConsumption![index].categoryName,
                 style: AppFonts.suit(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -69,9 +69,10 @@ class ConsumptionCard extends StatelessWidget {
             ],
           ),
           Spacer(),
+          // 소비 금액
           Text(
             NumberFormat('#,###원', 'ko_KR')
-                .format(data.mainConsumption![index][1]),
+                .format(data.mainConsumption![index].amount),
             style: AppFonts.suit(
               fontSize: 12,
               fontWeight: FontWeight.w800,

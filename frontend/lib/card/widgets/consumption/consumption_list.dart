@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/consumption_card.dart';
+import 'package:frontend/card/widgets/consumption/consumption_card.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:provider/provider.dart';
 

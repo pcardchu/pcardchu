@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/models/card_model.dart';
 import 'package:frontend/card/screens/card_web_view.dart';
-import 'package:frontend/card/widgets/detail_bottom.dart';
-import 'package:frontend/card/widgets/detail_top.dart';
+import 'package:frontend/card/widgets/card_detail/detail_bottom.dart';
+import 'package:frontend/card/widgets/card_detail/detail_top.dart';
 import 'package:frontend/card/widgets/loading_modal.dart';
 import 'package:frontend/card/widgets/next_btn.dart';
-import 'package:frontend/home/screens/bottom_nav_screen.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -44,10 +43,9 @@ class _CardDetailState extends State<CardDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
-        // 로딩중일땐 배경 어둡게
-        backgroundColor: !loading && card != null
-            ? AppColors.mainWhite
-            : Colors.grey.withOpacity(0.3),
+
+        backgroundColor: AppColors.mainWhite,
+
         // 뒤로가기 버튼
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new),
@@ -60,10 +58,8 @@ class _CardDetailState extends State<CardDetail> {
       ),
       backgroundColor: AppColors.mainWhite,
       body: Container(
-        // 로딩중일땐 배경 어둡게
-        color: !loading && card != null
-            ? AppColors.mainWhite
-            : Colors.grey.withOpacity(0.3),
+        color: AppColors.mainWhite,
+
         width: MediaQuery.of(context).size.width,
         // 로딩중 이거나 값이 없을 경우 로딩 표시
         child: loading || card == null
@@ -128,7 +124,7 @@ class _CardDetailState extends State<CardDetail> {
   }
 
   /// 로딩중일때 보여지는 모달
-  Future<void> showLoadingModal() async{
+  Future<void> showLoadingModal() async {
     showGeneralDialog(
       context: context,
       pageBuilder: (BuildContext context, Animation<double> animation,

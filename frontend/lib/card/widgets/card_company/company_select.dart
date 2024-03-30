@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/company_wg.dart';
+import 'package:frontend/card/widgets/card_company/company_wg.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:provider/provider.dart';
 

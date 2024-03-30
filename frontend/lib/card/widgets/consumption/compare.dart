@@ -21,7 +21,7 @@ class Compare extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              '오늘까지 ${data!.compare1}만원 더 썼어요',
+              '오늘까지 ${data!.thisMonthAmount}만원 더 썼어요',
               style: AppFonts.scDream(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -42,7 +42,7 @@ class Compare extends StatelessWidget {
               ),
             ),
             Text(
-              ' ${data.compare2}만원 더',
+              ' ${data.amountGap}만원 더',
               style: AppFonts.suit(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,

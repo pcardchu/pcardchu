@@ -23,6 +23,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
     final provider = Provider.of<PasswordProvider>(context, listen: false);
     final authService = LocalAuthService();
 
+    //해당 로직은 provider로 빼야됩니다.
     // 사용자가 생체인증 로그인을 활성화했는지 확인
     // if (await authService.isBiometricSupported() && await authService.isBiometricEnabled()) {
     if (await authService.isBiometricSupported()) {
@@ -59,11 +60,11 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   provider.changeAuthenticated(false);
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     Navigator.of(context).pushReplacement(
-                        FadeTransitionPageRoute(
-                            page: BottomNavScreen(),
-                            transitionDuration: Duration(milliseconds: 130),
-                            reverseTransitionDuration: Duration(milliseconds: 130)
-                        )
+                      FadeTransitionPageRoute(
+                          page: const BottomNavScreen(),
+                          transitionDuration: Duration(milliseconds: 130),
+                          reverseTransitionDuration: Duration(milliseconds: 130)
+                      )
                     );
                   });
                 }
@@ -81,8 +82,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   padding: const EdgeInsets.all(5.0),
                   child: Image.asset('assets/images/lock.png', height: ScreenUtil.h(13)),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
+                const Padding(
+                  padding: EdgeInsets.all(5.0),
                   child: Text(
                     "비밀번호를 입력해 주세요",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -96,7 +97,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
               ],
             ),
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -106,7 +106,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
           ),
           Container(
             width: ScreenUtil.w(80),
-            child: Divider(height: 0,),
+            child: const Divider(height: 0,),
           ),
           Flexible(
             flex: 1,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/day_cell.dart';
+import 'package:frontend/card/widgets/consumption/day_cell.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:intl/intl.dart';

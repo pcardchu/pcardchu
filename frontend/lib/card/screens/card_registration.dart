@@ -1,8 +1,7 @@
 import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_number_check.dart';
-import 'package:frontend/card/widgets/card_registration_main.dart';
-import 'package:frontend/home/screens/bottom_nav_screen.dart';
+import 'package:frontend/card/widgets/card_registration/card_registration_main.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';

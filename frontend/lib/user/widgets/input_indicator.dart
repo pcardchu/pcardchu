@@ -17,7 +17,6 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
   void initState() {
     super.initState();
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
-    passwordProvider.clearAll();
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 150),
@@ -64,7 +63,7 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
             padding: const EdgeInsets.all(1.0),
             child: Text(
               "비밀번호가 맞지 않아요(${passwordProvider.wrongCount}/5)",
-              style: TextStyle(color: AppColors.mainRed, fontWeight: FontWeight.bold),
+              style: const TextStyle(color: AppColors.mainRed, fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -83,9 +82,9 @@ class _InputIndicatorState extends State<InputIndicator> with SingleTickerProvid
               final double size = isActive ? ScreenUtil.h(5) : ScreenUtil.h(4.5);
 
               return AnimatedContainer(
-                duration: Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 250),
                 curve: Curves.ease,
-                margin: EdgeInsets.all(4),
+                margin: const EdgeInsets.all(4),
                 width: size,
                 height: size,
                 decoration: BoxDecoration(

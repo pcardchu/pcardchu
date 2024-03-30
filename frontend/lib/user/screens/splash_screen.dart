@@ -29,14 +29,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
-    // bool _seen = false;
+
+    bool token = await loginProvider.getFirstJwt();
+    print("토큰 여부 : ${token}");
 
     if (!_seen) {
       await prefs.setBool('seen', true);
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const IntroScreen()));
     }
-    else if (loginProvider.isLoggedIn) {
+    else if (loginProvider.isLoggedIn && token) {
       //기존 토큰이 확인 되었을 때 로직
       Navigator.of(context).pushReplacement(
           FadeTransitionPageRoute(

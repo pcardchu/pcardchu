@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/calender_accordion.dart';
-import 'package:frontend/card/widgets/compare.dart';
-import 'package:frontend/card/widgets/consumption_chart.dart';
-import 'package:frontend/card/widgets/consumption_list.dart';
+import 'package:frontend/card/widgets/consumption/calender_accordion.dart';
+import 'package:frontend/card/widgets/consumption/compare.dart';
+import 'package:frontend/card/widgets/consumption/consumption_chart.dart';
+import 'package:frontend/card/widgets/consumption/consumption_list.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
 
