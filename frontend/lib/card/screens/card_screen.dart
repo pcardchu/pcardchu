@@ -32,13 +32,14 @@ class _CardScreenState extends State<CardScreen> {
     return Scaffold(
       // 앱바 없애놓기
       backgroundColor: AppColors.mainWhite,
-      body: CardStorage(),
+      body: content,
     );
   }
 
   void _showDialog() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => const RegistrationModal(),
     ).then((_) {
       // 다이얼로그가 닫히고 나면 상태 업데이트를 위해 setState 호출

@@ -31,12 +31,6 @@ class CardStorage extends StatelessWidget {
         Padding(
             padding: EdgeInsets.only(left: 60, right: 60, top: 80, bottom: 80),
             child: Container(
-          // decoration: BoxDecoration(
-          //   border: Border.all(
-          //     color: Colors.black,
-          //     width: 1
-          //   )
-          // ),
               child: CardStack(),
         ))
       ],

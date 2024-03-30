@@ -54,7 +54,7 @@ class _RegistrationModalState extends State<RegistrationModal> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => CardRegistration(),
+                  builder: (_) => CardRegistration(fromDialog: true,),
                 ),
               );
             },
