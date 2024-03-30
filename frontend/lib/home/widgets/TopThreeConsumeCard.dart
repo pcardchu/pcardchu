@@ -43,7 +43,7 @@ class TopThreeConsumeCard extends StatelessWidget {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
-                  margin: EdgeInsets.only(left: 10),
+                  margin: EdgeInsets.only(left: 10, top: 20),
                   child: Column(
                     children: [
                       Text(

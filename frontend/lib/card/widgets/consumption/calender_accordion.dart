@@ -25,6 +25,7 @@ class _CalenderAccordionState extends State<CalenderAccordion> {
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
+      elevation: 0,
       // 패널의 확장 상태가 변할때 마다 실행
       expansionCallback: (int index, bool isExpanded) {
         // 확장 상태 변경

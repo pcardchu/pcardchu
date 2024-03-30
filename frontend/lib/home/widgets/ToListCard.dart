@@ -43,7 +43,7 @@ class ToListCard extends StatelessWidget {
                     height: ScreenUtil.h(2),
                   ),
                   Container(
-                    width: ScreenUtil.w(53),
+                    width: ScreenUtil.w(56),
                     height: ScreenUtil.h(4),
                     margin: EdgeInsets.only(left: 10),
                     child: ElevatedButton(

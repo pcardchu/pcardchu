@@ -45,7 +45,7 @@ class CardListTop extends StatelessWidget {
             width: ScreenUtil.w(72),
             fit: BoxFit.contain
           ),
-          SizedBox(height: 100.0),
+          SizedBox(height: 120.0),
           // 스크롤 이동 버튼
           GestureDetector(
             child: Column(
@@ -61,6 +61,7 @@ class CardListTop extends StatelessWidget {
                 SizedBox(height: 12.0),
                 Image.asset('assets/images/scroll_down_logo.png'
                 ),
+                SizedBox(height: 32.0),
               ],
             ),
             onTap: () {

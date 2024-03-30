@@ -16,6 +16,7 @@ class _RegistrationModalState extends State<RegistrationModal> {
     return Dialog(
       // 배경색
       backgroundColor: AppColors.mainWhite,
+
       // 모양 설정
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(28),
@@ -53,7 +54,7 @@ class _RegistrationModalState extends State<RegistrationModal> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => CardRegistration(),
+                  builder: (_) => CardRegistration(fromDialog: true,),
                 ),
               );
             },
