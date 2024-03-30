@@ -7,6 +7,8 @@ import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
+
 class CardRegistration extends StatefulWidget {
   final bool fromDialog;
 
