@@ -37,20 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
         scrolledUnderElevation: 0,
       ),
       backgroundColor: AppColors.mainWhite,
-      body: SafeArea(
-        child: Center(
-          child: Container(
-            width: ScreenUtil.w(90),
-            child: Consumer<CardListProvider>(
-              builder: (context, provider, child) {
-                final items = _createItemList(provider.isCardRegistered);
-                return ListView.separated(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) => items[index],
-                  separatorBuilder: (context, index) => const VerticalSpace(),
-                );
-              },
-            ),
+      body: Center(
+        child: Container(
+          width: ScreenUtil.w(90),
+          child: Consumer<CardListProvider>(
+            builder: (context, provider, child) {
+              final items = _createItemList(provider.isCardRegistered);
+              return ListView.separated(
+                itemCount: items.length,
+                itemBuilder: (context, index) => items[index],
+                separatorBuilder: (context, index) => const VerticalSpace(),
+              );
+            },
           ),
         ),
       ),

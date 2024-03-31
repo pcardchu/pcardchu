@@ -3,7 +3,7 @@ import 'package:frontend/utils/screen_util.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/home/screens/home_screen.dart';
-import 'package:frontend/card/widgets/registration_modal.dart';
+import 'package:frontend/card/widgets/card_screen/registration_modal.dart';
 import 'package:frontend/chart/screens/expense_analytics_screen.dart';
 import 'package:frontend/card/screens/card_screen.dart';
 
@@ -42,9 +42,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: _getPageForTab(_selectedTab),
-      ),
+      extendBody: true,
+      body: _getPageForTab(_selectedTab),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),

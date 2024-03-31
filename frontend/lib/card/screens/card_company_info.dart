@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_registration_completion.dart';
-import 'package:frontend/card/widgets/card_registration_modal.dart';
-import 'package:frontend/card/widgets/company_info_form.dart';
-import 'package:frontend/card/widgets/company_registration.dart';
+import 'package:frontend/card/widgets/card_company_info/card_registration_modal.dart';
+import 'package:frontend/card/widgets/card_company_info/company_info_form.dart';
+import 'package:frontend/card/widgets/card_company_info/company_registration.dart';
 import 'package:frontend/card/widgets/loading_modal.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';

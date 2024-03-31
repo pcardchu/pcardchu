@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/card/screens/card_storage.dart';
 import 'package:frontend/utils/app_colors.dart';
-import 'package:frontend/card/widgets/registration_modal.dart';
+import 'package:frontend/card/widgets/card_screen/registration_modal.dart';
 
 class CardScreen extends StatefulWidget {
   final int? myCardFlag;
@@ -14,7 +15,6 @@ class CardScreen extends StatefulWidget {
 class _CardScreenState extends State<CardScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // 화면 초기화 시 다이얼로그 조건 체크
     if (widget.myCardFlag == 0) {
@@ -26,13 +26,11 @@ class _CardScreenState extends State<CardScreen> {
   Widget build(BuildContext context) {
     // myCardFlag 값에 따라 화면에 보여줄 내용 결정
     Widget content = widget.myCardFlag == 1
-        ? Center(child: Text('카드 화면'))
+        ? const CardStorage()
         : Center(child: Container()); // myCardFlag가 0일 경우, 다이얼로그가 띄워집니다.
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.mainWhite,
-      ),
+      // 앱바 없애놓기
       backgroundColor: AppColors.mainWhite,
       body: content,
     );
@@ -41,6 +39,7 @@ class _CardScreenState extends State<CardScreen> {
   void _showDialog() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => const RegistrationModal(),
     ).then((_) {
       // 다이얼로그가 닫히고 나면 상태 업데이트를 위해 setState 호출

@@ -1,23 +1,28 @@
 import 'package:dio/dio.dart';
+import 'package:frontend/card/models/api_response_model.dart';
 import 'package:frontend/card/models/card_model.dart';
+import 'package:frontend/utils/dio_util.dart';
 
 class CardService {
   final dio = Dio();
 
   /// 카테고리에 맞는 카드 리스트 GET 요청
   /// id는 카테고리 아이디
-  Future<List<CardModel>> getCategoryCards(String id) async {
+  Future<ApiResponseModel> getCategoryCards(String category) async {
     try {
-      final Response response = await dio.get(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/category",
-          queryParameters: {'id': id});
+      final Response response = await DioUtil().dio.get(
+          "/cards/list",
+          queryParameters: {'category': category, 'pageNumber': 1, 'pageSize': 10},
+      );
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
-        final List<CardModel> cards =
-            data.map((json) => CardModel.fromJson(json)).toList();
+        // final List<dynamic> cardsJson = response.data['data']['cardsRes'];
+        // final List<CardModel> cards = cardsJson.map<CardModel>((json) => CardModel.fromJson(json)).toList();
 
-        return cards;
+        ApiResponseModel apiResponse = ApiResponseModel.fromJson(response.data);
+        // List<CardModel> cards = apiResponse.data?.cardsRes ?? [];
+
+        return apiResponse;
       } else {
         throw Exception('Failed to load cards');
       }
@@ -28,16 +33,16 @@ class CardService {
 
   /// 해당 아이디의 카드 디테일 정보 GET 요청
   /// id는 카드 아이디
-  Future<CardModel> getCardsDetail(String id) async {
+  Future<CardModel> getCardsDetail(String cardId) async {
     try {
-      final Response response = await dio.get(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/card",
-          queryParameters: {'id': id});
+      final Response response = await DioUtil().dio.get(
+          "/cards/list/detail/$cardId",
+          queryParameters: {'cardId': cardId});
       if (response.statusCode == 200) {
         // CardModel 객체로 변환;
-        final cardModel = CardModel.fromJson(response.data);
+        final CardModel cards = CardModel.fromJson(response.data['data']);
 
-        return cardModel;
+        return cards;
       } else {
         throw Exception('Failed to load cards');
       }
