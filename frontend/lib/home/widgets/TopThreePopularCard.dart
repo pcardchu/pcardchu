@@ -70,7 +70,7 @@ class _TopThreePopularCardState extends State<TopThreePopularCard> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '${data.age} ${data.gender}이 가장 많이 한 소비',
+            '${data.age} ${data.gender}이 선호하는 카드',
             style: AppFonts.suit(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,

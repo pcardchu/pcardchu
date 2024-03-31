@@ -6,7 +6,7 @@ import '../home/models/top_three_popular_model.dart';
 import '../home/services/top_three_popular_service.dart';
 
 class TopThreePopularProvider with ChangeNotifier {
-  /// 등록한 카드 리스트
+  /// 집단 별 카드 리스트
   late List<TopThreePopularModel> _consumeList = [];
   /// 상태 관리용
   bool _loading = false;
@@ -23,7 +23,6 @@ class TopThreePopularProvider with ChangeNotifier {
     _setLoading(true);
     try {
       _consumeList = await _topThreePopularService.getTopThreePopularCategory();
-      print(_consumeList);
 
       _setLoading(false);
     } catch (e) {

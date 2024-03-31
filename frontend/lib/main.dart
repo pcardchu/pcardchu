@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:frontend/providers/card_list_provider.dart';
 import 'package:frontend/providers/card_provider.dart';
+import 'package:frontend/providers/consume_differ_provider.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/providers/top_three_consume_provider.dart';
@@ -47,7 +48,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ConsumptionProvider()),
         ChangeNotifierProvider(create: (context) => CardListProvider()),
         ChangeNotifierProvider(create: (context) => TopThreeConsumeProvider()),
-        ChangeNotifierProvider(create: (context) => TopThreePopularProvider())
+        ChangeNotifierProvider(create: (context) => TopThreePopularProvider()),
+        ChangeNotifierProvider(create: (context) => ConsumeDifferProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false, // 디버그 표시 제거

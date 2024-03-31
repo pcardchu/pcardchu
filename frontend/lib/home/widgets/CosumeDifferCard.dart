@@ -1,24 +1,44 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/utils/app_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/providers/consume_differ_provider.dart';
 import 'package:frontend/utils/app_fonts.dart';
+import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
 
-class ConsumeDifferCard extends StatelessWidget {
-  const ConsumeDifferCard({super.key});
+class ConsumeDifferCard extends StatefulWidget {
+  const ConsumeDifferCard({Key? key}) : super(key: key);
+
+  @override
+  _ConsumeDifferCardState createState() => _ConsumeDifferCardState();
+}
+
+class _ConsumeDifferCardState extends State<ConsumeDifferCard> {
+  @override
+  void initState() {
+    super.initState();
+    // 데이터를 가져오는 작업을 시작합니다.
+    final provider = Provider.of<ConsumeDifferProvider>(context, listen: false);
+    provider.getTopThreeCategory();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Provider를 통해 현재 로딩 상태와 데이터를 가져옵니다.
+    final loading = context.watch<ConsumeDifferProvider>().loading;
+    final data = context.watch<ConsumeDifferProvider>().diff;
+
     return SizedBox(
       height: ScreenUtil.h(26),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
-        color: Color(0xFFC2F4D8),
+        color: const Color(0xFFC2F4D8),
         child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
+          margin: const EdgeInsets.only(left: 20, right: 20),
+          child: loading
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -56,23 +76,25 @@ class ConsumeDifferCard extends StatelessWidget {
                 height: ScreenUtil.h(4),
               ),
               Container(
-                margin: EdgeInsets.only(left: 10),
+                margin: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '박설연님은 20대 여성에 비해',
+                      '유저님은 같은 집단에 비해',
                       style: AppFonts.suit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF61806F)),
+                          color: const Color(0xFF61806F)),
                     ),
                     Text(
-                      '평균 xx% 적게 소비하고 있어요.',
+                      data.data > 0
+                          ? '평균 ${data.data}% 많이 소비하고 있어요.'
+                          : '평균 ${data.data.abs()}% 적게 소비하고 있어요.',
                       style: AppFonts.suit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF61806F)),
+                          color: const Color(0xFF61806F)),
                     ),
                   ],
                 ),
