@@ -2,12 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
+import 'package:provider/provider.dart';
 
-class TimeAnalyzeCard extends StatelessWidget {
+import '../../providers/time_analyze_provider.dart';
+
+class TimeAnalyzeCard extends StatefulWidget {
   const TimeAnalyzeCard({super.key});
 
   @override
+  State<TimeAnalyzeCard> createState() => _TimeAnalyzeCardState();
+}
+
+class _TimeAnalyzeCardState extends State<TimeAnalyzeCard> {
+
+  @override
+  void initState() {
+    super.initState();
+    // 데이터를 가져오는 작업을 시작합니다.
+    final provider = Provider.of<TimeAnalyzeProvider>(context, listen: false);
+    provider.getTimeAnalyze();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    // Provider를 통해 현재 로딩 상태와 데이터를 가져옵니다.
+    final loading = context.watch<TimeAnalyzeProvider>().loading;
+    final data = context.watch<TimeAnalyzeProvider>().ages;
+
     return SizedBox(
       height: ScreenUtil.h(24),
       child: Card(
@@ -17,7 +39,9 @@ class TimeAnalyzeCard extends StatelessWidget {
         color: Color(0xFFFAD7D7),
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
+          child: loading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -60,7 +84,7 @@ class TimeAnalyzeCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '지금 시간에는 70대의 소비가 ',
+                      '지금 시간에는 ${data.data}의 소비가 ',
                       style: AppFonts.suit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
