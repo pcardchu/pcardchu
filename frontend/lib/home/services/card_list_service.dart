@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:frontend/home/models/card_info_model.dart';
+import 'package:frontend/utils/dio_util.dart';
 
 class CardListService {
   final dio = Dio();
@@ -8,10 +9,13 @@ class CardListService {
   Future<List<CardInfoModel>> getCardList() async {
     try {
       final response = await dio.get('https://0292d82d-2f54-45b6-9578-af6544b34b66.mock.pstmn.io/api/cards/my-cards');
+      print(response.data);
 
       final List<dynamic> data = response.data;
+      print(data);
       final List<CardInfoModel> cardList =
           data.map((e) => CardInfoModel.fromJson(e)).toList();
+      print(cardList);
       return cardList;
     } on DioException catch (e) {
       if (e.response != null) {

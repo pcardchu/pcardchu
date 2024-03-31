@@ -17,19 +17,19 @@ class CardListProvider with ChangeNotifier {
   /// 카드 리스트 반환하는 서비스
   final CardListService _cardService = CardListService();
 
-  void checkUserCards() async {
+  checkUserCards() async {
     loading = true;
+    notifyListeners();
+
     cardList = await _cardService.getCardList();
+
     if (cardList.isNotEmpty) {
       isCardRegistered = true;
     } else {
       isCardRegistered = false;
     }
 
-    isCardRegistered = true;
-
     loading = false;
-
     notifyListeners();
   }
 }
