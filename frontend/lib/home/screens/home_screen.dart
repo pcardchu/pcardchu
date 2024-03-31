@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 
 import 'package:frontend/providers/card_list_provider.dart';
 
+import 'package:frontend/card/widgets/loading_modal.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -23,9 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     /// 위젯 트리가 완전히 만들어졌을 때 호출되도록
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<CardListProvider>(context, listen: false).checkUserCards();
+      final cardListProvider = Provider.of<CardListProvider>(context, listen: false);
+      cardListProvider.checkUserCards().then((_) {
+        // 로딩 상태가 변경될 때 로딩 모달 닫기
+        if (!cardListProvider.loading && Navigator.canPop(context)) {
+          Navigator.of(context).pop();
+        }
+      });
     });
   }
 
@@ -42,18 +51,36 @@ class _HomeScreenState extends State<HomeScreen> {
           width: ScreenUtil.w(90),
           child: Consumer<CardListProvider>(
             builder: (context, provider, child) {
-              final items = _createItemList(provider.isCardRegistered);
-              return ListView.separated(
-                itemCount: items.length,
-                itemBuilder: (context, index) => items[index],
-                separatorBuilder: (context, index) => const VerticalSpace(),
-              );
+              if (provider.loading) {
+                Future.microtask(() => showLoadingModal());
+                return SizedBox(); // 로딩 중엔 아무것도 표시하지 않도록
+              } else {
+                final items = _createItemList(provider.isCardRegistered);
+                return ListView.separated(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => items[index],
+                  separatorBuilder: (context, index) => const VerticalSpace(),
+                );
+              }
             },
           ),
         ),
       ),
     );
+
   }
+
+  /// 로딩중일때 보여지는 모달
+  Future<void> showLoadingModal() async{
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return LoadingModal();
+      },
+    );
+  }
+
 
   List<Widget> _createItemList(bool isCardRegistered) {
     List<Widget> items = [

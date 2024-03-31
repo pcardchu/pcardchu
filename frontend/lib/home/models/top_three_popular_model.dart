@@ -1,9 +1,9 @@
-class TopThreeConsumeModel {
+class TopThreePopularModel {
   final String age;
   final String gender;
   final List<String> categoryList;
 
-  TopThreeConsumeModel({
+  TopThreePopularModel({
     required this.age,
     required this.gender,
     required this.categoryList,
@@ -11,10 +11,10 @@ class TopThreeConsumeModel {
 
 
   // JSON에서 ConsumeModel 객체로 변환하는 factory 생성자
-  factory TopThreeConsumeModel.fromJson(Map<String, dynamic> json) {
+  factory TopThreePopularModel.fromJson(Map<String, dynamic> json) {
     List<String> categoryListFromJson = List<String>.from(json['categoryList']);
 
-    return TopThreeConsumeModel(
+    return TopThreePopularModel(
       age: json['age'],
       gender: json['gender'],
       categoryList: categoryListFromJson,

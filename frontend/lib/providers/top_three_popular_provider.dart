@@ -2,24 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:frontend/home/models/top_three_consume_model.dart';
 import 'package:frontend/home/services/top_three_consume_service.dart';
 
-class TopThreeConsumeProvider with ChangeNotifier {
-  ///  집단 별 소비 리스트
-  late List<TopThreeConsumeModel> _consumeList = [];
+import '../home/models/top_three_popular_model.dart';
+import '../home/services/top_three_popular_service.dart';
+
+class TopThreePopularProvider with ChangeNotifier {
+  /// 집단 별 카드 리스트
+  late List<TopThreePopularModel> _consumeList = [];
   /// 상태 관리용
   bool _loading = false;
   String _errorMessage = "";
 
-  /// 소비 리스트 반환하는 서비스
-  final TopThreeConsumeService _topThreeConsumeService = TopThreeConsumeService();
+  /// 카드 리스트 반환하는 서비스
+  final TopThreePopularService _topThreePopularService = TopThreePopularService();
 
-  List<TopThreeConsumeModel> get consumeList => _consumeList;
+  List<TopThreePopularModel> get consumeList => _consumeList;
   bool get loading => _loading;
   String get errorMessage => _errorMessage;
 
   getTopThreeCategory() async {
     _setLoading(true);
     try {
-     _consumeList = await _topThreeConsumeService.getTopThreeCategory();
+      _consumeList = await _topThreePopularService.getTopThreePopularCategory();
 
       _setLoading(false);
     } catch (e) {

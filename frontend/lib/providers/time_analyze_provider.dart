@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/home/models/top_three_consume_model.dart';
-import 'package:frontend/home/services/top_three_consume_service.dart';
+import '../home/models/time_analyze_model.dart';
+import '../home/services/time_analyze_service.dart';
 
-class TopThreeConsumeProvider with ChangeNotifier {
-  ///  집단 별 소비 리스트
-  late List<TopThreeConsumeModel> _consumeList = [];
+class TimeAnalyzeProvider with ChangeNotifier {
+  /// 집단과의 소비차이를 받아야합니다.
+  late TimeAnalyzeModel _ages = TimeAnalyzeModel();
   /// 상태 관리용
   bool _loading = false;
   String _errorMessage = "";
 
-  /// 소비 리스트 반환하는 서비스
-  final TopThreeConsumeService _topThreeConsumeService = TopThreeConsumeService();
+  /// 카드 리스트 반환하는 서비스
+  final TimeAnalyzeService _timeAnalyzeService = TimeAnalyzeService();
 
-  List<TopThreeConsumeModel> get consumeList => _consumeList;
+  TimeAnalyzeModel get ages => _ages;
   bool get loading => _loading;
   String get errorMessage => _errorMessage;
 
-  getTopThreeCategory() async {
+  getTimeAnalyze() async {
     _setLoading(true);
     try {
-     _consumeList = await _topThreeConsumeService.getTopThreeCategory();
+      _ages = await _timeAnalyzeService.getTimeAnalyze();
 
       _setLoading(false);
     } catch (e) {

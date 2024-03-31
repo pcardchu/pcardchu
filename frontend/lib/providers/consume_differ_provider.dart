@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/home/models/consume_differ_model.dart';
 import 'package:frontend/home/models/top_three_consume_model.dart';
 import 'package:frontend/home/services/top_three_consume_service.dart';
 
-class TopThreeConsumeProvider with ChangeNotifier {
-  ///  집단 별 소비 리스트
-  late List<TopThreeConsumeModel> _consumeList = [];
+import '../home/services/consume_differ_service.dart';
+
+class ConsumeDifferProvider with ChangeNotifier {
+  /// 집단과의 소비차이를 받아야합니다.
+  late ConsumeDifferModel _diff = ConsumeDifferModel();
   /// 상태 관리용
   bool _loading = false;
   String _errorMessage = "";
 
-  /// 소비 리스트 반환하는 서비스
-  final TopThreeConsumeService _topThreeConsumeService = TopThreeConsumeService();
+  /// 카드 리스트 반환하는 서비스
+  final ConsumeDifferService _consumeDifferService = ConsumeDifferService();
 
-  List<TopThreeConsumeModel> get consumeList => _consumeList;
+  ConsumeDifferModel get diff => _diff;
   bool get loading => _loading;
   String get errorMessage => _errorMessage;
 
-  getTopThreeCategory() async {
+  getConsumeDiffer() async {
     _setLoading(true);
     try {
-     _consumeList = await _topThreeConsumeService.getTopThreeCategory();
+      _diff = await _consumeDifferService.getConsumeDiffer();
 
       _setLoading(false);
     } catch (e) {
