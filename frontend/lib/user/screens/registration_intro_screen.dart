@@ -30,12 +30,6 @@ class _RegistrationIntroScreenState extends State<RegistrationIntroScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       confetti = ConfettiOverlay(context: context);
       confetti.show();
-
-      // 컨페티 효과가 끝난 후 자동으로 리소스 정리를 원한다면,
-      // 다음과 같이 Future.delayed를 사용하여 dispose() 호출을 예약할 수 있습니다.
-      // Future.delayed(Duration(seconds: 5), () {
-      //   confetti.dispose();
-      // });
     });
   }
 

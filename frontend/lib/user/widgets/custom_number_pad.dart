@@ -9,6 +9,7 @@ import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/models/jwt_token.dart';
 import 'package:frontend/user/models/second_jwt_response.dart';
+import 'package:frontend/user/widgets/biometric_button.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
@@ -22,13 +23,11 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
   @override
   void initState() {
     super.initState();
+
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       passwordProvider.shuffleNums();
     });
-    //
-    // passwordProvider.clearWrongCount();
-    // passwordProvider.clearInput();
   }
 
   @override
@@ -48,7 +47,10 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
         crossAxisSpacing: 5,
         children: List.generate(12, (index) {
           // 숫자 키패드에서 10번째 위치는 비어있음, 11번째는 0, 12번째는 삭제 버튼
-          if (index == 9) return Container(); // 비어있는 공간
+          if (index == 9) {
+            // 삭제 버튼
+            return BiometricButton();
+          }
           if (index == 11) {
             // 삭제 버튼
             return IconButton(
@@ -81,12 +83,24 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
                       isFirst: false,
                     );
 
+                    if(!passwordProvider.isBiometricEnabled && passwordProvider.isBiometricEnableChecked) {
+                      //생체인증을 사용하지 않다가 사용하기에 체크하면
+                      if(await loginProvider.updateBiometricToServer(true)) {
+                        passwordProvider.updateBiometricEnabled(true);
+                      }
+                    } else if(passwordProvider.isBiometricEnabled && !passwordProvider.isBiometricEnableChecked) {
+                      //생체인증을 사용하다가 사용하기 체크를 해제하면
+                      if(await loginProvider.updateBiometricToServer(false)) {
+                        passwordProvider.updateBiometricEnabled(false);
+                      }
+                    }
+
                     //홈으로 이동
                     Navigator.of(context).pushReplacement(
                         FadeTransitionPageRoute(
                             page: const BottomNavScreen(),
-                            transitionDuration: const Duration(milliseconds: 130),
-                            reverseTransitionDuration: const Duration(milliseconds: 130)
+                            transitionDuration: const Duration(milliseconds: 250),
+                            reverseTransitionDuration: const Duration(milliseconds: 250)
                         )
                     );
 
@@ -96,7 +110,7 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
                   } else {
                     print('뭔가 잘못됨 : ${result.code}');
                     loginProvider.logout(context);
-                    const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                    // const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
                   }
 
                 }
