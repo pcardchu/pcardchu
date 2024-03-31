@@ -6,10 +6,11 @@ import 'package:frontend/user/models/login_response.dart';
 import 'package:frontend/user/models/second_jwt_response.dart';
 import 'package:frontend/utils/crypto_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenService {
-  final String? baseUrl = dotenv.env['API_URL'];
-  final Dio dio = Dio();
+  static final String? baseUrl = dotenv.env['API_URL'];
+  static final Dio dio = Dio();
   final storage = const FlutterSecureStorage();
 
   Future<void> saveFirstToken(JwtToken jwtToken) async {
@@ -52,6 +53,46 @@ class TokenService {
   Future<void> deleteSecondToken() async {
     await storage.delete(key: 'secondAccessToken');
     await storage.delete(key: 'secondRefreshToken');
+  }
+
+  Future<bool> updateBiometricToServer(bool value, JwtToken token) async {
+    dio.options.connectTimeout = const Duration(milliseconds: 1000);
+    dio.options.receiveTimeout = const Duration(milliseconds: 1000);
+    dio.options.sendTimeout = const Duration(milliseconds: 1000);
+
+    String url = "${baseUrl}/user/flag-biometrics";
+
+    var requestData = {
+      "flagBiometrics": value
+    };
+
+    try {
+      final Response response = await dio.patch(
+        url,
+        data: requestData,
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ${token.accessToken}',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print("생체인증 수정 요청 성공 : ${response!.statusCode}");
+        return true;
+      } else {
+        print("생체인증 수정 요청 성공 : ${response!.statusCode}");
+      }
+
+    } on DioException catch(e) {
+      print("생체인증 수정 요청 실패 : ${e.response!.statusCode}");
+    } finally {
+      print("생체인증 수정 요청 end");
+    }
+
+    return false;
   }
 
   Future<String?> registrationRequest(JwtToken token, String gender, String shortPw, String birth) async {
@@ -128,6 +169,15 @@ class TokenService {
 
       // 성공 응답 처리
       print("2차 jwt 발급 성공 ${response.data}");
+
+      JwtToken result = JwtToken(
+        isFirst: false,
+        accessToken: response.data['accessToken'],
+        refreshToken: response.data['refreshToken']
+      );
+
+      saveSecondToken(result);
+
       return SecondJwtResponse(
         code: response.statusCode,
         count: 0,
@@ -174,7 +224,76 @@ class TokenService {
       accessToken: 'null',
       refreshToken: 'null',
     );
+  }
 
+  Future<JwtToken> secondJwtRequestWithBiometric(JwtToken token) async {
+    dio.options.connectTimeout = const Duration(milliseconds: 1000);
+    dio.options.receiveTimeout = const Duration(milliseconds: 1000);
+    dio.options.sendTimeout = const Duration(milliseconds: 1000);
+
+    String url = "${baseUrl}/user/login/bio";
+
+    var header = {
+      'accept' : 'application/json',
+      'Authorization' : 'Bearer ${token.accessToken}'
+    };
+
+    try {
+      final Response response = await dio.post(
+        url,
+        options: Options(headers: header),
+      );
+
+      // 성공 응답 처리
+      print("지문 2차 jwt 발급 성공 ${response.data}");
+
+      JwtToken result = JwtToken(
+          isFirst: false,
+          accessToken: response.data['accessToken'],
+          refreshToken: response.data['refreshToken']
+      );
+
+      saveSecondToken(result);
+
+      return result;
+    } on DioException catch (e) {
+      // DioError에서 응답 객체 접근
+      final response = e.response;
+
+      // 상태 코드가 있을 경우 그에 따라 처리
+      if (response != null) {
+        print("응답 에러 코드: ${response.statusCode}");
+        print("응답 에러 내용: ${response.data}");
+
+        if (response.statusCode == 400) {
+          // 비밀번호 오류 처리
+          return JwtToken(
+              isFirst: false,
+              accessToken: null,
+              refreshToken: null
+          );
+        } else if (response.statusCode == 401) {
+          // 토큰 만료 처리
+          print("토큰 만료");
+        } else {
+          // 그 외 오류 처리
+          print("기타 오류 처리");
+        }
+      } else {
+        // 응답 없이 발생한 예외 처리
+        print("응답 없음: $e");
+      }
+    } catch (e) {
+      // 그 외 예외 처리
+      print("2차 Jwt 토큰 발급 실패 : $e");
+    }
+
+// 기본 반환 값 설정, 실패 시 반환할 객체
+    return JwtToken(
+        isFirst: false,
+        accessToken: null,
+        refreshToken: null
+    );
   }
 
   Future<LoginResponse?> firstJwtRequest(OAuthToken token) async {
@@ -190,6 +309,7 @@ class TokenService {
     String encrypted = CryptoUtil.encryptAES(token.idToken);
     String? accessToken;
     String? refreshToken;
+    bool? isBiometric;
     // print('id토큰 : ${token.idToken}');
     // print('암호화 : ${encrypted.toString()}');
     // print('iv : ${CryptoUtil.iv.base64}');
@@ -215,6 +335,11 @@ class TokenService {
       if (response.statusCode == 200) {
         accessToken = response.data['accessToken'];
         refreshToken = response.data['refreshToken'];
+        isBiometric = response.data['flagBiometrics'] == 1 ? true : false;
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('biometric_login', isBiometric);
+
         print('로그인 성공: ${accessToken}');
 
         return LoginResponse(accessToken: accessToken, refreshToken: refreshToken, isFirst: false);
@@ -229,6 +354,62 @@ class TokenService {
       }
     } catch (e) {
       print('요청 실패: $e');
+    }
+  }
+
+  static Future<String> refreshAccessToken(bool isFirst) async {
+    final String url = "${baseUrl}/user/refresh";
+    const storage = FlutterSecureStorage();
+    String? refreshToken;
+
+    if(isFirst) {
+      refreshToken = await storage.read(key: 'firstRefreshToken');
+    } else {
+      refreshToken = await storage.read(key: 'secondRefreshToken');
+    }
+    print("isFirst : $isFirst\nrefreshToken : $refreshToken");
+
+    try {
+      final Response response = await dio.post(
+        url,
+        data: {
+          'flagFirst' : isFirst,
+          'refreshToken': refreshToken
+        },
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final newAccessToken = response.data['accessToken'];
+        final newRefreshToken = response.data['refreshToken'];
+
+        if(isFirst) {
+          await storage.write(key: 'firstAccessToken', value: newAccessToken);
+          await storage.write(key: 'firstRefreshToken', value: newRefreshToken);
+        } else {
+          await storage.write(key: 'secondAccessToken', value: newAccessToken);
+          await storage.write(key: 'secondRefreshToken', value: newRefreshToken);
+        }
+
+
+        return newAccessToken;
+      } else {
+        print('토큰 갱신 실패: ${response.statusCode}');
+        return '';
+      }
+    } on DioException catch (e) {
+      print('토큰 갱신 에러: $e');
+
+      if(e.response!.statusCode == 404) {
+        return '리프레시 토큰 만료' ;
+      }
+
+      return '';
     }
   }
 }

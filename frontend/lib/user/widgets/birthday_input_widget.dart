@@ -23,9 +23,18 @@ class BirthdayInputWidget extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: TextField(
-            onChanged: (value) => userInfoProvider.year = value,
+            onChanged: (value) {
+              userInfoProvider.year = value;
+              if (value.length == 4) {
+                FocusScope.of(context).requestFocus(monthFocusNode);
+              }
+            },
+            maxLength: 4,
             focusNode: yearFocusNode,
-            decoration: const InputDecoration(labelText: '연도'),
+            decoration: const InputDecoration(
+                counterText: '',
+                labelText: '연도'
+            ),
             keyboardType: TextInputType.datetime,
             onSubmitted: (_) => monthFocusNode.requestFocus(),
           ),
@@ -33,9 +42,18 @@ class BirthdayInputWidget extends StatelessWidget {
         const SizedBox(width: 16.0),
         Expanded(
           child: TextField(
-            onChanged: (value) => userInfoProvider.month = value,
+            onChanged: (value) {
+              userInfoProvider.month = value;
+              if (value.length == 2) {
+                FocusScope.of(context).requestFocus(dayFocusNode);
+              }
+            },
+            maxLength: 2,
             focusNode: monthFocusNode,
-            decoration: const InputDecoration(labelText: '월'),
+            decoration: const InputDecoration(
+                counterText: '',
+                labelText: '월'
+            ),
             keyboardType: TextInputType.datetime,
             onSubmitted: (_) => dayFocusNode.requestFocus(),
           ),
@@ -45,7 +63,11 @@ class BirthdayInputWidget extends StatelessWidget {
           child: TextField(
             onChanged: (value) => userInfoProvider.day = value,
             focusNode: dayFocusNode,
-            decoration: const InputDecoration(labelText: '일'),
+            maxLength: 2,
+            decoration: const InputDecoration(
+              counterText: '',
+              labelText: '일'
+            ),
             keyboardType: TextInputType.datetime,
           ),
         ),
