@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
 
                   //api 호출 테스트
                   Response<dynamic> test = await DioUtil().dio.get('/user/info');
-                  print(test.data);
+                  // print(test.data);
 
                 } catch(e) {
                   print("accessToken 강제 발급 실패 : $e");

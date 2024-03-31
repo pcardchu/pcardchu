@@ -96,6 +96,17 @@ class LoginProvider with ChangeNotifier {
     return responseData;
   }
 
+  Future<bool> loginWithBiometric() async {
+    JwtToken result = await _tokenService.secondJwtRequestWithBiometric(_firstJwt!);
+
+    if(result.accessToken != null){
+      secondJwt = result;
+      return true;
+    }
+
+    return false;
+  }
+
   Future<bool> login() async {
     _isLoading = true;
     _errorMessage = null;
@@ -167,6 +178,14 @@ class LoginProvider with ChangeNotifier {
       return result!;
     } finally {
       print("회원가입 end");
+    }
+  }
+
+  Future<bool> updateBiometricToServer(bool value) async {
+    if(await _tokenService.updateBiometricToServer(value, _secondJwt!)) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
