@@ -43,7 +43,8 @@ class DioUtil {
           }
         }
 
-        print('요청 accessToken : $_accessToken');
+        options.headers["Authorization"] = "Bearer $_accessToken}";
+
         print('요청 Url: ${options.baseUrl}${options.path}');
         print('요청 Body: ${options.data}');
 
@@ -67,15 +68,6 @@ class DioUtil {
 
   void setAccessToken(String accessToken) {
     _accessToken = accessToken;
-    // _dio.interceptors.clear(); // 기존 인터셉터 제거
-    // _dio.interceptors.add(InterceptorsWrapper(
-    //   onRequest: (options, handler) {
-    //     options.headers["Accept"] = "application/json";
-    //     options.headers["Authorization"] = "Bearer $accessToken";
-    //     return handler.next(options);
-    //   },
-    //   // onResponse, onError 설정
-    // ));
   }
 
   int calculateTimeLeftInSeconds(int? exp) {
