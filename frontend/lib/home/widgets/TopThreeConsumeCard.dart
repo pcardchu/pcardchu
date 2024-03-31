@@ -20,6 +20,8 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
   @override
   void initState() {
     super.initState();
+
+
     final provider =
         Provider.of<TopThreeConsumeProvider>(context, listen: false);
     if (provider.consumeList.isEmpty) {
