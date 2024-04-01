@@ -36,7 +36,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
          * 추후 codefapi와 user table에서 정보를 가져와서 저장하는 것으로 바꿀 예정
          * 임시 데이터로 진행
          * */
-        String filePath = "C:\\Users\\SSAFY\\Downloads\\history.txt";
+        String filePath = "src/main/resources/history.txt";
 
         try {
             // JSON 파일로부터 읽기
