@@ -64,6 +64,10 @@ dependencies {
 	// jasypt
 	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
 
+	// codec
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.9'
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 
 	//Mapper
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
