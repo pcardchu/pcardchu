@@ -5,8 +5,8 @@ import com.ssafy.pickachu.domain.cards.recommend.dto.CardsListPage;
 import com.ssafy.pickachu.domain.cards.recommend.dto.CardsListReq;
 
 public interface RecommendService {
-    public CardsListPage getCategoryCardsList(CardsListReq cardsListReq);
+    public CardsListPage GetCategoryCardsList(CardsListReq cardsListReq);
 
-    public CardDetailRes getCardDetail(String cardsId);
+    public CardDetailRes GetCardDetail(String cardsId);
 
 }

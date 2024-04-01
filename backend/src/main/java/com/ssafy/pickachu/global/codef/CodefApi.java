@@ -1,9 +1,9 @@
 package com.ssafy.pickachu.global.codef;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.RegisterCardsReq;
 import com.ssafy.pickachu.domain.user.entity.User;
+import com.ssafy.pickachu.global.util.JasyptUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
@@ -49,7 +49,7 @@ public class CodefApi {
     private String PUBLIC_KEY;
     /**	CODEF로부터 발급받은 퍼블릭 키	*/
 
-
+    private final JasyptUtil jasyptUtil;
 
     private static Map<String, String> BANK_CODE = new HashMap<>(){{
         put("KB카드", "0301");
@@ -73,7 +73,6 @@ public class CodefApi {
     public String GetToken(){
         try {
             // HTTP 요청을 위한 URL 오브젝트 생성
-            System.out.println("getToken start");
             URL url = new URL(CommonConstant.TOKEN_DOMAIN + CommonConstant.GET_TOKEN);
 
             String POST_PARAMS = "grant_type=client_credentials&scope=read";	// Oauth2.0 사용자 자격증명 방식(client_credentials) 토큰 요청 설정
@@ -88,8 +87,6 @@ public class CodefApi {
             String authStringEnc = new String(authEncBytes);
             String authHeader = "Basic " + authStringEnc;
 
-            System.out.println("Authorization :: " + authHeader);
-
             con.setRequestProperty("Authorization", authHeader);
             con.setDoOutput(true);
 
@@ -101,13 +98,10 @@ public class CodefApi {
 
             // 응답 코드 확인
             int responseCode = con.getResponseCode();
-            System.out.println("POST Response Code :: " + responseCode + "	message ::" + con.getResponseMessage());
-
             BufferedReader br;
             if (responseCode == HttpURLConnection.HTTP_OK) {	// 정상 응답
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             } else {	 // 에러 발생
-                System.out.println("POST request not worked");
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
             }
 
@@ -119,16 +113,11 @@ public class CodefApi {
             }
             br.close();
 
-            // 응답 문자열 확인
-            System.out.println("RESPONSE_STRING : " + URLDecoder.decode(response.toString(), "UTF-8"));
-
             // 응답 문자열 인코딩, JSONObject 변환
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(URLDecoder.decode(response.toString(), "UTF-8"));
             JSONObject tokenJson = (JSONObject)obj;
 
-            // 토큰 확인
-            System.out.println("access_token : " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(tokenJson));
 
             // 토큰 반환
             return tokenJson.get("access_token").toString();
@@ -155,27 +144,25 @@ public class CodefApi {
         accountMap2.put("organization",	BANK_CODE.get(registerCardsReq.getCardCompany()));
         accountMap2.put("loginType",  	"1");
 
+
         String password2 = registerCardsReq.getCardCompanyPw();
-        log.info("Test : " + 10 + " : " + password2);
-        accountMap2.put("password",  	RSAUtil.encryptRSA(password2, PUBLIC_KEY));	/**	password RSA encrypt */
-        log.info("Test : " + 11);
+
+        accountMap2.put("password", RSAUtil.encryptRSA(password2, PUBLIC_KEY));	/**	password RSA encrypt */
+
 
         accountMap2.put("id",  		registerCardsReq.getCardCompanyId());
-        log.info("Test : " + 12);
         accountMap2.put("birthday",	"YYMMDD");
-        log.info("Test : " + 13);
         list.add(accountMap2);
-        log.info("Test : " + 14);
 
         bodyMap.put("accountList", list);
-        log.info("Test : " + 15);
+
         //CODEF API 호출
-        log.info("START ApiRequest.request()");
+
         return ApiRequest.reqeust(urlPath, bodyMap, PUBLIC_KEY, CLIENT_ID, SECERET_KEY, ACCESS_TOKEN);
     }
 
     public String AddBankInConnectedId(RegisterCardsReq registerCardsReq, User user, String ACCESS_TOKEN) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException, IOException, ParseException, InterruptedException {
-        String urlPath = "https://development.codef.io/v1/account/create";
+        String urlPath = "https://development.codef.io/v1/account/add";
 
         HashMap<String, Object> bodyMap = new HashMap<String, Object>();
         List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
@@ -194,19 +181,23 @@ public class CodefApi {
         accountMap2.put("birthday",	"YYMMDD"); //생년월일
         list.add(accountMap2);
 
+        String connectedId = jasyptUtil.decrypt(user.getConnectedId());
+        bodyMap.put("connectedId", connectedId);
+
         bodyMap.put("accountList", list);
 
 //CODEF API 호출
-        return ApiRequest.reqeust(urlPath, bodyMap, PUBLIC_KEY, CLIENT_ID, SECERET_KEY, user.getConnectedId());
+        return ApiRequest.reqeust(urlPath, bodyMap, PUBLIC_KEY, CLIENT_ID, SECERET_KEY, ACCESS_TOKEN);
 
     }
 
-    public void GetUseCardList(RegisterCardsReq registerCardsReq, User user, String ACCESS_TOKEN) throws IOException, ParseException, InterruptedException {
+    public String GetUseCardList(RegisterCardsReq registerCardsReq, User user, String ACCESS_TOKEN, String startDate, String endDate) throws IOException, ParseException, InterruptedException {
+
         String urlPath = "https://development.codef.io/v1/kr/card/p/account/approval-list";
 
         // 요청 파라미터 설정 시작
         HashMap<String, Object> bodyMap = new HashMap<String, Object>();
-        bodyMap.put("connectedId", user.getConnectedId());	// 엔드유저의 은행/카드사 계정 등록 후 발급받은 커넥티드아이디 예시
+        bodyMap.put("connectedId", jasyptUtil.decrypt(user.getConnectedId()));	// 엔드유저의 은행/카드사 계정 등록 후 발급받은 커넥티드아이디 예시
         bodyMap.put("organization", BANK_CODE.get(registerCardsReq.getCardCompany())); //하나 카드
 
         Date userBirth = user.getBirth();
@@ -214,27 +205,36 @@ public class CodefApi {
         String formattedDate = outputFormat.format(userBirth);
         bodyMap.put("birthDate", formattedDate);
 
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String endDate = dateFormat.format(calendar.getTime());
-        // 날짜를 1일로 설정
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        dateFormat = new SimpleDateFormat("yyyyMMdd");
-        // 원하는 형식으로 날짜를 포맷
-        String startDate = dateFormat.format(calendar.getTime());
+
         bodyMap.put("startDate", startDate);
         bodyMap.put("endDate", endDate);
         bodyMap.put("orderBy", "0"); //과거순
         bodyMap.put("inquiryType", "0"); //"0"인 경우, 보유카드 조회 결과의 카드명을 사용
-        bodyMap.put("cardNo", registerCardsReq.getCardNo()); //카드 번호
+        String cardNo = registerCardsReq.getCardNo();//.replace("-", "");
+
+        bodyMap.put("cardNo", cardNo); //카드 번호
         bodyMap.put("memberStoreInfoType" ,"3"); //"0": 미포함, "1": 가맹점 포함, "2":부가세 포함, "3":전체 (가맹점 +부가세) 포함 (default: "0")
         // 요청 파라미터 설정 종료
 
         // API 요청
-        String result = SandboxApiRequest.reqeust(urlPath, bodyMap);	//  샌드박스 요청
-        log.info(result);
+        String result = SandboxApiRequest.reqeust(urlPath, bodyMap, ACCESS_TOKEN);	//  샌드박스 요청
+        return result;
     }
 
+    public String GetCardsName(RegisterCardsReq registerCardsReq, User user, String ACCESS_TOKEN) throws IOException, ParseException, InterruptedException {
 
+        String urlPath = "https://development.codef.io" + CommonConstant.KR_CD_P_001;
+
+        // 요청 파라미터 설정 시작
+        HashMap<String, Object> bodyMap = new HashMap<String, Object>();
+        bodyMap.put("connectedId", jasyptUtil.decrypt(user.getConnectedId()));	// 엔드유저의 은행/카드사 계정 등록 후 발급받은 커넥티드아이디 예시
+        bodyMap.put("organization", BANK_CODE.get(registerCardsReq.getCardCompany())); //하나 카드
+        bodyMap.put("birthDate", "");
+        // 요청 파라미터 설정 종료
+
+        // API 요청
+        String result = SandboxApiRequest.reqeust(urlPath, bodyMap, ACCESS_TOKEN);	//  샌드박스 요청 오브젝트 사용
+        return result;
+    }
 
 }

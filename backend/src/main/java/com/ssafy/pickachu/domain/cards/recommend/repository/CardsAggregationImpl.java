@@ -36,7 +36,6 @@ public class CardsAggregationImpl implements CardsAggregation {
             query.addCriteria(Criteria.where("categories").in(cardsListReq.getCategory()));
         }
         List<CardInfo> findCategoryCards = mongoTemplate.find(query, CardInfo.class);
-        log.info("TEST LOG : " + cardsListReq.getPageSize()  + " " + cardsListReq.getPageNumber());
         findCategoryCards.sort(Comparator.comparingInt(cardId -> {
             int index = cardsRanking.indexOf(cardId.getCardId());
             return index != -1 ? index : Integer.MAX_VALUE;

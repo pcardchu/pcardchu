@@ -30,7 +30,10 @@ public enum ErrorCode {
     TOKEN_NOT_MATCHED(404, "JWT-ERR-404", "TokenNotMatchedException: 토큰이 일치하지 않습니다."),
 
     // User
-    USER_NOT_FOUND(404, "USER-ERR", "UserNotFoundException: 잘못된 유저 정보입니다.")
+    USER_NOT_FOUND(404, "USER-ERR", "UserNotFoundException: 잘못된 유저 정보입니다."),
+
+    // Cards
+    EXIST_BANK_INFO(400, "CARDS-REGISTER-ERR", "이미 등록된 은행 입니다."),
 
     ;
     private int status;

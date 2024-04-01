@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,14 +22,14 @@ public class RecommendController {
 
     @Operation(summary = "카테고리로 카드 리스트 조회")
     @GetMapping("/list")
-    public ResponseEntity<SuccessResponse> getCardsList(@ModelAttribute @ParameterObject CardsListReq cardsListReq){
-        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_LIST_SUCCESS,recommendService.getCategoryCardsList(cardsListReq)));
+    public ResponseEntity<SuccessResponse> GetCardsList(@ModelAttribute @ParameterObject CardsListReq cardsListReq){
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_LIST_SUCCESS,recommendService.GetCategoryCardsList(cardsListReq)));
     }
 
     @Operation(summary = "카드 디테일 조회")
     @GetMapping("/list/detail/{cardsId}")
-    public ResponseEntity<SuccessResponse> getCardDetail(@PathVariable String cardsId){
-        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_LIST_SUCCESS ,recommendService.getCardDetail(cardsId)));
+    public ResponseEntity<SuccessResponse> GetCardDetail(@PathVariable String cardsId){
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_LIST_SUCCESS ,recommendService.GetCardDetail(cardsId)));
     }
 
 }

@@ -44,10 +44,7 @@ public class RSAUtil {
 	 */
 	public static String encryptRSA(String plainText, String base64PublicKey) {
 		try {
-			log.info("Test2 " + 1);
-			log.info("Test2.1 " + base64PublicKey);
-//			String jwtOneLine = base64PublicKey.replaceAll(".", "");
-//			log.info("TT  " + jwtOneLine);
+
 			byte[] bytePublicKey = Base64.getDecoder().decode(base64PublicKey);
 			KeyFactory keyFactory = KeyFactory.getInstance(ENCRYPT_TYPE_RSA);
 			PublicKey publicKey = keyFactory.generatePublic(new X509EncodedKeySpec(bytePublicKey));

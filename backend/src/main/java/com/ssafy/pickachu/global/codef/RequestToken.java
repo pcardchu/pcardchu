@@ -1,6 +1,5 @@
 package com.ssafy.pickachu.global.codef;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,7 +30,7 @@ public class RequestToken {
 	public static String getToken(String clientId, String secretKey) throws IOException, InterruptedException, ParseException {
 		try {
 			// HTTP 요청을 위한 URL 오브젝트 생성
-			System.out.println("getToken start");
+
 			URL url = new URL(CommonConstant.TOKEN_DOMAIN + CommonConstant.GET_TOKEN);
 	
 			String POST_PARAMS = "grant_type=client_credentials&scope=read";	// Oauth2.0 사용자 자격증명 방식(client_credentials) 토큰 요청 설정
@@ -45,9 +44,7 @@ public class RequestToken {
 			byte[] authEncBytes = Base64.encodeBase64(auth.getBytes());
 			String authStringEnc = new String(authEncBytes);
 			String authHeader = "Basic " + authStringEnc;
-			
-			System.out.println("Authorization :: " + authHeader);
-	
+
 			con.setRequestProperty("Authorization", authHeader);
 			con.setDoOutput(true);
 			
@@ -59,13 +56,11 @@ public class RequestToken {
 	
 			// 응답 코드 확인
 			int responseCode = con.getResponseCode();
-			System.out.println("POST Response Code :: " + responseCode + "	message ::" + con.getResponseMessage());
-	
+
 			BufferedReader br;
 			if (responseCode == HttpURLConnection.HTTP_OK) {	// 정상 응답
 				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			} else {	 // 에러 발생
-				System.out.println("POST request not worked");
 				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 			}
 			
@@ -76,18 +71,12 @@ public class RequestToken {
 				response.append(inputLine);
 			}
 			br.close();
-			
-			// 응답 문자열 확인
-			System.out.println("RESPONSE_STRING : " + URLDecoder.decode(response.toString(), "UTF-8"));
-			
+
 			// 응답 문자열 인코딩, JSONObject 변환
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(URLDecoder.decode(response.toString(), "UTF-8"));
 			JSONObject tokenJson = (JSONObject)obj;
-			
-			// 토큰 확인
-			System.out.println("access_token : " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(tokenJson));
-			
+
 			// 토큰 반환
 			return tokenJson.get("access_token").toString();
 		} catch (Exception e) {

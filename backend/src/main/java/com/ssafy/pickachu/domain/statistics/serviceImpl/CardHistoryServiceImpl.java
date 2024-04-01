@@ -6,7 +6,9 @@ import com.ssafy.pickachu.domain.statistics.exception.InvalidApiKeyException;
 import com.ssafy.pickachu.domain.statistics.repository.CardHistoryEntityRepository;
 import com.ssafy.pickachu.domain.statistics.response.CardHistoryRes;
 import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
+import com.ssafy.pickachu.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -16,8 +18,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CardHistoryServiceImpl implements CardHistoryService {
@@ -25,6 +29,34 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     private final String apiKey = "ssafyj10d110aairflow"; // 추후 따로 빼거나 암호화
     private final CardHistoryEntityRepository repository;
     Gson gson = new Gson();
+    @Override
+    public ResponseEntity<CardHistoryRes> saveCardHistories(String payListResult, User user, long cardId) {
+
+        int myAge = LocalDateTime.now().getYear() - user.getBirth().getYear();
+        String age = (myAge / 10) + "대";
+
+        //            // 문자열 내용을 JSONArray 객체로 변환
+        JSONArray jsonArray = new JSONArray(payListResult);
+        log.info("json = : "+ jsonArray.toString());
+        // JSONArray 내용 처리 예시
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+
+            CardHistoryEntity history = gson.fromJson(String.valueOf(jsonObject), CardHistoryEntity.class);
+            history.setUserid(1);
+            history.setId(UUID.randomUUID());
+            history.setGender(user.getGender());
+            history.setAge(age);
+            history.setCardId((int) cardId);
+            repository.save(history);
+        }
+
+        CardHistoryRes cardHistoryRes = CardHistoryRes.createCardHistoryResponse(
+                        HttpStatus.OK.value(), "Success", "Success"
+        );
+        return ResponseEntity.ok(cardHistoryRes);
+    }
+
     @Override
     public ResponseEntity<CardHistoryRes> saveCardHistories(String apiKey) {
         System.out.println("들어왔습니다.");
