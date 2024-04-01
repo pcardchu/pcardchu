@@ -1,10 +1,7 @@
 package com.ssafy.pickachu.domain.statistics.serviceImpl;
 
 import com.ssafy.pickachu.domain.auth.PrincipalDetails;
-import com.ssafy.pickachu.domain.statistics.dto.CalendarAmount;
-import com.ssafy.pickachu.domain.statistics.dto.Category;
-import com.ssafy.pickachu.domain.statistics.dto.MyConsumption;
-import com.ssafy.pickachu.domain.statistics.dto.Top3Category;
+import com.ssafy.pickachu.domain.statistics.dto.*;
 import com.ssafy.pickachu.domain.statistics.entity.*;
 import com.ssafy.pickachu.domain.statistics.exception.UserInfoUnavailableException;
 import com.ssafy.pickachu.domain.statistics.repository.*;
@@ -19,6 +16,7 @@ import com.ssafy.pickachu.global.util.IndustryCode;
 import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -179,8 +177,11 @@ public class StatisticsServiceImpl implements StatisticsService {
             }
         }
 
-        int data = (int)(((double)(totalAmount - average) / average) * 100);
+        int percent = (int)(((double)(totalAmount - average) / average) * 100);
 
+        int lastMonthNumber = Integer.parseInt(lastMonth.substring(4));
+
+        AverageGap data = new AverageGap(userAgeGroup, userGender, lastMonthNumber, percent);
         AverageComparisonRes response = AverageComparisonRes.createPeakTimeAgeResponse(
                 HttpStatus.OK.value(), "Success", data
         );
