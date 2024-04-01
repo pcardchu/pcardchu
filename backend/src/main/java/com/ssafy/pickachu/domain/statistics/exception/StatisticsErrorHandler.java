@@ -36,4 +36,11 @@ public class StatisticsErrorHandler {
                 .headers(JSON_HEADERS)
                 .body(stringToGson(HttpStatus.NOT_FOUND.value(), e.getMessage()));
     }
+
+    @ExceptionHandler(InvalidApiKeyException.class)
+    public ResponseEntity<String> handleInvalidApiKeyException(InvalidApiKeyException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .headers(JSON_HEADERS)
+                .body(stringToGson(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
+    }
 }

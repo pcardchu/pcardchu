@@ -32,7 +32,10 @@ public class SecondJwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String requestUri = request.getRequestURI();
-
+        if(requestUri.equals("/api/statistics/airflow")){
+            filterChain.doFilter(request, response);
+            return;
+        }
         if (requestUri.startsWith("/api/swagger-ui") || requestUri.startsWith("/api/v3/api-docs")
                 || requestUri.startsWith("/api/auth-test")
                 || requestUri.equals("/api/user/login/kakao")

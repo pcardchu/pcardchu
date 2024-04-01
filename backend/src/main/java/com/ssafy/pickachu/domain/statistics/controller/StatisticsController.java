@@ -9,18 +9,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/statistics")
+@Tag(name = "Statistics API", description = "빅데이터 분산 처리 통계 API")
 public class StatisticsController {
 
     private final StatisticsService statisticsService;
@@ -47,8 +46,8 @@ public class StatisticsController {
     }
 
     @Operation(summary = "codef 연동 전 데이터 삽입용임", description = "건들지마시오")
-    @GetMapping("/testinsert")
-    public ResponseEntity<CardHistoryRes> insertData(){return service.saveCardHistories();}
+    @GetMapping("/airflow")
+    public ResponseEntity<CardHistoryRes> insertData(@RequestHeader("AIRFLOW-API-KEY") String apiKey){return service.saveCardHistories(apiKey);}
 
     @Operation(summary = "개인 소비 통계", description = "지난달 소비 내역과 업종 분석, 일자별 소비 금액 합계")
     @ApiResponses({
