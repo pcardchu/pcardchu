@@ -16,8 +16,8 @@ class DioUtil {
     _dio = Dio();
     // Dio 인스턴스 기본 설정 (예: 기본 URL, 타임아웃 등)
     _dio.options.baseUrl = dotenv.env['API_URL']!;
-    _dio.options.connectTimeout = const Duration(milliseconds: 5000); //5초
-    _dio.options.receiveTimeout = const Duration(milliseconds: 3000); //3초
+    _dio.options.connectTimeout = const Duration(milliseconds: 15000); //5초
+    _dio.options.receiveTimeout = const Duration(milliseconds: 13000); //3초
 
     // 인터셉터 추가
     _dio.interceptors.add(InterceptorsWrapper(
