@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class PersonalCards {
@@ -19,15 +20,17 @@ public class PersonalCards {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    String name;
-    long userId;
-    String cardsId;
-    String cardNo;
-    String cardPw;
+    String name;            // 카드 이름
+    String cardCompany;     // 카드 회사
+    long userId;             // 유저 ID
+    String cardsId;         // Cards Entity ID
+    String cardNo;          // 개인 카드 번호
+    String cardCompanyId;   // 카드회사 아이디
+    String cardCompanyPw;   // 카드회사 비밀번호
+    private String useYN;   // 카드 삭제 여부
     @CreatedDate
     private LocalDateTime createTime;
     @LastModifiedDate
     private LocalDateTime updateTime;
-    private String useYN;
 
 }

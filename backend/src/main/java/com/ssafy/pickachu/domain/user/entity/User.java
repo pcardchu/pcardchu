@@ -29,6 +29,7 @@ public class User {
     private Date birth;
     private String gender;
     private String deviceId;
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String connectedId;
     @Column(nullable = false, columnDefinition = "int(11) DEFAULT 0")
     private int flagBiometrics;
