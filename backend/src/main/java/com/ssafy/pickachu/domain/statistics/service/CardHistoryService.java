@@ -5,6 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface CardHistoryService {
 
-    ResponseEntity<CardHistoryRes> saveCardHistories();
+    ResponseEntity<CardHistoryRes> saveCardHistories(String apiKey);
 
 }

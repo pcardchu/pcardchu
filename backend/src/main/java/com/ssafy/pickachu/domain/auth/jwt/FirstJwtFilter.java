@@ -33,6 +33,10 @@ public class FirstJwtFilter extends OncePerRequestFilter {
 
         String requestUri = request.getRequestURI();
 
+        if(requestUri.equals("/api/statistics/airflow")){
+            filterChain.doFilter(request, response);
+            return;
+        }
         if (!requestUri.equals("/api/user/basic-info")
                 && !requestUri.equals("/api/user/login/password")
                 && !requestUri.equals("/api/user/login/bio")
