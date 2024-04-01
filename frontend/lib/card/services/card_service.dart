@@ -8,11 +8,11 @@ class CardService {
 
   /// 카테고리에 맞는 카드 리스트 GET 요청
   /// id는 카테고리 아이디
-  Future<ApiResponseModel> getCategoryCards(String category) async {
+  Future<ApiResponseModel> getCategoryCards(String category, pageNumber) async {
     try {
       final Response response = await DioUtil().dio.get(
           "/cards/list",
-          queryParameters: {'category': category, 'pageNumber': 1, 'pageSize': 10},
+          queryParameters: {'category': category, 'pageNumber': pageNumber, 'pageSize': 5},
       );
 
       if (response.statusCode == 200) {
