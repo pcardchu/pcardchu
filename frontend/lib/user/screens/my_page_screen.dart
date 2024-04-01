@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/edit_mypage_screen.dart';
-
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
+import 'package:frontend/utils/screen_util.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/providers/user_info_provider.dart'; // UserInfoProvider의 경로를 확인해주세요.
 
-class MyPageScreen extends StatelessWidget {
+class MyPageScreen extends StatefulWidget {
   const MyPageScreen({super.key});
 
   @override
+  _MyPageScreenState createState() => _MyPageScreenState();
+}
+
+class _MyPageScreenState extends State<MyPageScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // UserInfoProvider로부터 유저 정보를 가져옵니다.
+    final userInfo = Provider.of<UserInfoProvider>(context);
+    final loginProvider = Provider.of<LoginProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -27,27 +45,25 @@ class MyPageScreen extends StatelessWidget {
         ),
         actions: [
           Padding(
-            // TextButton을 Padding으로 감싸 추가적인 간격을 제공합니다.
-            padding: const EdgeInsets.only(right: 36.0), // 오른쪽에만 패딩을 추가합니다.
+            padding: const EdgeInsets.only(right: 36.0),
             child: TextButton(
               onPressed: () {
-                // 수정 페이지로 이동하는 로직을 여기에 추가
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => EditMyPageScreen()));
               },
-              child: Text(
-                '수정',
-                style: AppFonts.suit(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                    color: AppColors.textBlack),
-              ),
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.mainWhite,
                 backgroundColor: Colors.transparent,
                 minimumSize: Size.zero,
                 padding: EdgeInsets.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(
+                '수정',
+                style: AppFonts.suit(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    color: AppColors.textBlack),
               ),
             ),
           ),
@@ -57,58 +73,82 @@ class MyPageScreen extends StatelessWidget {
         padding: const EdgeInsets.all(30.0),
         child: Column(
           children: [
-            SizedBox(height: 40), // 상단에 여백 추가
-            Image.asset('assets/images/profile_icon.png',),
-            SizedBox(height: 40), // 이미지와 이름 사이 여백 추가
+            SizedBox(height: ScreenUtil.h(5)),
+            loginProvider.profileImageUrl != ''
+                ? CircleAvatar(
+              backgroundImage: NetworkImage(loginProvider.profileImageUrl),
+              radius: 70.0,
+            )
+                : const CircleAvatar(
+              backgroundImage: AssetImage('assets/images/profile_icon.png'),
+              radius: 70.0,
+            ),
+            SizedBox(height: ScreenUtil.h(5)),
 
-            _buildProfileInfo('닉네임', '어쩌구'),
+            _buildProfileInfo('닉네임', userInfo.userName),
 
-            _buildProfileInfo('생년월일', '1999.03.03'),
+            _buildProfileInfo('생년월일', userInfo.birthDay),
 
-            _buildProfileInfo('성별', '여성'),
+            _buildProfileInfo('성별', userInfo.gender),
 
             _buildProfileInfo('간편 비밀번호', '변경하기', showArrowIcon: true),
+
+            SizedBox(
+              width: ScreenUtil.w(85),
+              child: TextButton(
+                onPressed: (){
+                  loginProvider.logout(context);
+                },
+                child: Text('로그아웃', style: TextStyle(color: AppColors.mainBlue),),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  side: const BorderSide(color: AppColors.mainBlue, width: 1),
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProfileInfo(String title, String value,
-      {bool showArrowIcon = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: AppFonts.suit(
-              color: AppColors.textBlack,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Row(
-            children: [
-              Text(
-                value,
-                style: AppFonts.suit(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.grey,
-                ),
+  Widget _buildProfileInfo(String title, String value, {bool showArrowIcon = false}) {
+    return Column(
+      children: [
+        SizedBox(height: ScreenUtil.h(2.5),),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: AppFonts.suit(
+                color: AppColors.textBlack,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
               ),
-              if (showArrowIcon) ...[
-                SizedBox(width: 8),
-                Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-              ]
-            ],
-          ),
-        ],
-      ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Row(
+              children: [
+                Text(
+                  value,
+                  style: AppFonts.suit(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.grey,
+                  ),
+                ),
+                if (showArrowIcon) ...[
+                  const SizedBox(width: 8),
+                  const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                ]
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: ScreenUtil.h(2.5),),
+      ],
     );
   }
 }

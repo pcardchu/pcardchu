@@ -1,9 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:frontend/user/models/user_info.dart';
+import 'package:frontend/user/services/user_service.dart';
 import 'package:frontend/utils/crypto_util.dart';
 
 class UserInfoProvider with ChangeNotifier {
+  final UserService _userService = UserService();
+
   final isNumeric = RegExp(r'^[0-9]+$');
+
+  String _userName = '';
+  String _birthDay = '';
+  bool _isBiometric = false;
 
   String _year = '';
   String _month = '';
@@ -15,6 +23,9 @@ class UserInfoProvider with ChangeNotifier {
   String _password = '';
   String _passwordSubmit = '';
 
+  bool get isBiometric => _isBiometric;
+  String get userName => _userName;
+  String get birthDay => _birthDay;
   String get year => _year;
   String get month => _month;
   String get day => _day;
@@ -24,6 +35,16 @@ class UserInfoProvider with ChangeNotifier {
   String get password => _password;
   String get passwordSubmit => _passwordSubmit;
   bool get isSix => _isSix;
+
+  set birthDay(String newValue) {
+    _birthDay = newValue;
+    notifyListeners();
+  }
+
+  set userName(String newValue) {
+    _userName = newValue;
+    notifyListeners();
+  }
 
   set year(String newValue) {
     _year = newValue;
@@ -111,5 +132,32 @@ class UserInfoProvider with ChangeNotifier {
       "birth" : formatDate(),
       "shortPw" : shortPw,
     };
+  }
+
+  Future<void> getUserInfo() async {
+    UserInfo user = await _userService.getUserInfo();
+
+    if(user.nickname != '') {
+      _userName = user.nickname;
+      _birthDay = user.birth;
+      _gender = user.gender;
+      _isBiometric = user.flagBiometrics;
+    }
+  }
+
+  void reset() {
+    _userName = '';
+    _birthDay = '';
+    _isBiometric = false;
+
+    _year = '';
+    _month = '';
+    _day = '';
+    _gender = '';
+    _isWrongDate = false;
+    _isSix = false;
+
+    _password = '';
+    _passwordSubmit = '';
   }
 }

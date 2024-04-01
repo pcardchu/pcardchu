@@ -16,8 +16,6 @@ class BiometricButton extends StatelessWidget {
       icon: const Icon(Icons.fingerprint,),
       onPressed: () async {
         if(passwordProvider.isBiometricEnabled && passwordProvider.isBiometricSupported) {
-          // final authenticated = await localAuthService.authenticateWithBiometrics('로그인을 위해 생체인증을 진행해 주세요.');
-          // provider.authenticateWithBiometrics();
           if (await passwordProvider.authenticateWithBiometrics()) {
             if(await loginProvider.loginWithBiometric()){
               passwordProvider.isAuthenticated = true;

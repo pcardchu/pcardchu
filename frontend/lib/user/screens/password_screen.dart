@@ -5,8 +5,8 @@ import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/home/screens/bottom_nav_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
-import 'package:frontend/user/services/local_auth_service.dart';
-import 'package:frontend/user/widgets/biometric_button.dart';
+import 'package:frontend/providers/user_info_provider.dart';
+
 import 'package:frontend/user/widgets/biometric_switch.dart';
 import 'package:frontend/user/widgets/custom_number_pad.dart';
 import 'package:frontend/user/widgets/forgot_password_button.dart';
@@ -25,13 +25,11 @@ class _PasswordScreenState extends State<PasswordScreen> {
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
 
-    print("자동 생체인증 : ${passwordProvider.isBiometricSupported}, ${passwordProvider.isBiometricEnabled}");
-
     if (passwordProvider.isBiometricSupported && passwordProvider.isBiometricEnabled) {
-      print("자동 생체인증 ㄱㄱ");
       if (await passwordProvider.authenticateWithBiometrics()) {
         if(await loginProvider.loginWithBiometric()){
           passwordProvider.isAuthenticated = true;
+
         } else {
           loginProvider.logout(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("다시 로그인해 주세요")));
@@ -46,14 +44,18 @@ class _PasswordScreenState extends State<PasswordScreen> {
     super.initState();
 
     final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await passwordProvider.loadBiometricEnabled();
       _checkAndAuthenticate();
+      await loginProvider.loadUserProfile();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final passwordProvider = Provider.of<PasswordProvider>(context);
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -92,7 +94,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
               ForgotPasswordButton(),
             ],
           ),
-          Container(
+          SizedBox(
             width: ScreenUtil.w(80),
             child: const Divider(height: 0,),
           ),
@@ -100,8 +102,24 @@ class _PasswordScreenState extends State<PasswordScreen> {
             flex: 1,
             child: Container(
               // height: ScreenUtil.h(50),
-              child: CustomNumberPad(),)
+              child: CustomNumberPad(),
+            )
           ),
+          Consumer<UserInfoProvider>(
+              builder: (context, provider, child) {
+                if(passwordProvider.isAuthenticated) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    try {
+                      provider.getUserInfo();
+                    } catch(e) {
+                      print('유저 정보 조회 오류 : $e');
+                    }
+
+                  });
+                }
+                return Container();
+              }
+              ),
           Consumer<PasswordProvider>(
               builder : (context, provider, child) {
                 if(provider.isAuthenticated) {

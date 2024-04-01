@@ -41,7 +41,7 @@ class LoginScreen extends StatelessWidget {
                   provider.secondJwt = JwtToken(isFirst: false, refreshToken: null, accessToken: response.data['accessToken']);
 
                   //api 호출 테스트
-                  Response<dynamic> test = await DioUtil().dio.get('/user/info');
+                  // Response<dynamic> test = await DioUtil().dio.get('/user/info');
                   // print(test.data);
 
                 } catch(e) {
