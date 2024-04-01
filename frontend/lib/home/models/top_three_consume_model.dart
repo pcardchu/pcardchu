@@ -12,10 +12,18 @@ class TopThreeConsumeModel {
 
   // JSON에서 ConsumeModel 객체로 변환하는 factory 생성자
   factory TopThreeConsumeModel.fromJson(Map<String, dynamic> json) {
+    List<String> categoryListFromJson = List<String>.from(json['categoryList']);
+
     return TopThreeConsumeModel(
       age: json['age'],
       gender: json['gender'],
-      categoryList: json['categoryList'],
+      categoryList: categoryListFromJson,
     );
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return super.toString();
   }
 }

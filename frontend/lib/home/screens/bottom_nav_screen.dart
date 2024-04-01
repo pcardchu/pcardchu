@@ -42,9 +42,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: _getPageForTab(_selectedTab),
-      ),
+      extendBody: true,
+      body: _getPageForTab(_selectedTab),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),

@@ -67,7 +67,7 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
                   children: [
                     SizedBox(height: ScreenUtil.h(10),),
                     Text(
-                      "여섯 자리 비밀번호를 입력해 주세요",
+                      "여섯 자리 비밀번호를 등록해 주세요",
                       style: AppFonts.suit(fontWeight: FontWeight.w700, color: AppColors.mainBlue, fontSize: 22),
                     ),
                     SizedBox(
@@ -81,6 +81,9 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
                               userInfoProvider.password = value;
                               if(userInfoProvider.password.length == 6) {
                                 userInfoProvider.isSix = true;
+                                _passwordSubmitNode.requestFocus();
+                              } else {
+                                userInfoProvider.isSix = false;
                               }
                             },
                             obscureText: true,
@@ -141,7 +144,7 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
             Column(
               children: [
                 Visibility(
-                  visible: userInfoProvider.isAllFieldsFilled,
+                  visible: userInfoProvider.isPasswordMatch() && userInfoProvider.isPasswordCorrect(),
                   child: FadeSlideAnimation(
                     durationMilliseconds: 400,
                     beginOffset: const Offset(0, 1),
@@ -150,24 +153,31 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
                       width: ScreenUtil.w(85),
                       child: ElevatedButton(
                         onPressed: () async {
-                          var data = userInfoProvider.getRegistrationData();
-                          String result = await loginInfoProvider.registration(data);
+                          if(userInfoProvider.isPasswordMatch() && userInfoProvider.isPasswordCorrect()) {
+                            //비밀번호가 유효하다면
+                            var data = userInfoProvider.getRegistrationData();
+                            String result = await loginInfoProvider.registration(data);
 
-                          if(result == '성공') {
-                            loginInfoProvider.saveFirstJwt();
-                            Navigator.of(context).pushReplacement(
-                                FadeTransitionPageRoute(
-                                    page: PasswordScreen(),
-                                    transitionDuration: const Duration(milliseconds: 200),
-                                    reverseTransitionDuration: const Duration(milliseconds: 200)
-                                )
-                            );
-                          } else if(result == '토큰만료'){
-                            //토큰 만료 재시도 로직
-                            const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                            if(result == '성공') {
+                              loginInfoProvider.saveFirstJwt();
+
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  FadeTransitionPageRoute(
+                                      page: PasswordScreen(),
+                                      transitionDuration: const Duration(milliseconds: 200),
+                                      reverseTransitionDuration: const Duration(milliseconds: 200)
+                                  ),
+                                    (Route<dynamic> route) => false,
+                              );
+                            } else if(result == '토큰만료'){
+                              //토큰 만료 재시도 로직
+                              const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                            } else {
+                              //실패
+                              const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                            }
                           } else {
-                            //실패
-                            const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                            //비밀번호가 유효하지 않다면,
                           }
                         },
                         child: const Text('계속하기'),

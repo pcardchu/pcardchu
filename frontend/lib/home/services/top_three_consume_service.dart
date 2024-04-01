@@ -1,41 +1,64 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/home/models/top_three_consume_model.dart';
 
+import 'package:frontend/home/models/top_three_consume_response.dart';
+
 class TopThreeConsumeService {
   final dio = Dio();
 
-  TopThreeConsumeService() {
-    dio.options.baseUrl = 'https://j10d110.p.ssafy.io/api/';
-    // JWT 토큰을 요청 헤더에 추가하는 인터셉터 설정
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        // 여기서 `your_jwt_token`을 실제 토큰으로 교체하세요.
-        // 토큰은 SharedPreferences, Keychain 등에서 안전하게 관리해야 합니다.
-        const String yourJwtToken = 'eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfU0VDT05EX0FVVEgiLCJpYXQiOjE3MTE2MDY2MDYsImV4cCI6MTcxMTYwNjgyMn0.8K_yMR1ZGfFfrJU6CUk3SMwr9YGeWAcFBYvSl43ItDU';
-        options.headers['Authorization'] = 'Bearer $yourJwtToken';
-        return handler.next(options); // 계속해서 요청을 진행합니다.
-      },
-    ));
-  }
+  // Future<List<TopThreeConsumeModel>> getTopThreeCategory() async {
+  //   try {
+  //     final response = await dio.get('https://0292d82d-2f54-45b6-9578-af6544b34b66.mock.pstmn.io/api/statistics/top3category');
+  //
+  //
+  //     final responseData = TopThreeConsumeResponse.fromJson(response.data);
+  //
+  //     if (responseData.status == 200) {
+  //       // 성공적으로 데이터를 받았을 때의 처리
+  //       return responseData.data;
+  //     } else {
+  //       // 서버에서 에러 응답이 왔을 때의 처리
+  //       throw Exception('Failed to load top 3 categories: ${responseData.message}');
+  //     }
+  //   } on DioException catch (e) {
+  //     // 네트워크 요청 중 에러가 발생했을 때의 처리
+  //     throw Exception('Failed to load top 3 categories: ${e.message}');
+  //   }
+  // }
 
   Future<List<TopThreeConsumeModel>> getTopThreeCategory() async {
-    try {
-      final response = await dio.get(
-          'statistics/top3category');
-
-      final List<dynamic> data = response.data;
-      final List<TopThreeConsumeModel> cardList =
-      data.map((e) => TopThreeConsumeModel.fromJson(e)).toList();
-      return cardList;
-    } on DioException catch (e) {
-      if (e.response != null) {
-        // 에러코드에 따른 처리
-        throw Exception('Failed to load top 3 list: ${e.response}');
-      } else {
-        print(e.requestOptions);
-        print(e.message);
-        throw Exception('Failed to load top 3 list: ${e.message}');
-      }
-    }
+    // 2초의 딜레이를 가진 후 더미 데이터 반환
+    return Future.delayed(const Duration(seconds: 4), () => _getDummyData());
   }
+
+  List<TopThreeConsumeModel> _getDummyData() {
+    // 더미 데이터 리스트 정의
+    return [
+      TopThreeConsumeModel(
+        age: "30대",
+        gender: "여성",
+        categoryList: ["전자상거래PG", "편의점", "슈퍼"],
+      ),
+      TopThreeConsumeModel(
+        age: "40대",
+        gender: "남성",
+        categoryList: ["편의점", "슈퍼", "한식"],
+      ),
+      // 추가 데이터...
+      TopThreeConsumeModel(
+        age: "20대",
+        gender: "남성",
+        categoryList: ["편의점", "전자상거래PG", "비디오방/게임방"],
+      ),
+      TopThreeConsumeModel(
+        age: "10대",
+        gender: "여성",
+        categoryList: ["편의점", "전자상거래PG", "커피/음료"],
+      ),
+      // 이곳에 추가 데이터 입력...
+    ];
+  }
+
+
 }
+
