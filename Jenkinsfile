@@ -22,9 +22,13 @@ pipeline {
 
         stage('Prepare application.yml') {
             steps {
-                withCredentials([file(credentialsId: 'application_key', variable: 'APPLICATION_KEY'), file(credentialsId: 'card_list', variable: 'CARD_LIST')]){
+                withCredentials([
+                    file(credentialsId: 'application_key', variable: 'APPLICATION_KEY'), 
+                    file(credentialsId: 'card_list', variable: 'CARD_LIST'),
+                    file(credentialsId: 'test_history', variable: 'TEST_HISTORY')]){
                     script {
                         sh 'cp $APPLICATION_KEY backend/src/main/resources/'
+                        sh 'cp $TEST_HISTORY backend/src/main/resources/'
                         sh 'mkdir -p backend/src/main/resources/static/images/'
                         sh 'cp $CARD_LIST backend/src/main/resources/static/images/'
                     }
