@@ -27,7 +27,7 @@ public class HttpRequest {
 			con.setRequestMethod("POST");
 			con.setRequestProperty(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 			con.setRequestProperty(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-			log.info("FUCK : " + token);
+
 			if (token != null) {
 				con.setRequestProperty("Authorization", "Bearer " + token);		// 엑세스 토큰 헤더 설정
 			}
@@ -40,13 +40,11 @@ public class HttpRequest {
 
 			// 응답 코드 확인
 			int responseCode = con.getResponseCode();
-			System.out.println("POST Response Code :: " + responseCode + "	message ::" + con.getResponseMessage());
 
 			BufferedReader br;
 			if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 응답
 				br = new BufferedReader(new InputStreamReader(con.getInputStream())); 
 			} else { // 에러 발생
-				System.out.println("POST request not worked");
 				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 			}
 			
@@ -57,9 +55,6 @@ public class HttpRequest {
 				response.append(inputLine);
 			}
 			br.close();
-			
-			// 응답 문자열 확인
-//			System.out.println("RESPONSE_STRING : " + URLDecoder.decode(response.toString(), "UTF-8"));
 
 			// 응답 문자열 인코딩, JSONObject 변환
 			JSONParser parser = new JSONParser();

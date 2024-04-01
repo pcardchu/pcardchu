@@ -29,13 +29,13 @@ public class RecommendServiceImpl implements RecommendService{
 
     @Transactional(readOnly=true)
     @Override
-    public CardsListPage getCategoryCardsList(CardsListReq cardsListReq){
+    public CardsListPage GetCategoryCardsList(CardsListReq cardsListReq){
         List<String> cardsRankingList = personalCardsRepository.getPersonalCardsRankingList();
         return cardsAggregation.GetCardsCategoryList(cardsListReq, cardsRankingList);
     }
 
     @Override
-    public CardDetailRes getCardDetail(String cardsId) {
+    public CardDetailRes GetCardDetail(String cardsId) {
         Cards cards = cardsRepository.findById(cardsId).orElseThrow(
             () -> new RuntimeException("cards not exist")
         );
@@ -60,7 +60,6 @@ public class RecommendServiceImpl implements RecommendService{
             .filter(Objects::nonNull)
             .toList();
 
-        System.out.println(benefits.toString());
         return CardDetailRes.builder()
             .cardId(cardsId)
             .cardName(cards.getCardName())
