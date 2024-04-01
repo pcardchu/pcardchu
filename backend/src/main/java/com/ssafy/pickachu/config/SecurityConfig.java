@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 
 @RequiredArgsConstructor
@@ -39,6 +40,7 @@ public class SecurityConfig {
                 .addFilterAfter(new SecondJwtFilter(jwtUtil, exceptionUtil), FirstJwtFilter.class)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/").permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/statistics/airflow", "GET")).permitAll()
                         .requestMatchers( "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers( "/auth-test/**").permitAll()
                         .requestMatchers("/user/login/kakao", "/user/refresh").permitAll()
