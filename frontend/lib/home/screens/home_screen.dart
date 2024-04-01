@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!cardListProvider.loading && Navigator.canPop(context)) {
           Navigator.of(context).pop();
         }
+
       });
     });
   }
