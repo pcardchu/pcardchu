@@ -85,6 +85,7 @@ class CardProvider with ChangeNotifier {
 
       // 현재 페이지 1로 다시 초기화
       currentPage = 1;
+      isNextPage = true;
       notifyListeners();
     }
   }
@@ -105,17 +106,22 @@ class CardProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// 현재 페이지 +1 증가
-  void setCurrentPage() async {
-    currentPage += 1;
-
-    notifyListeners();
-  }
-
   /// 카드사 아이디 변경
   void setCompanyId(String id) async {
     _companyId = id;
 
+    notifyListeners();
+  }
+  
+  // 로딩 상태 수동 변경
+  void startLoading() async{
+    loading = true;
+    notifyListeners();
+  }
+
+  // 로딩 상태 수동 변경
+  void endLoading() async{
+    loading = false;
     notifyListeners();
   }
 
@@ -179,16 +185,32 @@ class CardProvider with ChangeNotifier {
     // 다음 페이지가 있으면
     if (isNextPage) {
       loading = true;
+      notifyListeners();
 
-      ApiResponseModel data = await cardService.getCategoryCards(
-          categoryDic[categoryIndex.toString()]!, pageNumber);
-      // 기존 해당 카테고리 정보가 들어 있는 배열 뒤에 다음 페이지 데이터들 추가
-      categoryCards[categoryIndex] = [
-        ...categoryCards[categoryIndex],
-        ...data.data!.cardsRes!
-      ];
+      try {
+        ApiResponseModel data = await cardService.getCategoryCards(
+            categoryDic[categoryIndex.toString()]!, pageNumber + 1);
+        // 기존 해당 카테고리 정보가 들어 있는 배열 뒤에 다음 페이지 데이터들 추가
+        categoryCards[categoryIndex] = [
+          ...categoryCards[categoryIndex],
+          ...data.data!.cardsRes!
+        ];
+        print('현재');
+        // 현재 페이지 + 1
+        currentPage += 1;
 
-      loading = false;
+        // 만약 현재 페이지가 마지막 페이지라면
+        if (data.data!.last!){
+          isNextPage = false;
+        }
+      } catch (e) {
+        // 요청 실패 시 로딩 상태를 false로 설정
+        print('Failed to load next page: $e');
+      } finally {
+        // 성공하거나 예외가 발생하더라도 마지막에 항상 실행
+        loading = false;
+        notifyListeners();
+      }
     }
   }
 
