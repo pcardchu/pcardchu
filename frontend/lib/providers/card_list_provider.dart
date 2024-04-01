@@ -29,7 +29,6 @@ class CardListProvider with ChangeNotifier {
       isCardRegistered = false;
     }
 
-    //isCardRegistered = false;
 
     loading = false;
     notifyListeners();
