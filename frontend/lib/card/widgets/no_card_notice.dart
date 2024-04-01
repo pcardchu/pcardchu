@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/user/screens/my_page_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
@@ -18,7 +19,11 @@ class NoCardNotice extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MyPageScreen(),
+                ),
+              );
             },
             icon: Icon(
               Icons.settings,
@@ -41,7 +46,7 @@ class NoCardNotice extends StatelessWidget {
               Text('소비패턴을', style: AppFonts.scDream(fontWeight: FontWeight.w700, fontSize: 28, color: AppColors.textBlack),),
               Text('불러올 수 없습니다', style: AppFonts.scDream(fontWeight: FontWeight.w700, fontSize: 28, color: AppColors.textBlack),),
               SizedBox(height: 12),
-              Text('카드를 등록하셨나요?', style: AppFonts.suit(fontWeight: FontWeight.w600, fontSize: 14, color: AppColors.lightGrey),),
+              Text('카드를 등록하셨나요?', style: AppFonts.suit(fontWeight: FontWeight.w700, fontSize: 14, color: AppColors.lightGrey),),
             ],
           ),
         ),

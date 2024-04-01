@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/user/services/local_auth_service.dart';
-import 'package:frontend/user/services/password_service.dart';
 import 'package:frontend/user/services/token_service.dart';
 import 'package:frontend/utils/crypto_util.dart';
 
@@ -166,5 +165,16 @@ class PasswordProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void reset() {
+  _isBiometricEnabled = false;
+  _isBiometricSupported = false;
+  _isBiometricEnableChecked = true;
+  _isAuthenticated = false;
+  _isNumpad = false;
+  _inputValue = "";
+  _wrongCount = 0;
 
+  _localAuthService.removeBiometricEnabled();
+
+  }
 }

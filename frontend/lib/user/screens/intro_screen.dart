@@ -28,7 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
           Container(),
           FadeSlideAnimation(
             durationMilliseconds: 1000, // 원하는 지속 시간(밀리초 단위)
-            beginOffset: Offset(0.0, 0.5), // 시작 오프셋 설정
+            beginOffset: const Offset(0.0, 0.5), // 시작 오프셋 설정
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -66,7 +66,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     )
                     );
                   },
-                  child: Text('다음'),
+                  child: const Text('다음'),
                 ),
               ),
               const SizedBox(height: 20),
