@@ -7,11 +7,14 @@ import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/services/kakao_login_service.dart';
 import 'package:frontend/user/services/token_service.dart';
 import 'package:frontend/utils/dio_util.dart';
+import 'package:frontend/utils/logout_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class LoginProvider with ChangeNotifier {
   final KakaoLoginService _kakaoLoginService = KakaoLoginService();
   final TokenService _tokenService = TokenService();
+
+  String _profileImageUrl = '';
 
   bool _isLoading = false;
   String? _errorMessage;
@@ -22,7 +25,7 @@ class LoginProvider with ChangeNotifier {
   JwtToken? _secondJwt;
   OAuthToken? _kakaoToken;
 
-
+  String get profileImageUrl => _profileImageUrl;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isLoggedIn => _isLoggedIn;
@@ -64,6 +67,22 @@ class LoginProvider with ChangeNotifier {
       return false;
     } else {
       return true;
+    }
+  }
+
+  Future<void> loadUserProfile() async {
+    try {
+      // 카카오 사용자 API 호출
+      User user = await UserApi.instance.me();
+      // 프로필 이미지 URL을 상태 변수에 저장
+      _profileImageUrl = user.kakaoAccount?.profile?.thumbnailImageUrl ?? '';
+      // 상태 변경 알림
+      notifyListeners();
+    } catch (error) {
+      // 에러 처리
+      print("프로필 이미지 로드 실패: $error");
+      _profileImageUrl = '';
+      notifyListeners();
     }
   }
 
@@ -147,18 +166,12 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future logout(BuildContext context) async{
-    _kakaoToken = null;
-    _isLoggedIn = false;
-
     try{
-      //토큰 삭제
-      await UserApi.instance.logout();
-      deleteFirstJwt();
-      deleteSecondJwt();
+      LogoutUtil.resetAllProviders(context);
 
-      print("카카오 로그아웃");
+      print("로그아웃");
     } catch (e) {
-      print("카카오 로그아웃 실패 : ${e}");
+      print("로그아웃 실패 : ${e}");
     }
 
     notifyListeners();
@@ -187,5 +200,18 @@ class LoginProvider with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  void reset() {
+    _isLoading = false;
+    _errorMessage = null;
+    _isLoggedIn = false;
+    _isFirst = false;
+    _firstJwt = null;
+    _secondJwt = null;
+    _kakaoToken = null;
+    UserApi.instance.logout();
+    deleteFirstJwt();
+    deleteSecondJwt();
   }
 }

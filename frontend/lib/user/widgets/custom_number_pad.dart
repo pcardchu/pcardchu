@@ -94,15 +94,7 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
                         passwordProvider.updateBiometricEnabled(false);
                       }
                     }
-
-                    //홈으로 이동
-                    Navigator.of(context).pushReplacement(
-                        FadeTransitionPageRoute(
-                            page: const BottomNavScreen(),
-                            transitionDuration: const Duration(milliseconds: 250),
-                            reverseTransitionDuration: const Duration(milliseconds: 250)
-                        )
-                    );
+                    passwordProvider.isAuthenticated = true;
 
                   } else if(result.code == 400) {
                     //비밀번호 틀림

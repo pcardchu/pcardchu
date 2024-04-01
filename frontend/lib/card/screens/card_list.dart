@@ -74,7 +74,7 @@ class _CardListState extends State<CardList> {
   Future<void> loadData() async {
     // 카테고리 카드 리스트 배열에 정보가 없을때만 Get 호출
     if (!context.read<CardProvider>().loadCategory) {
-      await context.read<CardProvider>().getCategoryCards(context);
+      await context.read<CardProvider>().getCategoryCards(context, 1);
     }
   }
 }

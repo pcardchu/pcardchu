@@ -39,7 +39,7 @@ class CategoryList extends StatelessWidget {
                 SizedBox(width: idx < 7 ? 15 : 0),
               ],
             );
-          }).toList(),
+          }),
         ],
       ),
     );

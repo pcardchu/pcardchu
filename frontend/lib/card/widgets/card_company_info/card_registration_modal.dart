@@ -27,8 +27,8 @@ class CardRegistrationModal extends StatelessWidget {
           Text(
             '등록된 고객정보가 존재하지 않아요',
             style: AppFonts.suit(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
               color: AppColors.textBlack,
             ),
           ),

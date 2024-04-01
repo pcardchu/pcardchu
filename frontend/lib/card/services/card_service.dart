@@ -8,19 +8,16 @@ class CardService {
 
   /// 카테고리에 맞는 카드 리스트 GET 요청
   /// id는 카테고리 아이디
-  Future<ApiResponseModel> getCategoryCards(String category) async {
+  Future<ApiResponseModel> getCategoryCards(String category, pageNumber) async {
     try {
       final Response response = await DioUtil().dio.get(
           "/cards/list",
-          queryParameters: {'category': category, 'pageNumber': 1, 'pageSize': 10},
+          queryParameters: {'category': category, 'pageNumber': pageNumber, 'pageSize': 5},
       );
 
       if (response.statusCode == 200) {
-        // final List<dynamic> cardsJson = response.data['data']['cardsRes'];
-        // final List<CardModel> cards = cardsJson.map<CardModel>((json) => CardModel.fromJson(json)).toList();
-
         ApiResponseModel apiResponse = ApiResponseModel.fromJson(response.data);
-        // List<CardModel> cards = apiResponse.data?.cardsRes ?? [];
+
 
         return apiResponse;
       } else {
@@ -79,13 +76,13 @@ class CardService {
     String pw,
   ) async {
     try {
-      final Response response = await dio.post(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/api/users/cards",
+      final Response response = await DioUtil().dio.post(
+          "/cards/my-cards",
           data: {
             'cardCompany': cardCompany,
-            'cardNumber': cardNumber,
-            'id': id,
-            'pw': pw
+            'cardNo': cardNumber,
+            'cardCompanyId': id,
+            'cardCompanyPw': pw
           });
 
       if (response.statusCode == 200) {
@@ -94,6 +91,7 @@ class CardService {
         throw Exception('Failed to load cards');
       }
     } catch (e) {
+      return {'data': false};
       throw Exception('Failed to load cards: $e');
     }
   }
