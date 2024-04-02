@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/user/models/jwt_token.dart';
@@ -8,6 +11,7 @@ import 'package:frontend/user/services/kakao_login_service.dart';
 import 'package:frontend/user/services/token_service.dart';
 import 'package:frontend/utils/crypto_util.dart';
 import 'package:frontend/utils/dio_util.dart';
+import 'package:frontend/utils/first_dio_util.dart';
 import 'package:frontend/utils/logout_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
@@ -16,6 +20,7 @@ class LoginProvider with ChangeNotifier {
   final TokenService _tokenService = TokenService();
 
   String _profileImageUrl = '';
+  String _userEmail = '';
   int _userId = 0;
 
   bool _isLoading = false;
@@ -27,6 +32,7 @@ class LoginProvider with ChangeNotifier {
   JwtToken? _secondJwt;
   OAuthToken? _kakaoToken;
 
+  String get userEmail => _userEmail;
   String get profileImageUrl => _profileImageUrl;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
@@ -80,6 +86,7 @@ class LoginProvider with ChangeNotifier {
       User user = await UserApi.instance.me();
       // 프로필 이미지 URL을 상태 변수에 저장
       _profileImageUrl = user.kakaoAccount?.profile?.thumbnailImageUrl ?? '';
+      _userEmail = user.kakaoAccount!.email!;
       // 상태 변경 알림
       notifyListeners();
     } catch (error) {
@@ -114,13 +121,13 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future<SecondJwtResponse?> checkPassword(String digest) async {
-    SecondJwtResponse responseData = await _tokenService.secondJwtRequestWithPassword(digest, _firstJwt!);
+    SecondJwtResponse responseData = await _tokenService.secondJwtRequestWithPassword(digest);
 
     return responseData;
   }
 
   Future<bool> loginWithBiometric() async {
-    JwtToken result = await _tokenService.secondJwtRequestWithBiometric(_firstJwt!);
+    JwtToken result = await _tokenService.secondJwtRequestWithBiometric();
 
     if(result.accessToken != null){
       secondJwt = result;
@@ -143,6 +150,8 @@ class LoginProvider with ChangeNotifier {
 
       _isFirst = loginResponse!.isFirst!;
       _firstJwt = JwtToken.fromLoginResponse(loginResponse, true);
+
+      FirstDioUtil().setAccessToken(_firstJwt!.accessToken!);
 
       _userId = CryptoUtil.extractIdFromAccessToken(_firstJwt!.accessToken!)!;
 
@@ -169,6 +178,21 @@ class LoginProvider with ChangeNotifier {
     }
 
     return true;
+  }
+
+  Future<bool> resetPassword() async {
+    Dio firstDio = FirstDioUtil().dio;
+
+    print('비밀번호 초기화 시도 : $_userEmail');
+
+    try {
+      await firstDio.get('/user/login/');
+
+      return true;
+    } catch(e) {
+      print('비밀번호 초기화 오류 : $e');
+      return false;
+    }
   }
 
   Future logout(BuildContext context) async{

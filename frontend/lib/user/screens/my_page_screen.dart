@@ -91,6 +91,39 @@ class _MyPageScreenState extends State<MyPageScreen> {
 
             _buildProfileInfo('성별', userInfo.gender),
 
+            Column(
+              children: [
+                SizedBox(height: ScreenUtil.h(2.5),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '생체인증',
+                      style: AppFonts.suit(
+                        color: AppColors.textBlack,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Checkbox(
+                      value: userInfo.isBiometric,
+                      activeColor: AppColors.mainBlue,
+                      onChanged: (bool? value) {
+                        // 상태 업데이트
+                        // setState(() {
+                        //   userInfo.isBiometric = value!;
+                        // });
+                      },
+                    ),
+
+                  ],
+                ),
+                SizedBox(height: ScreenUtil.h(2.5),),
+              ],
+            ),
+
             _buildProfileInfo('간편 비밀번호', '변경하기', showArrowIcon: true),
 
             SizedBox(

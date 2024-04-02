@@ -36,11 +36,8 @@ class CryptoUtil {
 
   //해싱
   static String hashPassword(String value, int salt) {
-    print('해싱하기 id : $salt, value : $value');
     Uint8List bytes = utf8.encode("$value$salt");
     Digest digest = sha256.convert(bytes);
-
-    print(digest.toString());
 
     return digest.toString();
   }
@@ -86,5 +83,21 @@ class CryptoUtil {
       return null;
     }
     return null;
+  }
+
+  static String maskEmail(String email) {
+    final atIndex = email.indexOf('@');
+    if (atIndex == -1) return email; // '@'가 없으면 원본 반환
+
+    String localPart = email.substring(0, atIndex);
+    String domainPart = email.substring(atIndex); // '@' 포함 도메인 부분
+
+    // 첫 두 글자를 제외하고 나머지를 '*'로 치환
+    if (localPart.length > 3) {
+      String maskedPart = '*' * (localPart.length - 3);
+      localPart = localPart.substring(0, 3) + maskedPart;
+    }
+
+    return localPart + domainPart;
   }
 }

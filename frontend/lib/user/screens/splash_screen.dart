@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     await loginProvider.checkToken();
 
-    SecureApplicationProvider.of(context)?.secure();
+    // SecureApplicationProvider.of(context)?.secure();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
 
