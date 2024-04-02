@@ -43,4 +43,11 @@ public class StatisticsErrorHandler {
                 .headers(JSON_HEADERS)
                 .body(stringToGson(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
     }
+
+    @ExceptionHandler(CardInfoIOException.class)
+    public ResponseEntity<String> handleCardInfoIOExceptionException(CardInfoIOException e) {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .headers(JSON_HEADERS)
+                .body(stringToGson(HttpStatus.SERVICE_UNAVAILABLE.value(), e.getMessage()));
+    }
 }

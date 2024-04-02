@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface CardHistoryService {
 
-    ResponseEntity<CardHistoryRes> saveCardHistories(String apiKey);
-    ResponseEntity<CardHistoryRes> saveCardHistories(String payListResult, User user, long id);
+    ResponseEntity<CardHistoryRes> saveCardHistoriesByAirflow(String apiKey);
+
+    void saveCardHistories(String payListResult, User user, long id);
 
 
 }

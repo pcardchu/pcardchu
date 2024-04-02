@@ -1,5 +1,6 @@
 package com.ssafy.pickachu.domain.cards.personalcards.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
 public class RegisterCardsReq {
 
     String cardCompany;     // 카드 회사
