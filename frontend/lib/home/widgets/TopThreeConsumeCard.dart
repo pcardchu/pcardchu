@@ -50,6 +50,10 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TopThreeConsumeProvider>(context);
+    if (provider.consumeList != null && provider.consumeList.isNotEmpty && selectedData == null) {
+      _selectRandomData(provider); // consumeList가 업데이트 되면 selectedData를 다시 설정
+    }
     final loading = context.watch<TopThreeConsumeProvider>().loading;
     final isAlready = context.watch<TopThreeConsumeProvider>().loadConsumeList;
 
@@ -64,7 +68,7 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: const Color(0xFFC5D8FC),
-        child: loading || selectedData == null && !isAlready
+        child: loading || selectedData == null
             ? Center(child: CircularProgressIndicator())
             : _buildCardContent(selectedData!),
       ),

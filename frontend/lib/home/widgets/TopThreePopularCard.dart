@@ -47,6 +47,10 @@ class _TopThreePopularCardState extends State<TopThreePopularCard> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TopThreePopularProvider>(context);
+    if (provider.consumeList != null && provider.consumeList.isNotEmpty && selectedData == null) {
+      _selectRandomData(provider); // consumeList가 업데이트 되면 selectedData를 다시 설정
+    }
     final loading = context.watch<TopThreePopularProvider>().loading;
 
     return SizedBox(
