@@ -28,10 +28,13 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
         provider.getTopThreeCategory().then((_) {
           if (mounted) {
             _selectRandomData(provider);
+            print("예쁘게 잘 호출");
           }
         });
       } else {
+
         _selectRandomData(provider);
+        print("데이터는 그대로인데 랜덤으로 호출");
       }
     });
   }
@@ -40,12 +43,19 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
     if (provider.consumeList.isNotEmpty) {
       final randomIndex = Random().nextInt(provider.consumeList.length);
       selectedData = provider.consumeList[randomIndex];
+      print("sd${selectedData}");
+      print('좋아요');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final loading = context.watch<TopThreeConsumeProvider>().loading;
+    final isAlready = context.watch<TopThreeConsumeProvider>().loadConsumeList;
+
+    print(loading);
+    print(selectedData);
+    print(isAlready);
 
     return SizedBox(
       height: ScreenUtil.h(26),
@@ -54,7 +64,7 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: const Color(0xFFC5D8FC),
-        child: loading || selectedData == null
+        child: loading || selectedData == null && !isAlready
             ? Center(child: CircularProgressIndicator())
             : _buildCardContent(selectedData!),
       ),

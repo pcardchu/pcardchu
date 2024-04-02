@@ -27,5 +27,6 @@ class CardInfoModel {
   @override
   String toString() {
     return 'CardInfoModel{id: $id, cardCompanyName: $cardCompanyName, cardImage: $cardImage, cardNumber: $cardNumber, cardName: $cardName}';
+
   }
 }
