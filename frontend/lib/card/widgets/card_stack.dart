@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:frontend/card/widgets/my_register_card.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/card/screens/card_registration.dart';
+import 'package:frontend/providers/card_list_provider.dart';
 
 class CardStack extends StatefulWidget {
-  const CardStack({super.key});
+  const CardStack({Key? key}) : super(key: key);
 
   @override
   State<CardStack> createState() => _CardStackState();
@@ -14,6 +16,9 @@ class CardStack extends StatefulWidget {
 class _CardStackState extends State<CardStack> {
   @override
   Widget build(BuildContext context) {
+    // 여기서 CardListProvider를 context를 통해 접근
+    final cardListProvider = Provider.of<CardListProvider>(context);
+
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,14 +30,11 @@ class _CardStackState extends State<CardStack> {
               fontSize: 22,
               color: AppColors.mainWhite),
         ),
-        SizedBox(
-          height: 30,
-        ),
+        SizedBox(height: 30),
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => CardRegistration()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => CardRegistration()));
             },
             child: Row(
               children: [
@@ -43,11 +45,7 @@ class _CardStackState extends State<CardStack> {
                       fontSize: 12,
                       color: AppColors.mainWhite),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Color(0xFFD9D9D9),
-                  size: 14,
-                )
+                Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFFD9D9D9), size: 14),
               ],
             ),
             style: TextButton.styleFrom(
@@ -59,13 +57,13 @@ class _CardStackState extends State<CardStack> {
             ),
           ),
         ]),
-        SizedBox(
-          height: 60,
-        ),
-        Center(child:MyRegisterCard(),),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 60),
+        // 조건부 렌더링
+        if (cardListProvider.cardList.isNotEmpty)
+          Center(child: MyRegisterCard())
+        else
+          Text('등록된 카드가 없습니다.', textAlign: TextAlign.center),
+        SizedBox(height: 10),
         Align(
           alignment: Alignment.center,
           child: Text(

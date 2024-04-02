@@ -18,13 +18,18 @@ class CardListProvider with ChangeNotifier {
   final CardListService _cardService = CardListService();
 
   List<CardInfoModel> get cardList => _cardList;
-  bool get isCardRegistered => _isCardRegistered;
-  bool get loading => _loading;
 
+  bool get isCardRegistered => _isCardRegistered;
+
+  bool get loading => _loading;
+  bool _loadCardList = false;
+
+  bool get loadCardList => _loadCardList;
+
+  /// 두 메소드 모두 같은 서비스 메소드를 호출하는 게 좋은 상태관리 인가..
   checkUserCards() async {
     _setLoading(true);
-
-    try{
+    try {
       _cardList = await _cardService.getCardList();
 
       if (cardList.isNotEmpty) {
@@ -37,7 +42,23 @@ class CardListProvider with ChangeNotifier {
     } catch (e) {
       _setLoading(false);
     }
+  }
 
+  getUserCardsList() async {
+    _setLoading(true);
+    try {
+      _cardList = await _cardService.getCardList();
+      _setLoadCardList(true);
+      _setLoading(false);
+    } catch (e) {
+      _setLoadCardList(false);
+      _setLoading(false);
+    }
+  }
+
+  void _setLoadCardList(bool value) {
+    _loadCardList = value;
+    notifyListeners();
   }
 
   void _setLoading(bool value) {
