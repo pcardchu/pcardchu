@@ -1,24 +1,35 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../utils/app_colors.dart';
-import '../../utils/app_fonts.dart';
+import 'package:flutter/widgets.dart';
+import 'package:frontend/providers/login_provider.dart';
+import 'package:frontend/utils/app_colors.dart';
+import 'package:frontend/utils/app_fonts.dart';
+import 'package:frontend/utils/screen_util.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/providers/user_info_provider.dart'; // UserInfoProvider의 경로를 확인해주세요.
 
 class EditMyPageScreen extends StatefulWidget {
   const EditMyPageScreen({super.key});
 
   @override
-  State<EditMyPageScreen> createState() => _EditMyPageScreenState();
+  _EditMyPageScreenState createState() => _EditMyPageScreenState();
 }
 
 class _EditMyPageScreenState extends State<EditMyPageScreen> {
-  List<bool> isSelected = [true, false];
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // UserInfoProvider로부터 유저 정보를 가져옵니다.
+    final userInfo = Provider.of<UserInfoProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '내 정보 수정',
+          '회원 정보 수정',
           style: AppFonts.scDream(
               fontWeight: FontWeight.w600,
               fontSize: 20,
@@ -26,95 +37,122 @@ class _EditMyPageScreenState extends State<EditMyPageScreen> {
         ),
         backgroundColor: AppColors.mainWhite,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 36.0),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.mainWhite,
+                backgroundColor: Colors.transparent,
+                minimumSize: Size.zero,
+                padding: EdgeInsets.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(
+                '저장',
+                style: AppFonts.suit(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    color: AppColors.textBlack),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(30.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              decoration: InputDecoration(
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                labelText: '닉네임',
-                labelStyle: AppFonts.suit(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                    color: AppColors.textBlack),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30), // 텍스트 필드의 둥근 모서리
+
+            _buildProfileInfo('닉네임', userInfo.userName),
+
+            _buildProfileInfo('생년월일', userInfo.birthDay),
+
+            _buildProfileInfo('성별', userInfo.gender),
+
+            Column(
+              children: [
+                SizedBox(height: ScreenUtil.h(2.5),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '생체인증',
+                      style: AppFonts.suit(
+                        color: AppColors.textBlack,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Checkbox(
+                      value: userInfo.isBiometric,
+                      activeColor: AppColors.mainBlue,
+                      onChanged: (bool? value) {
+                        // 상태 업데이트
+                        // setState(() {
+                        //   userInfo.isBiometric = value!;
+                        // });
+                      },
+                    ),
+
+                  ],
                 ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            TextField(
-              decoration: InputDecoration(
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                labelText: '생년월일',
-                labelStyle: AppFonts.suit(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                    color: AppColors.textBlack),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30), // 텍스트 필드의 둥근 모서리
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              '성별',
-              style: AppFonts.suit(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                  color: AppColors.textBlack),
-            ),
-            SizedBox(height: 20.0),
-            ToggleButtons(
-              borderColor: AppColors.lightGrey,
-              fillColor: AppColors.bottomGrey,
-              // 선택된 상태의 배경색
-              borderWidth: 1,
-              selectedBorderColor: Colors.grey,
-              borderRadius: BorderRadius.circular(20.0),
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 4),
-                  child: Text('남성'),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 4),
-                  child: Text('여성'),
-                ),
+                SizedBox(height: ScreenUtil.h(2.5),),
               ],
-              onPressed: (int index) {
-                setState(() {
-                  for (int i = 0; i < isSelected.length; i++) {
-                    isSelected[i] = i == index;
-                  }
-                });
-              },
-              isSelected: isSelected,
             ),
-            Spacer(), // 나머지 공간을 모두 채움
-            SizedBox(
-              width: double.infinity, // 부모의 전체 너비
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.mainBlue, // 버튼의 배경색
-                ),
-                onPressed: () {
-                  // 저장 버튼 동작을 여기에 구현
-                },
-                child: Text('저장', style: TextStyle(color: AppColors.mainWhite)),
-              ),
-            ),
+
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildProfileInfo(String title, String value) {
+    final TextEditingController _controller = TextEditingController(text: value);
+
+    return Column(
+      children: [
+        SizedBox(height: ScreenUtil.h(2.5),),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: AppFonts.suit(
+                color: AppColors.textBlack,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            IntrinsicWidth(
+              child: TextField(
+                controller: _controller, // 위에서 생성한 TextEditingController를 지정합니다.
+                style: AppFonts.suit(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.mainBlue, // 직접 Colors.grey를 사용. AppColors.grey와 동일하다고 가정합니다.
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
+            )
+          ],
+        ),
+        SizedBox(height: ScreenUtil.h(2.5),),
+      ],
     );
   }
 }

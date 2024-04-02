@@ -5,6 +5,7 @@ import 'package:frontend/user/models/jwt_token.dart';
 import 'package:frontend/user/models/login_response.dart';
 import 'package:frontend/user/models/second_jwt_response.dart';
 import 'package:frontend/utils/crypto_util.dart';
+import 'package:frontend/utils/first_dio_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +24,7 @@ class TokenService {
     String? refreshToken = await storage.read(key: 'firstRefreshToken');
 
     if (accessToken != null && refreshToken != null) {
+      FirstDioUtil().setAccessToken(accessToken!);
       return JwtToken(accessToken: accessToken, refreshToken: refreshToken, isFirst: true);
     } else {
       return null;
@@ -143,28 +145,20 @@ class TokenService {
     return '실패';
   }
 
-  Future<SecondJwtResponse> secondJwtRequestWithPassword(digest, JwtToken token) async {
-    dio.options.connectTimeout = const Duration(milliseconds: 1000);
-    dio.options.receiveTimeout = const Duration(milliseconds: 1000);
-    dio.options.sendTimeout = const Duration(milliseconds: 1000);
+  Future<SecondJwtResponse> secondJwtRequestWithPassword(digest) async {
+    final Dio _dio = FirstDioUtil().dio;
 
-    String url = "${baseUrl}/user/login/password";
+    String url = "/user/login/password";
 
     var requestData = {
       'password': digest,
     };
 
-    var header = {
-      'accept' : 'application/json',
-      'Content-Type' : 'application/json', // 요청 헤더에 Content-Type 지정
-      'Authorization' : 'Bearer ${token.accessToken}'
-    };
 
     try {
-      final Response response = await dio.post(
+      final Response response = await _dio.post(
         url,
         data: requestData,
-        options: Options(headers: header),
       );
 
       // 성공 응답 처리
@@ -226,22 +220,14 @@ class TokenService {
     );
   }
 
-  Future<JwtToken> secondJwtRequestWithBiometric(JwtToken token) async {
-    dio.options.connectTimeout = const Duration(milliseconds: 1000);
-    dio.options.receiveTimeout = const Duration(milliseconds: 1000);
-    dio.options.sendTimeout = const Duration(milliseconds: 1000);
+  Future<JwtToken> secondJwtRequestWithBiometric() async {
+    final Dio _dio = FirstDioUtil().dio;
 
-    String url = "${baseUrl}/user/login/bio";
-
-    var header = {
-      'accept' : 'application/json',
-      'Authorization' : 'Bearer ${token.accessToken}'
-    };
+    String url = "/user/login/bio";
 
     try {
-      final Response response = await dio.post(
+      final Response response = await _dio.post(
         url,
-        options: Options(headers: header),
       );
 
       // 성공 응답 처리
@@ -272,9 +258,6 @@ class TokenService {
               accessToken: null,
               refreshToken: null
           );
-        } else if (response.statusCode == 401) {
-          // 토큰 만료 처리
-          print("토큰 만료");
         } else {
           // 그 외 오류 처리
           print("기타 오류 처리");

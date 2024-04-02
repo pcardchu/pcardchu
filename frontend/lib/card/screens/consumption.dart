@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/animations/slide_transition_page_route.dart';
 import 'package:frontend/card/widgets/consumption/consumption_tapbar.dart';
 import 'package:frontend/card/widgets/loading_modal.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/providers/login_provider.dart';
+import 'package:frontend/user/screens/my_page_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:provider/provider.dart';
+
+import '../../user/screens/login_screen.dart';
 
 /// 개인 소비 패턴을 보여주는  페이지
 class Consumption extends StatefulWidget {
@@ -38,7 +42,13 @@ class _ConsumptionState extends State<Consumption> {
         actions: [
           IconButton(
             onPressed: () {
-              loginInfoProvider.logout(context);
+              Navigator.push(
+                  context,
+                  SlideTransitionPageRoute(
+                      page: const MyPageScreen(),
+                      beginOffset: const Offset(0, 1)
+              )
+              );
             },
             icon: Icon(
               Icons.settings,
