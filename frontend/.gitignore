@@ -45,3 +45,6 @@ app.*.map.json
 # Environment variables
 .env
 /env
+
+#ios
+project.pbxproj

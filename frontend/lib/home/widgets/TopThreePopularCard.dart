@@ -23,18 +23,19 @@ class _TopThreePopularCardState extends State<TopThreePopularCard> {
   void initState() {
     super.initState();
 
-
-    final provider =
-    Provider.of<TopThreePopularProvider>(context, listen: false);
-    if (provider.consumeList.isEmpty) {
-      provider.getTopThreeCategory().then((_) {
-        if (mounted) {
-          _selectRandomData(provider);
-        }
-      });
-    } else {
-      _selectRandomData(provider);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider =
+          Provider.of<TopThreePopularProvider>(context, listen: false);
+      if (provider.consumeList.isEmpty) {
+        provider.getTopThreeCategory().then((_) {
+          if (mounted) {
+            _selectRandomData(provider);
+          }
+        });
+      } else {
+        _selectRandomData(provider);
+      }
+    });
   }
 
   void _selectRandomData(TopThreePopularProvider provider) {
@@ -114,4 +115,3 @@ class _TopThreePopularCardState extends State<TopThreePopularCard> {
     );
   }
 }
-
