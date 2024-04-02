@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.google.gson.Gson;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
@@ -162,7 +163,20 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             throw new RuntimeException(e);
         }
         JSONObject usercardsJson = new JSONObject(userCards);
-        JSONArray cardsListArray = usercardsJson.getJSONArray("data");
+        JSONArray cardsListArray = new JSONArray();
+
+        try {
+            if (usercardsJson.get("data") instanceof JSONArray) {
+                // 'data'가 배열인 경우
+                cardsListArray = usercardsJson.getJSONArray("data");
+
+            } else if (usercardsJson.get("data") instanceof JSONObject) {
+                // 'data'가 객체인 경우
+                cardsListArray.put(usercardsJson);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         String cardNameTarget = "Card";
         for (Object o : cardsListArray) {
