@@ -33,6 +33,7 @@ dependencies:
   rive: ^0.13.1
   secure_application: ^4.0.0
   flutter_launcher_icons: ^0.13.1
+  flutter_card_swiper: ^7.0.0
 
 dev_dependencies:
   flutter_test:

@@ -26,30 +26,31 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    /// 위젯 트리가 완전히 만들어졌을 때 호출되도록
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+
       final cardListProvider = Provider.of<CardListProvider>(context, listen: false);
       cardListProvider.checkUserCards().then((_) {
-        // 로딩 상태가 변경될 때 로딩 모달 닫기
+        // 카드 리스트 확인 후 필요한 작업 수행
+        // 여기서 UI 업데이트를 유발하는 코드가 있으면 안전하게 실행됩니다.
+        // 예를 들어, 로딩 상태가 변경되어 로딩 모달을 닫는 경우:
         if (!cardListProvider.loading && Navigator.canPop(context)) {
           Navigator.of(context).pop();
         }
-
+      }).catchError((error) {
+        // 에러 처리
       });
-    });
+
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.mainWhite,
-        scrolledUnderElevation: 0,
-      ),
+
       backgroundColor: AppColors.mainWhite,
       body: Center(
         child: Container(
           width: ScreenUtil.w(90),
+          margin: EdgeInsets.only(top: 30),
           child: Consumer<CardListProvider>(
             builder: (context, provider, child) {
               if (provider.loading) {

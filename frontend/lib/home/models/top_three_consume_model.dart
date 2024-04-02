@@ -24,6 +24,7 @@ class TopThreeConsumeModel {
   @override
   String toString() {
     // TODO: implement toString
-    return super.toString();
+    return 'TopThreeConsumeModel{age: $age, gender: $gender, categoryList: $categoryList';
+
   }
 }

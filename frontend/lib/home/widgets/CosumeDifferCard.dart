@@ -54,14 +54,14 @@ class _ConsumeDifferCardState extends State<ConsumeDifferCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '내 또래의 여성들은',
+                        '내 또래의 ${data.gender}들은',
                         style: AppFonts.suit(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textBlack),
                       ),
                       Text(
-                        '2월에 얼마나 썼을까?',
+                        '${data.lastMonth}월에 얼마나 썼을까?',
                         style: AppFonts.suit(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
@@ -85,16 +85,16 @@ class _ConsumeDifferCardState extends State<ConsumeDifferCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '유저님은 같은 집단에 비해',
+                      '유저님은 ${data.ageGroup} ${data.gender}에 비해',
                       style: AppFonts.suit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF61806F)),
                     ),
                     Text(
-                      data.data > 0
-                          ? '평균 ${data.data}% 많이 소비하고 있어요.'
-                          : '평균 ${data.data.abs()}% 적게 소비하고 있어요.',
+                      data.percent > 0
+                          ? '평균 ${data.percent}% 많이 소비하고 있어요.'
+                          : '평균 ${data.percent.abs()}% 적게 소비하고 있어요.',
                       style: AppFonts.suit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

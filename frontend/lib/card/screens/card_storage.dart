@@ -14,25 +14,22 @@ class CardStorage extends StatelessWidget {
         Container(
           color: AppColors.mainWhite,
         ),
-        Expanded(
-          child: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 10,
-                sigmaY: 10,
-              ),
-              child: Container(
-                alignment: Alignment.center,
-                color: Colors.grey.shade800.withOpacity(0.6),
-              ),
+        ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 10,
+              sigmaY: 10,
+            ),
+            child: Container(
+              alignment: Alignment.center,
+              color: Colors.grey.shade800.withOpacity(0.6),
             ),
           ),
         ),
-        Padding(
-            padding: EdgeInsets.only(left: 60, right: 60, top: 80, bottom: 80),
-            child: Container(
-              child: CardStack(),
-        ))
+        Container(
+          padding: EdgeInsets.only(left: 60, right: 60, top: 80, bottom: 80),
+          child: CardStack(),
+                )
       ],
     );
   }
