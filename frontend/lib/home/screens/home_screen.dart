@@ -45,14 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.mainWhite,
-        scrolledUnderElevation: 0,
-      ),
+
       backgroundColor: AppColors.mainWhite,
       body: Center(
         child: Container(
           width: ScreenUtil.w(90),
+          margin: EdgeInsets.only(top: 30),
           child: Consumer<CardListProvider>(
             builder: (context, provider, child) {
               if (provider.loading) {
