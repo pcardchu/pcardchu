@@ -181,8 +181,9 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         String cardNameTarget = "Card";
         for (Object o : cardsListArray) {
 
-            Map<String, String> o1 = gson.fromJson(o.toString(), Map.class);
-            String maskedStr1 = o1.get("resCardNo");
+            Map<String, Map<String, String>> o1 = gson.fromJson(o.toString(), Map.class);
+            Map<String, String> data = o1.get("data");
+            String maskedStr1 = data.get("resCardNo");
             String maskedStr2 = registerCardsReq.getCardNo().replace("-", "");
             int matchingChars = 0;
             for (int i = 0; i < maskedStr1.length(); i++) {
@@ -193,7 +194,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
             maskedStr1 = maskedStr1.replaceAll("\\*", "");
             if(maskedStr2.length() - (maskedStr2.length()-maskedStr1.length()) == matchingChars){
-                cardNameTarget = o1.get("resCardName");
+                cardNameTarget = data.get("resCardName");
                 break;
             }
         }
