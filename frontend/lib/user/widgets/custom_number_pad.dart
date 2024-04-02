@@ -70,7 +70,7 @@ class _CustomNumberPadState extends State<CustomNumberPad> {
           return TextButton(
             child: Text("${randomNums[number]}"),
             onPressed: () async {
-              String digest = passwordProvider.addNumber(randomNums[number]);
+              String digest = passwordProvider.addNumber(randomNums[number], loginProvider.userId);
               if(digest.isNotEmpty){
                 SecondJwtResponse? result = await loginProvider.checkPassword(digest);
 

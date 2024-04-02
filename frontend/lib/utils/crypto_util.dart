@@ -35,11 +35,33 @@ class CryptoUtil {
   }
 
   //해싱
-  static String hashPassword(String value, String salt) {
-    Uint8List bytes = utf8.encode(value + salt);
+  static String hashPassword(String value, int salt) {
+    print('해싱하기 id : $salt, value : $value');
+    Uint8List bytes = utf8.encode("$value$salt");
     Digest digest = sha256.convert(bytes);
 
     return digest.toString();
+  }
+
+  static int? extractIdFromAccessToken(String accessToken) {
+    try {
+      // JWT는 세 부분으로 구성되어 있습니다. 페이로드 부분을 분리합니다.
+      final payloadBase64 = accessToken.split('.')[1];
+      // Base64 문자열을 정상적인 Base64로 변경합니다. JWT Base64Url을 Base64로 변경
+      var normalizedBase64 = base64Url.normalize(payloadBase64);
+      // Base64 디코딩을 수행합니다.
+      var decodedJson = utf8.decode(base64Url.decode(normalizedBase64));
+      // 디코딩된 JSON 문자열을 Map으로 변환합니다.
+      var decodedPayload = json.decode(decodedJson);
+      // id 값을 추출합니다.
+      if (decodedPayload is Map<String, dynamic> && decodedPayload.containsKey('id')) {
+        return decodedPayload['id'];
+      }
+    } catch (e) {
+      print("Error extracting id from accessToken: $e");
+      return null;
+    }
+    return null;
   }
 
   ///AccessToken에서 만료기한을 추출합니다.

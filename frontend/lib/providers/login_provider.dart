@@ -6,6 +6,7 @@ import 'package:frontend/user/models/second_jwt_response.dart';
 import 'package:frontend/user/screens/login_screen.dart';
 import 'package:frontend/user/services/kakao_login_service.dart';
 import 'package:frontend/user/services/token_service.dart';
+import 'package:frontend/utils/crypto_util.dart';
 import 'package:frontend/utils/dio_util.dart';
 import 'package:frontend/utils/logout_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -15,6 +16,7 @@ class LoginProvider with ChangeNotifier {
   final TokenService _tokenService = TokenService();
 
   String _profileImageUrl = '';
+  int _userId = 0;
 
   bool _isLoading = false;
   String? _errorMessage;
@@ -30,6 +32,7 @@ class LoginProvider with ChangeNotifier {
   String? get errorMessage => _errorMessage;
   bool get isLoggedIn => _isLoggedIn;
   bool get isFirst => _isFirst;
+  int get userId => _userId;
 
   set isFirst(bool newValue) {
     _isFirst = newValue;
@@ -56,6 +59,7 @@ class LoginProvider with ChangeNotifier {
     if (_firstJwt == null) {
       return false;
     } else {
+      _userId = CryptoUtil.extractIdFromAccessToken(_firstJwt!.accessToken!)!;
       return true;
     }
   }
@@ -139,6 +143,8 @@ class LoginProvider with ChangeNotifier {
 
       _isFirst = loginResponse!.isFirst!;
       _firstJwt = JwtToken.fromLoginResponse(loginResponse, true);
+
+      _userId = CryptoUtil.extractIdFromAccessToken(_firstJwt!.accessToken!)!;
 
       if(!_isFirst) { //첫 로그인이 아니라면 바로 토큰 로컬에 저장
         saveFirstJwt();

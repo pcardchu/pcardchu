@@ -125,8 +125,8 @@ class UserInfoProvider with ChangeNotifier {
     return "$_year-$formattedMonth-$formattedDay";
   }
 
-  Map<String, dynamic> getRegistrationData() {
-    String shortPw = CryptoUtil.hashPassword(_password, '1');
+  Map<String, dynamic> getRegistrationData(int id) {
+    String shortPw = CryptoUtil.hashPassword(_password, id);
     return {
       "gender" : _gender,
       "birth" : formatDate(),

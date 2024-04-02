@@ -92,7 +92,7 @@ class PasswordProvider with ChangeNotifier {
     return result;
   }
 
-  String addNumber(int number) {
+  String addNumber(int number, int id) {
     String result = '';
     if (_inputValue.length < 6) { // 최대 6자리 숫자까지 입력 가능
       _inputValue += number.toString();
@@ -101,28 +101,9 @@ class PasswordProvider with ChangeNotifier {
       // 비밀번호 길이가 6자리가 되었을 때의 로직
       if (_inputValue.length == 6) {
         // _inputValue
-        String digest = CryptoUtil.hashPassword(_inputValue, "1");
+        String digest = CryptoUtil.hashPassword(_inputValue, id);
 
         result = digest;
-        // print("입력값 : ${_inputValue}, 해싱 : ${digest}");
-        // if (!checkPassword()) {
-        //   _wrongCount++;
-        //   notifyListeners();
-        //
-        //   if (_wrongCount >= 5) {
-        //     // wrongCount가 6이 되었을 때의 처리 로직
-        //     // 예: 사용자에게 경고 메시지를 보여주기
-        //     // 추가적인 사용자 조치를 여기서 취할 수 있습니다.
-        //     print("비밀번호 입력 시도 횟수 초과");
-        //     // clearInput(); // 비밀번호 입력 필드 초기화
-        //     clearWrongCount(); // wrongCount 초기화
-        //     // 필요한 경우, 사용자에게 경고 메시지를 보여주는 등의 UI 업데이트
-        //   }
-        // } else {
-        //   // 정확한 비밀번호 입력 후의 동작
-        //   _isAuthenticated = true;
-        //   print("비밀번호가 정확합니다.");
-        // }
       }
     }
 

@@ -155,7 +155,7 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
                         onPressed: () async {
                           if(userInfoProvider.isPasswordMatch() && userInfoProvider.isPasswordCorrect()) {
                             //비밀번호가 유효하다면
-                            var data = userInfoProvider.getRegistrationData();
+                            var data = userInfoProvider.getRegistrationData(loginInfoProvider.userId);
                             String result = await loginInfoProvider.registration(data);
 
                             if(result == '성공') {
