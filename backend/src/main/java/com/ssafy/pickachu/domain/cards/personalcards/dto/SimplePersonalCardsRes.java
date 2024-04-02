@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SimplePersonalCardsRes {
-    String cardsId;
+    long cardId;
     String name;
     String cardNo;
     String cardImage;

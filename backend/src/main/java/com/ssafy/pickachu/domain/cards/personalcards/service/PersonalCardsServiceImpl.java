@@ -338,9 +338,17 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
         List<PersonalCards> personalCardsList = personalCardsRepository.findAllByUserIdAndUseYN(user.getId(), "Y");
         personalCardsList.forEach(personalCards -> {
+
             SimplePersonalCardsRes tmpRes = personalCardsMapper.toSimplePersonalCardsRes(personalCards);
+
+            String cardNo = jasyptUtil.decrypt(tmpRes.getCardNo());
+            String maskedCardNumber = cardNo.replaceAll("(\\d{4}-)(\\d{4}-)(\\d{4}-)(\\d{4})", "$1****-****-$4");
+            tmpRes.setCardNo(maskedCardNumber);
+
             Optional<Cards> cards = cardsRepository.findById(personalCards.getCardsId());
-            cards.ifPresent(card -> tmpRes.setCardImage(card.getImageUrl()));
+            cards.ifPresent(card -> {{
+                tmpRes.setCardImage(card.getImageUrl());
+            }});
             simplePersonalCardsRes.add(tmpRes);
         });
         return simplePersonalCardsRes;
@@ -486,7 +494,6 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         // 어제 날짜까지
-//        calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.add(Calendar.DATE, -1); // 저번달 마지막날로 이동
         String endDay = dateFormat.format(calendar.getTime());
 
