@@ -11,6 +11,7 @@ import com.ssafy.pickachu.domain.cards.recommend.repository.CardInfoRepository;
 import com.ssafy.pickachu.domain.cards.recommend.repository.CardsRepository;
 import com.ssafy.pickachu.domain.cards.recommend.repository.CardsAggregation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
@@ -19,6 +20,7 @@ import java.util.*;
 
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class RecommendServiceImpl implements RecommendService{
 
@@ -40,25 +42,23 @@ public class RecommendServiceImpl implements RecommendService{
             () -> new RuntimeException("cards not exist")
         );
         CardInfo cardInfo = cardInfoRepository.findCardInfoByCardId(cardsId).orElseThrow(
-            () -> new RuntimeException("cards not xexist")
+            () -> new RuntimeException("cards not exist")
         );
 
-        Map<String, List<Object>> test = cardInfo.getContents();
-        Set<Map.Entry<String, List<Object>>> entries = test.entrySet();
-        List<ArrayList<String>> benefits = entries.stream().map(entry ->{
-                Object value = entry.getValue().get(1);
-                if (value instanceof Map) {
-                    Map<String, String> mapValue = (Map<String, String>) value;
-                    ArrayList<String> result = new ArrayList<>(){{
-                        add(entry.getKey());
-                        add(mapValue.get("benefitSummary"));
-                    }};
-                    return result;
-                }
-                return null;
-            })
-            .filter(Objects::nonNull)
-            .toList();
+
+        List<ArrayList<String>> benefits = new ArrayList<>();
+        List<String> categories = cardInfo.getCategories();
+        List<String> groupCategory = cardInfo.getGroupCategory();
+        log.info(groupCategory.toString());
+        for (int ids = 0; ids < categories.size(); ids++){
+            ArrayList<String> result = new ArrayList<>();
+            String category = groupCategory.get(ids);
+            String benefit = ((Map<String, String>)cardInfo.getContents().get(categories.get(ids)).get(1)).get("benefitSummary");
+            result.add(category);
+            result.add(benefit);
+            benefits.add(result);
+        }
+
 
         return CardDetailRes.builder()
             .cardId(cardsId)

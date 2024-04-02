@@ -29,7 +29,7 @@ public class RecommendController {
     @Operation(summary = "카드 디테일 조회")
     @GetMapping("/list/detail/{cardsId}")
     public ResponseEntity<SuccessResponse> GetCardDetail(@PathVariable String cardsId){
-        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_LIST_SUCCESS ,recommendService.GetCardDetail(cardsId)));
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CATEGORY_CARDS_DETAIL_SUCCESS ,recommendService.GetCardDetail(cardsId)));
     }
 
 }

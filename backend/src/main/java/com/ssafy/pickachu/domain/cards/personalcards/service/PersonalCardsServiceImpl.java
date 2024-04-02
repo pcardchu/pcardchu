@@ -17,7 +17,6 @@ import com.ssafy.pickachu.domain.user.repository.UserRepository;
 import com.ssafy.pickachu.global.codef.CodefApi;
 import com.ssafy.pickachu.global.exception.ErrorCode;
 import com.ssafy.pickachu.global.exception.ErrorException;
-import com.ssafy.pickachu.global.exception.ErrorResponse;
 import com.ssafy.pickachu.global.util.JasyptUtil;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -464,7 +463,8 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         String cardsIdTarget = "0000";
         Optional<Cards> optionalCards = cardsRepository.findByCardName(cardNameTarget);
         if (optionalCards.isPresent()){
-            cardsIdTarget = optionalCards.get().getCardName();
+            cardNameTarget = optionalCards.get().getCardName();
+            cardsIdTarget = optionalCards.get().getId();
         }
 
         // url 주소 : https://development.codef.io/v1/kr/card/p/account/result-check-list
