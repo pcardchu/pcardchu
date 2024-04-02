@@ -59,6 +59,146 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
     private final EntityManager em;
     private final CardHistoryService cardHistoryService;
     private final JasyptUtil jasyptUtil;
+
+
+    private static Map<String, String> crawlingCategories = new HashMap<>(){{
+        put("점심", "음식");
+        put("배달앱", "음식");
+        put("대중교통", "교통");
+        put("편의점", "마트/편의점");
+        put("온라인쇼핑", "쇼핑");
+        put("드럭스토어", "의료");
+        put("통신", "통신");
+        put("디지털구독", "온라인결제");
+        put("대한항공", "여행");
+        put("무이자할부", "할인");
+        put("프리미엄 서비스", "기타");
+        put("유의사항", "기타");
+        put("할인", "할인");
+        put("무실적", "기타");
+        put("모든가맹점", "음식");
+        put("쇼핑", "쇼핑");
+        put("영화/문화", "문화/생활");
+        put("생활", "문화/생활");
+        put("골프", "문화/생활");
+        put("적립", "할인");
+        put("아시아나항공", "여행");
+        put("일반음식점", "음식");
+        put("기타", "기타");
+        put("간편결제", "쇼핑");
+        put("푸드", "음식");
+        put("교통", "교통");
+        put("해외", "여행");
+        put("카페", "카페");
+        put("해외이용", "쇼핑");
+        put("제휴/PLCC", "기타");
+        put("충전소", "주유");
+        put("멤버십포인트", "할인");
+        put("KT", "통신");
+        put("주유소", "주유");
+        put("카페/디저트", "카페");
+        put("백화점", "쇼핑");
+        put("대형마트", "마트/마트/편의점");
+        put("패밀리레스토랑", "음식");
+        put("보험사", "문화/생활");
+        put("프리미엄", "기타");
+        put("교육/육아", "문화/생활");
+        put("주유", "주유");
+        put("테마파크", "문화/생활");
+        put("영화", "문화/생활");
+        put("게임", "문화/생활");
+        put("선택형1", "선택형1");
+        put("마트/편의점", "마트/편의점");
+        put("홈쇼핑", "쇼핑");
+        put("베이커리", "카페");
+        put("소셜커머스", "쇼핑");
+        put("여행/숙박", "여행");
+        put("택시", "교통");
+        put("공항라운지", "여행");
+        put("수수료우대", "할인");
+        put("삼성페이", "온라인결제");
+        put("바우처", "문화/생활");
+        put("선택형2", "선택형2");
+        put("선택형3", "선택형3");
+        put("네이버페이", "온라인결제");
+        put("국민행복", "기타");
+        put("공과금", "할인");
+        put("라운지키", "여행");
+        put("도서", "문화/생활");
+        put("자동차", "교통");
+        put("국내외가맹점", "여행");
+        put("병원/약국", "의료");
+        put("뷰티/피트니스", "문화/생활");
+        put("비즈니스", "문화/생활");
+        put("금융", "온라인결제");
+        put("APP", "기타");
+        put("학원", "문화/생활");
+        put("공과금/렌탈", "할인");
+        put("카카오페이", "온라인결제");
+        put("SKT", "통신");
+        put("정비", "교통");
+        put("하이패스", "교통");
+        put("자동차/하이패스", "교통");
+        put("애완동물", "문화/생활");
+        put("LGU+", "통신");
+        put("해외직구", "쇼핑");
+        put("음원사이트", "문화/생활");
+        put("면세점", "쇼핑");
+        put("은행사", "온라인결제");
+        put("패스트푸드", "음식");
+        put("아울렛", "쇼핑");
+        put("SSM", "마트/마트/편의점");
+        put("CJ ONE", "쇼핑");
+        put("경기관람", "문화/생활");
+        put("지역", "기타");
+        put("PP", "여행");
+        put("호텔", "여행");
+        put("캐시백", "할인");
+        put("항공마일리지", "여행");
+        put("진에어", "여행");
+        put("공연/전시", "문화/생활");
+        put("보험", "문화/생활");
+        put("렌터카", "교통");
+        put("기차", "교통");
+        put("화장품", "의료");
+        put("병원", "의료");
+        put("항공권", "여행");
+        put("SPA브랜드", "문화/생활");
+        put("피트니스", "문화/생활");
+        put("렌탈", "문화/생활");
+        put("인테리어", "문화/생활");
+        put("혜택 프로모션", "할인");
+        put("문화센터", "문화/생활");
+        put("레저/스포츠", "문화/생활");
+        put("리조트", "여행");
+        put("고속버스", "교통");
+        put("공항", "여행");
+        put("선택형4", "선택형4");
+        put("해피포인트", "할인");
+        put("아이행복", "문화/생활");
+        put("약국", "의료");
+        put("학습지", "문화/생활");
+        put("제주항공", "여행");
+        put("OK캐쉬백", "할인");
+        put("여행사", "여행");
+        put("아이스크림", "음식");
+        put("헤어", "문화/생활");
+        put("카드사", "온라인결제");
+        put("연회비지원", "할인");
+        put("저녁", "음식");
+        put("PAYCO", "온라인결제");
+        put("공항라운지/PP", "여행");
+        put("동물병원", "의료");
+        put("하이브리드", "기타");
+        put("저가항공", "여행");
+        put("온라인 여행사", "여행");
+        put("어린이집", "문화/생활");
+        put("BC TOP", "온라인결제");
+    }};
+
+    private static Map<String, String> codefCategories = new HashMap<>();
+
+
     @Override
     public void DeleteMyCards(String cardid) {
         //TODO  TestUser CODE 여기 jwt 토큰을 이용한 멤버 받아오기 코드가 들어와야함
@@ -181,9 +321,18 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         String cardNameTarget = "Card";
         for (Object o : cardsListArray) {
 
-            Map<String, Map<String, String>> o1 = gson.fromJson(o.toString(), Map.class);
-            Map<String, String> data = o1.get("data");
-            String maskedStr1 = data.get("resCardNo");
+            Map<String, Object> o1 = gson.fromJson(o.toString(), Map.class);
+            log.info(o1.toString());
+            String maskedStr1 = null;
+            try{
+                Map<String, String> data = (Map<String, String>)o1.get("data");
+                maskedStr1 = data.get("resCardNo");
+                cardNameTarget = data.get("resCardName");
+            }catch (NullPointerException ignore){
+                maskedStr1 = (String)o1.get("resCardNo");
+                cardNameTarget = (String)o1.get("resCardName");
+            }
+
             String maskedStr2 = registerCardsReq.getCardNo().replace("-", "");
             int matchingChars = 0;
             for (int i = 0; i < maskedStr1.length(); i++) {
@@ -194,7 +343,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
             maskedStr1 = maskedStr1.replaceAll("\\*", "");
             if(maskedStr2.length() - (maskedStr2.length()-maskedStr1.length()) == matchingChars){
-                cardNameTarget = data.get("resCardName");
+
                 break;
             }
         }
