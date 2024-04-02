@@ -131,7 +131,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
             ),
             Row(
               children: [
-                Text(
+                Text( //this text
                   value,
                   style: AppFonts.suit(
                     fontSize: 16,

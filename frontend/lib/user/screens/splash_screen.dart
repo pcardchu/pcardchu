@@ -6,6 +6,7 @@ import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/screens/intro_screen.dart';
 import 'package:frontend/user/screens/password_screen.dart';
+import 'package:frontend/utils/crypto_util.dart';
 import 'package:provider/provider.dart';
 import 'package:secure_application/secure_application_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     bool token = await loginProvider.getFirstJwt();
     print("토큰 여부 : ${token}");
+
 
     if (!_seen) {
       await prefs.setBool('seen', true);

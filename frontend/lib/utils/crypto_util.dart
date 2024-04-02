@@ -40,6 +40,8 @@ class CryptoUtil {
     Uint8List bytes = utf8.encode("$value$salt");
     Digest digest = sha256.convert(bytes);
 
+    print(digest.toString());
+
     return digest.toString();
   }
 
