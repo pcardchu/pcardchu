@@ -52,7 +52,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     public void saveCardHistories(String payListResult, User user, long cardId) {
         System.out.println("여긴 와선 안돼..!!");
         PreparedStatement preparedStatement = cqlSession.prepare(
-                "INSERT INTO cardhistory (id, userid, age, amount, cardid, category, date, gender, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                "INSERT INTO cardhistory (id, userid, age, amount, cardid, category, date, gender, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
         BatchStatement batchStatement = BatchStatement.builder(DefaultBatchType.LOGGED).build();
 
