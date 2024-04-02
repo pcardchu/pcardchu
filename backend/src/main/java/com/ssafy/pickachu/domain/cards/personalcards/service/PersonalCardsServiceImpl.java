@@ -371,9 +371,9 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         // 현재 날짜를 가져오기
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.add(Calendar.DAY_OF_MONTH, -1); // 저번달 마지막날로 이동
+        // 어제 날짜까지
+//        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DATE, -1); // 저번달 마지막날로 이동
         String endDay = dateFormat.format(calendar.getTime());
 
         calendar.set(Calendar.DAY_OF_MONTH, 1);   // 지난달 1일로 이동

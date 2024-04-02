@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class StatisticsController {
 
     private final StatisticsService statisticsService;
-    private final CardHistoryService service;
+    private final CardHistoryService cardHistoryService;
 
     @Operation(summary = "전체 트렌드 통계", description = "연령별 상위 3개 업종 카테고리")
     @ApiResponses({
@@ -47,7 +47,7 @@ public class StatisticsController {
 
     @Operation(summary = "codef 연동 전 데이터 삽입용임", description = "건들지마시오")
     @GetMapping("/airflow")
-    public ResponseEntity<CardHistoryRes> insertData(@RequestHeader("AIRFLOW-API-KEY") String apiKey){return service.saveCardHistories(apiKey);}
+    public ResponseEntity<CardHistoryRes> insertData(@RequestHeader("AIRFLOW-API-KEY") String apiKey){return cardHistoryService.saveCardHistoriesByAirflow(apiKey);}
 
     @Operation(summary = "개인 소비 통계", description = "지난달 소비 내역과 업종 분석, 일자별 소비 금액 합계")
     @ApiResponses({
