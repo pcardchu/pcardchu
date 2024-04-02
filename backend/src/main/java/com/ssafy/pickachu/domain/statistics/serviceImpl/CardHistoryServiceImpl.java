@@ -1,5 +1,7 @@
 package com.ssafy.pickachu.domain.statistics.serviceImpl;
 
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.*;
 import com.google.gson.Gson;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.RegisterCardsReq;
 import com.ssafy.pickachu.domain.cards.personalcards.entity.CodefToken;
@@ -42,14 +44,18 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     private final PersonalCardsRepository personalCardsRepository;
     private final CodefApi codefApi;
     private final JasyptUtil jasyptUtil;
+    private final CqlSession cqlSession;
 
     Gson gson = new Gson();
     CommonUtil commonUtil = new CommonUtil();
     @Override
     public void saveCardHistories(String payListResult, User user, long cardId) {
+        System.out.println("여긴 와선 안돼..!!");
+        PreparedStatement preparedStatement = cqlSession.prepare(
+                "INSERT INTO cardhistory (id, userid, age, amount, cardid, category, date, gender, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        );
+        BatchStatement batchStatement = BatchStatement.builder(DefaultBatchType.LOGGED).build();
 
-//        int myAge = LocalDateTime.now().getYear() - user.getBirth().getYear();
-//        String age = (myAge / 10) + "대";
         String userAgeGroup = commonUtil.calculateAge(user.getBirth());
 
         // 문자열 내용을 JSONArray 객체로 변환
@@ -65,8 +71,24 @@ public class CardHistoryServiceImpl implements CardHistoryService {
             history.setGender(user.getGender());
             history.setAge(userAgeGroup);
             history.setCardId((int) cardId);
-            cardHistoryEntityRepository.save(history);
+            // cardHistoryEntityRepository.save(history);
+            // 배치 작업에 추가
+            BoundStatement boundStatement = preparedStatement.bind(
+                    history.getId(),
+                    history.getUserid(),
+                    history.getAge(),
+                    history.getAmount(),
+                    history.getCardId(),
+                    history.getCategory(),
+                    history.getDate(),
+                    history.getGender(),
+                    history.getTime()
+            );
+            batchStatement = batchStatement.add(boundStatement);
         }
+
+        // 배치 작업으로 IO 줄이기
+        cqlSession.execute(batchStatement);
     }
 
     @Override
