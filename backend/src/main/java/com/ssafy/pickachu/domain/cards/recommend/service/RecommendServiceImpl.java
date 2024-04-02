@@ -49,11 +49,17 @@ public class RecommendServiceImpl implements RecommendService{
         List<ArrayList<String>> benefits = new ArrayList<>();
         List<String> categories = cardInfo.getCategories();
         List<String> groupCategory = cardInfo.getGroupCategory();
-        log.info(groupCategory.toString());
+
         for (int ids = 0; ids < categories.size(); ids++){
             ArrayList<String> result = new ArrayList<>();
             String category = groupCategory.get(ids);
-            String benefit = ((Map<String, String>)cardInfo.getContents().get(categories.get(ids)).get(1)).get("benefitSummary");
+            String benefit;
+            try{
+                benefit = ((Map<String, String>)cardInfo.getContents().get(categories.get(ids)).get(1)).get("benefitSummary");
+
+            }catch (NullPointerException ignore){
+                continue;
+            }
             result.add(category);
             result.add(benefit);
             benefits.add(result);
