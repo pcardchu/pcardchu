@@ -162,7 +162,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             throw new RuntimeException(e);
         }
         JSONObject usercardsJson = new JSONObject(userCards);
-        JSONArray cardsListArray = (JSONArray) usercardsJson.get("data");
+        JSONArray cardsListArray = usercardsJson.getJSONArray("data");
 
         String cardNameTarget = "Card";
         for (Object o : cardsListArray) {
