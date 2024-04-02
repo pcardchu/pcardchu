@@ -27,7 +27,8 @@ public class PersonalCards {
     String cardNo;          // 개인 카드 번호
     String cardCompanyId;   // 카드회사 아이디
     String cardCompanyPw;   // 카드회사 비밀번호
-    private String useYN;   // 카드 삭제 여부
+    @Builder.Default
+    private String useYN = "Y";   // 카드 삭제 여부
     @CreatedDate
     private LocalDateTime createTime;
     @LastModifiedDate
