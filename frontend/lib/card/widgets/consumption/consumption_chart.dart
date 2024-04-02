@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/card/widgets/consumption/no_main_consumption.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
@@ -52,37 +53,41 @@ class ConsumptionChart extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              NumberFormat('#,###원', 'ko_KR').format(data.totalAmount),
-              style: AppFonts.suit(
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                color: AppColors.mainBlue,
+            if (data.mainConsumption.isNotEmpty)
+              Text(
+                NumberFormat('#,###원', 'ko_KR').format(data.totalAmount),
+                style: AppFonts.suit(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.mainBlue,
+                ),
               ),
-            ),
           ],
         ),
 
         SizedBox(
           height: 240,
           width: 240,
-          child: PieChart(
-            dataMap: dataMap,
-            colorList: colorList,
-            animationDuration: Duration(milliseconds: 1500),
-            chartValuesOptions: ChartValuesOptions(
-              showChartValues: false,
-            ),
-            legendOptions: LegendOptions(showLegends: false),
-            centerWidget: Container(
-              width: 80.0, // 너비 설정
-              height: 80.0, // 높이 설정
-              decoration: BoxDecoration(
-                color: AppColors.mainWhite, // 배경색 설정
-                borderRadius: BorderRadius.circular(50.0), // 둥근 모서리 설정
-              ),
-            ),
-          ),
+          // 소비 내역이 없는 경우 다른 화면
+          child: data.mainConsumption.isEmpty
+              ? NoMainConsumption()
+              : PieChart(
+                  dataMap: dataMap,
+                  colorList: colorList,
+                  animationDuration: Duration(milliseconds: 1500),
+                  chartValuesOptions: ChartValuesOptions(
+                    showChartValues: false,
+                  ),
+                  legendOptions: LegendOptions(showLegends: false),
+                  centerWidget: Container(
+                    width: 80.0, // 너비 설정
+                    height: 80.0, // 높이 설정
+                    decoration: BoxDecoration(
+                      color: AppColors.mainWhite, // 배경색 설정
+                      borderRadius: BorderRadius.circular(50.0), // 둥근 모서리 설정
+                    ),
+                  ),
+                ),
         ),
       ],
     );
