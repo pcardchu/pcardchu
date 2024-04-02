@@ -31,6 +31,8 @@ dependencies:
   pie_chart: ^5.4.0
   table_calendar: ^3.1.1
   rive: ^0.13.1
+  secure_application: ^4.0.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/screens/intro_screen.dart';
 import 'package:frontend/user/screens/password_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:secure_application/secure_application_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'login_screen.dart';
 import 'package:frontend/home/screens/bottom_nav_screen.dart';
@@ -28,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     await loginProvider.checkToken();
 
+    SecureApplicationProvider.of(context)?.secure();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
 
