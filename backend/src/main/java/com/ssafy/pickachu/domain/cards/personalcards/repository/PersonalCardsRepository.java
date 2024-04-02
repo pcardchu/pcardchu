@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface PersonalCardsRepository extends JpaRepository<PersonalCards, Long>, PersonalCardsRepositoryQuerydsl {
 
-    Optional<PersonalCards> findPersonalCardsByUserIdAndCardsId(int userId, String cardsId);
+    Optional<PersonalCards> findPersonalCardsByUserIdAndCardsId(long userId, String cardsId);
 
     List<PersonalCards> findAllByUserIdAndUseYN(long userId, String userYN);
 

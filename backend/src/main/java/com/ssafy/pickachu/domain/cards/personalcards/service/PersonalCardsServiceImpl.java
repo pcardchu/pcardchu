@@ -62,8 +62,8 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
 
     private static Map<String, String> crawlingCategories = new HashMap<>(){{
-        put("점심", "음식");
-        put("배달앱", "음식");
+        put("점심", "푸드");
+        put("배달앱", "푸드");
         put("대중교통", "교통");
         put("편의점", "마트/편의점");
         put("온라인쇼핑", "쇼핑");
@@ -76,17 +76,17 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         put("유의사항", "기타");
         put("할인", "할인");
         put("무실적", "기타");
-        put("모든가맹점", "음식");
+        put("모든가맹점", "푸드");
         put("쇼핑", "쇼핑");
         put("영화/문화", "문화/생활");
         put("생활", "문화/생활");
         put("골프", "문화/생활");
         put("적립", "할인");
         put("아시아나항공", "여행");
-        put("일반음식점", "음식");
+        put("일반음식점", "푸드");
         put("기타", "기타");
         put("간편결제", "쇼핑");
-        put("푸드", "음식");
+        put("푸드", "푸드");
         put("교통", "교통");
         put("해외", "여행");
         put("카페", "카페");
@@ -99,7 +99,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         put("카페/디저트", "카페");
         put("백화점", "쇼핑");
         put("대형마트", "마트/마트/편의점");
-        put("패밀리레스토랑", "음식");
+        put("패밀리레스토랑", "푸드");
         put("보험사", "문화/생활");
         put("프리미엄", "기타");
         put("교육/육아", "문화/생활");
@@ -145,7 +145,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         put("음원사이트", "문화/생활");
         put("면세점", "쇼핑");
         put("은행사", "온라인결제");
-        put("패스트푸드", "음식");
+        put("패스트푸드", "푸드");
         put("아울렛", "쇼핑");
         put("SSM", "마트/마트/편의점");
         put("CJ ONE", "쇼핑");
@@ -181,11 +181,11 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         put("제주항공", "여행");
         put("OK캐쉬백", "할인");
         put("여행사", "여행");
-        put("아이스크림", "음식");
+        put("아이스크림", "푸드");
         put("헤어", "문화/생활");
         put("카드사", "온라인결제");
         put("연회비지원", "할인");
-        put("저녁", "음식");
+        put("저녁", "푸드");
         put("PAYCO", "온라인결제");
         put("공항라운지/PP", "여행");
         put("동물병원", "의료");
@@ -195,22 +195,136 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         put("어린이집", "문화/생활");
         put("BC TOP", "온라인결제");
     }};
+    Map<String, String>  bankInfoExpression = new HashMap<>(){{
 
-    private static Map<String, String> codefCategories = new HashMap<>();
+        put(".*서양음식.*", "푸드");
+        put(".*양식.*", "푸드");
+        put(".*중식.*", "푸드");
+        put(".*중국음식.*", "푸드");
+        put(".*반점.*", "푸드");
+        put(".*횟집.*", "푸드");
+        put(".*수산.*", "푸드");
+        put(".*일식.*", "푸드");
+        put(".*일본음식.*", "푸드");
+        put(".*한식.*", "푸드");
+        put(".*한국음식.*", "푸드");
+        put(".*요기요.*", "푸드");
+        put(".*배달의민족.*", "푸드");
+        put(".*쿠팡이츠.*", "푸드");
+        put(".*휴게음식.*", "푸드");
+        put(".*패스트푸드.*", "푸드");
+        put(".*일반음식점.*", "푸드");
+        put(".*위탁급식업.*", "푸드");
+        put(".*곡물.*", "푸드");
+        put(".*고기.*", "푸드");
+        put(".*반찬.*", "푸드");
+        put(".*분식.*", "푸드");
+        put(".*주류.*", "푸드");
+        put(".*급식업.*", "푸드");
 
+        put(".*철   도.*", "교통");
+        put(".*철도.*", "교통");
+        put(".*카카오택시.*", "교통");
+        put(".*운송.*", "교통");
+        put(".*교통.*", "교통");
+        put(".*주유.*", "교통");
+        put(".*바이크.*", "교통");
+        put(".*자전거.*", "교통");
+        put(".*충전소.*", "교통");
+        put(".*정비.*", "교통");
+
+        put(".*Mall.*", "쇼핑");
+        put(".*쿠팡.*", "쇼핑");
+        put(".*소비.*", "쇼핑");
+        put(".*선물.*", "쇼핑");
+        put(".*쇼핑.*", "쇼핑");
+        put(".*잡화.*", "쇼핑");
+        put(".*판매점.*", "쇼핑");
+        put(".*공공기관직영점.*", "쇼핑");
+        put(".*백화점.*", "쇼핑");
+
+        put(".*약국.*", "의료");
+        put(".*치과.*", "의료");
+        put(".*의원.*", "의료");
+        put(".*내과.*", "의료");
+        put(".*외과.*", "의료");
+        put(".*소아과.*", "의료");
+        put(".*이빈후과.*", "의료");
+        put(".*치료.*", "의료");
+        put(".*의사.*", "의료");
+        put(".*병원.*", "의료");
+
+        put(".*통신.*", "통신");
+        put(".*LG.*", "통신");
+        put(".*SKT.*", "통신");
+        put(".*KT.*", "통신");
+        put(".*텔레콤.*", "통신");
+        put(".*휴대폰.*", "통신");
+
+        put(".*숙박.*", "여행");
+        put(".*모텔.*", "여행");
+        put(".*호텔.*", "여행");
+        put(".*항공.*", "여행");
+        put(".*여객.*", "여행");
+        put(".*비행기.*", "여행");
+        put(".*렌트.*", "여행");
+        put(".*관광.*", "여행");
+        put(".*면세.*", "여행");
+
+        put(".*기타.*", "기타");
+        put(".*사무서비스.*", "기타");
+        put(".*공공기관.*", "기타");
+
+        put(".*도시가스.*", "할인");
+        put(".*전기.*", "할인");
+        put(".*수도.*", "할인");
+        put(".*공과금.*", "할인");
+
+        put(".*노래.*", "문화/생활");
+        put(".*영화.*", "문화/생활");
+        put(".*사진.*", "문화/생활");
+        put(".*안경.*", "문화/생활");
+        put(".*상품권.*", "문화/생활");
+        put(".*골프.*", "문화/생활");
+        put(".*수영.*", "문화/생활");
+        put(".*볼링.*", "문화/생활");
+        put(".*스키.*", "문화/생활");
+        put(".*스포츠.*", "문화/생활");
+        put(".*놀이.*", "문화/생활");
+
+        put(".*음료식품.*", "카페");
+        put(".*커피.*", "카페");
+        put(".*카페.*", "카페");
+
+        put(".*전자상거래.*", "온라인결제");
+        put(".*네이버.*", "온라인결제");
+        put(".*삼성.*", "온라인결제");
+        put(".*애플.*", "온라인결제");
+        put(".*구글.*", "온라인결제");
+        put(".*전자.*", "온라인결제");
+        put(".*P/G.*", "온라인결제");
+
+        put(".*편의점.*", "마트/편의점");
+        put(".*GS25.*", "마트/편의점");
+        put(".*7ELEVEN.*", "마트/편의점");
+        put(".*7-ELEVEN.*", "마트/편의점");
+        put(".*7-eleven.*", "마트/편의점");
+        put(".*CU.*", "마트/편의점");
+        put(".*편 의 점.*", "마트/편의점");
+        put(".*슈퍼마켓.*", "마트/편의점");
+        put("마트", "마트/편의점");
+
+    }};
 
     @Override
-    public void DeleteMyCards(String cardid) {
-        //TODO  TestUser CODE 여기 jwt 토큰을 이용한 멤버 받아오기 코드가 들어와야함
-        User users = User.builder().build();
-        int userId = 1;
+    public void DeleteMyCards(PrincipalDetails principalDetails, String cardid) {
 
-        PersonalCards personalCards = personalCardsRepository.findPersonalCardsByUserIdAndCardsId(userId, cardid)
+        User user = userRepository.findById(principalDetails.getUserDto().getId())
             .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
 
-        if(users.getId() != personalCards.getUserId()){
-            throw new RuntimeException("not match user");
-        }
+        PersonalCards personalCards = personalCardsRepository.findPersonalCardsByUserIdAndCardsId(user.getId(), cardid)
+            .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
+
         personalCards.setUseYN("N");
         personalCardsRepository.save(personalCards);
     }
