@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/home/models/top_three_consume_model.dart';
-
+import 'package:frontend/utils/dio_util.dart';
 import 'package:frontend/home/models/top_three_consume_response.dart';
 
 class TopThreeConsumeService {
@@ -8,7 +8,7 @@ class TopThreeConsumeService {
 
   // Future<List<TopThreeConsumeModel>> getTopThreeCategory() async {
   //   try {
-  //     final response = await dio.get('https://0292d82d-2f54-45b6-9578-af6544b34b66.mock.pstmn.io/api/statistics/top3category');
+  //     final response = await DioUtil().dio.get('/statistics/top3category');
   //
   //
   //     final responseData = TopThreeConsumeResponse.fromJson(response.data);
