@@ -60,7 +60,10 @@ class CardProvider with ChangeNotifier {
   Map<String, dynamic>? cardRegisterResult;
 
   /// 페이지네이션 다음 페이지 있는지 여부 확인용
-  bool isNextPage = false;
+  bool isNextPage = true;
+
+  /// 현재 페이지
+  int currentPage = 1;
 
   /// 선택한 카드사 회원가입 url
   String get companyUrl {
@@ -80,6 +83,9 @@ class CardProvider with ChangeNotifier {
     if (_categoryId != index) {
       _categoryId = index;
 
+      // 현재 페이지 1로 다시 초기화
+      currentPage = 1;
+      isNextPage = true;
       notifyListeners();
     }
   }
@@ -106,6 +112,18 @@ class CardProvider with ChangeNotifier {
 
     notifyListeners();
   }
+  
+  // 로딩 상태 수동 변경
+  void startLoading() async{
+    loading = true;
+    notifyListeners();
+  }
+
+  // 로딩 상태 수동 변경
+  void endLoading() async{
+    loading = false;
+    notifyListeners();
+  }
 
   /// 카드사 비밀번호 변경
   void setCompanyPw(String pw) async {
@@ -125,8 +143,7 @@ class CardProvider with ChangeNotifier {
   /// 5 : 영화
   /// 6 : 편의점
   /// 7 : 음식
-  getCategoryCards(context) async {
-
+  getCategoryCards(context, int pageNumber) async {
     Map<String, String> categoryDic = {
       '0': 'all',
       '1': '적립',
@@ -141,7 +158,8 @@ class CardProvider with ChangeNotifier {
     loading = true;
 
     for (int i = 0; i < 8; i++) {
-      ApiResponseModel data =  await cardService.getCategoryCards(categoryDic[i.toString()]!);
+      ApiResponseModel data = await cardService.getCategoryCards(
+          categoryDic[i.toString()]!, pageNumber);
       categoryCards.add(data.data!.cardsRes!);
     }
 
@@ -152,8 +170,48 @@ class CardProvider with ChangeNotifier {
   }
 
   /// 페이지네이션 요청
-  getNextPage() async{
+  getNextPage(int categoryIndex, int pageNumber) async {
+    Map<String, String> categoryDic = {
+      '0': 'all',
+      '1': '적립',
+      '2': '카페',
+      '3': '할인',
+      '4': '대중교통',
+      '5': '영화',
+      '6': '편의점',
+      '7': '영화',
+    };
 
+    // 다음 페이지가 있으면
+    if (isNextPage) {
+      loading = true;
+      notifyListeners();
+
+      try {
+        ApiResponseModel data = await cardService.getCategoryCards(
+            categoryDic[categoryIndex.toString()]!, pageNumber + 1);
+        // 기존 해당 카테고리 정보가 들어 있는 배열 뒤에 다음 페이지 데이터들 추가
+        categoryCards[categoryIndex] = [
+          ...categoryCards[categoryIndex],
+          ...data.data!.cardsRes!
+        ];
+        print('현재');
+        // 현재 페이지 + 1
+        currentPage += 1;
+
+        // 만약 현재 페이지가 마지막 페이지라면
+        if (data.data!.last!){
+          isNextPage = false;
+        }
+      } catch (e) {
+        // 요청 실패 시 로딩 상태를 false로 설정
+        print('Failed to load next page: $e');
+      } finally {
+        // 성공하거나 예외가 발생하더라도 마지막에 항상 실행
+        loading = false;
+        notifyListeners();
+      }
+    }
   }
 
   /// 카드 디테일 정보 GET 요청
@@ -169,8 +227,8 @@ class CardProvider with ChangeNotifier {
   /// 카드사 이름, 카드 번호, 카드사 아이디, 비밀번호 필요
   cardRegistration() async {
     loading = true;
-    cardRegisterResult =
-        await cardService.cardRegistration(companyList[companyIndex]['name'], scanNumber, companyId, companyPw);
+    cardRegisterResult = await cardService.cardRegistration(
+        companyList[companyIndex]['name'], scanNumber, companyId, companyPw);
     loading = false;
     notifyListeners();
   }

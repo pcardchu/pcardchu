@@ -17,8 +17,12 @@ class _ConsumeDifferCardState extends State<ConsumeDifferCard> {
   void initState() {
     super.initState();
     // 데이터를 가져오는 작업을 시작합니다.
-    final provider = Provider.of<ConsumeDifferProvider>(context, listen: false);
-    provider.getConsumeDiffer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(mounted) {
+        final provider = Provider.of<ConsumeDifferProvider>(context, listen: false);
+        provider.getConsumeDiffer();
+      }
+    });
   }
 
   @override

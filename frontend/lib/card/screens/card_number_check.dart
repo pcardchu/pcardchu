@@ -130,9 +130,6 @@ class _CardNumberCheckState extends State<CardNumberCheck> {
               transitionDuration: const Duration(milliseconds: 350),
               reverseTransitionDuration: const Duration(milliseconds: 350)
           )
-        // MaterialPageRoute(
-        //   builder: (_) => CardCompany(),
-        // ),
       );
     }
   }

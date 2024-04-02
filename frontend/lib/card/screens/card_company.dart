@@ -79,13 +79,20 @@ class _CardCompanyState extends State<CardCompany> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isBtnColor
+                                ? Color(0xff051D40)
+                                : AppColors.mainRed,
+                          ),
                           onPressed: onPressed,
-                          child: Text(btnText,
-                          style: AppFonts.suit(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: isBtnColor ? AppColors.mainWhite : AppColors.mainRed,
-                          ),),
+                          child: Text(
+                            btnText,
+                            style: AppFonts.suit(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.mainWhite,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -114,13 +121,13 @@ class _CardCompanyState extends State<CardCompany> {
       );
     }
     // 카드를 선택하지 않은 경우
-    else{
+    else {
       setState(() {
         btnText = '선택하세요 !';
         isBtnColor = false;
       });
       // 1초 동안만
-      Timer(Duration(seconds: 1), (){
+      Timer(Duration(seconds: 1), () {
         setState(() {
           btnText = '확인';
           isBtnColor = true;

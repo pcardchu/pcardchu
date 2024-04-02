@@ -8,8 +8,7 @@ class CardListService {
 
   // Future<List<CardInfoModel>> getCardList() async {
   //   try {
-  //     final response = await dio.get('https://0292d82d-2f54-45b6-9578-af6544b34b66.mock.pstmn.io/api/cards/my-cards');
-  //     print("어쩔 ${response.data}");
+  //     final response = await DioUtil().dio.get('/cards/my-cards');
   //
   //     final List<dynamic> data = response.data;
   //     print(data);

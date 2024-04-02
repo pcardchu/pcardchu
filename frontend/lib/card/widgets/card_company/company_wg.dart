@@ -37,7 +37,7 @@ class CompanyWg extends StatelessWidget {
             ),
             // 카드사 이름
             Text(
-              '${company['name']}카드',
+              '${company['name']}',
               style: AppFonts.suit(
                 fontSize: 16,
                 fontWeight: FontWeight.w900,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
 import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
@@ -60,7 +61,7 @@ class CardRegistrationCompletion extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                  builder: (_) => HomeScreen(),
+                                  builder: (_) => BottomNavScreen(),
                                 ),
                                 (route) => false);
                           },

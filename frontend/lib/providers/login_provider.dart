@@ -59,6 +59,7 @@ class LoginProvider with ChangeNotifier {
     if (_firstJwt == null) {
       return false;
     } else {
+      _userId = CryptoUtil.extractIdFromAccessToken(_firstJwt!.accessToken!)!;
       return true;
     }
   }

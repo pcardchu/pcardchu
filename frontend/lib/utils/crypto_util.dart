@@ -36,6 +36,7 @@ class CryptoUtil {
 
   //해싱
   static String hashPassword(String value, int salt) {
+    print('해싱하기 id : $salt, value : $value');
     Uint8List bytes = utf8.encode("$value$salt");
     Digest digest = sha256.convert(bytes);
 

@@ -21,18 +21,19 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
   void initState() {
     super.initState();
 
-
-    final provider =
-        Provider.of<TopThreeConsumeProvider>(context, listen: false);
-    if (provider.consumeList.isEmpty) {
-      provider.getTopThreeCategory().then((_) {
-        if (mounted) {
-          _selectRandomData(provider);
-        }
-      });
-    } else {
-      _selectRandomData(provider);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider =
+          Provider.of<TopThreeConsumeProvider>(context, listen: false);
+      if (provider.consumeList.isEmpty) {
+        provider.getTopThreeCategory().then((_) {
+          if (mounted) {
+            _selectRandomData(provider);
+          }
+        });
+      } else {
+        _selectRandomData(provider);
+      }
+    });
   }
 
   void _selectRandomData(TopThreeConsumeProvider provider) {
