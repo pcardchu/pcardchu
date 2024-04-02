@@ -15,7 +15,7 @@ class DetailBottom extends StatelessWidget {
     CardModel? card = context.watch<CardProvider>().cardDetail;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 60),
+      padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

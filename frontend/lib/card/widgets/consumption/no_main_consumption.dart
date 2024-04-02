@@ -11,7 +11,9 @@ class NoMainConsumption extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 50),
-          Image.asset('assets/images/xox_logo.png'),
+          SizedBox(
+              height: 120,
+              child: Image.asset('assets/images/xox_logo.png')),
           SizedBox(height: 20),
           Text('이번달 소비 내역이 없어요 !',
           style: AppFonts.scDream(

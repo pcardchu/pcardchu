@@ -39,7 +39,7 @@ class ConsumptionChart extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              '${month - 1}월 ${data!.userName}님의 소비',
+              '${month}월 ${data!.userName}님의 소비',
               style: AppFonts.suit(
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
