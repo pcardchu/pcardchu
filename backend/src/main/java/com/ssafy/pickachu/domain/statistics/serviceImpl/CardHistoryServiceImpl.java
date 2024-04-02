@@ -92,11 +92,9 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         // 어제 하루 내역 불러오기
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String endDay = dateFormat.format(calendar.getTime());
-
         calendar.add(Calendar.DATE, -1);
         String startDay = dateFormat.format(calendar.getTime());
-
+        String endDay = startDay;
 
         // 유저별로
         for(User user : userList){

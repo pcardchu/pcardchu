@@ -224,10 +224,11 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         // 어제 날짜까지
 //        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.add(Calendar.DATE, -1); // 저번달 마지막날로 이동
+        calendar.add(Calendar.DATE, -1); // 어제
         String endDay = dateFormat.format(calendar.getTime());
 
-        calendar.set(Calendar.DAY_OF_MONTH, 1);   // 지난달 1일로 이동
+        calendar.add(Calendar.MONTH, -1); // 한 달을 빼서 지난달로 설정
+        calendar.set(Calendar.DAY_OF_MONTH, 1); // 그 달의 첫 번째 날로 설정
         String startDay = dateFormat.format(calendar.getTime());
 
 //        // TODO 사용내역 가지고 오기
