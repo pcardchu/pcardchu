@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:frontend/home/models/top_three_consume_model.dart';
 
 import 'package:frontend/home/models/top_three_consume_response.dart';
+import 'package:frontend/utils/dio_util.dart';
 
 import '../models/consume_differ_model.dart';
 
@@ -10,14 +11,14 @@ class ConsumeDifferService {
 
   // Future<ConsumeDifferModel> getConsumeDiffer() async {
   //   try {
-  //     final response = await dio.get('https://0292d82d-2f54-45b6-9578-af6544b34b66.mock.pstmn.io/api/statistics/top3category');
+  //     final response = await DioUtil().dio.get('/statistics/top3category');
   //
   //
   //     final responseData = ConsumeDifferModel.fromJson(response.data);
   //
   //     if (responseData.status == 200) {
   //       // 성공적으로 데이터를 받았을 때의 처리
-  //       return responseData.data;
+  //       return responseData;
   //     } else {
   //       // 서버에서 에러 응답이 왔을 때의 처리
   //       throw Exception('Failed to load consume differ data: ${responseData.message}');
