@@ -19,7 +19,9 @@ class DetailBenefit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 카드 디테일 정보 가져오기
-    CardModel? card = context.read<CardProvider>().cardDetail;
+    CardModel? card = context
+        .read<CardProvider>()
+        .cardDetail;
 
     // 혜택별 이미지 아이콘
     Map benefitsDic = {
@@ -34,37 +36,39 @@ class DetailBenefit extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 혜택 이미지
-          SizedBox(
-              height: 46,
-              width: 46,
-              child: Image.asset(benefitsDic[card!.benefits![index][0]])),
-          SizedBox(width: 10),
-          Container(
-            width: ScreenUtil.w(50),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 혜택 종류
-                Text(
-                  card!.benefits![index][0],
-                  style: AppFonts.suit(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.grey),
-                ),
-                // 혜택 정보
-                Text(
-                  card.benefits![index][1],
-                  style: AppFonts.suit(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textBlack),
-                  softWrap: true,
-                ),
-              ],
-            ),
+        // 혜택 이미지
+        SizedBox(
+        height: 46,
+        width: 46,
+        // child: Image.asset(benefitsDic[card!.benefits![index][0]])),
+        child: SizedBox(
+            child: Image.asset('assets/images/category_5.png'))),
+        SizedBox(width: 10),
+        Container(
+          width: ScreenUtil.w(50),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 혜택 종류
+              Text(
+                card!.benefits![index][0],
+                style: AppFonts.suit(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.grey),
+              ),
+              // 혜택 정보
+              Text(
+                card.benefits![index][1],
+                style: AppFonts.suit(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textBlack),
+                softWrap: true,
+              ),
+            ],
           ),
+        ),
         ],
       ),
     );
