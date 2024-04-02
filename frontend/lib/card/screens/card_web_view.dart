@@ -51,7 +51,8 @@ class _CardWebViewState extends State<CardWebView> {
     // 카드 디테일 정보 가져오기
     CardModel? card = context.read<CardProvider>().cardDetail;
     // 카드 신청 웹페이지 주소
-    final url = Uri.parse(card!.registrationUrl!);
+    // final url = Uri.parse(card!.registrationUrl!);
+    final url = Uri.parse("https://m.bccard.com/app/mobileweb/OnlineCardIssuApply.do");
     // 웹뷰 컨트롤러
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)

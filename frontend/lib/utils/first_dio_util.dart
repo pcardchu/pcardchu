@@ -3,37 +3,38 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/user/services/token_service.dart';
 import 'package:frontend/utils/crypto_util.dart';
 
-class DioUtil {
-  static final DioUtil _instance = DioUtil._internal();
+class FirstDioUtil {
+  static final FirstDioUtil _instance = FirstDioUtil._internal();
   late final Dio _dio;
   static String? _accessToken;
 
-  factory DioUtil() {
+  factory FirstDioUtil() {
     return _instance;
   }
 
-  DioUtil._internal() {
+  FirstDioUtil._internal() {
     _dio = Dio();
     // Dio 인스턴스 기본 설정 (예: 기본 URL, 타임아웃 등)
     _dio.options.baseUrl = dotenv.env['API_URL']!;
-    _dio.options.connectTimeout = const Duration(milliseconds: 55000); //55초
-    _dio.options.receiveTimeout = const Duration(milliseconds: 53000); //53초
+    _dio.options.connectTimeout = const Duration(milliseconds: 15000); //5초
+    _dio.options.receiveTimeout = const Duration(milliseconds: 13000); //3초
 
     // 인터셉터 추가
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         options.headers["Accept"] = "application/json";
+        options.headers["Content-Type"] = "application/json";
 
         print('요청 accessToken : $_accessToken');
         int? exp = CryptoUtil.extractExpFromAccessToken(_accessToken!);
         int leftTime = calculateTimeLeftInSeconds(exp);
 
-        print("accessToken 만료까지 남은 시간 : ${leftTime}초");
+        print("first accessToken 만료까지 남은 시간 : ${leftTime}초");
 
-        //만료기한이 5분 미만이라면
-        if(leftTime < 300) {
-          print('token 재발급 로직 수행');
-          String newAccessToken = await TokenService.refreshAccessToken(false);
+
+        if(leftTime < 500) {
+          print('first token 재발급 로직 수행');
+          String newAccessToken = await TokenService.refreshAccessToken(true);
           if(newAccessToken == '리프레시 토큰 만료') {
             //리프레시 토큰까지 만료됨
             print('리프레시 토큰 만료');

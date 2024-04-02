@@ -51,7 +51,9 @@ class CardListBottom extends StatelessWidget {
                     color: Color(0xff26282B),
                   ),
                 ),
-                Image.asset('assets/images/smile_logo.png'),
+                SizedBox(
+                    height: 60,
+                    child: Image.asset('assets/images/complete.png')),
               ],
             ),
           ),

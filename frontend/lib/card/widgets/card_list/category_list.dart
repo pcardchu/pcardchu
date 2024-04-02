@@ -22,7 +22,7 @@ class CategoryList extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: 39),
-          ...['전체', '적립', '카페', '할인', '대중교통', '영화', '편의점', '음식']
+          ...['전체', '푸드', '교통', '쇼핑', '의료', '통신', '여행', '할인', '문화/생활', '카페', '온라인결제', '마트/편의점', '기타']
               .asMap()
               .entries
               .map((entry) {
@@ -36,7 +36,7 @@ class CategoryList extends StatelessWidget {
                   selectedChip: selectedChip,
                   categoryIndex: idx,
                 ),
-                SizedBox(width: idx < 7 ? 15 : 0),
+                SizedBox(width: idx < 12 ? 15 : 0),
               ],
             );
           }),

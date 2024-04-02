@@ -15,6 +15,7 @@ class CardProvider with ChangeNotifier {
 
   /// 로딩 상태 관리
   bool loading = false;
+  bool firstLoading = true;
 
   /// 카테고리 리스트 로드 상태
   /// 참이면 카테고리 배열에 이미 데이터가 있는 상태 >> Get할 필요 없음
@@ -135,24 +136,21 @@ class CardProvider with ChangeNotifier {
   //-------- API ---------------------------------------------------------------
 
   /// 카테고리별 카드 리스트 GET 요청
-  /// 0 : 전체
-  /// 1 : 적립
-  /// 2 : 카페
-  /// 3 : 할인
-  /// 4 : 대중교통
-  /// 5 : 영화
-  /// 6 : 편의점
-  /// 7 : 음식
   getCategoryCards(context, int pageNumber) async {
     Map<String, String> categoryDic = {
       '0': 'all',
-      '1': '적립',
-      '2': '카페',
-      '3': '할인',
-      '4': '대중교통',
-      '5': '영화',
-      '6': '편의점',
-      '7': '영화',
+      '1': '푸드',
+      '2': '교통',
+      '3': '쇼핑',
+      '4': '교통',
+      '5': '교통',
+      '6': '교통',
+      '7': '교통',
+      '8': '교통',
+      '9': '교통',
+      '10': '교통',
+      '11': '교통',
+      '12': '교통',
     };
 
     loading = true;
@@ -164,6 +162,7 @@ class CardProvider with ChangeNotifier {
     }
 
     loading = false;
+    firstLoading = false;
     loadCategory = true;
 
     notifyListeners();
@@ -173,13 +172,18 @@ class CardProvider with ChangeNotifier {
   getNextPage(int categoryIndex, int pageNumber) async {
     Map<String, String> categoryDic = {
       '0': 'all',
-      '1': '적립',
-      '2': '카페',
-      '3': '할인',
-      '4': '대중교통',
-      '5': '영화',
-      '6': '편의점',
-      '7': '영화',
+      '1': '푸드',
+      '2': '교통',
+      '3': '쇼핑',
+      '4': '의료',
+      '5': '통신',
+      '6': '여행',
+      '7': '할인',
+      '8': '문화/생활',
+      '9': '카페',
+      '10': '온라인결제',
+      '11': '마트/편의점',
+      '12': '기타',
     };
 
     // 다음 페이지가 있으면
