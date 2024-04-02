@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:frontend/home/models/consume_differ_response.dart';
 import 'package:frontend/home/models/top_three_consume_model.dart';
 
 import 'package:frontend/home/models/top_three_consume_response.dart';
@@ -11,14 +12,14 @@ class ConsumeDifferService {
 
   Future<ConsumeDifferModel> getConsumeDiffer() async {
     try {
-      final response = await DioUtil().dio.get('/statistics/top3category');
+      final response = await DioUtil().dio.get('/statistics/averagecomparison');
 
 
-      final responseData = ConsumeDifferModel.fromJson(response.data);
+      final responseData = ConsumeDifferResponse.fromJson(response.data);
 
       if (responseData.status == 200) {
         // 성공적으로 데이터를 받았을 때의 처리
-        return responseData;
+        return responseData.data;
       } else {
         // 서버에서 에러 응답이 왔을 때의 처리
         throw Exception('Failed to load consume differ data: ${responseData.message}');

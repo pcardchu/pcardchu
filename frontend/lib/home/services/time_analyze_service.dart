@@ -9,7 +9,7 @@ class TimeAnalyzeService {
 
   Future<TimeAnalyzeModel> getTimeAnalyze() async {
     try {
-      final response = await DioUtil().dio.get('/statistics/top3category');
+      final response = await DioUtil().dio.get('/statistics/peaktimeage');
 
 
       final responseData = TimeAnalyzeModel.fromJson(response.data);
