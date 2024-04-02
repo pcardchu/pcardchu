@@ -20,6 +20,12 @@ class BestTitle extends StatelessWidget {
     /// 내 추천 카드 정보
     final data = context.watch<ConsumptionProvider>().myRecommend;
 
+    // 분야별 이미지 아이콘
+    Map categoryDic = {
+      '음식점': 'assets/images/category_1.png',
+      '쇼핑': 'assets/images/category_2.png',
+    };
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
@@ -55,9 +61,11 @@ class BestTitle extends StatelessWidget {
               Spacer(),
               // 카테고리 이미지 (지금은 임시 사진)
               SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Image.asset('assets/images/smile_logo.png'))
+                height: 80,
+                width: 80,
+                child: Image.asset('assets/images/smile_logo.png'),
+                // child: Image.asset(categoryDic[data.discount![index].category]),
+              ),
             ],
           ),
         ],

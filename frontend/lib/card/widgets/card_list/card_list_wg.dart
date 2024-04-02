@@ -94,6 +94,7 @@ class _CardListWgState extends State<CardListWg> {
   Widget build(BuildContext context) {
     // 로딩 플래그, true면 로딩중
     final loading = context.watch<CardProvider>().loading;
+    final firstLoading = context.watch<CardProvider>().firstLoading;
     // 카테고리 아이디
     final categoryId = context.watch<CardProvider>().categoryId;
     // 카테고리에 맞는 카드 리스트
@@ -104,7 +105,7 @@ class _CardListWgState extends State<CardListWg> {
         width: MediaQuery.of(context).size.width,
         color: Color(0xffF5F5F5),
         // 데이터 로딩중이라면 로딩 위젯 출력
-        child: ListView.separated(
+        child: firstLoading ? Center(child: CircularProgressIndicator(),) : ListView.separated(
             controller: _scrollController,
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) {
