@@ -25,6 +25,6 @@ public class CardInfo {
     private List<String> categories;
     private List<String> annualFeeInfo;
     private Map<String, List<Object>> contents;
-
+    private List<String> groupCategory;
 
 }
