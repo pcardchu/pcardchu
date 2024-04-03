@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/user_info_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/card/widgets/my_register_card.dart';
 import 'package:frontend/utils/app_colors.dart';
@@ -18,13 +19,14 @@ class _CardStackState extends State<CardStack> {
   Widget build(BuildContext context) {
     // 여기서 CardListProvider를 context를 통해 접근
     final cardListProvider = Provider.of<CardListProvider>(context);
+    final userProvider = Provider.of<UserInfoProvider>(context);
 
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '박설연님의 카드 ⚡',
+          '${userProvider.userName}님의 카드 ⚡',
           style: AppFonts.scDream(
               fontWeight: FontWeight.w700,
               fontSize: 22,
