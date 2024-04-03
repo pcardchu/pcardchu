@@ -45,7 +45,7 @@ class Compare extends StatelessWidget {
             Text(
               data.amountGap > 0
                   ? NumberFormat(' #,###원 더', 'ko_KR').format(data.amountGap)
-                  : NumberFormat(' #,###원 덜', 'ko_KR').format(data.amountGap),
+                  : NumberFormat(' #,###원 덜', 'ko_KR').format(data.amountGap.abs()),
               style: AppFonts.suit(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
