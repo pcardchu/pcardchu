@@ -67,6 +67,10 @@ class _TopThreePopularCardState extends State<TopThreePopularCard> {
     );
   }
 
+  String truncateWithEllipsis(String text, int cutoff) {
+    return (text.length <= cutoff) ? text : '${text.substring(0, cutoff)}...';
+  }
+
   Widget _buildCardContent(TopThreePopularModel data) {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
@@ -98,11 +102,13 @@ class _TopThreePopularCardState extends State<TopThreePopularCard> {
                   int idx = entry.key;
                   String category = entry.value;
                   return Text(
-                    '${idx + 1}. $category',
+                    truncateWithEllipsis('${idx + 1}. $category', 15),
                     style: AppFonts.suit(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                         color: Color(0xFFA0478B)),
+                    maxLines: 1, // 여전히 텍스트를 한 줄로 제한
+                    overflow: TextOverflow.ellipsis,
                   );
                 }).toList(),
               ),
