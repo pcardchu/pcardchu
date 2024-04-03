@@ -52,56 +52,59 @@ class _CardCompanyInfoState extends State<CardCompanyInfo> {
         ),
       ),
       body: SafeArea(
-        child: Container(
-          color: AppColors.mainWhite,
-          child: Center(
-            child: Container(
-              color: AppColors.mainWhite,
-              width: ScreenUtil.w(85),
-              child: Column(
-                children: [
-                  // 화면 메인 부분
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              '카드사 정보를 입력해주세요',
-                              style: AppFonts.suit(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textBlack,
+        child: GestureDetector(
+          onTap: (){FocusScope.of(context).unfocus();},
+          child: Container(
+            color: AppColors.mainWhite,
+            child: Center(
+              child: Container(
+                color: AppColors.mainWhite,
+                width: ScreenUtil.w(85),
+                child: Column(
+                  children: [
+                    // 화면 메인 부분
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                '카드사 정보를 입력해주세요',
+                                style: AppFonts.suit(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textBlack,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          // 카드사 회원 정보 입력 Form
+                          CompanyInfoForm(
+                            formKey: formKey,
+                            idOnSaved: idOnSaved,
+                            pwOnSaved: pwOnSaved,
+                          ),
+                          const SizedBox(height: 30),
+                          // 카드사 회원가입 하러가기 위젯
+                          const CompanyRegistration(),
+                        ],
+                      ),
+                    ),
+                    // 하단 확인 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: submitOnPressed,
+                            child: const Text('확인'),
+                          ),
                         ),
-                        // 카드사 회원 정보 입력 Form
-                        CompanyInfoForm(
-                          formKey: formKey,
-                          idOnSaved: idOnSaved,
-                          pwOnSaved: pwOnSaved,
-                        ),
-                        const SizedBox(height: 30),
-                        // 카드사 회원가입 하러가기 위젯
-                        const CompanyRegistration(),
                       ],
                     ),
-                  ),
-                  // 하단 확인 버튼
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: submitOnPressed,
-                          child: const Text('확인'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),
