@@ -639,7 +639,12 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
                 int idx = cardInfo.getGroupCategory().indexOf(category);
                 String key = cardInfo.getCategories().get(idx);
-                Map<String, String> benefitContents  = (Map<String, String>) cardInfo.getContents().get(key).get(1);
+                Map<String, String> benefitContents;
+                try{
+                    benefitContents = (Map<String, String>) cardInfo.getContents().get(key).get(1);
+                }catch (NullPointerException ignore){
+                    continue;
+                }
                 String categoryBenefit = benefitContents.get("benefitSummary");
                 Cards cards = cardsRepository.findById(cardInfo.getCardId())
                     .orElseThrow(() -> new ErrorException(ErrorCode.CARDS_NOT_FOUND));
