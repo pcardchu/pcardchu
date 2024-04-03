@@ -593,7 +593,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         User user = userRepository.findById(principalDetails.getUserDto().getId())
             .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
 
-        //  TODO 이거 월 결재 내역으로 가져와야함
+        // XXX 저번달 1일 ~~ 오늘 까지 결재 내역 가지고 오기
         LocalDate today = LocalDate.now();
         LocalDate firstDayOfMonth = today.minusMonths(1).withDayOfMonth(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -601,11 +601,12 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         String startDate = firstDayOfMonth.format(formatter);
         String endDate = today.format(formatter);
 
-
+        // XXX userId 기준  시작날짜 < x < 종료날짜   결재 내역 가지고 오기
         List<CardHistoryEntity> cardHistoryEntities = cardHistoryRepository.findAllByDateRangeOrderedByDateAndTimeDesc((int) user.getId(), startDate, endDate);
         if(cardHistoryEntities.isEmpty()){
             throw new ErrorException(ErrorCode.CARDINFO_NOT_FOUND);
         }
+
         log.info("HISTORY SIZE : " + cardHistoryEntities.size());
         Map<String, Integer> consumptionHistory = new HashMap<>();
         for (CardHistoryEntity cardHistory : cardHistoryEntities) {
@@ -619,8 +620,14 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             .collect(Collectors.toList());
 
         List<RecommendCard> returnValue = new ArrayList<>();
+        log.info("sortedEntry : " + sortedEntries.toString());
         for (int i = 0; i < 3; i++){
-            String category = sortedEntries.get(i).getKey();
+            String category;
+            try {
+                category = sortedEntries.get(i).getKey();
+            }catch (IndexOutOfBoundsException ignore){
+                continue;
+            }
             List<CardInfo> cardInfos = cardsAggregation.GetCardsCategoList(category);
 
             RecommendCard topCategoryResult = RecommendCard.builder()
