@@ -9,7 +9,7 @@ spring:
     local-datacenter: ENC(vHyctgxBcLzc6gcAI5GLQ0oIAXEiV75p)
   data: # MongoDB
     mongodb:
-      uri: ENC(yx9NOBcUarwHzH/+TJgm6tqZNnKGE08FiYvrfjYyfYsRf4oLohIWlQqTY9HcsrAI)
+      uri: ENC(6SQ0r99Gjoq2krm4c0PM3Q/HVz83mxg0YMvr72T4+1ArcJYxpYD8B8GWxI3f0MSY)
 ---
 # 로컬 부분
 spring:
