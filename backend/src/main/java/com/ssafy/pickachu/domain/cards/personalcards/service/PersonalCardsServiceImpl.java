@@ -37,6 +37,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -74,6 +75,14 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
     private final JasyptUtil jasyptUtil;
     private final StatisticsMapper statisticsMapper;
     private final CardsAggregation cardsAggregation;
+
+    private final String zeppelinUrl = "http://j10d110a.p.ssafy.io:18888";
+    private RestTemplate restTemplate = new RestTemplate();
+
+    private void runNotebook() {
+        String endpoint = zeppelinUrl + "/api/notebook/job/2JSXPJ6AT";
+        restTemplate.postForObject(endpoint, null, Map.class);
+    }
 
 
     private static Map<String, String> crawlingCategories = new HashMap<>(){{
@@ -534,13 +543,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
         userRepository.save(user);
 
-        // 분석 배치 실행
-        ProcessBuilder pb = new ProcessBuilder("/home/ubuntu/myconsumption_batch.sh");
-        try {
-            Process process = pb.start();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        runNotebook();
     }
 
     @Override
