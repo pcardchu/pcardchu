@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_company_info.dart';
+import 'package:frontend/card/screens/card_number_check.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/card/screens/card_company.dart';
 
 /// 카드 번호 스캔 없이 직접 입력
 class SelfCardNumber extends StatefulWidget {
-  const SelfCardNumber({super.key});
+  // 스캔 화면을 호출하는 함수
+  final Function scan;
+  const SelfCardNumber({super.key, required this.scan});
 
   @override
   State<SelfCardNumber> createState() => _SelfCardNumberState();
@@ -52,7 +55,7 @@ class _SelfCardNumberState extends State<SelfCardNumber> {
 
   void onPressed() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => CardCompany())
+      MaterialPageRoute(builder: (_) => CardNumberCheck(scan: widget.scan))
     );
   }
 }
