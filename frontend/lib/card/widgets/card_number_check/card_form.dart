@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
@@ -72,6 +73,11 @@ class _CardFormState extends State<CardForm> {
               maxLines: 1,
               maxLength: 19,
               initialValue: scanNumber,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly, // 숫자만 입력 받음
+                CardNumberInputFormatter(), // 사용자 정의 입력 포맷터 사용
+              ],
               // Form 제출 버튼이 눌렸을 때 실행
               onSaved: widget.onCardNumSaved,
               // 유효성 검증
@@ -97,5 +103,30 @@ class _CardFormState extends State<CardForm> {
     } else {
       return null;
     }
+  }
+}
+
+// 사용자 입력을 포맷팅하는 커스텀 TextInputFormatter 정의
+class CardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final newText = StringBuffer();
+    int j = 0;
+    for (int i = 0; i < newValue.text.length; i++) {
+      // 숫자만 추가
+      if ('0123456789'.contains(newValue.text[i])) {
+        newText.write(newValue.text[i]);
+        j++;
+        // 4글자마다 하이픈 추가 (맨 끝에는 추가하지 않음)
+        if (j % 4 == 0 && j != 16) {
+          newText.write('-');
+        }
+      }
+    }
+    // 새로운 포맷된 값 반환
+    return TextEditingValue(
+      text: newText.toString(),
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
   }
 }
