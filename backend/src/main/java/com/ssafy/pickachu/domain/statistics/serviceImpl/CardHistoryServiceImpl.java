@@ -187,6 +187,8 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = (JSONObject) jsonArray.get(i);
             CardHistoryEntity history = gson.fromJson(String.valueOf(jsonObject), CardHistoryEntity.class);
+            // 혹시 일치하는 것이 없으면 기타로 넘기기
+            history.setCategory("기타");
             for (String key : bankInfoExpression.keySet()) {
                 Pattern pattern = Pattern.compile(key);
                 Matcher matcher = pattern.matcher(history.getCategory());
