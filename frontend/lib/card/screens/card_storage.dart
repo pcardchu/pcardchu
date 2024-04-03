@@ -1,10 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:frontend/card/widgets/card_screen/registration_modal.dart';
 import 'package:frontend/card/widgets/card_stack.dart';
 import 'package:frontend/utils/app_colors.dart';
 
 class CardStorage extends StatelessWidget {
-  const CardStorage({super.key});
+  final int? myCardFlag;
+  const CardStorage({super.key, required this.myCardFlag});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,12 @@ class CardStorage extends StatelessWidget {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 60, right: 60, top: 80, bottom: 80),
-          child: CardStack(),
+          padding: myCardFlag == 1
+              ? EdgeInsets.only(left: 60, right: 60, top: 80, bottom: 80)
+              : EdgeInsets.zero,
+          child: myCardFlag == 1
+              ? const CardStack()
+              :const RegistrationModal()
                 )
       ],
     );

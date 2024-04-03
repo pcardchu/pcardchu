@@ -12,8 +12,8 @@ class ExampleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cardWidth = ScreenUtil.w(70);
-    var cardHeight = cardWidth * 1.4;
+    var cardWidth = ScreenUtil.w(60);
+    var cardHeight = cardWidth * 1.7;
 
     return GestureDetector(
       onTap: () {
@@ -25,7 +25,7 @@ class ExampleCard extends StatelessWidget {
       },
       child: Center(
         child: Container(
-          width: ScreenUtil.w(65),
+          width: cardWidth,
           height: cardHeight,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
@@ -53,8 +53,13 @@ class ExampleCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/xox_logo.png', fit: BoxFit.cover),
-                  SizedBox(height: 20),
+                  Text(
+                    '${model.name}',
+                    style: AppFonts.scDream(fontSize: 18, fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(height: 30,),
+                  Image.asset('assets/images/xox_logo.png', width: 36, height: 36, fit: BoxFit.cover),
+                  SizedBox(height: 12),
                   Text(
                     '카드 이미지가 존재하지 않습니다.',
                     style: AppFonts.suit(fontSize: 16, fontWeight: FontWeight.w500),
