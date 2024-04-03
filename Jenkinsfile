@@ -71,7 +71,10 @@ pipeline {
                     docker pull ${DOCKER_REPOSITORY}:${DOCKER_TAG};
                     docker stop spring-app || true;
                     docker rm spring-app || true;
-                    docker run --name spring-app --net backend-network -d -p 8080:8080 ${DOCKER_REPOSITORY}:${DOCKER_TAG}"
+                    docker run --name spring-app --net backend-network -d -p 8080:8080 \
+                    -v /etc/timezone:/etc/timezone:ro \
+                    -v /etc/localtime:/etc/localtime:ro \
+                    ${DOCKER_REPOSITORY}:${DOCKER_TAG}"
                     '''
                 }
             }
