@@ -26,7 +26,7 @@ class ConsumptionService{
   }
 
   /// 추천 카드 GET 요청
-  Future<RecommendModel> getMyRecommend(String id) async {
+  Future<RecommendModel?> getMyRecommend(String id) async {
     try {
       final Response response = await dio.get(
           "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/recommend/1");
@@ -39,7 +39,11 @@ class ConsumptionService{
       } else {
         throw Exception('Failed to load recommendModel');
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response!.statusCode == 404)
+        {
+          return null;
+        }
       throw Exception('Failed to load recommendModel: $e');
     }
   }

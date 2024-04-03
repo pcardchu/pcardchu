@@ -15,7 +15,9 @@ class ConsumptionTab2 extends StatelessWidget {
     /// 내 추천 카드 정보
     final data = context.watch<ConsumptionProvider>().myRecommend;
 
-    return SingleChildScrollView(
+    return data == null ? Center(
+      child: CircularProgressIndicator(),
+    ) : SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: 30),
