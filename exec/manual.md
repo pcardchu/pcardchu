@@ -196,3 +196,4 @@ chmod -R 755 /var/jenkins_home
 7.3 Jenkins 웹 인터페이스를 통해 플러그인 설치 및 관리자 계정 생성 <br>
 7.4 Credentials 설정
 ### [8. Distributed File System]
+[링크 참고](./distributed_file_system_setting.md)
