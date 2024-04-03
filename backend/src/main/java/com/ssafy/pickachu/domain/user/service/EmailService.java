@@ -44,6 +44,7 @@ public class EmailService {
             String hashPw = hashPassword(pw, String.valueOf(id));
             user.setShortPw(hashPw);
             user.setPwWrongCount(0);
+            user.setFlagBiometrics(0);
 
             HashMap<String, Object> templateModel = new HashMap<>();
             templateModel.put("tempPassword", pw);
