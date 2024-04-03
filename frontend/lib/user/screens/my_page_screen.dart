@@ -11,7 +11,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/providers/user_info_provider.dart';
 
-import '../../animations/fade_transition_page_route.dart'; // UserInfoProvider의 경로를 확인해주세요.
+import '../../animations/fade_transition_page_route.dart';
+import '../../providers/password_provider.dart'; // UserInfoProvider의 경로를 확인해주세요.
 
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({super.key});
@@ -54,6 +55,9 @@ class _MyPageScreenState extends State<MyPageScreen> {
             child: TextButton(
               onPressed: () {
                 userInfo.assignNewData();
+                final passwordProvider = Provider.of<PasswordProvider>(context, listen: false);
+                passwordProvider.clearAll();
+
                 Navigator.of(context).push(
                   FadeAndSlideTransitionPageRoute(
                       page: const PasswordScreen(isEdit: true,),
