@@ -32,7 +32,7 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
           }
         });
       } else {
-
+        print("initstate");
         _selectRandomData(provider);
 
       }
@@ -111,10 +111,10 @@ class _TopThreeConsumeCardState extends State<TopThreeConsumeCard> {
               ),
             ),
             Image.asset(
-              'assets/images/donut_chart_icon.png',
+              'assets/images/rocket_icon.png',
               width: ScreenUtil.w(21),
               height: ScreenUtil.w(21),
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             )
           ]),
         ],

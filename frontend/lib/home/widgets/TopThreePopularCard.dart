@@ -108,7 +108,7 @@ class _TopThreePopularCardState extends State<TopThreePopularCard> {
               ),
             ),
             Image.asset(
-              'assets/images/medal_icon.png',
+              'assets/images/sparkling_heart_icon.png',
               width: ScreenUtil.w(21),
               height: ScreenUtil.w(21),
               fit: BoxFit.contain,
