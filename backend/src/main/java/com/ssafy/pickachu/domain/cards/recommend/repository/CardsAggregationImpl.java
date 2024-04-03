@@ -30,7 +30,7 @@ public class CardsAggregationImpl implements CardsAggregation {
     private final CardsMapper cardsMapper;
 
     @Override
-    public CardsListPage GetCardsCategoryList(CardsListReq cardsListReq, List<String> cardsRanking) {
+    public CardsListPage GetCardsCategoryPage(CardsListReq cardsListReq, List<String> cardsRanking) {
         Query query = new Query();
         if (!cardsListReq.getCategory().equals("all")){
             query.addCriteria(Criteria.where("groupCategory").in(cardsListReq.getCategory()));
@@ -93,6 +93,13 @@ public class CardsAggregationImpl implements CardsAggregation {
             });
         });
         return new CardsListPage(cardsResList, cardsListReq.getPageNumber(), cardsListReq.getPageSize(), !nextPage);
+    }
+
+    @Override
+    public List<CardInfo> GetCardsCategoList(String category) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("groupCategory").in(category));
+        return mongoTemplate.find(query, CardInfo.class);
     }
 
 

@@ -18,8 +18,9 @@ public interface CardHistoryEntityRepository extends CassandraRepository<CardHis
     List<CardHistoryEntity> findMyCardHistoryById(@Param("userid") int userid);
 
 
-    @Query("SELECT * FROM cardhistory WHERE date >= :startDate AND date <= :endDate ALLOW FILTERING")
-    List<CardHistoryEntity> findAllByDateRangeOrderedByDateAndTimeDesc2(
+    @Query("SELECT * FROM cardhistory WHERE userid = :userId AND date >= :startDate AND date <= :endDate ALLOW FILTERING")
+    List<CardHistoryEntity> findAllByDateRangeOrderedByDateAndTimeDesc(
+        @Param("userId") int userId,
         @Param("startDate") String startDate,
         @Param("endDate") String endDate
     );

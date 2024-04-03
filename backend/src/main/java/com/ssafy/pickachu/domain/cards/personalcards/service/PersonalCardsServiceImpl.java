@@ -4,17 +4,17 @@ import com.datastax.oss.driver.shaded.guava.common.reflect.TypeToken;
 import com.google.gson.JsonObject;
 import com.ssafy.pickachu.domain.auth.PrincipalDetails;
 import com.ssafy.pickachu.domain.auth.jwt.JwtUtil;
-import com.ssafy.pickachu.domain.cards.personalcards.dto.PersonalCardsDetailRes;
-import com.ssafy.pickachu.domain.cards.personalcards.dto.RegisterCardsReq;
-import com.ssafy.pickachu.domain.cards.personalcards.dto.SimplePersonalCardsRes;
+import com.ssafy.pickachu.domain.cards.personalcards.dto.*;
 import com.ssafy.pickachu.domain.cards.personalcards.entity.CodefToken;
 import com.ssafy.pickachu.domain.cards.personalcards.entity.PersonalCards;
 import com.ssafy.pickachu.domain.cards.personalcards.mapper.PersonalCardsMapper;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.CodefRepository;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.PersonalCardsRepository;
+import com.ssafy.pickachu.domain.cards.recommend.dto.SimpleCard;
 import com.ssafy.pickachu.domain.cards.recommend.entity.CardInfo;
 import com.ssafy.pickachu.domain.cards.recommend.entity.Cards;
 import com.ssafy.pickachu.domain.cards.recommend.repository.CardInfoRepository;
+import com.ssafy.pickachu.domain.cards.recommend.repository.CardsAggregation;
 import com.ssafy.pickachu.domain.cards.recommend.repository.CardsRepository;
 import com.ssafy.pickachu.domain.statistics.dto.SimpleCardHistory;
 import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
@@ -75,7 +75,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
     private final CardHistoryService cardHistoryService;
     private final JasyptUtil jasyptUtil;
     private final StatisticsMapper statisticsMapper;
-
+    private final CardsAggregation cardsAggregation;
 
 
     private static Map<String, String> crawlingCategories = new HashMap<>(){{
@@ -557,7 +557,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         String endDate = today.format(formatter);
         String yesterDay = yesterday.format(formatter);
 
-        List<CardHistoryEntity> monthlyUsageDetails = cardHistoryRepository.findAllByDateRangeOrderedByDateAndTimeDesc2(startDate, endDate);
+        List<CardHistoryEntity> monthlyUsageDetails = cardHistoryRepository.findAllByDateRangeOrderedByDateAndTimeDesc((int)user.getId(), startDate, endDate);
 
         // date를 먼저 비교하고, date가 같으면 time으로 비교
         monthlyUsageDetails = monthlyUsageDetails.stream()
@@ -588,7 +588,86 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
     }
 
+    @Override
+    public RecommendPersonalCardRes GetRecommendPersonalCard(PrincipalDetails principalDetails) {
+        User user = userRepository.findById(principalDetails.getUserDto().getId())
+            .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
 
+        //  TODO 이거 월 결재 내역으로 가져와야함
+        LocalDate today = LocalDate.now();
+        LocalDate firstDayOfMonth = today.withDayOfMonth(1); // 이번 달의 첫 번째 날짜
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        String startDate = firstDayOfMonth.format(formatter);
+        String endDate = today.format(formatter);
+
+
+        List<CardHistoryEntity> cardHistoryEntities = cardHistoryRepository.findAllByDateRangeOrderedByDateAndTimeDesc((int) user.getId(), startDate, endDate);
+        if(cardHistoryEntities.isEmpty()){
+            throw new ErrorException(ErrorCode.CARDINFO_NOT_FOUND);
+        }
+        log.info("HISTORY SIZE : " + cardHistoryEntities.size());
+        Map<String, Integer> consumptionHistory = new HashMap<>();
+        for (CardHistoryEntity cardHistory : cardHistoryEntities) {
+            int useMoney = consumptionHistory.getOrDefault(cardHistory.getCategory(), 0);
+            consumptionHistory.put(cardHistory.getCategory(), useMoney+cardHistory.getAmount());
+        }
+        // XXX 사용 금액 순 카테고리 정렬 reverse True
+        List<Map.Entry<String, Integer>> sortedEntries = consumptionHistory.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(Collectors.toList());
+
+        List<RecommendCard> returnValue = new ArrayList<>();
+        for (int i = 0; i < 3; i++){
+            String category = sortedEntries.get(i).getKey();
+            List<CardInfo> cardInfos = cardsAggregation.GetCardsCategoList(category);
+
+            RecommendCard topCategoryResult = RecommendCard.builder()
+                .category(category)
+                .total(sortedEntries.get(i).getValue())
+                .build();
+
+
+
+            List<SimpleCard> addBenefitCal = new ArrayList<>();
+            for (CardInfo cardInfo : cardInfos) {
+                // 카드 카테고리 별 할인 적용액 JSON
+                String useValue = cardHistoryService.CalculateBenefit(cardInfo, cardHistoryEntities);
+                Type type = new TypeToken<Map<String, Integer>>(){}.getType();
+                Map<String, Integer> useBenefit = gson.fromJson(useValue, type); // Map으로 바꾸기
+
+                int idx = cardInfo.getGroupCategory().indexOf(category);
+                String key = cardInfo.getCategories().get(idx);
+                Map<String, String> benefitContents  = (Map<String, String>) cardInfo.getContents().get(key).get(1);
+                String categoryBenefit = benefitContents.get("benefitSummary");
+                Cards cards = cardsRepository.findById(cardInfo.getCardId())
+                    .orElseThrow(() -> new ErrorException(ErrorCode.CARDS_NOT_FOUND));
+                addBenefitCal.add(SimpleCard.builder()
+                        .cardId(cardInfo.getCardId())
+                        .cardImg(cards.getImageUrl())
+                        .cardName(cards.getCardName())
+                        .cardCompany(cards.getOrganization_id())
+                        .cardContent(categoryBenefit)
+                        .useMoney(useBenefit.get(category))
+                    .build());
+
+            }
+            //  할인 받은 금액을 기준으로 내림차순으로 정렬
+            addBenefitCal.sort(Comparator.comparingInt(SimpleCard::getUseMoney).reversed());
+            topCategoryResult.setCard((addBenefitCal.subList(0, Math.min(addBenefitCal.size(), 3))));
+
+            returnValue.add(topCategoryResult);
+
+        }
+        return RecommendPersonalCardRes.builder()
+            .name(user.getNickname())
+            .discount(returnValue)
+            .build();
+
+
+
+    }
 
 
 }
