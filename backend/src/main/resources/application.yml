@@ -30,10 +30,20 @@ spring:
           time_zone: Asia/Seoul
     show-sql: true
     defer-datasource-initialization: true # JPA 엔티티를 통한 DB 초기화 이후 data.sql 실행
-
   sql:
     init:
       mode: always
+  mail:
+    host: smtp.gmail.com
+    port: ENC(F+Tfqgh7eSKxyNTnRRMzHg==)
+    username: "ENC(317d5amI/sqx+o9joG33unh0YWEiY3S9LPIiK2XPrOWOpLL0hX5ZTw==)"
+    password: "ENC(XV8iWatOj38inN+Lzz/0mv21sdOtIKjMR6ltLSemmo4=)"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 springdoc:
   default-produces-media-type: application/json

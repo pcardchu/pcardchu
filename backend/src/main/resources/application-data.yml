@@ -1,17 +1,4 @@
 # 변수 값 들을 저장하는 yml 파일입니다.
-spring:
-  mail:
-    host: smtp.gmail.com
-    port: ENC(F+Tfqgh7eSKxyNTnRRMzHg==)
-    username: ENC(EFs0vCXrVpZXBsOh1JOSK6rOUcj0L54HViN8EpsB748=)
-    password: ENC(XcfYBOyHE+LUo2Xx7gN3saHColz75ZXbXKAeQO44LHw=)
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
 image:
   upload:
     path: ENC(jOxza9PjOStLKr5pgD0XE9IdePCftefRsth2f1J0tr7DeIfnLJKyciVXm7mMDHTQ)
@@ -33,3 +20,7 @@ codef:
   client-id:  ENC(5gl12K2pajf3US/2xEhIxQzZceBTjxpsHhNHtRhzU5wP7wqWcrSXXmePVRoO/MYh)
   secret-key: ENC(yY8el0fqqCZu/b8Gt+MiFUraAeci/sN2hFnIE4MgPpB3EoKBZdoKfqcBmRw85nld)
   public-key: ENC(wqSwgfnQnYYy6CaOg+V6oR0MpPdD8juuLZaC7IPGBIuJZYwBJrdWgRmLPal7TDP0Cbb3nOvNIXTVZa++ICxmX/3olvLbSrglj31ufez7FR9Nib6uVNSwby0sgBDSfqsbBoKsgxFh+8QTQS7/xxk5uhUVfqsRXz/U160WmFjBWBxBEwhoHzaejnYBwiGx+pmP6aMif2Il1cm17Xvuv+WwluE4ZGx65AIjzS71cxXHk2CZsl76csxQ9zLxMWBnzM543GqsJ8xA31G7Hvn+Zt3EtCRlPLieQA59uZZwRN0ZcV+zsXQo7sj2BkpHQ+BZ8HYSL+8l7eiGEsVPfgkml7Thv6mBLVlcKxAj7XBUIdeZEJTD5nt+TU/LWeca6np539oOIqen3fjMxAhVWsUkrbVDFoXuNTfPg0euWrxH9vQl5fAflw/hmyW9UboCG5IIUCxh07KpNHc7GiWU6ahm4fKwdx4gz3b3AvO7U7FlWBpO3vyMmF3TMXppT3LUwAMa9o68crs9UzYWP/SSJ8/jOSns33w31ormS880)
+
+mail-templates:
+  path: ENC(lUozM146xuZFt9c78eiw15Ej5oUMdmNh)
+  file: ENC(QiLjuciPjVm4E+sWh5iMjwJ9Ozf9arUruPDOAvOqtcw=)
