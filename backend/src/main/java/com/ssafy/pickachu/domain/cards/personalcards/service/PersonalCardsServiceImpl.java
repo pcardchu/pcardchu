@@ -533,6 +533,14 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         }
 
         userRepository.save(user);
+
+        // 분석 배치 실행
+        ProcessBuilder pb = new ProcessBuilder("/home/ubuntu/myconsumption_batch.sh");
+        try {
+            Process process = pb.start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
