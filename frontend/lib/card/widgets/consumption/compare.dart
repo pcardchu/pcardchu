@@ -14,7 +14,6 @@ class Compare extends StatelessWidget {
     /// 내 소비 패턴 정보
     final data = context.watch<ConsumptionProvider>().myConsumption;
 
-
     return Column(
       children: [
         const SizedBox(height: 25),
@@ -22,7 +21,8 @@ class Compare extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              NumberFormat('오늘까지 #,###원 더 썼어요', 'ko_KR').format(data!.thisMonthAmount),
+              NumberFormat('이번달 #,###원 썼어요', 'ko_KR')
+                  .format(data!.thisMonthAmount),
               style: AppFonts.scDream(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -35,7 +35,7 @@ class Compare extends StatelessWidget {
         Row(
           children: [
             Text(
-              '지난달 이맘때보다',
+              '지난달 보다 현재',
               style: AppFonts.suit(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -43,7 +43,9 @@ class Compare extends StatelessWidget {
               ),
             ),
             Text(
-              NumberFormat(' #,###원 더', 'ko_KR').format(data.amountGap),
+              data.amountGap > 0
+                  ? NumberFormat(' #,###원 더', 'ko_KR').format(data.amountGap)
+                  : NumberFormat(' #,###원 덜', 'ko_KR').format(data.amountGap),
               style: AppFonts.suit(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
