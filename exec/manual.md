@@ -1,18 +1,18 @@
 # 📖 포팅 매뉴얼
 ## 📌 목차
 ### 🍀 환경 변수
-[1. Frontend](#1-Frontend) <br>
-[2. Backend](#2-Backend) <br>
+[Frontend](#frontend) <br>
+[Backend](#backend) <br>
 
 ### 🛠️ 설치 및 실행
-[1. Docker](#1-Docker) <br>
-[2. Docker Compose](#2-Docker-Compose) <br>
-[3. Certbot](#3-Certbot) <br>
-[4. Nginx](#4-Nginx) <br>
-[5. MariaDB](#5-MariaDB) <br>
-[6. MongoDB](#6-MongoDB) <br>
-[7. Jenkins](#7-Jenkins) <br>
-[8. Distributed File System](#8-Distributed-File-System) <br>
+[1. Docker](#1-docker) <br>
+[2. Docker Compose](#2-docker-compose) <br>
+[3. Certbot](#3-certbot) <br>
+[4. Nginx](#4-nginx) <br>
+[5. MariaDB](#5-mariadb) <br>
+[6. MongoDB](#6-mongodb) <br>
+[7. Jenkins](#7-jenkins) <br>
+[8. Distributed File System](#8-distributed-file-system) <br>
 
 
 ## 🍀 환경 변수
@@ -29,7 +29,7 @@ EC2 인스턴스 [분산 서버] - Hadoop, Cassandra, Airflow <br>
 EC2 인스턴스 [CI/CD] - Jenkins <br>
 EC2 인스턴스 [DB] - MariaDB, MongoDB
 
-### 1. Docker
+### [1. Docker]
 1.1 HTTPS 관련 패키지 설치
 ```
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
@@ -55,7 +55,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker ${USER}
 ```
 
-### 2. Docker Compose
+### [2. Docker Compose]
 2.1 환경 변수 설정
 ```
 DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
@@ -72,7 +72,7 @@ curl -SL https://github.com/docker/compose/releases/download/v2.24.7/docker-comp
 ```
 chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 ```
-### 3. Certbot
+### [3. Certbot]
 3.1 Certbot 설치
 ```
 sudo snap install --classic certbot
@@ -85,7 +85,7 @@ sudo ln -s /snap/bin/certbot /usr/bin/certbot
 ```
 sudo certbot certonly --nginx
 ```
-### 4. Nginx
+### [4. Nginx]
 | 디렉토리 구조
 ```
 /home
@@ -147,7 +147,7 @@ http {
     }
 }
 ```
-### 5. MariaDB
+### [5. MariaDB]
 5.1 볼륨 설정
 ```
 docker volume create mariadb_data
@@ -165,7 +165,7 @@ docker run -d \
 mariadb:latest \
 --lower_case_table_names=1
 ```
-### 6. MongoDB
+### [6. MongoDB]
 6.1 볼륨 설정
 ```
 docker volume create mongodb_data
@@ -178,7 +178,7 @@ docker run  -d \
 -v mongodb_data:/data/db \
 mongo:latest
 ```
-### 7. Jenkins
+### [7. Jenkins]
 7.1 볼륨 생성 후 Jenkins 컨테이너 생성
 ```
 docker run -d -p 8080:8080 -p 50000:50000 \
@@ -195,4 +195,4 @@ chmod -R 755 /var/jenkins_home
 ```
 7.3 Jenkins 웹 인터페이스를 통해 플러그인 설치 및 관리자 계정 생성 <br>
 7.4 Credentials 설정
-### 8. Distributed File System
+### [8. Distributed File System]
