@@ -17,17 +17,17 @@ class _CardScreenState extends State<CardScreen> {
   void initState() {
     super.initState();
     // 화면 초기화 시 다이얼로그 조건 체크
-    if (widget.myCardFlag == 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _showDialog());
-    }
+    // if (widget.myCardFlag == 0) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) => _showDialog());
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     // myCardFlag 값에 따라 화면에 보여줄 내용 결정
     Widget content = widget.myCardFlag == 1
-        ? const CardStorage()
-        : Center(child: Container()); // myCardFlag가 0일 경우, 다이얼로그가 띄워집니다.
+        ? const CardStorage(myCardFlag: 1,)
+        :const CardStorage(myCardFlag: 2,); // myCardFlag가 0일 경우, 다이얼로그가 띄워집니다.
 
     return Scaffold(
       // 앱바 없애놓기
