@@ -9,6 +9,11 @@ class UserInfoProvider with ChangeNotifier {
 
   final isNumeric = RegExp(r'^[0-9]+$');
 
+  String _newUserName = '';
+  DateTime _newBirthDay = DateTime.now(); // DateTime 타입으로 선언
+  bool _newBio = false; // bool 타입으로 선언
+  String _newGender = '';
+
   String _userName = '';
   String _birthDay = '';
   bool _isBiometric = false;
@@ -35,6 +40,35 @@ class UserInfoProvider with ChangeNotifier {
   String get password => _password;
   String get passwordSubmit => _passwordSubmit;
   bool get isSix => _isSix;
+
+  String get newUserName => _newUserName;
+  set newUserName(String value) {
+    _newUserName = value;
+    notifyListeners();
+  }
+
+  DateTime get newBirthDay => _newBirthDay;
+  set newBirthDay(DateTime value) {
+    _newBirthDay = value;
+    notifyListeners();
+  }
+
+  bool get newBio => _newBio;
+  set newBio(bool value) {
+    _newBio = value;
+    notifyListeners();
+  }
+
+  String get newGender => _newGender;
+  set newGender(String value) {
+    _newGender = value;
+    notifyListeners();
+  }
+
+  set isBiometric(bool newValue) {
+    _isBiometric = newValue;
+    notifyListeners();
+  }
 
   set birthDay(String newValue) {
     _birthDay = newValue;
@@ -86,6 +120,26 @@ class UserInfoProvider with ChangeNotifier {
 
   bool get isAllBirthdayFilled =>
       _year.isNotEmpty && _month.isNotEmpty && _day.isNotEmpty;
+
+  void assignNewData() {
+    _newUserName = _userName;
+    _newBirthDay = DateTime.tryParse(_birthDay) ?? DateTime.now();
+    _newBio = _isBiometric;
+    _newGender = _gender;
+    notifyListeners();
+  }
+
+  // 예를 들어, "1997-10-10" 형식의 문자열을 DateTime으로 변환
+  void updateBirthDayFromString(String dateStr) {
+    _newBirthDay = DateTime.tryParse(dateStr) ?? DateTime.now();
+    notifyListeners();
+  }
+
+  // // _newBirthDay를 "yyyy-MM-dd" 형식의 문자열로 변환
+  // String getFormattedNewBirthDay() {
+  //   return "${_newBirthDay.year.toString().padLeft(4, '0')}-${_newBirthDay.month.toString().padLeft(2, '0')}-${_newBirthDay.day.toString().padLeft(2, '0')}";
+  // }
+
 
   bool isValidDate() {
     final int y = int.parse(_year);

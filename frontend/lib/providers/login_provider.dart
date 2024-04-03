@@ -205,7 +205,11 @@ class LoginProvider with ChangeNotifier {
     }
 
     notifyListeners();
-    Navigator.pushReplacement(context, SlideTransitionPageRoute(page: LoginScreen(), beginOffset: const Offset(-1, 0)));
+    Navigator.pushAndRemoveUntil(
+        context,
+        SlideTransitionPageRoute(page: LoginScreen(), beginOffset: const Offset(-1, 0)),
+        (Route<dynamic> route) => false,
+    );
   }
 
   Future<String> registration(var data) async {
