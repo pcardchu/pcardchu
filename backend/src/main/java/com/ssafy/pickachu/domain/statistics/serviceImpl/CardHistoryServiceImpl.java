@@ -1,11 +1,14 @@
 package com.ssafy.pickachu.domain.statistics.serviceImpl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.RegisterCardsReq;
 import com.ssafy.pickachu.domain.cards.personalcards.entity.CodefToken;
 import com.ssafy.pickachu.domain.cards.personalcards.entity.PersonalCards;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.CodefRepository;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.PersonalCardsRepository;
+import com.ssafy.pickachu.domain.cards.recommend.entity.CardInfo;
 import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
 import com.ssafy.pickachu.domain.statistics.exception.CardInfoIOException;
 import com.ssafy.pickachu.domain.statistics.exception.InvalidApiKeyException;
@@ -257,6 +260,50 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         return ResponseEntity.ok(cardHistoryRes);
     }
 
+    public String CalculateBenefit(CardInfo cards, List<CardHistoryEntity> sch){
+        Map<String, List<Object>> contents = cards.getContents();
+        List<String> keys = cards.getCategories();
+        List<String> groups = cards.getGroupCategory();
+        Map<String, Integer> totalDiscount = new HashMap<>();
+        for (CardHistoryEntity cardHistoryEntity : sch) {
+            String category = cardHistoryEntity.getCategory();
+            int idxCat = groups.indexOf(category);
+            if (idxCat < 0){
+                continue;
+            }
+            Map<String, Object> tt = (Map<String, Object>) contents.get(keys.get(idxCat)).get(1);
 
+            int disCountValue = 0;
+
+            if (tt.get("payType").equals("%")){
+                double discount = ((Integer) tt.get("discount")) / 100.0;
+                double amount = (double) cardHistoryEntity.getAmount();
+                disCountValue = (int) (amount * discount);
+
+            }else if (tt.get("payType").equals("원")){
+                int unit = (int)tt.get("unit");
+                if(unit != 0 && cardHistoryEntity.getAmount() > unit){
+                    disCountValue = (int)tt.get("discount");
+                }else if (unit == 0){
+                    disCountValue = (int)tt.get("discount");
+                }else{
+                    disCountValue = 0;
+                }
+            }
+            int totalValue = totalDiscount.getOrDefault(category, 0) + disCountValue;
+            totalDiscount.put(category, totalValue);
+
+        }
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+        totalDiscount.entrySet().stream()
+            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+            .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+
+        try {
+            return new ObjectMapper().writeValueAsString(sortedMap);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
 
 }
