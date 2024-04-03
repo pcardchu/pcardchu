@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/widgets/consumption/best_title.dart';
+import 'package:frontend/card/widgets/consumption/no_main_consumption.dart';
 import 'package:frontend/card/widgets/consumption/recommend_list.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
@@ -15,9 +16,7 @@ class ConsumptionTab2 extends StatelessWidget {
     /// 내 추천 카드 정보
     final data = context.watch<ConsumptionProvider>().myRecommend;
 
-    return data == null ? Center(
-      child: CircularProgressIndicator(),
-    ) : SingleChildScrollView(
+    return data == null ? NoMainConsumption() : SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: 30),
