@@ -277,10 +277,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean sendEmail(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException());
-
-        return emailService.sendEmail(user.getEmail());
+        return emailService.sendEmail(id);
     }
 
 
