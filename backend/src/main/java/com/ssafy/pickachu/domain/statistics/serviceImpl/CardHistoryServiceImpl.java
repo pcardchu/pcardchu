@@ -179,16 +179,15 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     public void saveCardHistories(String payListResult, User user, long cardId) {
 
         String userAgeGroup = commonUtil.calculateAge(user.getBirth());
+        log.info("user use content : " + payListResult);
 
         // 문자열 내용을 JSONArray 객체로 변환
         JSONArray jsonArray = new JSONArray(payListResult);
-
         // JSONArray 내용 처리 예시
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = (JSONObject) jsonArray.get(i);
             CardHistoryEntity history = gson.fromJson(String.valueOf(jsonObject), CardHistoryEntity.class);
-            // 혹시 일치하는 것이 없으면 기타로 넘기기
-            history.setCategory("기타");
+            String tmpCategory = history.getCategory();
             for (String key : bankInfoExpression.keySet()) {
                 Pattern pattern = Pattern.compile(key);
                 Matcher matcher = pattern.matcher(history.getCategory());
@@ -196,6 +195,11 @@ public class CardHistoryServiceImpl implements CardHistoryService {
                     history.setCategory(bankInfoExpression.get(key));
                     break;
                 }
+            }
+
+            // 혹시 일치하는 것이 없으면 기타로 넘기기
+            if(tmpCategory.equals(history.getCategory())){
+                history.setCategory("기타");
             }
 
             history.setUserid((int) user.getId());
