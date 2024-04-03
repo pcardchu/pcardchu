@@ -51,8 +51,10 @@ class _CardWebViewState extends State<CardWebView> {
     // 카드 디테일 정보 가져오기
     CardModel? card = context.read<CardProvider>().cardDetail;
     // 카드 신청 웹페이지 주소
-    // final url = Uri.parse(card!.registrationUrl!);
-    final url = Uri.parse("https://m.bccard.com/app/mobileweb/OnlineCardIssuApply.do");
+    Uri url = Uri.parse("https://paybooc.co.kr/app/paybooc/AppPbCard.do?exec=detail&cardGdsNo=101514&chnlCd=Mobile&coCd=C005");
+    if (card!.registrationUrl != ""){
+      url = Uri.parse(card.registrationUrl!);
+    }
     // 웹뷰 컨트롤러
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/app_colors.dart';
 
+import 'self_card_number.dart';
+
 /// 카드 등록 메인 바디 위젯입니다.
 class CardRegistrationMain extends StatelessWidget {
   const CardRegistrationMain({super.key});
@@ -23,10 +25,17 @@ class CardRegistrationMain extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SelfCardNumber(),
+            ],
+          ),
           // 중앙 이미지
           SizedBox(
-              height: 600,
-              width: 600,
+              height: 500,
+              width: 500,
               child: Image.asset('assets/images/registration_card.png')),
         ],
       ),
