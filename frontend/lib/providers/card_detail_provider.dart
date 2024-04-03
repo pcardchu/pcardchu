@@ -13,7 +13,7 @@ class CardDetailProvider with ChangeNotifier {
   bool _loading = false;
 
   // 카드 상세 내역
-  late CardDetailModel? _cardDetailModel = null;
+  CardDetailModel? _cardDetailModel;
 
 
   /// 카드 상세내역 반환하는 서비스
@@ -21,7 +21,7 @@ class CardDetailProvider with ChangeNotifier {
 
   bool get loading => _loading;
 
-  CardDetailModel? get cardDetailModel => _cardDetailModel;
+  CardDetailModel get cardDetailModel => _cardDetailModel!;
 
 
   /// 내 소비 내역 정보 GET 요청

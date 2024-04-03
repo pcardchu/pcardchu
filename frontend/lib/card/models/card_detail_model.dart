@@ -1,18 +1,18 @@
 class CardDetailModel {
-  final String cardImage;
-  final String cardName;
-  final String cardCompany;
-  final int useMoneyMonth;
-  final List<UsageHistory> todayUseHistory;
-  final Map<String, int> useBenefit;
+  String? cardImage;
+  String? cardName;
+  String? cardCompany;
+  int? useMoneyMonth;
+  List<UsageHistory>? todayUseHistory;
+  Map<String, int>? useBenefit;
 
   CardDetailModel({
-    required this.cardImage,
-    required this.cardName,
-    required this.cardCompany,
-    required this.useMoneyMonth,
-    required this.todayUseHistory,
-    required this.useBenefit,
+    this.cardImage,
+    this.cardName,
+    this.cardCompany,
+    this.useMoneyMonth,
+    this.todayUseHistory,
+    this.useBenefit,
   });
 
   factory CardDetailModel.fromJson(Map<String, dynamic> json) {
