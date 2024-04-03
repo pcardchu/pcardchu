@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
 import 'package:frontend/providers/login_provider.dart';
+import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/user/screens/edit_mypage_screen.dart';
 import 'package:frontend/user/screens/password_screen.dart';
 import 'package:frontend/user/widgets/profile_info.dart';
@@ -31,6 +32,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
     // UserInfoProvider로부터 유저 정보를 가져옵니다.
     final userInfo = Provider.of<UserInfoProvider>(context);
     final loginProvider = Provider.of<LoginProvider>(context);
+    final passwordProvider = Provider.of<PasswordProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -54,6 +56,8 @@ class _MyPageScreenState extends State<MyPageScreen> {
             child: TextButton(
               onPressed: () {
                 userInfo.assignNewData();
+                passwordProvider.wrongCount = 0;
+
                 Navigator.of(context).push(
                   FadeAndSlideTransitionPageRoute(
                       page: const PasswordScreen(isEdit: true,),

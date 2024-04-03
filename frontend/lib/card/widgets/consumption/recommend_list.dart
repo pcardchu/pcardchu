@@ -46,7 +46,7 @@ class RecommendList extends StatelessWidget {
               height: 16,
               color: AppColors.bottomGrey,
             ),
-            BestTitle(index: index),
+            BestTitle(index: index+1),
             SizedBox(height: 34),
           ],
         );
