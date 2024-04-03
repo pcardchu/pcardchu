@@ -18,10 +18,10 @@
 ## 🍀 환경 변수
 ### [Frontend]
 ### [Backend]
-- [backend/src/main/resources/application.yml]()
-- [backend/src/main/resources/application-data.yml]()
-- [backend/src/main/resources/application-db.yml]()
-- [backend/src/main/resources/application-key.yml]()
+ 아래 파일 속 암호화된 값들을 [**application-key.yml**](./application-key.yml)의 jasypt 키로 복호화하여 사용합니다.
+- [backend/src/main/resources/application.yml](././backend/src/main/resources/application.yml)
+- [backend/src/main/resources/application-data.yml](././backend/src/main/resources/application-data.yml)
+- [backend/src/main/resources/application-db.yml](././backend/src/main/resources/application-db.yml)
 
 ## 🛠️ 설치 및 실행
 EC2 인스턴스 [백엔드 서버] - Nginx, Spring App <br>

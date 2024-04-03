@@ -1,0 +1,11 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    key: 'jasypt 암호 키'
+
+local:
+  db:
+    driver: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://{주소}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: 'username'
+    password: 'password'
