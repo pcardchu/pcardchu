@@ -42,6 +42,7 @@ class CardListProvider with ChangeNotifier {
     } catch (e) {
       _setLoading(false);
     }
+    _setLoading(false);
   }
 
   getUserCardsList() async {

@@ -54,10 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Consumer<CardListProvider>(
             builder: (context, provider, child) {
               if (provider.loading) {
-                Future.microtask(() => showLoadingModal());
+                // Future.microtask(() => showLoadingModal());
                 return SizedBox(); // 로딩 중엔 아무것도 표시하지 않도록
               } else {
-                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
                 final items = _createItemList(provider.isCardRegistered);
                 return ListView.separated(
                   itemCount: items.length,
