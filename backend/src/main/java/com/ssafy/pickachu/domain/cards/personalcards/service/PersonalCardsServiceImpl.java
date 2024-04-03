@@ -672,6 +672,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             returnValue.add(topCategoryResult);
 
         }
+        log.info("카드 추천 값 " + returnValue.toString());
         return RecommendPersonalCardRes.builder()
             .name(user.getNickname())
             .discount(returnValue)

@@ -179,7 +179,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     public void saveCardHistories(String payListResult, User user, long cardId) {
 
         String userAgeGroup = commonUtil.calculateAge(user.getBirth());
-        log.info("user use content : " + payListResult);
+//        log.info("user use content : " + payListResult);
 
         // 문자열 내용을 JSONArray 객체로 변환
         JSONArray jsonArray = new JSONArray(payListResult);
@@ -209,6 +209,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
             history.setCardId((int) cardId);
             cardHistoryEntityRepository.save(history);
         }
+
     }
 
     @Override
