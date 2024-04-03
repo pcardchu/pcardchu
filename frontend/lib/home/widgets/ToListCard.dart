@@ -19,7 +19,7 @@ class ToListCard extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,10 +79,10 @@ class ToListCard extends StatelessWidget {
                 ],
               ),
               Image.asset(
-                'assets/images/heart_icon.png',
+                'assets/images/baby_chick_icon.png',
                 width: ScreenUtil.w(16),
                 height: ScreenUtil.w(16),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ],
           ),
