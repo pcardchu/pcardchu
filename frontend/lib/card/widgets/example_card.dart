@@ -11,15 +11,24 @@ class ExampleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 300,
-        height: 400,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            color: Colors.white),
-        child: Image.asset(
-          model.cardImage ?? 'assets/images/xox_logo.png', // 기본 이미지 경로를 추가하세요.
-          fit: BoxFit.fill,
-        ));
+      width: 300,
+      height: 400,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          color: Colors.white),
+      child: model.cardImage != null
+          ? Image.network(
+              model.cardImage!,
+              fit: BoxFit.fill,
+              errorBuilder: (context, error, stackTrace) {
+                // 로딩 실패 시 기본 이미지 표시
+                return Image.asset('assets/images/xox_logo.png',
+                    fit: BoxFit.fill);
+              },
+            )
+          : Image.asset('assets/images/xox_logo.png',
+              fit: BoxFit.fill), // 기본 이미지
+    );
   }
 }
