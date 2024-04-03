@@ -28,8 +28,8 @@ class ConsumptionService{
   /// 추천 카드 GET 요청
   Future<RecommendModel?> getMyRecommend(String id) async {
     try {
-      final Response response = await dio.get(
-          "https://c1572068-2b01-47af-9cc5-f1fffef18d53.mock.pstmn.io/recommend/1");
+      final Response response = await DioUtil().dio.get(
+          "/cards/recommend/personal-card");
 
       if (response.statusCode == 200) {
         // RecommendModel 객체로 변환;

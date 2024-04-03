@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 /// 전달 비교 정보 위젯
@@ -21,7 +22,7 @@ class Compare extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              '오늘까지 ${data!.thisMonthAmount}만원 더 썼어요',
+              NumberFormat('오늘까지 #,###원 더 썼어요', 'ko_KR').format(data!.thisMonthAmount),
               style: AppFonts.scDream(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -42,7 +43,7 @@ class Compare extends StatelessWidget {
               ),
             ),
             Text(
-              ' ${data.amountGap}만원 더',
+              NumberFormat(' #,###원 더', 'ko_KR').format(data.amountGap),
               style: AppFonts.suit(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
