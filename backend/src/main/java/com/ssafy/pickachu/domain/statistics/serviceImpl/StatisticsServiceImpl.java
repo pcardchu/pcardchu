@@ -86,6 +86,16 @@ public class StatisticsServiceImpl implements StatisticsService {
                 .createPeakTimeAgeResponse(
                         HttpStatus.OK.value(), "Success", age
                 );
+
+        // 지울코드
+        // 분석 배치 실행
+        ProcessBuilder pb = new ProcessBuilder("/home/ubuntu/myconsumption_batch.sh");
+        try {
+            Process process = pb.start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return ResponseEntity.ok(response);
     }
 
@@ -104,6 +114,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         int currentTotalAmount = 0;
         int lastTotalAmount = 0;
         List<Category> mainConsumption = new ArrayList<>();
+        System.out.println("month:::: "+thisMonth+" "+datas.get(0).getDate());
         for(MyConsumptionEntity data : datas){
             if(data.getDate().equals(thisMonth)){
                 currentTotalAmount += data.getTotalAmount();
