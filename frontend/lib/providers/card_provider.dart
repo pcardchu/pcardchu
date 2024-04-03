@@ -142,20 +142,20 @@ class CardProvider with ChangeNotifier {
       '1': '푸드',
       '2': '교통',
       '3': '쇼핑',
-      '4': '교통',
-      '5': '교통',
-      '6': '교통',
-      '7': '교통',
-      '8': '교통',
-      '9': '교통',
-      '10': '교통',
-      '11': '교통',
-      '12': '교통',
+      '4': '의료',
+      '5': '통신',
+      '6': '여행',
+      '7': '할인',
+      '8': '문화/생활',
+      '9': '카페',
+      '10': '온라인결제',
+      '11': '마트/편의점',
+      '12': '기타',
     };
 
     loading = true;
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 13; i++) {
       ApiResponseModel data = await cardService.getCategoryCards(
           categoryDic[i.toString()]!, pageNumber);
       categoryCards.add(data.data!.cardsRes!);
