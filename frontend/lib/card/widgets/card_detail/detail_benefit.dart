@@ -50,7 +50,6 @@ class DetailBenefit extends StatelessWidget {
           SizedBox(
             height: 46,
             width: 46,
-            // child: Image.asset(benefitsDic[card!.benefits![index][0]])),
             child: SizedBox(
               child: benefitsDic[card!.benefits![index][0]] == null
                   ? Image.asset('assets/images/category_12.png')

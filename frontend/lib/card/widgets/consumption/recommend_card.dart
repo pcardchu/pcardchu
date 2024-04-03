@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_detail.dart';
 import 'package:frontend/providers/consumption_provider.dart';
@@ -60,29 +61,32 @@ class RecommendCard extends StatelessWidget {
               ),
               // 텍스트 부분
               SizedBox(width: 18),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 카드 이름
-                  Text(
-                    card.cardName!,
-                    style: AppFonts.suit(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textBlack,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 카드 이름
+                    Text(
+                      card.cardName!,
+                      style: AppFonts.suit(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textBlack,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 11),
-                  // 카드 간단 설명
-                  Text(
-                    card.cardContent!,
-                    style: AppFonts.suit(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textBlack,
+                    SizedBox(height: 11),
+                    // 카드 간단 설명
+                    Text(
+                      card.cardContent!,
+                      style: AppFonts.suit(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textBlack,
+                      ),
+                      softWrap: true,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

@@ -113,15 +113,15 @@ class CardProvider with ChangeNotifier {
 
     notifyListeners();
   }
-  
+
   // 로딩 상태 수동 변경
-  void startLoading() async{
+  void startLoading() async {
     loading = true;
     notifyListeners();
   }
 
   // 로딩 상태 수동 변경
-  void endLoading() async{
+  void endLoading() async {
     loading = false;
     notifyListeners();
   }
@@ -204,7 +204,7 @@ class CardProvider with ChangeNotifier {
         currentPage += 1;
 
         // 만약 현재 페이지가 마지막 페이지라면
-        if (data.data!.last!){
+        if (data.data!.last!) {
           isNextPage = false;
         }
       } catch (e) {
@@ -234,6 +234,53 @@ class CardProvider with ChangeNotifier {
     cardRegisterResult = await cardService.cardRegistration(
         companyList[companyIndex]['name'], scanNumber, companyId, companyPw);
     loading = false;
+    notifyListeners();
+  }
+
+//-------------------------리셋
+
+// 클래스 멤버 변수들을 초기화하는 reset 메서드
+  void reset() {
+    // 추천 카드 리스트를 빈 리스트로 초기화
+    categoryCards = [];
+
+    // 카드 디테일 정보를 null로 초기화
+    cardDetail = null;
+
+    // 로딩 상태를 false로 초기화
+    loading = false;
+
+    // 첫 로딩 상태를 true로 초기화
+    firstLoading = true;
+
+    // 카테고리 리스트 로드 상태를 false로 초기화
+    loadCategory = false;
+
+    // 카테고리 선택 인덱스를 0으로 초기화
+    _categoryId = 0;
+
+    // 카드 스캔 번호를 빈 문자열로 초기화
+    _scanNumber = '';
+
+    // 카드사 아이디를 빈 문자열로 초기화
+    _companyId = '';
+
+    // 카드사 비밀번호를 빈 문자열로 초기화
+    _companyPw = '';
+
+    // 카드 등록시 선택한 카드사 인덱스를 -1로 초기화
+    _companyIndex = -1;
+
+    // 카드 등록 가능 여부를 null로 초기화
+    cardRegisterResult = null;
+
+    // 페이지네이션 다음 페이지 있는지 여부를 true로 초기화
+    isNextPage = true;
+
+    // 현재 페이지를 1로 초기화
+    currentPage = 1;
+
+    // 변경 사항을 리스너들에게 알림
     notifyListeners();
   }
 }
