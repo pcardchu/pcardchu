@@ -52,5 +52,10 @@ public class PersonalCardsController {
         ));
     }
 
-
+    @Operation(summary = "개인 카드 추천")
+    @GetMapping("/recommend/personal-card")
+    public ResponseEntity<SuccessResponse> GetRecommendPersonalCard(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_RECOMMEND_PERSONAL_CARD_SUCCESS,
+            personalCardsService.GetRecommendPersonalCard(principalDetails)));
+    }
 }

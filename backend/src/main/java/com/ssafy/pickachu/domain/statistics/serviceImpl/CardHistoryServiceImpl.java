@@ -260,12 +260,12 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         return ResponseEntity.ok(cardHistoryRes);
     }
 
-    public String CalculateBenefit(CardInfo cards, List<CardHistoryEntity> sch){
+    public String CalculateBenefit(CardInfo cards, List<CardHistoryEntity> cardHistoryEntities){
         Map<String, List<Object>> contents = cards.getContents();
         List<String> keys = cards.getCategories();
         List<String> groups = cards.getGroupCategory();
         Map<String, Integer> totalDiscount = new HashMap<>();
-        for (CardHistoryEntity cardHistoryEntity : sch) {
+        for (CardHistoryEntity cardHistoryEntity : cardHistoryEntities) {
             String category = cardHistoryEntity.getCategory();
             int idxCat = groups.indexOf(category);
             if (idxCat < 0){

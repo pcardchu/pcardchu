@@ -33,7 +33,7 @@ public class RecommendServiceImpl implements RecommendService{
     @Override
     public CardsListPage GetCategoryCardsList(CardsListReq cardsListReq){
         List<String> cardsRankingList = personalCardsRepository.getPersonalCardsRankingList();
-        return cardsAggregation.GetCardsCategoryList(cardsListReq, cardsRankingList);
+        return cardsAggregation.GetCardsCategoryPage(cardsListReq, cardsRankingList);
     }
 
     @Override
