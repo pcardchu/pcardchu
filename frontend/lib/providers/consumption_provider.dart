@@ -31,7 +31,8 @@ class ConsumptionProvider with ChangeNotifier {
       ..sort((a, b) => b.amount.compareTo(a.amount));
 
     // 상위 5개 항목의 date 추출
-    List<String> top5Dates = sortedCalendar.take(5).map((item) => item.date).toList();
+    List<String> top5Dates =
+        sortedCalendar.take(5).map((item) => item.date).toList();
 
     return top5Dates;
   }
@@ -53,6 +54,18 @@ class ConsumptionProvider with ChangeNotifier {
     loading = false;
     loadMyRecommend = true;
 
+    notifyListeners();
+  }
+
+  //-------------------리셋
+
+  /// 프로바이더의 상태를 초기화합니다.
+  void reset() {
+    myConsumption = null;
+    myRecommend = null;
+    loading = false;
+    loadMyConsumption = false;
+    loadMyRecommend = false;
     notifyListeners();
   }
 }

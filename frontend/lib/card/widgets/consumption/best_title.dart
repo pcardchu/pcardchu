@@ -22,8 +22,18 @@ class BestTitle extends StatelessWidget {
 
     // 분야별 이미지 아이콘
     Map categoryDic = {
-      '음식점': 'assets/images/category_1.png',
-      '쇼핑': 'assets/images/category_2.png',
+      '푸드': 'assets/images/category_1.png',
+      '교통': 'assets/images/category_2.png',
+      '쇼핑': 'assets/images/category_3.png',
+      '의료': 'assets/images/category_4.png',
+      '통신': 'assets/images/category_5.png',
+      '여행': 'assets/images/category_6.png',
+      '할인': 'assets/images/category_7.png',
+      '문화/생활': 'assets/images/category_8.png',
+      '카페': 'assets/images/category_9.png',
+      '온라인결제': 'assets/images/category_10.png',
+      '마트/편의점': 'assets/images/category_11.png',
+      '기타': 'assets/images/category_12.png',
     };
 
     return Padding(
@@ -61,10 +71,11 @@ class BestTitle extends StatelessWidget {
               Spacer(),
               // 카테고리 이미지 (지금은 임시 사진)
               SizedBox(
-                height: 80,
-                width: 80,
-                child: Image.asset('assets/images/smile_logo.png'),
-                // child: Image.asset(categoryDic[data.discount![index].category]),
+                height: 50,
+                width: 50,
+                child: categoryDic[data.discount![index].category] == null
+                    ? Image.asset('assets/images/smile_logo.png', fit: BoxFit.fitWidth)
+                    : Image.asset(categoryDic[data.discount![index].category], fit: BoxFit.fitWidth),
               ),
             ],
           ),
