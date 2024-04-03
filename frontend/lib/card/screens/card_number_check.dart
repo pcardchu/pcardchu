@@ -44,63 +44,68 @@ class _CardNumberCheckState extends State<CardNumberCheck> {
         ),
       ),
       body: SafeArea(
-        child: Container(
-          color: AppColors.mainWhite,
-          child: Center(
-            child: Container(
-              color: AppColors.mainWhite,
-              width: ScreenUtil.w(85),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        '카드 정보가 맞는지 확인해주세요',
-                        style: AppFonts.suit(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textBlack,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: CardForm(
-                      formKey: formKey,
-                      onCardNumSaved: onCardNumSaved,
-                      cardInputNumber: cardInputNumber,
-                    ),
-                  ),
-                  // 스캔 화면으로 돌아가는 버튼
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.mainRed,
+        child: GestureDetector(
+          child: Container(
+            color: AppColors.mainWhite,
+            child: Center(
+              child: Container(
+                color: AppColors.mainWhite,
+                width: ScreenUtil.w(85),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          '카드 정보가 맞는지 확인해주세요',
+                          style: AppFonts.suit(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textBlack,
                           ),
-                          onPressed: () {
-                            widget.scan();
-                          },
-                          child: Text('카드 번호가 달라요'),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: (){FocusScope.of(context).unfocus();},
+                        child: CardForm(
+                          formKey: formKey,
+                          onCardNumSaved: onCardNumSaved,
+                          cardInputNumber: cardInputNumber,
                         ),
                       ),
-                    ],
-                  ),
-                  // 다음 페이지로 넘어가는 버튼
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: submitOnPressed,
-                          child: Text('일치합니다'),
+                    ),
+                    // 스캔 화면으로 돌아가는 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.mainRed,
+                            ),
+                            onPressed: () {
+                              widget.scan();
+                            },
+                            child: Text('카드 번호가 달라요'),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                ],
+                      ],
+                    ),
+                    // 다음 페이지로 넘어가는 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: submitOnPressed,
+                            child: Text('일치합니다'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),

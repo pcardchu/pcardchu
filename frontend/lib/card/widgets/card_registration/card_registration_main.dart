@@ -5,7 +5,9 @@ import 'self_card_number.dart';
 
 /// 카드 등록 메인 바디 위젯입니다.
 class CardRegistrationMain extends StatelessWidget {
-  const CardRegistrationMain({super.key});
+  // 스캔 화면을 호출하는 함수
+  final Function scan;
+  const CardRegistrationMain({super.key, required this.scan});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class CardRegistrationMain extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SelfCardNumber(),
+              SelfCardNumber(scan: scan,),
             ],
           ),
           // 중앙 이미지

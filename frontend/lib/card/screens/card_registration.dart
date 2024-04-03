@@ -60,7 +60,7 @@ class _CardRegistrationState extends State<CardRegistration> {
               child: Column(
                 children: [
                   // 메인 바디 위젯
-                  CardRegistrationMain(),
+                  CardRegistrationMain(scan: scan,),
                   // 다음 버튼 위젯
                   Row(
                     children: [
