@@ -159,6 +159,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         put(".*구글.*", "온라인결제");
         put(".*전자.*", "온라인결제");
         put(".*P/G.*", "온라인결제");
+        put(".*PG.*", "온라인결제");
 
         put(".*편의점.*", "마트/편의점");
         put(".*GS25.*", "마트/편의점");
