@@ -52,7 +52,7 @@ class _SelfCardNumberState extends State<SelfCardNumber> {
 
   void onPressed() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => CardCompanyInfo())
+      MaterialPageRoute(builder: (_) => CardCompany())
     );
   }
 }
