@@ -41,7 +41,7 @@ class NoCardNotice extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/no_card_icon.png',),
+              Image.asset('assets/images/no_card_icon.png', width: 140, height: 140,),
               SizedBox(height: 40),
               Text('소비패턴을', style: AppFonts.scDream(fontWeight: FontWeight.w700, fontSize: 28, color: AppColors.textBlack),),
               Text('불러올 수 없습니다', style: AppFonts.scDream(fontWeight: FontWeight.w700, fontSize: 28, color: AppColors.textBlack),),
