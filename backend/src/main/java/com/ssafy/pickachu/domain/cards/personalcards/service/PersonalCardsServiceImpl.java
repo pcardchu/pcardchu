@@ -595,7 +595,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
         //  TODO 이거 월 결재 내역으로 가져와야함
         LocalDate today = LocalDate.now();
-        LocalDate firstDayOfMonth = today.withDayOfMonth(1); // 이번 달의 첫 번째 날짜
+        LocalDate firstDayOfMonth = today.minusMonths(1).withDayOfMonth(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
         String startDate = firstDayOfMonth.format(formatter);
