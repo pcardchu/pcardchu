@@ -53,8 +53,13 @@ class ExampleCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/xox_logo.png', fit: BoxFit.cover),
-                  SizedBox(height: 20),
+                  Text(
+                    '${model.name}',
+                    style: AppFonts.scDream(fontSize: 18, fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(height: 30,),
+                  Image.asset('assets/images/xox_logo.png', width: 36, height: 36, fit: BoxFit.cover),
+                  SizedBox(height: 12),
                   Text(
                     '카드 이미지가 존재하지 않습니다.',
                     style: AppFonts.suit(fontSize: 16, fontWeight: FontWeight.w500),
