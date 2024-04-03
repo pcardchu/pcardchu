@@ -11,7 +11,7 @@ EC2 인스턴스를 여러 개 두면 편하지만
 <aside>
 💡 시작하기 전에, 아쉬웠던 점 몇 가지를 먼저 언급하자면
 
-1) docker에서 root권한으로 모든 것을 실행한  것임.
+1) docker에서 root권한으로 모든 것을 실행한 것임.
 
 만약 또 구축할 일이 생긴다면 컨테이너마다 사용자를 하나 만들어서 그 곳에서 수행할 것 같다.
 2) 컨테이너를 일일이 구성하는 것이 번거롭고, 나중에 Airflow도 함께 쓰려면 미리 docker compose를 설치해서 사용하면 좋았을 듯 하다.
@@ -200,14 +200,14 @@ ssh localhost
 ```
 
 - /etc/hosts 수정
+![image.png](./image.png)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/899c11c1-fb51-4b5c-a67f-fa9ae5829348/Untitled.png)
 
 위처럼 private ip주소 확인
 
 사용자 정의 네트워크의 경우 172.18 부터 시작함. (위 사진은 벌써 네번째 네트워크…)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/34a97a52-91b3-4c25-80ed-38bc9ef2cb06/Untitled.png)
+![image-1.png](./image-1.png)
 
 - 다른 컨테이너에도 적용
 
