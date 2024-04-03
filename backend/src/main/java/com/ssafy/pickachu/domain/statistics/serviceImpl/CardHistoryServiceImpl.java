@@ -2,6 +2,8 @@ package com.ssafy.pickachu.domain.statistics.serviceImpl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.cql.*;
 import com.google.gson.Gson;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.RegisterCardsReq;
 import com.ssafy.pickachu.domain.cards.personalcards.entity.CodefToken;
@@ -47,6 +49,7 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     private final PersonalCardsRepository personalCardsRepository;
     private final CodefApi codefApi;
     private final JasyptUtil jasyptUtil;
+    private final CqlSession cqlSession;
 
     Map<String, String>  bankInfoExpression = new HashMap<>(){{
 
@@ -174,8 +177,6 @@ public class CardHistoryServiceImpl implements CardHistoryService {
     @Override
     public void saveCardHistories(String payListResult, User user, long cardId) {
 
-//        int myAge = LocalDateTime.now().getYear() - user.getBirth().getYear();
-//        String age = (myAge / 10) + "대";
         String userAgeGroup = commonUtil.calculateAge(user.getBirth());
 
         // 문자열 내용을 JSONArray 객체로 변환
@@ -226,11 +227,9 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         // 어제 하루 내역 불러오기
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String endDay = dateFormat.format(calendar.getTime());
-
         calendar.add(Calendar.DATE, -1);
         String startDay = dateFormat.format(calendar.getTime());
-
+        String endDay = startDay;
 
         // 유저별로
         for(User user : userList){

@@ -1,7 +1,6 @@
 package com.ssafy.pickachu.domain.cards.personalcards.service;
 
 import com.datastax.oss.driver.shaded.guava.common.reflect.TypeToken;
-import com.google.gson.JsonObject;
 import com.ssafy.pickachu.domain.auth.PrincipalDetails;
 import com.ssafy.pickachu.domain.auth.jwt.JwtUtil;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.*;
@@ -21,7 +20,6 @@ import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
 import com.ssafy.pickachu.domain.statistics.mapper.StatisticsMapper;
 import com.ssafy.pickachu.domain.statistics.repository.CardHistoryEntityRepository;
 import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
-import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import com.ssafy.pickachu.domain.user.entity.User;
 import com.ssafy.pickachu.domain.user.repository.UserRepository;
 import com.ssafy.pickachu.global.codef.CodefApi;
@@ -514,10 +512,12 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         // 어제 날짜까지
-        calendar.add(Calendar.DATE, -1); // 저번달 마지막날로 이동
+//        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DATE, -1); // 어제
         String endDay = dateFormat.format(calendar.getTime());
 
-        calendar.set(Calendar.DAY_OF_MONTH, 1);   // 지난달 1일로 이동
+        calendar.add(Calendar.MONTH, -1); // 한 달을 빼서 지난달로 설정
+        calendar.set(Calendar.DAY_OF_MONTH, 1); // 그 달의 첫 번째 날로 설정
         String startDay = dateFormat.format(calendar.getTime());
 
 //        // TODO 사용내역 가지고 오기

@@ -115,7 +115,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
 
         List<CalendarAmount> calendarAmountList = new ArrayList<>();
-        List<CardHistoryEntity> historyDatas =  cardHistoryEntityRepository.findMyCardHistoryById(1);
+        List<CardHistoryEntity> historyDatas =  cardHistoryEntityRepository.findMyCardHistoryById(Math.toIntExact(userid));
 
         HashMap<String, Integer> todaySum = new HashMap<>();
         for(CardHistoryEntity historyData : historyDatas){
