@@ -271,7 +271,12 @@ public class CardHistoryServiceImpl implements CardHistoryService {
             if (idxCat < 0){
                 continue;
             }
-            Map<String, Object> tt = (Map<String, Object>) contents.get(keys.get(idxCat)).get(1);
+            Map<String, Object> tt;
+            try{
+                tt= (Map<String, Object>) contents.get(keys.get(idxCat)).get(1);
+            }catch (NullPointerException ignore){
+                continue;
+            }
 
             int disCountValue = 0;
 
