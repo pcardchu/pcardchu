@@ -12,8 +12,8 @@ class ExampleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cardWidth = ScreenUtil.w(70);
-    var cardHeight = cardWidth * 1.4;
+    var cardWidth = ScreenUtil.w(60);
+    var cardHeight = cardWidth * 1.7;
 
     return GestureDetector(
       onTap: () {
@@ -25,7 +25,7 @@ class ExampleCard extends StatelessWidget {
       },
       child: Center(
         child: Container(
-          width: ScreenUtil.w(65),
+          width: cardWidth,
           height: cardHeight,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
