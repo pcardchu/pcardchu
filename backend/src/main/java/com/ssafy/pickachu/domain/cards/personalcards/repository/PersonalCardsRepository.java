@@ -10,10 +10,14 @@ import java.util.Optional;
 
 public interface PersonalCardsRepository extends JpaRepository<PersonalCards, Long>, PersonalCardsRepositoryQuerydsl {
 
-    Optional<PersonalCards> findPersonalCardsByUserIdAndCardsId(long userId, String cardsId);
+    Optional<PersonalCards> findPersonalCardsByUserIdAndCardsIdAndUseYN(long userId, String cardsId, String userYN);
 
     List<PersonalCards> findAllByUserIdAndUseYN(long userId, String userYN);
 
+    List<PersonalCards> findAllByUserIdAndCardCompanyAndUseYN(long userId, String cardCompany, String userYN);
+
     @Query("SELECT p.cardCompany FROM PersonalCards p where p.userId = :userId and p.useYN = 'Y'")
     List<String> getPersonalCardsCardCompanyListByuser(long userId);
+
+    Boolean findByUserIdAndCardCompanyAndUseYN(long userId, String cardCompany, String userYN);
 }

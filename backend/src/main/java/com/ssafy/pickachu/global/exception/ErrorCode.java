@@ -38,7 +38,7 @@ public enum ErrorCode {
     CARDINFO_NOT_FOUND(400, "FIND-CARDINFO-ERR", "카드 정보를 찾을 수 없습니다."),
     PERSONAL_CARD_NOT_FOUND(400, "FIND-PERSONAL-CARDS-ERR", "개인 카드를 찾을 수 없습니다."),
     USER_DATA_NOT_FOUND(404, "NOT-FOUND-CONSUMPTION-HISTORY", "카드 사용내역이 없습니다."),
-
+    DUPLICATE_CARD_NO(409 , "DUPLICATE-CARD-ERR", "중복된 카드 번호입니다.")
 
     
     ;

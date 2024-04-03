@@ -348,8 +348,8 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         User user = userRepository.findById(principalDetails.getUserDto().getId())
             .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
 
-        PersonalCards personalCards = personalCardsRepository.findPersonalCardsByUserIdAndCardsId(user.getId(), cardid)
-            .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
+        PersonalCards personalCards = personalCardsRepository.findPersonalCardsByUserIdAndCardsIdAndUseYN(user.getId(), cardid, "Y")
+            .orElseThrow(() -> new ErrorException(ErrorCode.PERSONAL_CARD_NOT_FOUND));
 
         personalCards.setUseYN("N");
         personalCardsRepository.save(personalCards);
@@ -405,10 +405,18 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             codefToken.setToken(codefApi.GetToken());
             codefRepository.save(codefToken);
         }
-
+        
+        // XXX 등록된 카드인지 확인
+        List<PersonalCards> personalCardList = personalCardsRepository.findAllByUserIdAndCardCompanyAndUseYN(user.getId(), registerCardsReq.getCardCompany(), "Y");
+        for (PersonalCards card : personalCardList) {
+            if (jasyptUtil.decrypt(card.getCardNo()).equals(registerCardsReq.getCardNo())){
+                throw new ErrorException(ErrorCode.DUPLICATE_CARD_NO);
+            }
+        }
+        
+        
 
         // XXX 유저에게 connectedId 존재 여부 확인
-
         if (user.getConnectedId() == null) {
             // XXX ConnectedId 추가하기
             try {
@@ -422,8 +430,8 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             }
         }else {
             //TODO 여기 .. ..... . . . . 퍼스널 카드 목록에 그 은행이 있는지 확인 없으면 ... connectedID 갱신
-            List<String> userRegistCompanyList = personalCardsRepository.getPersonalCardsCardCompanyListByuser(user.getId());
-            if (!userRegistCompanyList.contains(registerCardsReq.getCardCompany())) {
+
+            if (!personalCardsRepository.findByUserIdAndCardCompanyAndUseYN(user.getId(), registerCardsReq.getCardCompany(), "Y")) {
                 log.info("connectedId add Bank : " + registerCardsReq.getCardCompany());
                 try {
                     String newConnectedId = codefApi.AddBankInConnectedId(registerCardsReq, user, codefToken.getToken());
