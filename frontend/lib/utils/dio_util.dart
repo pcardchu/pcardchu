@@ -37,7 +37,7 @@ class DioUtil {
           if(newAccessToken == '리프레시 토큰 만료') {
             //리프레시 토큰까지 만료됨
             print('리프레시 토큰 만료');
-          } else if(newAccessToken!='') {
+          } else if(newAccessToken != '') {
             _accessToken = newAccessToken;
             print('new accessToken : $_accessToken');
           }

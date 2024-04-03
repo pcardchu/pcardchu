@@ -186,7 +186,7 @@ class LoginProvider with ChangeNotifier {
     print('비밀번호 초기화 시도 : $_userEmail');
 
     try {
-      await firstDio.get('/user/login/');
+      await firstDio.get('/user/login/temp');
 
       return true;
     } catch(e) {
@@ -205,7 +205,11 @@ class LoginProvider with ChangeNotifier {
     }
 
     notifyListeners();
-    Navigator.pushReplacement(context, SlideTransitionPageRoute(page: LoginScreen(), beginOffset: const Offset(-1, 0)));
+    Navigator.pushAndRemoveUntil(
+        context,
+        SlideTransitionPageRoute(page: LoginScreen(), beginOffset: const Offset(-1, 0)),
+        (Route<dynamic> route) => false,
+    );
   }
 
   Future<String> registration(var data) async {
@@ -241,7 +245,5 @@ class LoginProvider with ChangeNotifier {
     _secondJwt = null;
     _kakaoToken = null;
     UserApi.instance.logout();
-    deleteFirstJwt();
-    deleteSecondJwt();
   }
 }
