@@ -1,19 +1,22 @@
 class ConsumeDifferModel {
-  int status;
-  String message;
-  int data;
+  String ageGroup;
+  String gender;
+  int lastMonth;
+  int percent;
 
   ConsumeDifferModel({
-    this.status = 0,
-    this.message = '',
-    this.data = 0,
+    this.ageGroup = '',
+    this.gender = '',
+    this.lastMonth = 0,
+    this.percent = 0,
   });
 
   factory ConsumeDifferModel.fromJson(Map<String, dynamic> json) {
     return ConsumeDifferModel(
-      status: json['status'],
-      message: json['message'],
-      data: json['data'],
+      ageGroup: json['ageGroup'] as String,
+      gender: json['gender'] as String,
+      lastMonth: json['lastMonth'] as int,
+      percent: json['percent'] as int,
     );
   }
 }

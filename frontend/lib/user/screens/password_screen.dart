@@ -11,8 +11,11 @@ import 'package:frontend/user/widgets/biometric_switch.dart';
 import 'package:frontend/user/widgets/custom_number_pad.dart';
 import 'package:frontend/user/widgets/forgot_password_button.dart';
 import 'package:frontend/user/widgets/input_indicator.dart';
+import 'package:frontend/user/widgets/reset_password_dialog.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
+
+import '../../utils/crypto_util.dart';
 
 class PasswordScreen extends StatefulWidget {
   @override
@@ -131,6 +134,38 @@ class _PasswordScreenState extends State<PasswordScreen> {
                             transitionDuration: const Duration(milliseconds: 250),
                             reverseTransitionDuration: const Duration(milliseconds: 250)
                         )
+                    );
+                  });
+                }
+                return Container();
+              }
+          ),
+          Consumer<PasswordProvider>(
+              builder : (context, provider, child) {
+                if(provider.wrongCount >= 5) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+                    final maskedEmail = CryptoUtil.maskEmail(loginProvider.userEmail);
+
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // ResetPasswordDialog 위젯을 생성하고 필요한 매개변수를 전달
+                        return ResetPasswordDialog(
+                          context: context,
+                          maskedEmail: maskedEmail,
+                          onConfirm: () async {
+                            if(await loginProvider.resetPassword()) {
+                            print('비밀번호 초기화 성공');
+                            const SnackBar(content: Text("메일을 보냈어요!", textAlign: TextAlign.center,));
+                            } else {
+                            print('비밀번호 초기화 실패');
+                            const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                            }
+                            loginProvider.logout(context);
+                          },
+                        );
+                      },
                     );
                   });
                 }

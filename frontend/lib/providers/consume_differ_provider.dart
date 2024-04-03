@@ -23,7 +23,6 @@ class ConsumeDifferProvider with ChangeNotifier {
     _setLoading(true);
     try {
       _diff = await _consumeDifferService.getConsumeDiffer();
-
       _setLoading(false);
     } catch (e) {
       /// ui ux 부분에서 에러핸들링을 하기 위해서 추가한 로직 -> 사용자에게 알리기 위함
