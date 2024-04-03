@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/providers/login_provider.dart';
+import 'package:frontend/user/screens/password_submit_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/providers/user_info_provider.dart';
 
+import '../../animations/fade_transition_page_route.dart';
 import '../widgets/profile_info.dart'; // UserInfoProvider의 경로를 확인해주세요.
 
 class EditMyPageScreen extends StatefulWidget {
@@ -176,7 +178,15 @@ class _EditMyPageScreenState extends State<EditMyPageScreen> {
             ),
             ProfileInfo(title: '간편 비밀번호', value: '변경하기', showArrowIcon: true,
               onTap: () {
+                userInfo.initPasswordSubmit();
 
+                Navigator.of(context).push(
+                  FadeTransitionPageRoute(
+                      page: PasswordSubmitScreen(isEdit: true,),
+                      transitionDuration: const Duration(milliseconds: 200),
+                      reverseTransitionDuration: const Duration(milliseconds: 200)
+                  ),
+                );
                 print("프로필 정보 변경하기");
               },),
           ],

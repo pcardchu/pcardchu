@@ -212,6 +212,22 @@ class LoginProvider with ChangeNotifier {
     );
   }
 
+  Future<bool> changePW(String pw) async {
+    Dio _dio = DioUtil().dio;
+
+    try {
+      _dio.patch('/user/short-pw',
+          data: {"password" : pw}
+      );
+      print('비밀번호 변경 성공');
+      return true;
+    } catch(e) {
+      print('비밀번호 변경 오류 : $e');
+    }
+
+    return false;
+  }
+
   Future<String> registration(var data) async {
     String? result;
     try {

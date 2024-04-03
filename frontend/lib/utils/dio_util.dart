@@ -59,6 +59,7 @@ class DioUtil {
       },
       onError: (DioException e, handler) {
         // 에러 처리 로직
+        print('에러 데이터 : ${e.response!.data}');
         print('응답 에러 Status Code: ${e.response?.statusCode}');
 
         return handler.next(e);

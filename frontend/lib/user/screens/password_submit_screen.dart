@@ -14,8 +14,14 @@ import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/crypto_util.dart';
+
 class PasswordSubmitScreen extends StatefulWidget {
-  const PasswordSubmitScreen({super.key});
+  // const PasswordSubmitScreen({super.key});
+
+  final bool isEdit;
+
+  const PasswordSubmitScreen({Key? key, this.isEdit = false}) : super(key: key);
 
   @override
   State<PasswordSubmitScreen> createState() => _PasswordSubmitScreenState();
@@ -154,31 +160,46 @@ class _PasswordSubmitScreenState extends State<PasswordSubmitScreen> with Single
                       child: ElevatedButton(
                         onPressed: () async {
                           if(userInfoProvider.isPasswordMatch() && userInfoProvider.isPasswordCorrect()) {
-                            //비밀번호가 유효하다면
-                            var data = userInfoProvider.getRegistrationData(loginInfoProvider.userId);
-                            String result = await loginInfoProvider.registration(data);
+                            if(!widget.isEdit) {
+                              //비밀번호 등록
+                              //비밀번호가 유효하다면
+                              var data = userInfoProvider.getRegistrationData(loginInfoProvider.userId);
+                              String result = await loginInfoProvider.registration(data);
 
-                            if(result == '성공') {
-                              loginInfoProvider.saveFirstJwt();
+                              if(result == '성공') {
+                                loginInfoProvider.saveFirstJwt();
 
-                              Navigator.of(context).pushAndRemoveUntil(
+                                Navigator.of(context).pushAndRemoveUntil(
                                   FadeTransitionPageRoute(
                                       page: PasswordScreen(),
                                       transitionDuration: const Duration(milliseconds: 200),
                                       reverseTransitionDuration: const Duration(milliseconds: 200)
                                   ),
-                                    (Route<dynamic> route) => false,
-                              );
-                            } else if(result == '토큰만료'){
-                              //토큰 만료 재시도 로직
-                              const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
-                            } else {
-                              //실패
-                              const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                                      (Route<dynamic> route) => false,
+                                );
+                              } else if(result == '토큰만료'){
+                                //토큰 만료 재시도 로직
+                                const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                              } else {
+                                //실패
+                                const SnackBar(content: Text("잠시 후 다시 시도해 주세요", textAlign: TextAlign.center,));
+                              }
+                              } else {
+                              //비밀번호 변경일 떄
+                              String shortPw = CryptoUtil.hashPassword(userInfoProvider.password, loginInfoProvider.userId);
+
+                              if(await loginInfoProvider.changePW(shortPw)) {
+                                const SnackBar(content: Text("비밀번호 변경 성공", textAlign: TextAlign.center,));
+                                print('비밀번호 변경 성공');
+                              } else {
+                                const SnackBar(content: Text("비밀번호 변경 실패", textAlign: TextAlign.center,));
+                                print('비밀번호 변경 실패');
+                              }
+
+                              Navigator.of(context).pop();
+                              }
                             }
-                          } else {
-                            //비밀번호가 유효하지 않다면,
-                          }
+
                         },
                         child: const Text('계속하기'),
                       ),
