@@ -13,9 +13,9 @@ class LogoutUtil {
 
   static void resetAllProviders(BuildContext context) async {
     final storage = const FlutterSecureStorage();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.clear();
+    // await prefs.clear();
 
     await storage.deleteAll();
     // Provider.of<CardListProvider>(context, listen: false).reset();
