@@ -161,14 +161,15 @@ public class StatisticsServiceImpl implements StatisticsService {
         String userAgeGroup = commonUtil.calculateAge(userBirth);
 
 
-        List<MyConsumptionEntity> historyDatas = myConsumptionEntityRepository.findMyConsumptionById(1);
+        List<MyConsumptionEntity> historyDatas = myConsumptionEntityRepository.findMyConsumptionById(Math.toIntExact(userid));
         int totalAmount = 0;
         String lastMonth = commonUtil.getLastYearAndMonth();
         for(MyConsumptionEntity history : historyDatas){
             if(history.getDate().equals(lastMonth)) totalAmount += history.getTotalAmount();
         }
 
-        totalAmount = totalAmount/historyDatas.size();
+        if(historyDatas.size() ==0 ) totalAmount = 0;
+        else totalAmount = totalAmount/historyDatas.size();
 
         int average = 0;
         List<AverageAmountEntity> totalDatas = averageAmountEntityRepository.findAll();
