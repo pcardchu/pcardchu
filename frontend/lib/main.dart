@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:frontend/providers/card_detail_provider.dart';
 import 'package:frontend/providers/card_list_provider.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/providers/consume_differ_provider.dart';
@@ -54,7 +55,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => TopThreeConsumeProvider()),
           ChangeNotifierProvider(create: (context) => TopThreePopularProvider()),
           ChangeNotifierProvider(create: (context) => ConsumeDifferProvider()),
-          ChangeNotifierProvider(create: (context) => TimeAnalyzeProvider())
+          ChangeNotifierProvider(create: (context) => TimeAnalyzeProvider()),
+          ChangeNotifierProvider(create: (context) => CardDetailProvider())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
