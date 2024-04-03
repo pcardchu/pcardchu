@@ -25,12 +25,12 @@ pipeline {
                 withCredentials([
                     file(credentialsId: 'application_key', variable: 'APPLICATION_KEY'), 
                     file(credentialsId: 'card_list', variable: 'CARD_LIST'),
-                    file(credentialsId: 'test_history', variable: 'TEST_HISTORY')]){
+                    file(credentialsId: 'mail_template', variable: 'MAIL_TEMPLATE')
+                    ]){
                     script {
                         sh 'cp $APPLICATION_KEY backend/src/main/resources/'
-                        sh 'cp $TEST_HISTORY backend/src/main/resources/'
-                        sh 'mkdir -p backend/src/main/resources/static/images/'
-                        sh 'cp $CARD_LIST backend/src/main/resources/static/images/'
+                        sh 'mkdir -p backend/src/main/resources/mail-templates/'
+                        sh 'cp $MAIL_TEMPLATE backend/src/main/resources/mail-templates/'
                     }
                 }
             }
