@@ -105,7 +105,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         int currentTotalAmount = 0;
         int lastTotalAmount = 0;
         List<Category> mainConsumption = new ArrayList<>();
-        System.out.println("month:::: "+thisMonth+" "+datas.get(0).getDate());
+
         for(MyConsumptionEntity data : datas){
             if(data.getDate().equals(thisMonth)){
                 currentTotalAmount += data.getTotalAmount();
