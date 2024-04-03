@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/animations/fade_and_slide_transition_page_route.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/edit_mypage_screen.dart';
+import 'package:frontend/user/screens/password_screen.dart';
+import 'package:frontend/user/widgets/profile_info.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/providers/user_info_provider.dart'; // UserInfoProvider의 경로를 확인해주세요.
+import 'package:frontend/providers/user_info_provider.dart';
+
+import '../../animations/fade_transition_page_route.dart'; // UserInfoProvider의 경로를 확인해주세요.
 
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({super.key});
@@ -48,8 +53,13 @@ class _MyPageScreenState extends State<MyPageScreen> {
             padding: const EdgeInsets.only(right: 36.0),
             child: TextButton(
               onPressed: () {
+                userInfo.assignNewData();
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => EditMyPageScreen()));
+                  FadeAndSlideTransitionPageRoute(
+                      page: const PasswordScreen(isEdit: true,),
+                      duration: const Duration(milliseconds: 200),
+                  ),
+                );
               },
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.mainWhite,
@@ -85,11 +95,11 @@ class _MyPageScreenState extends State<MyPageScreen> {
             ),
             SizedBox(height: ScreenUtil.h(5)),
 
-            _buildProfileInfo('닉네임', userInfo.userName),
+            ProfileInfo(title: '닉네임', value: userInfo.userName, ),
 
-            _buildProfileInfo('생년월일', userInfo.birthDay),
+            ProfileInfo(title: '생년월일', value: userInfo.birthDay, ),
 
-            _buildProfileInfo('성별', userInfo.gender),
+            ProfileInfo(title: '성별', value: userInfo.gender, ),
 
             Column(
               children: [
@@ -111,10 +121,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
                       value: userInfo.isBiometric,
                       activeColor: AppColors.mainBlue,
                       onChanged: (bool? value) {
-                        // 상태 업데이트
-                        // setState(() {
-                        //   userInfo.isBiometric = value!;
-                        // });
                       },
                     ),
 
@@ -123,8 +129,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 SizedBox(height: ScreenUtil.h(2.5),),
               ],
             ),
-
-            _buildProfileInfo('간편 비밀번호', '변경하기', showArrowIcon: true),
 
             SizedBox(
               width: ScreenUtil.w(85),
@@ -142,46 +146,6 @@ class _MyPageScreenState extends State<MyPageScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildProfileInfo(String title, String value, {bool showArrowIcon = false}) {
-    return Column(
-      children: [
-        SizedBox(height: ScreenUtil.h(2.5),),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: AppFonts.suit(
-                color: AppColors.textBlack,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Row(
-              children: [
-                Text( //this text
-                  value,
-                  style: AppFonts.suit(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.grey,
-                  ),
-                ),
-                if (showArrowIcon) ...[
-                  const SizedBox(width: 8),
-                  const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-                ]
-              ],
-            ),
-          ],
-        ),
-        SizedBox(height: ScreenUtil.h(2.5),),
-      ],
     );
   }
 }

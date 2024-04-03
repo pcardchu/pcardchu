@@ -6,6 +6,7 @@ import 'package:frontend/home/screens/bottom_nav_screen.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/providers/password_provider.dart';
 import 'package:frontend/providers/user_info_provider.dart';
+import 'package:frontend/user/screens/edit_mypage_screen.dart';
 
 import 'package:frontend/user/widgets/biometric_switch.dart';
 import 'package:frontend/user/widgets/custom_number_pad.dart';
@@ -18,6 +19,10 @@ import 'package:provider/provider.dart';
 import '../../utils/crypto_util.dart';
 
 class PasswordScreen extends StatefulWidget {
+  final bool isEdit;
+
+  const PasswordScreen({Key? key, this.isEdit = false}) : super(key: key);
+
   @override
   _PasswordScreenState createState() => _PasswordScreenState();
 }
@@ -126,16 +131,32 @@ class _PasswordScreenState extends State<PasswordScreen> {
           Consumer<PasswordProvider>(
               builder : (context, provider, child) {
                 if(provider.isAuthenticated) {
-                  Future.microtask(() => provider.isAuthenticated = false);
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Navigator.of(context).pushReplacement(
-                        FadeTransitionPageRoute(
-                            page: const BottomNavScreen(),
-                            transitionDuration: const Duration(milliseconds: 250),
-                            reverseTransitionDuration: const Duration(milliseconds: 250)
-                        )
-                    );
-                  });
+                  if(widget.isEdit){
+                    //마이페이지 수정
+                    Future.microtask(() => provider.isAuthenticated = false);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.of(context).pushReplacement(
+                          FadeTransitionPageRoute(
+                              page: const EditMyPageScreen(),
+                              transitionDuration: const Duration(milliseconds: 250),
+                              reverseTransitionDuration: const Duration(milliseconds: 250)
+                          )
+                      );
+                    });
+                  } else {
+                    //초기 로그인
+                    Future.microtask(() => provider.isAuthenticated = false);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.of(context).pushReplacement(
+                          FadeTransitionPageRoute(
+                              page: const BottomNavScreen(),
+                              transitionDuration: const Duration(milliseconds: 250),
+                              reverseTransitionDuration: const Duration(milliseconds: 250)
+                          )
+                      );
+                    });
+                  }
+
                 }
                 return Container();
               }

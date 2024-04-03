@@ -6,7 +6,9 @@ import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/providers/user_info_provider.dart'; // UserInfoProvider의 경로를 확인해주세요.
+import 'package:frontend/providers/user_info_provider.dart';
+
+import '../widgets/profile_info.dart'; // UserInfoProvider의 경로를 확인해주세요.
 
 class EditMyPageScreen extends StatefulWidget {
   const EditMyPageScreen({super.key});
@@ -25,6 +27,20 @@ class _EditMyPageScreenState extends State<EditMyPageScreen> {
   Widget build(BuildContext context) {
     // UserInfoProvider로부터 유저 정보를 가져옵니다.
     final userInfo = Provider.of<UserInfoProvider>(context);
+
+    Future<void> _selectDate(BuildContext context) async {
+      final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: userInfo.newBirthDay, // UserInfoProvider에서 생년월일 정보를 가져옵니다.
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+      );
+      if (pickedDate != null && pickedDate != userInfo.birthDay) {
+        setState(() {
+          userInfo.newBirthDay = pickedDate;
+        });
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -74,9 +90,58 @@ class _EditMyPageScreenState extends State<EditMyPageScreen> {
 
             _buildProfileInfo('닉네임', userInfo.userName),
 
-            _buildProfileInfo('생년월일', userInfo.birthDay),
 
-            _buildProfileInfo('성별', userInfo.gender),
+
+            Column(
+              children: [
+                SizedBox(height: ScreenUtil.h(2.5),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '생년월일',
+                      style: AppFonts.suit(
+                        color: AppColors.textBlack,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    GestureDetector(
+                      onTap: () => _selectDate(context),
+                      child: Text("${userInfo.birthDay.toString().split('T')[0]}"),
+                    ),
+
+                  ],
+                ),
+                SizedBox(height: ScreenUtil.h(2.5),),
+
+              ],
+            ),
+
+            Column(
+              children: [
+                SizedBox(height: ScreenUtil.h(2.5),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '성별',
+                      style: AppFonts.suit(
+                        color: AppColors.textBlack,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    _buildGenderButtons()
+                  ],
+                ),
+                SizedBox(height: ScreenUtil.h(2.5),),
+              ],
+            ),
 
             Column(
               children: [
@@ -98,10 +163,9 @@ class _EditMyPageScreenState extends State<EditMyPageScreen> {
                       value: userInfo.isBiometric,
                       activeColor: AppColors.mainBlue,
                       onChanged: (bool? value) {
-                        // 상태 업데이트
-                        // setState(() {
-                        //   userInfo.isBiometric = value!;
-                        // });
+                        setState(() {
+                          userInfo.isBiometric = value!;
+                        });
                       },
                     ),
 
@@ -110,12 +174,48 @@ class _EditMyPageScreenState extends State<EditMyPageScreen> {
                 SizedBox(height: ScreenUtil.h(2.5),),
               ],
             ),
+            ProfileInfo(title: '간편 비밀번호', value: '변경하기', showArrowIcon: true,
+              onTap: () {
 
+                print("프로필 정보 변경하기");
+              },),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildGenderButtons() {
+    final userInfo = Provider.of<UserInfoProvider>(context, listen: false);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            // UserInfoProvider의 newGender 속성을 '남자'로 업데이트
+            userInfo.newGender = '남자';
+          },
+          child: Text('남자'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: userInfo.newGender == '남자' ? Colors.blue : Colors.grey,
+          ),
+        ),
+        SizedBox(width: 20),
+        ElevatedButton(
+          onPressed: () {
+            // UserInfoProvider의 newGender 속성을 '여자'로 업데이트
+            userInfo.newGender = '여자';
+          },
+          child: Text('여자'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: userInfo.newGender == '여자' ? Colors.pink : Colors.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
 
   Widget _buildProfileInfo(String title, String value) {
     final TextEditingController _controller = TextEditingController(text: value);
