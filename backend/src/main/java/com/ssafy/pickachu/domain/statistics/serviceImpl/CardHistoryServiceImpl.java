@@ -11,6 +11,7 @@ import com.ssafy.pickachu.domain.cards.personalcards.entity.PersonalCards;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.CodefRepository;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.PersonalCardsRepository;
 import com.ssafy.pickachu.domain.cards.recommend.entity.CardInfo;
+import com.ssafy.pickachu.domain.statistics.dto.CardRankRes;
 import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
 import com.ssafy.pickachu.domain.statistics.exception.CardInfoIOException;
 import com.ssafy.pickachu.domain.statistics.exception.InvalidApiKeyException;
@@ -316,6 +317,67 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         } catch (JsonProcessingException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<CardRankRes> PopularRank() {
+        List<String> age = new ArrayList<>(){{
+           add("20대");
+           add("30대");
+           add("40대");
+           add("50대");
+           add("60대");
+           add("70대");
+        }};
+        List<String> gender = new ArrayList<>(){{
+           add("남성");
+           add("여성");
+        }};
+        List<String> cards = new ArrayList<>(){{
+            add("KB국민 My WE:SH 카드");
+            add("BC 바로 클리어 플러스");
+            add("삼성카드 taptap O");
+            add("IBK무민카드(신용)");
+            add("始發(시발)카드");
+            add("DA카드의정석 Ⅱ");
+            add("국민행복 삼성카드 V2");
+            add("삼성 iD SIMPLE 카드");
+            add("NH올원 Shopping&11번가카드(R2타입)");
+            add("올바른 FLEX 카드");
+            add("DA@카드의정석");
+            add("ME+(미플러스)카드");
+            add("NEW 씨티 클리어");
+            add("에너지플러스카드 Edition2");
+            add("신세계이마트 삼성카드7");
+            add("CLUB SK(클럽 SK)카드");
+            add("삼성카드 & MILEAGE PLATINUM (스카이패스)");
+            add("신한카드 Deep Dream Platinum+");
+        }};
+        List<CardRankRes> returnValue = new ArrayList<>();
+        int q = 0;
+        int w = 3;
+        int e = 7;
+        for (String a : age) {
+            for (String g : gender) {
+                int qFinal = q;
+                int wFinal = w;
+                int eFinal = e;
+                List<String> cardList = new ArrayList<>(){{
+                    add(cards.get(qFinal));
+                    add(cards.get(wFinal));
+                    add(cards.get(eFinal));
+                }};
+                returnValue.add(CardRankRes.builder()
+                        .age(a)
+                        .gender(g)
+                        .cards(cardList)
+                    .build());
+                q = (q + 1) % cards.size();
+                w = (w + 1) % cards.size();
+                e = (e + 1) % cards.size();
+            }
+        }
+        return returnValue;
     }
 
 }

@@ -4,6 +4,8 @@ import com.ssafy.pickachu.domain.auth.PrincipalDetails;
 import com.ssafy.pickachu.domain.statistics.response.*;
 import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
 import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
+import com.ssafy.pickachu.global.result.SuccessCode;
+import com.ssafy.pickachu.global.result.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -66,4 +68,8 @@ public class StatisticsController {
     @GetMapping("/averagecomparison")
     public ResponseEntity<AverageComparisonRes> getAverageComparison(@AuthenticationPrincipal PrincipalDetails principalDetails){return statisticsService.getAverageComparison(principalDetails);}
 
+    @GetMapping("/popular/card-rank")
+    public ResponseEntity<SuccessResponse> GetAgePopularCardRank(){
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.GET_CARD_AGE_RANK_SUCCESS, cardHistoryService.PopularRank()));
+    }
 }
