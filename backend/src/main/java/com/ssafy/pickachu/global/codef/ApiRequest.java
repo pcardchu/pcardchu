@@ -30,7 +30,7 @@ public class ApiRequest {
 
 		// API 요청
 		JSONObject json = (JSONObject)HttpRequest.post(urlPath, accessToken, bodyString);
-
+		log.info(json.toJSONString());
 		// 새로운 은행 추가 에러 리턴
 		String code = (String) ((Map<String, Object>)json.get("result")).get("code");
 		if(code.equals("CF-04000") && urlPath.equals(CommonConstant.TEST_DOMAIN+CommonConstant.ADD_ACCOUNT)){
