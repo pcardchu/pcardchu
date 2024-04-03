@@ -12,7 +12,7 @@ class TopThreePopularModel {
 
   // JSON에서 ConsumeModel 객체로 변환하는 factory 생성자
   factory TopThreePopularModel.fromJson(Map<String, dynamic> json) {
-    List<String> categoryListFromJson = List<String>.from(json['categoryList']);
+    List<String> categoryListFromJson = List<String>.from(json['cards']);
 
     return TopThreePopularModel(
       age: json['age'],
