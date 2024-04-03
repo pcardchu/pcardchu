@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/home/models/card_info_model.dart';
 import 'package:frontend/utils/app_fonts.dart';
-import 'package:frontend/card/screens/card_detail_screen.dart'; // CardDetailScreen을 import하세요
+import 'package:frontend/card/screens/card_detail_screen.dart';
+
+import '../../utils/screen_util.dart'; // CardDetailScreen을 import하세요
 
 class ExampleCard extends StatelessWidget {
   final CardInfoModel model;
@@ -19,11 +21,11 @@ class ExampleCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: 300,
-        height: 420,
+        width: ScreenUtil.w(84),
+        height: ScreenUtil.h(64),
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(17)),
           color: Colors.white,
         ),
         child: model.cardImage != null
