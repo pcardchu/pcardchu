@@ -32,9 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
         // 카드 리스트 확인 후 필요한 작업 수행
         // 여기서 UI 업데이트를 유발하는 코드가 있으면 안전하게 실행됩니다.
         // 예를 들어, 로딩 상태가 변경되어 로딩 모달을 닫는 경우:
-        if (!cardListProvider.loading || Navigator.canPop(context)) {
-          Navigator.of(context).pop();
-        }
+        // if (!cardListProvider.loading && Navigator.canPop(context)) {
+        //   Navigator.of(context).pop();
+        // }
       }).catchError((error) {
         // 에러 처리
       });
