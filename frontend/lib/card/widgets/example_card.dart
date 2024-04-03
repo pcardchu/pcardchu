@@ -12,6 +12,9 @@ class ExampleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cardWidth = ScreenUtil.w(70);
+    var cardHeight = cardWidth * 1.4;
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -20,42 +23,44 @@ class ExampleCard extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        width: ScreenUtil.w(84),
-        height: ScreenUtil.h(64),
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(17)),
-          color: Colors.white,
-        ),
-        child: model.cardImage != null
-            ? Image.network(
-          model.cardImage!,
-          fit: BoxFit.fill,
-          errorBuilder: (context, error, stackTrace) {
-            // 로딩 실패 시 기본 이미지 표시
-            return Image.asset('assets/images/xox_logo.png', fit: BoxFit.cover);
-          },
-        )
-            : Container(
+      child: Center(
+        child: Container(
+          width: ScreenUtil.w(65),
+          height: cardHeight,
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: const [Color(0xFFFF3868), Color(0xFFFFB49A)],
-            ),
+            borderRadius: const BorderRadius.all(Radius.circular(17)),
+            color: Colors.white,
           ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/images/xox_logo.png', fit: BoxFit.cover),
-                SizedBox(height: 20),
-                Text(
-                  '카드 이미지가 존재하지 않습니다.',
-                  style: AppFonts.suit(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-              ],
+          child: model.cardImage != null
+              ? Image.network(
+            model.cardImage!,
+            fit: BoxFit.fill,
+            errorBuilder: (context, error, stackTrace) {
+              // 로딩 실패 시 기본 이미지 표시
+              return Image.asset('assets/images/xox_logo.png', fit: BoxFit.cover);
+            },
+          )
+              : Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: const [Color(0xFFFF3868), Color(0xFFFFB49A)],
+              ),
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/xox_logo.png', fit: BoxFit.cover),
+                  SizedBox(height: 20),
+                  Text(
+                    '카드 이미지가 존재하지 않습니다.',
+                    style: AppFonts.suit(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
