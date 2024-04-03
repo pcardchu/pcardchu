@@ -1,7 +1,10 @@
 package com.ssafy.pickachu.domain.cards.personalcards.service;
 
+import com.datastax.oss.driver.shaded.guava.common.reflect.TypeToken;
+import com.google.gson.JsonObject;
 import com.ssafy.pickachu.domain.auth.PrincipalDetails;
 import com.ssafy.pickachu.domain.auth.jwt.JwtUtil;
+import com.ssafy.pickachu.domain.cards.personalcards.dto.PersonalCardsDetailRes;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.RegisterCardsReq;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.SimplePersonalCardsRes;
 import com.ssafy.pickachu.domain.cards.personalcards.entity.CodefToken;
@@ -9,9 +12,16 @@ import com.ssafy.pickachu.domain.cards.personalcards.entity.PersonalCards;
 import com.ssafy.pickachu.domain.cards.personalcards.mapper.PersonalCardsMapper;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.CodefRepository;
 import com.ssafy.pickachu.domain.cards.personalcards.repository.PersonalCardsRepository;
+import com.ssafy.pickachu.domain.cards.recommend.entity.CardInfo;
 import com.ssafy.pickachu.domain.cards.recommend.entity.Cards;
+import com.ssafy.pickachu.domain.cards.recommend.repository.CardInfoRepository;
 import com.ssafy.pickachu.domain.cards.recommend.repository.CardsRepository;
+import com.ssafy.pickachu.domain.statistics.dto.SimpleCardHistory;
+import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
+import com.ssafy.pickachu.domain.statistics.mapper.StatisticsMapper;
+import com.ssafy.pickachu.domain.statistics.repository.CardHistoryEntityRepository;
 import com.ssafy.pickachu.domain.statistics.service.CardHistoryService;
+import com.ssafy.pickachu.domain.statistics.service.StatisticsService;
 import com.ssafy.pickachu.domain.user.entity.User;
 import com.ssafy.pickachu.domain.user.repository.UserRepository;
 import com.ssafy.pickachu.global.codef.CodefApi;
@@ -34,12 +44,16 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Transactional
@@ -50,7 +64,9 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
     private final PersonalCardsRepository personalCardsRepository;
     private final CardsRepository cardsRepository;
+    private final CardInfoRepository cardInfoRepository;
     private final UserRepository userRepository;
+    private final CardHistoryEntityRepository cardHistoryRepository;
     private final JwtUtil jwtUtil;
     private final PersonalCardsMapper personalCardsMapper;
     private final CodefRepository codefRepository;
@@ -58,6 +74,8 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
     private final EntityManager em;
     private final CardHistoryService cardHistoryService;
     private final JasyptUtil jasyptUtil;
+    private final StatisticsMapper statisticsMapper;
+
 
 
     private static Map<String, String> crawlingCategories = new HashMap<>(){{
@@ -315,6 +333,8 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
     }};
 
+    private final Gson gson = new Gson();
+
     @Override
     public void DeleteMyCards(PrincipalDetails principalDetails, String cardid) {
 
@@ -514,4 +534,61 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public PersonalCardsDetailRes GetPersonaLCardDetail(PrincipalDetails principalDetails, long cardId) {
+        User user = userRepository.findById(principalDetails.getUserDto().getId())
+            .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
+
+        PersonalCards personalCards = personalCardsRepository.findById(cardId)
+            .orElseThrow(() -> new ErrorException(ErrorCode.PERSONAL_CARD_NOT_FOUND));
+        Cards cards = cardsRepository.findById(personalCards.getCardsId())
+            .orElseThrow(() -> new ErrorException(ErrorCode.CARDS_NOT_FOUND));
+
+        CardInfo cardInfo = cardInfoRepository.findCardInfoByCardId(cards.getId())
+            .orElseThrow(() -> new ErrorException(ErrorCode.CARDINFO_NOT_FOUND));
+
+        LocalDate today = LocalDate.now();
+        LocalDate firstDayOfMonth = today.withDayOfMonth(1); // 이번 달의 첫 번째 날짜
+        LocalDate yesterday = today.minusDays(1); // 이번 달의 첫 번째 날짜
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        String startDate = firstDayOfMonth.format(formatter);
+        String endDate = today.format(formatter);
+        String yesterDay = yesterday.format(formatter);
+
+        List<CardHistoryEntity> monthlyUsageDetails = cardHistoryRepository.findAllByDateRangeOrderedByDateAndTimeDesc2(startDate, endDate);
+
+        // date를 먼저 비교하고, date가 같으면 time으로 비교
+        monthlyUsageDetails = monthlyUsageDetails.stream()
+            .sorted(Comparator.comparing(CardHistoryEntity::getDate).thenComparingInt(CardHistoryEntity::getTime).reversed())
+            .toList();
+
+        int useMoney = 0;
+        List<SimpleCardHistory> secondReturnValue = new ArrayList<>();
+        for (CardHistoryEntity cardHistoryEntity : monthlyUsageDetails) {
+            useMoney = useMoney + cardHistoryEntity.getAmount();
+
+            if (cardHistoryEntity.getDate().equals(endDate) || cardHistoryEntity.getDate().equals(yesterDay)){
+                secondReturnValue.add(statisticsMapper.ToSimpleCardHistory(cardHistoryEntity));
+            }
+        }
+        String useValue = cardHistoryService.CalculateBenefit(cardInfo, monthlyUsageDetails);
+        Type type = new TypeToken<Map<String, Integer>>(){}.getType();
+        Map<String, Integer> useBenefit = gson.fromJson(useValue, type);
+
+        return PersonalCardsDetailRes.builder()
+            .cardImage(cards.getImageUrl())
+            .cardName(cards.getCardName())
+            .cardCompany(cards.getOrganization_id())
+            .useMoneyMonth(useMoney)
+            .todayUseHistory(secondReturnValue)
+            .useBenefit(useBenefit)
+            .build();
+
+    }
+
+
+
+
 }

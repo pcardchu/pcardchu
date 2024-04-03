@@ -44,4 +44,13 @@ public class PersonalCardsController {
         return ResponseEntity.ok(SuccessResponse.of(SuccessCode.CARD_REGIST_SUCCEST, true));
     }
 
+    @Operation(summary = "내 카드 디테일 조회")
+    @GetMapping("/my-cards/{cardId}")
+    public ResponseEntity<SuccessResponse> GetPersonalCardsDeatil(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable long cardId){
+        return ResponseEntity.ok(SuccessResponse.of(
+           SuccessCode.TEST_SUCCESS, personalCardsService.GetPersonaLCardDetail(principalDetails, cardId)
+        ));
+    }
+
+
 }

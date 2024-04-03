@@ -1,17 +1,21 @@
 package com.ssafy.pickachu.domain.statistics.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.google.gson.annotations.SerializedName;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
 public class SimpleCardHistory {
 
-    String category;
-    String amount;
-    String time;
+    @SerializedName("resMemberStoreType")
+    private String category;
+    @SerializedName("resUsedAmount")
+    private int amount;
+    @SerializedName("resUsedDate")
+    private String date;
+    @SerializedName("resUsedTime")
+    int time;
 }
