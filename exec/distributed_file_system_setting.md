@@ -25,6 +25,17 @@ EC2 인스턴스를 여러 개 두면 편하지만
 
 </aside>
 
+<aside>
+이미 환경이 구축된, 서버를 사용하고 있다면
+master-namenode container로 접속하여 ~/cluster/hadoop/etc/hadoop/sbin 으로 이동해
+stop-all.sh -> start-all.sh 를 수행하면 됨.
+
+이후 8088, 18888 포트로 웹 인터페이스 접속 가능
+
+
+</aside>
+
+
 > **base node 설치 & 필수 설치 프로그램**
 > 
 
@@ -611,9 +622,9 @@ ssh master-secondary-namenode 'cluster/zookeeper/bin/zkServer.sh stop';
 ssh worker-datanode 'cluster/zookeeper/bin/zkServer.sh stop';
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/11d88c81-e2e8-4e44-930c-ac26939d26e7/Untitled.png)
+![image-2.png](./image-2.png)
+![image-3.png](./image-3.png)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/e010b8e6-5728-4abe-b204-8be1697317c4/Untitled.png)
 
 2) journalnode 켜기
 
@@ -637,7 +648,7 @@ cat hadoop-root-journalnode-master-namenode.log
 
 core-site에서 이상한 문자가 들어갔는지 UTF-8 파싱에 실패해서 안켜짐. 정상 동작 확인
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/1e3df61a-aa8d-4091-93c8-2c1ba1cd69dc/Untitled.png)
+![image-4.png](./image-4.png)
 
 3) zookeeper 초기화
 
@@ -656,7 +667,7 @@ hdfs zkfc -formatZK
 > quit
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/ddf68ff8-08bd-4ba4-9ac1-a701a55abeae/Untitled.png)
+![image-5.png](./image-5.png)
 
 내가 앞서 지정한 네임서비스 id가 나오면 정상동작
 
@@ -677,7 +688,7 @@ hdfs --daemon start namenode
 
 ** jps로 확인
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/31c8e358-1270-45cc-b90e-b5386e8d24e1/Untitled.png)
+![image-7.png](./image-7.png)
 
 3) hdfs 컨트롤러 키기 (zookeeper failover controller)
 
@@ -685,7 +696,7 @@ hdfs --daemon start namenode
 hdfs --daemon start zkfc
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/49a1d631-e52e-4598-9125-05989b7fd1ba/Untitled.png)
+![image-6.png](./image-6.png)
 
 4) master-secondary-namenode를  standby node로 지정
 
@@ -699,7 +710,8 @@ ssh master-secondary-namenode
 hdfs namenode -bootstrapStandby
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/0bfb1b5c-f999-4932-9eef-cd9c6254324e/Untitled.png)
+![image-8.png](./image-8.png)
+
 
 5) namenode 시작
 
@@ -707,7 +719,8 @@ hdfs namenode -bootstrapStandby
 hdfs --daemon start namenode
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/3d9412ee-35e9-423f-a0cd-ad0a94e0dc53/Untitled.png)
+![image-9.png](./image-9.png)
+
 
 6) zkfc 키기
 
@@ -715,7 +728,7 @@ hdfs --daemon start namenode
 hdfs --daemon start zkfc
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/8b56278b-cd72-4954-bcf9-dd9ae87e2a97/Untitled.png)
+![image-10.png](./image-10.png)
 
 ** 확인
 
@@ -726,7 +739,8 @@ hdfs haadmin -getServiceState namenode2
 hdfs haadmin -getAllServiceState
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/e3744485-8f80-4726-ae35-e6f3939f4092/Untitled.png)
+![image-11.png](./image-11.png)
+
 
 7) 모든 노드의 분산 파일 시스템 키기
 
@@ -766,7 +780,7 @@ export HDFS_ZKFC_USER=root
 ssh master-namenode jps; echo '========='; ssh master-secondary-namenode jps; echo '========='; ssh worker-datanode jps; echo '========='; ssh worker-datanode2 jps;
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/04badf7d-bbe3-427c-99e1-416286f5cd21/Untitled.png)
+![image-12.png](./image-12.png)
 
 8) yarn 실행
 
@@ -774,7 +788,8 @@ ssh master-namenode jps; echo '========='; ssh master-secondary-namenode jps; ec
 start-yarn.sh
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/7df7bddb-6bb1-4eb5-8c2a-a56a7040863c/Untitled.png)
+![image-13.png](./image-13.png)
+
 
 <aside>
 💡 **정리**
@@ -805,7 +820,7 @@ mapred --daemon start historyserver
 hdfs dfsadmin -report
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/359ded2e-213b-4a7b-a612-2dddd8ea4e0e/Untitled.png)
+![image-14.png](./image-14.png)
 
  - 잘 살아있는 우리 데이터노드들
 
@@ -837,7 +852,6 @@ hdfs dfs -ls /example/output
 hdfs dfs -cat /example/output/part-r-00000
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/8dc40c2c-6227-4eee-b4ca-c3025d920a92/Untitled.png)
 
 > **Web UI 테스트**
 > 
@@ -854,11 +868,9 @@ curl ifconfig.me
 브라우저에 3.35.216.47:50070
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/ef9ce3ed-bd34-4c12-b7d9-b4c25448c066/Untitled.png)
+![image-15.png](./image-15.png)
 
 ### **💢** Trouble Shooting
-
-어… 근데 약간의 문제…
 
 도커 컨테이너들이 호스트의 네트워크 인터페이스를 공유하는 바람에 저거 하나로밖에 접속 못함..
 
@@ -868,9 +880,7 @@ curl ifconfig.me
 
 50070:50070, 50071:50070 이런식으로
 
-근데 사실 일단 마스터노드만 보이면 다라서, 그냥 안할 예정 ㅋ
 
-더 이상의 갈아엎기란.. 불가.. ㅋ
 
 3) yarn에 접속해보기
 
@@ -878,7 +888,7 @@ curl ifconfig.me
 브라우저에 3.35.216.47:8088
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/913f9852-3183-474b-baa7-58847209ca58/Untitled.png)
+![image-16.png](./image-16.png)
 
 > **Spark 세팅**
 > 
@@ -976,7 +986,7 @@ cd ~/cluster/spark/sbin
 ./start-all.sh
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/ffac1e32-6f9b-498f-8801-e604fa076183/Untitled.png)
+![image-17.png](./image-17.png)
 
  - Master, Worker가 추가로 표시된 것을 볼 수 있다.
 
@@ -1009,11 +1019,11 @@ spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mo
 
  - 작업 : spark-examples에서 주는 파일
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/cdf3bcfd-c74f-4d1d-a1ce-4158ad6590af/Untitled.png)
+![image-18.png](./image-18.png)
 
 yarn이 수행했기 때문에 yarn(8088)으로 들어가서 보면
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/f09a8094-dc65-4f5a-acff-52b7fa18441a/Untitled.png)
+![image-19.png](./image-19.png)
 
 > **Automatic Failover on HDFS Cluster**
 > 
@@ -1024,11 +1034,11 @@ kill -9 를 이용해서 Active node의 Namenode를 죽이면, Standby노드가 
 
 - 전환된 모습
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/b729c067-66de-41a6-88dd-24be4ee5ad2a/Untitled.png)
+![image-20.png](./image-20.png)
 
 - secondary에서 정상 실행
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/d76a30d0-0560-4722-8a8d-d89838d3b33a/Untitled.png)
+![image-21.png](./image-21.png)
 
 > **Zeppelin 설정 세팅과 데몬 실행**
 > 
@@ -1102,39 +1112,34 @@ cd ~/cluster/zeppelin/bin
 ./zeppelin-daemon.sh start
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/d7e3ba55-11e3-4216-bb2e-fb6d4ef6300c/Untitled.png)
+![image-23.png](./image-23.png)
 
 7) 브라우저로 제플린 서버 접속
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/3f9f6346-2be4-44e1-8b45-c5e48261f81b/Untitled.png)
 
 8) 추가 세팅
 
 - 인터프리터 접속
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/f494f864-5f10-44e4-9814-6ed01bb3964a/Untitled.png)
+![image-22.png](./image-22.png)
 
 - Spark 검색 후 Edit 클릭
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/757b160d-ea92-4052-90f8-223dc1efd79b/Untitled.png)
+![image-24.png](./image-24.png)
 
 - 추가로 변경한 부분
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/46e2b7bb-93ae-4c09-8737-62f1f87079a8/Untitled.png)
+![image-25.png](./image-25.png)
 
  - 환경에 맞춰 자유롭게 바꾸면 됨.
 
 ** 카산드라 커넥터 추가
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/a6e8c770-339c-4a6a-bd08-6ed247c63987/Untitled.png)
+![image-26.png](./image-26.png)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/bb008ff3-ac32-4ff7-a5bd-9dd0cde58cb8/Untitled.png)
+![image-27.png](./image-27.png)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/0e6da90a-d14f-40de-8654-a589cd07821f/Untitled.png)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/f9390503-d758-4064-a15f-595c7339a80a/Untitled.png)
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/add1b271-1e45-44bc-8f8f-f15b7fc5fae8/Untitled.png)
 
 - Save > Ok
     
@@ -1142,7 +1147,7 @@ cd ~/cluster/zeppelin/bin
     
 - Home > Notebook > Create new note
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/9c8432e2-36f2-4be1-badb-40765f995eb1/Untitled.png)
+![image-28.png](./image-28.png)
 
 ### **💢** Trouble Shooting
 
@@ -1479,281 +1484,7 @@ spring:
 
  -
 
-2) Entity
 
-```bash
-package com.ssafy.pickachu.domain.statistics.entity;
-
-import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
-
-import java.util.UUID;
-
-@Data
-@NoArgsConstructor
-@Table("cardhistory")
-public class CardHistoryEntity {
-
-    @PrimaryKey
-    private UUID id;
-    private int userid;
-    private String age;
-    private String gender;
-    @SerializedName("resUsedDate")
-    private String date;
-    @SerializedName("resUsedTime")
-    private int time;
-    @SerializedName("resUsedAmount")
-    private int amount;
-    @SerializedName("resMemberStoreType")
-    private String category;
-    private int cardId;
-}
-
-```
-
- - @Data는 lombok의 annotation으로 GETTER, SETTER, toString, hashCode 등을 만들어줌
-
-3) Repository
-
-```sql
-package com.ssafy.pickachu.domain.statistics.repository;
-
-import com.ssafy.pickachu.domain.statistics.entity.CardHistoryEntity;
-import com.ssafy.pickachu.domain.statistics.entity.MyConsumptionEntity;
-import org.springframework.data.cassandra.repository.CassandraRepository;
-import org.springframework.data.cassandra.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-@Repository
-public interface CardHistoryEntityRepository extends CassandraRepository<CardHistoryEntity, Integer> {
-    @Query("SELECT * FROM cardhistory WHERE userid = :userid ALLOW FILTERING")
-    List<CardHistoryEntity> findMyCardHistoryById(@Param("userid") int userid);
-}
-
-```
-
-4) Service
-
-```sql
-package com.ssafy.pickachu.domain.statistics.service;
-
-import com.ssafy.pickachu.domain.statistics.response.CardHistoryRes;
-import com.ssafy.pickachu.domain.user.entity.User;
-import org.springframework.http.ResponseEntity;
-
-public interface CardHistoryService {
-
-    ResponseEntity<CardHistoryRes> saveCardHistoriesByAirflow(String apiKey);
-
-    void saveCardHistories(String payListResult, User user, long id);
-
-}
-```
-
-5) SerivceImpl
-
-```sql
-package com.ssafy.pickachu.domain.statistics.serviceImpl;
-
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class CardHistoryServiceImpl implements CardHistoryService {
-
-    private final CardHistoryEntityRepository cardHistoryEntityRepository;
-
-    @Override
-    public void saveCardHistories(String payListResult, User user, long cardId) {
-        PreparedStatement preparedStatement = cqlSession.prepare(
-                "INSERT INTO cardhistory (id, userid, age, amount, cardid, category, date, gender, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-        );
-        BatchStatement batchStatement = BatchStatement.builder(DefaultBatchType.LOGGED).build();
-
-        String userAgeGroup = commonUtil.calculateAge(user.getBirth());
-
-        // 문자열 내용을 JSONArray 객체로 변환
-        JSONArray jsonArray = new JSONArray(payListResult);
-
-        // JSONArray 내용 처리 예시
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-
-            CardHistoryEntity history = gson.fromJson(String.valueOf(jsonObject), CardHistoryEntity.class);
-            history.setUserid((int) user.getId());
-            history.setId(UUID.randomUUID());
-            history.setGender(user.getGender());
-            history.setAge(userAgeGroup);
-            history.setCardId((int) cardId);
-            // cardHistoryEntityRepository.save(history);
-            // 배치 작업에 추가
-            BoundStatement boundStatement = preparedStatement.bind(
-                    history.getId(),
-                    history.getUserid(),
-                    history.getAge(),
-                    history.getAmount(),
-                    history.getCardId(),
-                    history.getCategory(),
-                    history.getDate(),
-                    history.getGender(),
-                    history.getTime()
-            );
-            batchStatement = batchStatement.add(boundStatement);
-        }
-
-        // 배치 작업으로 IO 줄이기
-        cqlSession.execute(batchStatement);
-    }
-
-    @Override
-    public ResponseEntity<CardHistoryRes> saveCardHistoriesByAirflow(String apiKey) {
-
-        // API KEY 검증
-        if(!apiKey.equals(this.apiKey)){
-            throw new InvalidApiKeyException("API Key가 일치하지 않습니다.");
-        }
-
-        // 유저 전체에 대해서 데이터 요청
-        List<User> userList = userRepository.findAll();
-        CodefToken codefToken = codefRepository.findById(1)
-                .orElseGet(() -> {
-                    CodefToken token = CodefToken.builder()
-                            .id(1)
-                            .token(codefApi.GetToken())
-                            .updateTime(LocalDateTime.now())
-                            .build();
-                    return  token;
-                });
-
-        // 어제 하루 내역 불러오기
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        calendar.add(Calendar.DATE, -1);
-        String startDay = dateFormat.format(calendar.getTime());
-        String endDay = startDay;
-
-        // 유저별로
-        for(User user : userList){
-            try{
-                // 카드별로
-                List<PersonalCards> personalCards = personalCardsRepository.findAllByUserIdAndUseYN(user.getId(), user.getUseYN());
-                for(PersonalCards card : personalCards){
-                    RegisterCardsReq registerCardsReq = new RegisterCardsReq(
-                        card.getCardCompany(), jasyptUtil.decrypt(card.getCardNo()), jasyptUtil.decrypt(card.getCardCompanyId()), jasyptUtil.decrypt(card.getCardCompanyPw())
-                    );
-                    String payListResult = codefApi.GetUseCardList(registerCardsReq, user, codefToken.getToken(),startDay,endDay);
-                    saveCardHistories(payListResult, user, card.getId());
-                }
-            }catch (IOException e){
-                throw new CardInfoIOException("카드 정보를 가져오는 데 문제가 발생했습니다.");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-        }
-
-        CardHistoryRes cardHistoryRes = CardHistoryRes.createCardHistoryResponse(
-                HttpStatus.OK.value(), "Success", "Success"
-        );
-
-        return ResponseEntity.ok(cardHistoryRes);
-    }
-
-}
-
-```
-
-### 💢 Trouble Shooting
-
-Cassandra, Zeppelin이 모두 메모리를 많이 잡아먹는데,
-
-테스트를 계속 하면서 Cassandra에 IO작업이 빈번해져 결국 서버가 죽고 말았다 …
-
-카드 한 번만 등록해도, 카드 하나 당 100건의 카드 내역이 있다면 100번의 IO 작업이 발생.
-
-심지어 도커 볼륨도 작아서 문제가 터진 것 같다.
-
-그래서 코드를 다음과 같이 수정했다.
-
-```java
-    private final CardHistoryEntityRepository cardHistoryEntityRepository;
-
-    @Override
-    public void saveCardHistories(String payListResult, User user, long cardId) {
-        PreparedStatement preparedStatement = cqlSession.prepare(
-                "INSERT INTO cardhistory (id, userid, age, amount, cardid, category, date, gender, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-        );
-        BatchStatement batchStatement = BatchStatement.builder(DefaultBatchType.LOGGED).build();
-
-        String userAgeGroup = commonUtil.calculateAge(user.getBirth());
-
-        // 문자열 내용을 JSONArray 객체로 변환
-        JSONArray jsonArray = new JSONArray(payListResult);
-
-        // JSONArray 내용 처리 예시
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-
-            CardHistoryEntity history = gson.fromJson(String.valueOf(jsonObject), CardHistoryEntity.class);
-            history.setUserid((int) user.getId());
-            history.setId(UUID.randomUUID());
-            history.setGender(user.getGender());
-            history.setAge(userAgeGroup);
-            history.setCardId((int) cardId);
-            // cardHistoryEntityRepository.save(history);
-            // 배치 작업에 추가
-            BoundStatement boundStatement = preparedStatement.bind(
-                    history.getId(),
-                    history.getUserid(),
-                    history.getAge(),
-                    history.getAmount(),
-                    history.getCardId(),
-                    history.getCategory(),
-                    history.getDate(),
-                    history.getGender(),
-                    history.getTime()
-            );
-            batchStatement = batchStatement.add(boundStatement);
-        }
-
-        // 배치 작업으로 IO 줄이기
-        cqlSession.execute(batchStatement);
-```
-
-Cassandra는 batch작업도 지원해주기 때문에, 배치를 사용해서 카드 하나당 한번의 IO 작업만 일어나도록 했다.
-
-6) Controller
-
-```sql
-package com.ssafy.pickachu.domain.statistics.controller;
-
-@RestController
-@RequiredArgsConstructor
-@CrossOrigin("*")
-@RequestMapping("/statistics")
-@Tag(name = "Statistics API", description = "빅데이터 분산 처리 통계 API")
-public class StatisticsController {
-
-    private final StatisticsService statisticsService;
-    private final CardHistoryService cardHistoryService;
-
-    @Operation(summary = "개인 소비 통계", description = "지난달 소비 내역과 업종 분석, 일자별 소비 금액 합계")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "(message : \"Success\", code : 200)",
-                    content = @Content(schema = @Schema(implementation = MyConsumptionRes.class)))
-    })
-    @GetMapping("/consumption")
-    public ResponseEntity<MyConsumptionRes> getConsumption(@AuthenticationPrincipal PrincipalDetails principalDetails){return statisticsService.getMyConsumption(principalDetails);}
-
-}
-
-```
 
 > **파이프라인 자동화를 위한 Airflow 설치**
 > 
@@ -1826,8 +1557,6 @@ sudo docker compose up
 
 ** ps로 확인
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/339641c4-ee45-47c3-a4ce-941fa69dd23b/Untitled.png)
-
  - redis, postgl db도 설치되어있는 것을 확인할 수 있고, airflow 포트는 8080이다.
 
 2) 브라우저로 접속
@@ -1838,144 +1567,8 @@ sudo docker compose up
 
  - 아이디, 비번 모두 airflow (docker-compose.yaml 보면 나와있음)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/3288f07a-bea6-4386-81ba-2403b020e955/Untitled.png)
+![image-29.png](./image-29.png)
 
-3) 간단한 소개
-
-<자주 사용하는 것들>
-
-- Grid
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/1236cbd8-e342-4a01-80b6-d315fd0191ec/Untitled.png)
-
-위에 토글을 누르고 Auto-refresh도 하면 뭔가 뜸
-
-- Graph
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/0231a3a3-f870-4d83-9403-4fa127909857/Untitled.png)
-
-task들을 확인할 수 있고 상태도 확인 가능
-
-- Code
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/1e797c7c-4a13-48d9-9312-4af5a8b6963c/Untitled.png)
-
-UI상에서 코드도 작성할 수 있다.
-
-4) DAG 파일 작성
-
-- **Airflow 간단한 개념**
-    
-    [Airflow DAG 생성(Bash Operator)]
-    
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/558f9287-9ef8-478e-8914-919afbb012f7/Untitled.png)
-    
-    - 오퍼레이터
-        
-        : 특정 행위를 할 수 있는 기능을 모아 놓은 클래스, 설계도
-        
-    - Task
-        
-        : 오퍼레이터에서 객체화(인스턴스화)되어 DAG에서 실행가능한 오브젝트
-        
-    - Bash Operator
-        
-        : 쉘 스크립트 명령을 수행하는 오퍼레이터
-        
-    
-    [Task의 수행 주체]
-    
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/f8449257-e309-4225-959e-1a13343dba68/Untitled.png)
-    
-    - 스케줄러
-        
-        : DAG Parsing 후 DB 정보 저장
-        
-        : DAG 시작 시간 결정
-        
-    - 워커
-        
-        : 실제 작업 수행
-        
-    
-    (시작 지시할 때 큐를 사용)
-    
-
-- **example bash operator예시**
-
-```python
-from __future__ import annotations
-import datetime
-import pendulum # datetime을 좀 더 사용하기 쉽게함
-
-from airflow import DAG
-from airflow.operators.bash import BashOperator
-from airflow.operators.empty import EmptyOperator
-
-def load_data_to_cassandra_by_api():
-    api_url = 'http://j10d110.p.ssafy.io/api/load-data'
-    response = requests.get(api_url)
-
-    #요청이 성공적으로 처리 되었는지 확인
-    if response.status_code == 200:
-        print("Data successfully loaded to Cassandra.")
-    else:
-        raise Exception("Failed to load data to Cassandra.")
-
-zeppelin_notebook_run_command_list = [
-"""
-curl -X POST http://j10d110a.p.ssafy.io:18888/#/notebook/2JSXPJ6AT
-""",
-"""
-curl -X POST http://j10d110a.p.ssafy.io:18888/#/notebook/2JSACMPQ9
-"""
-]
-
-with DAG(
-        # dag의 이름(파일 이름과는 별개임, but 일치시키는 것이 좋음)
-        dag_id="dags_d110",
-        # cron schedule. 언제 실행될지 지정. "분 시 일 월 요일"
-        schedule_interval="0 16 * * *",
-        # dag이 언제부터 돌건지, catchup : start date와 현재 시간 사이의 누락된 부분을 모두 돌릴 것인지 말 것인지(true면 돌림. 단, 차례차례 도는 것이 아니라 한꺼번에 병렬로 실행됨)
-        start_date=pendulum.datetime(2024, 3, 29, tz="Asia/Seoul"),
-        catchup=False,
-        # timeout 값 설정. 없어도 된다.
-        # dagrun_timeout=datetime.timedelta(minutes=60),
-        # 브라우저에서 dag 이름 밑에 보이는 태그 설정. 태그 별로 모아서 보기가 가능(따라서 Optional)
-        tags=["spring api", "zeppelin notebook"],
-        # 아래에 정의할 Task들에 공통으로 정의할 파라미터가 있다면 지정
-        # params={"example_key": "example_value"},
-) as dag:
-    # [데이터 적재]
-    insert_codef_data_to_cassandra_by_spring_api = PythonOperator( # task의 이름임. Operator로 만들어지는 task 객체의 이름
-        task_id="insert_codef_data_to_cassandra_by_spring_api", # 브라우저에서 봤을 때 graph에서 나오는 task 이름. 마찬가지로 객체 이름과 별개지만 일치하도록
-        python_callable=load_data_to_cassandra_by_api,
-    )
-    # [데이터 분석]
-    for i in range(2):
-        task = BashOperator(
-            task_id="zeppelin_task_" + str(i),
-            bash_command=zeppelin_notebook_run_command_list[i],
-        )
-        insert_codef_data_to_cassandra_by_spring_api >> task
-
-```
-
- - >> : insert_codef_data_to_cassandra_by_spring_api가 성공적으로 수행되면 task가 수행되도록 의존성을 설정함. 그리고 저 insert는 한번만 수행된다.
-
-5) docker-compose.yaml에 volumes부분을 수정(선택)
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/9eb5318d-fb4e-4cd4-ab31-d8a51ba80e99/a20d2889-6a68-4e6e-9858-cb77d631554b/Untitled.png)
-
- - `${AIRFLOW_PROJ_DIR:-.}`  : AIRFLOW_PROJ_DIR이 정의되어 있지 않으면 . 을 출력한다.
-
- - 즉, : 기준 앞 문장은 ./dags 인 것임.
-
- - : 을 중심으로 왼쪽은 ubuntu(ec2)의 볼륨, 오른쪽은 컨테이너의 볼륨
-
- - 만약 dags 파일을 airflow라는 폴더 아래에 dags 폴더에 저장해놨다면, (그리고 앞으로 계속 거기서 파일을 만들거라면, /dags 부분을 /airflow/dags로 수정하면 된다.)
-
-<<수정>>
 
 이유 : jwt토큰을 우회 하거나, 한번 받거나 해야 되는데 일단 우회 하고 나름의 보안 정책을 추가
 
