@@ -206,4 +206,13 @@ chmod -R 755 /var/jenkins_home
 ### [8. Distributed File System]
 [링크 참고](./distributed_file_system_setting.md)
 ### [flutter]
+괄호친 명령어를 터미널에 입력하세요
+1. 레포지토리 클론 ( git clone {피카추-레포지토리-url} )
+2. 터미널 실행 및 Project 디렉토리 이동 ( cd frontend )
+3. pubspec.yaml 파일에서 의존성 적용 ( flutter pub get )
+4. 안드로이드 스튜디오 애뮬레이터 설치 및 적용
+5. (flutter pub run flutter_launcher_icons -f flutter_launcher_icons.yaml)
+6. (dart run flutter_native_splash:create)
+7. (dart run flutter_native_splash:create --path=[프로젝트경로]/flutter_native_splash.yaml)
+8.  run 'main.dart' 버튼 클릭 ( flutter run )
 
