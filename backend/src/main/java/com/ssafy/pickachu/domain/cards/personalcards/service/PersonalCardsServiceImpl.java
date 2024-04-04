@@ -431,7 +431,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         }else {
             //TODO 여기 .. ..... . . . . 퍼스널 카드 목록에 그 은행이 있는지 확인 없으면 ... connectedID 갱신
 
-            if (!personalCardsRepository.findByUserIdAndCardCompanyAndUseYN(user.getId(), registerCardsReq.getCardCompany(), "Y")) {
+            if (!personalCardsRepository.findPersonalCardsByUserIdAndCardCompany(user.getId(), registerCardsReq.getCardCompany())) {
                 log.info("connectedId add Bank : " + registerCardsReq.getCardCompany());
                 try {
                     String newConnectedId = codefApi.AddBankInConnectedId(registerCardsReq, user, codefToken.getToken());
@@ -484,9 +484,11 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
                 Map<String, String> data = (Map<String, String>)o1.get("data");
                 maskedStr1 = data.get("resCardNo");
                 cardNameTarget = data.get("resCardName");
+                cardNameTarget = cardNameTarget.replaceAll("[`~!@#$%^&*()_|+\\-=?;:'\",.<>\\{\\}\\[\\]\\\\\\/ ]", "");
             }catch (NullPointerException ignore){
                 maskedStr1 = (String)o1.get("resCardNo");
                 cardNameTarget = (String)o1.get("resCardName");
+                cardNameTarget = cardNameTarget.replaceAll("[`~!@#$%^&*()_|+\\-=?;:'\",.<>\\{\\}\\[\\]\\\\\\/ ]", "");
             }
 
             String maskedStr2 = registerCardsReq.getCardNo().replace("-", "");
@@ -499,12 +501,11 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
             maskedStr1 = maskedStr1.replaceAll("\\*", "");
             if(maskedStr2.length() - (maskedStr2.length()-maskedStr1.length()) == matchingChars){
-
                 break;
             }
         }
         String cardsIdTarget = "0000";
-        Optional<Cards> optionalCards = cardsRepository.findByCardName(cardNameTarget);
+        Optional<Cards> optionalCards = cardsRepository.findByImageNameRegex(cardNameTarget);
         if (optionalCards.isPresent()){
             cardNameTarget = optionalCards.get().getCardName();
             cardsIdTarget = optionalCards.get().getId();
