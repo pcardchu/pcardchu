@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/consumption/day_cell.dart';
+import 'package:frontend/chart/consumption/day_cell.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:intl/intl.dart';
@@ -14,10 +14,10 @@ class Calender extends StatelessWidget {
     DateTime focusedDay = DateTime.now();
 
     /// 이번달 1일 시작
-    DateTime firstDay = DateTime(focusedDay.year, focusedDay.month, 1);
+    DateTime firstDay = DateTime(focusedDay.year, focusedDay.month - 1, 1);
 
     /// 이번달 말일까지
-    DateTime lastDay = DateTime(focusedDay.year, focusedDay.month + 1, 1)
+    DateTime lastDay = DateTime(focusedDay.year, focusedDay.month - 1, 1)
         .subtract(Duration(days: 1));
 
     return Padding(

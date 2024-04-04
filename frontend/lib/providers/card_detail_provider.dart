@@ -4,7 +4,7 @@ import 'package:frontend/card/models/card_detail_model.dart';
 import 'package:frontend/card/models/consumption_model.dart';
 import 'package:frontend/card/models/recommend_model.dart';
 import 'package:frontend/card/services/card_detail_service.dart';
-import 'package:frontend/card/services/consumption_service.dart';
+import 'package:frontend/chart/services/consumption_service.dart';
 
 class CardDetailProvider with ChangeNotifier {
 

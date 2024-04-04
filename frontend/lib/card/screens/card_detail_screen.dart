@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../providers/card_detail_provider.dart';
 import '../../providers/user_info_provider.dart';
 import '../../utils/app_colors.dart';
-import '../widgets/card_detail/detail_benefit.dart';
 
 class CardDetailScreen extends StatefulWidget {
   final int? cardId;
@@ -43,12 +42,12 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         backgroundColor: AppColors.mainWhite,
         elevation: 0,
         // 뒤로가기 버튼
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -94,7 +93,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
 
     if (data == null) {
     // cardDetailData가 null일 경우, 로딩 인디케이터 또는 대체 UI를 표시합니다.
-    return Center(child: CircularProgressIndicator());
+    return const Center(child: CircularProgressIndicator());
     }
 
 
@@ -106,14 +105,14 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Center(
                 child: Container(
                   width: ScreenUtil.w(56),
                   height: ScreenUtil.h(36),
                   child: Image.network("${data.cardImage}"),
                 )),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Text(
               '이번 달 ${userProvider.userName}님이 쓴 금액',
               style: AppFonts.scDream(
@@ -134,7 +133,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
             Container(
               margin: EdgeInsets.only(left: 20),
               child: Text(

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/consumption/best_title.dart';
-import 'package:frontend/card/widgets/consumption/no_main_consumption.dart';
-import 'package:frontend/card/widgets/consumption/recommend_list.dart';
+import 'package:frontend/chart/consumption/best_title.dart';
+import 'package:frontend/chart/consumption/no_main_consumption.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'recommend_list.dart';
 
 /// 소비패턴 - 카드 추천 탭 화면
 class ConsumptionTab2 extends StatelessWidget {

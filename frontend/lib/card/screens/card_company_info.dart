@@ -42,10 +42,10 @@ class _CardCompanyInfoState extends State<CardCompanyInfo> {
       // 키패드 나와도 위젯 재배치 안하기
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         backgroundColor: AppColors.mainWhite,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.pop(context); // 이전 페이지로 이동
           },

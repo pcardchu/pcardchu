@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
-import 'package:frontend/card/widgets/consumption/consumption_tapbar.dart';
 import 'package:frontend/card/widgets/loading_modal.dart';
+import 'package:frontend/chart/consumption/consumption_tapbar.dart';
 import 'package:frontend/providers/consumption_provider.dart';
 import 'package:frontend/providers/login_provider.dart';
 import 'package:frontend/user/screens/my_page_screen.dart';
