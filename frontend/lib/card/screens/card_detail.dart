@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/card/models/card_model.dart';
 import 'package:frontend/card/screens/card_web_view.dart';
-import 'package:frontend/card/widgets/detail_bottom.dart';
-import 'package:frontend/card/widgets/detail_top.dart';
+import 'package:frontend/card/widgets/card_detail/detail_bottom.dart';
+import 'package:frontend/card/widgets/card_detail/detail_top.dart';
+import 'package:frontend/card/widgets/loading_modal.dart';
 import 'package:frontend/card/widgets/next_btn.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
@@ -27,7 +28,8 @@ class _CardDetailState extends State<CardDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    // 처음 한번만 로딩 모달 띄우기
+    WidgetsBinding.instance.addPostFrameCallback((_) => showLoadingModal());
     loadData();
   }
 
@@ -41,7 +43,9 @@ class _CardDetailState extends State<CardDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
+
         backgroundColor: AppColors.mainWhite,
+
         // 뒤로가기 버튼
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new),
@@ -55,13 +59,12 @@ class _CardDetailState extends State<CardDetail> {
       backgroundColor: AppColors.mainWhite,
       body: Container(
         color: AppColors.mainWhite,
+
         width: MediaQuery.of(context).size.width,
         // 로딩중 이거나 값이 없을 경우 로딩 표시
         child: loading || card == null
             // 로딩중 일 때
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? Container()
             // 로딩 끝났을 때
             // 스크롤 가능하게
             : SingleChildScrollView(
@@ -85,10 +88,13 @@ class _CardDetailState extends State<CardDetail> {
       // 하단에 떠있는 고정 버튼
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35),
-        child: NextBtn(
-          title: '카드 신청하기',
-          onPressed: onPressed,
-        ),
+        // 로딩중일땐 로딩 표시
+        child: !loading && card != null
+            ? NextBtn(
+                title: '카드 신청하기',
+                onPressed: onPressed,
+              )
+            : null,
       ),
       // 하단에 떠있는 고정 버튼 위치
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -99,6 +105,8 @@ class _CardDetailState extends State<CardDetail> {
   Future<void> loadData() async {
     final cardProvider = context.read<CardProvider>();
     await cardProvider.getCardsDetail(widget.cardId);
+    // 데이터를 다 불러왔으니 로딩 모달 끄기
+    Navigator.of(context).pop();
   }
 
   /// 하단 고정 카드 신청 버튼 함수
@@ -113,5 +121,16 @@ class _CardDetailState extends State<CardDetail> {
         ),
       );
     }
+  }
+
+  /// 로딩중일때 보여지는 모달
+  Future<void> showLoadingModal() async {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return LoadingModal();
+      },
+    );
   }
 }

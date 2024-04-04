@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/card_list_bottom.dart';
-import 'package:frontend/card/widgets/card_list_top.dart';
+import 'package:frontend/card/widgets/card_list/card_list_bottom.dart';
+import 'package:frontend/card/widgets/card_list/card_list_top.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +44,7 @@ class _CardListState extends State<CardList> {
         scrolledUnderElevation: 0,
       ),
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             // 윗 페이지
@@ -73,7 +74,7 @@ class _CardListState extends State<CardList> {
   Future<void> loadData() async {
     // 카테고리 카드 리스트 배열에 정보가 없을때만 Get 호출
     if (!context.read<CardProvider>().loadCategory) {
-      await context.read<CardProvider>().getCategoryCards(context);
+      await context.read<CardProvider>().getCategoryCards(context, 1);
     }
   }
 }

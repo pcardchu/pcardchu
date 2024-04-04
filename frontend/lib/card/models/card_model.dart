@@ -15,7 +15,7 @@ class CardModel {
   List<List<String>>? benefits;
 
   // 카드 신청 주소
-  String? cardApplication;
+  String? registrationUrl;
 
   // 카드사
   String? company;
@@ -29,7 +29,7 @@ class CardModel {
     this.cardName,
     this.cardContent,
     this.benefits,
-    this.cardApplication,
+    this.registrationUrl,
     this.company,
     this.tag,
   });
@@ -46,9 +46,11 @@ class CardModel {
               .map((list) => List<String>.from(list))
               .toList()
           : null,
-      cardApplication: json['cardApplication'],
+      registrationUrl: json['registrationUrl'],
       company: json['company'],
       tag: json['tag'] != null ? List<String>.from(json['tag']) : null,
     );
   }
 }
+
+

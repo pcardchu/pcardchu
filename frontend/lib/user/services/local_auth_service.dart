@@ -26,6 +26,12 @@ class LocalAuthService {
     await prefs.setBool('biometric_login', enabled);
   }
 
+  // 사용자의 생체 인증 로그인 설정을 삭제
+  Future<void> removeBiometricEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('biometric_login');
+  }
+
   // 생체 인증을 사용하여 인증 시도
   Future<bool> authenticateWithBiometrics(String localizedReason) async {
     print("생체인증 시도");

@@ -5,9 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/animations/fade_slide_animation.dart';
 import 'package:frontend/animations/fade_transition_page_route.dart';
 import 'package:frontend/animations/slide_transition_page_route.dart';
-import 'package:frontend/home/screens/home_screen.dart';
 import 'package:frontend/user/screens/login_screen.dart';
-import 'package:frontend/user/screens/scond_screen.dart';
+import 'package:frontend/user/screens/second_screen.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/screen_util.dart';
@@ -29,7 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
           Container(),
           FadeSlideAnimation(
             durationMilliseconds: 1000, // 원하는 지속 시간(밀리초 단위)
-            beginOffset: Offset(0.0, 0.5), // 시작 오프셋 설정
+            beginOffset: const Offset(0.0, 0.5), // 시작 오프셋 설정
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -67,7 +66,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     )
                     );
                   },
-                  child: Text('다음'),
+                  child: const Text('다음'),
                 ),
               ),
               const SizedBox(height: 20),

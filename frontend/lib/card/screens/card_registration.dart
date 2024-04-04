@@ -1,14 +1,19 @@
 import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/card/screens/card_number_check.dart';
-import 'package:frontend/card/widgets/card_registration_main.dart';
+import 'package:frontend/card/widgets/card_registration/card_registration_main.dart';
+import 'package:frontend/card/widgets/card_registration/self_card_number.dart';
 import 'package:frontend/providers/card_provider.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 
+import 'package:frontend/home/screens/bottom_nav_screen.dart';
+
 class CardRegistration extends StatefulWidget {
-  const CardRegistration({super.key});
+  final bool fromDialog;
+
+  const CardRegistration({super.key, this.fromDialog = false});
 
   @override
   State<CardRegistration> createState() => _CardRegistrationState();
@@ -33,7 +38,15 @@ class _CardRegistrationState extends State<CardRegistration> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new),
           onPressed: () {
-            Navigator.of(context).pop();
+            if(widget.fromDialog){
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => BottomNavScreen()),
+                    (Route<dynamic> route) => false, // 모든 이전 라우트를 제거할 때 사용
+              );
+            }else {
+              Navigator.of(context).pop();
+            }
           },
         ),
       ),
@@ -47,7 +60,7 @@ class _CardRegistrationState extends State<CardRegistration> {
               child: Column(
                 children: [
                   // 메인 바디 위젯
-                  CardRegistrationMain(),
+                  CardRegistrationMain(scan: scan,),
                   // 다음 버튼 위젯
                   Row(
                     children: [
