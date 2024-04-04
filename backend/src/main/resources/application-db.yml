@@ -1,0 +1,36 @@
+# db 설정을 저장하는 yml 입니다.
+
+# 공통 부분
+spring:
+  cassandra:
+    contact-points: ENC(Quu+mCjjse4lg1JP1At3Ojr/LsntbrJm)
+    keyspace-name: ENC(oEuaZEZUhwQ34Plqw/duYw==)
+    port: ENC(dA2hTrJfYW6AAQRSr3/dBA==)
+    local-datacenter: ENC(vHyctgxBcLzc6gcAI5GLQ0oIAXEiV75p)
+  data: # MongoDB
+    mongodb:
+      uri: ENC(6SQ0r99Gjoq2krm4c0PM3Q/HVz83mxg0YMvr72T4+1ArcJYxpYD8B8GWxI3f0MSY)
+---
+# 로컬 부분
+spring:
+  config:
+    activate:
+      on-profile: db-local
+  datasource:
+    driver-class-name: ${local.db.driver}
+    url: ${local.db.url}
+    username: ${local.db.username}
+    password: ${local.db.password}
+    hikari:
+      charset: UTF-8
+---
+# 서버 부분
+spring:
+  config:
+    activate:
+      on-profile: db-server
+  datasource:
+    driver-class-name: ENC(wLn481R1B56+dwtKaKTvGaJkJ7W8OWQqd8KtEwv6M2g=)
+    url: ENC(3XO5hHjuTHeZSxlpmIrYhoaBwtdw5ImYE6R+lH9zFE4q24tPsTPHTINMfkBZ+zEVq1p4iv8JPFLuJcBY5ilnFxkI3feSVTABPco4kyg/sg4=)
+    username: ENC(CtMauztT0+L+pV7pO87WXg==)
+    password: ENC(U8mThIcbEpxfn1SDE++a3fulsO2EdLC9)

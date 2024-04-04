@@ -1,0 +1,60 @@
+server:
+  port: ENC(P555KGV75MHwwg9gFSIQWw==)
+  servlet:
+    context-path: ENC(TF3Pcm5kzmqOVkgLYWBYdw==)
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  forward-headers-strategy: framework
+
+spring:
+  profiles:
+    active: server # default
+    group:
+      local:  # local, common profile을 그룹지어 함께 어플리케이션 구동
+        - db-local
+      server:   # prod, common profile을 그룹지어 함께 어플리케이션 구동
+        - db-server
+    include:
+      - key
+      - db
+      - data
+  jpa:
+    hibernate:
+      ddl-auto: update #create update none
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+    defer-datasource-initialization: true # JPA 엔티티를 통한 DB 초기화 이후 data.sql 실행
+  sql:
+    init:
+      mode: always
+  mail:
+    host: smtp.gmail.com
+    port: ENC(F+Tfqgh7eSKxyNTnRRMzHg==)
+    username: "ENC(317d5amI/sqx+o9joG33unh0YWEiY3S9LPIiK2XPrOWOpLL0hX5ZTw==)"
+    password: "ENC(XV8iWatOj38inN+Lzz/0mv21sdOtIKjMR6ltLSemmo4=)"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+springdoc:
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+  api-docs:
+    groups:
+      enabled: true # group 허용
+  swagger-ui:
+    path: /swagger-ui.html # swagger-ui 접근 경로 별칭, 해당 주소로 접속해도 http://localhost:8080/swagger-ui/index.html로 리다이렉션
+    groups-order: DESC  # path, query, body, response 순으로 출력
+    tags-sorter: alpha  # 태그를 알파벳 순으로 정렬
+    operations-sorter: method # delete-get-patch-post-put 순으로 정렬 (alpha: 알파벳 순)
+    disable-swagger-default-url: true
+  show-login-endpoint: true
