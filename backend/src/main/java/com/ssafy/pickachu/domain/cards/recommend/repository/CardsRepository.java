@@ -9,4 +9,6 @@ public interface CardsRepository extends MongoRepository<Cards, String> {
 
     Optional<Cards> findByCardName(String cardName);
 
+    Optional<Cards> findByImageNameRegex(String cardName);
+
 }
