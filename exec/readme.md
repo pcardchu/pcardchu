@@ -19,6 +19,12 @@
 
 ## 🍀 환경 변수
 ### [Frontend]
+ 아래 변수들을 .env 파일에 넣으세요.
+ ```
+ AES_KEY='[백엔드와 공유하는 aesKey]';
+ KAKAO_NATIVE_APP_KEY='[카카오 네이티브 앱 키]';
+ API_URL='[API베이스Url]';
+ ```
 ### [Backend]
  아래 파일 속 암호화된 값들을 [**application-key.yml**](./application-key.yml)의 jasypt 키로 복호화하여 사용합니다.
 - [backend/src/main/resources/application.yml](./../backend/src/main/resources/application.yml)
@@ -199,3 +205,5 @@ chmod -R 755 /var/jenkins_home
 7.4 Credentials 설정
 ### [8. Distributed File System]
 [링크 참고](./distributed_file_system_setting.md)
+### [flutter]
+
