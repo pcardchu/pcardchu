@@ -5,6 +5,8 @@ import 'package:frontend/utils/app_fonts.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/screen_util.dart';
 
+import '../../providers/user_info_provider.dart';
+
 class ConsumeDifferCard extends StatefulWidget {
   const ConsumeDifferCard({Key? key}) : super(key: key);
 
@@ -30,6 +32,7 @@ class _ConsumeDifferCardState extends State<ConsumeDifferCard> {
     // Provider를 통해 현재 로딩 상태와 데이터를 가져옵니다.
     final loading = context.watch<ConsumeDifferProvider>().loading;
     final data = context.watch<ConsumeDifferProvider>().diff;
+    final userProvider = Provider.of<UserInfoProvider>(context);
 
     return SizedBox(
       height: ScreenUtil.h(26),
@@ -85,7 +88,7 @@ class _ConsumeDifferCardState extends State<ConsumeDifferCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '유저님은 ${data.ageGroup} ${data.gender}에 비해',
+                      '${userProvider.userName}님은 ${data.ageGroup} ${data.gender}에 비해',
                       style: AppFonts.suit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
