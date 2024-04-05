@@ -72,6 +72,8 @@
 
 
 <img src="https://img.shields.io/badge/java-3a75b0?style=for-the-badge&logo=java&logoColor=black"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens">
+<img src="https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white">
 <img src="https://img.shields.io/badge/spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 <img src="https://img.shields.io/badge/spring mvc-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/JPA Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white">
@@ -100,9 +102,11 @@
 <img src="https://img.shields.io/badge/apache hadoop-66CCFF?style=for-the-badge&logo=apachehadoop&logoColor=white"> 
 <img src="https://img.shields.io/badge/apache spark-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white"> 
 <img src="https://img.shields.io/badge/apache cassandra-1287B1?style=for-the-badge&logo=apachecassandra&logoColor=white"> 
-<img src="https://img.shields.io/badge/zookeeper-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white"> 
+<img src="https://img.shields.io/badge/JASYPT-000000?style=for-the-badge">
+<img src="https://img.shields.io/badge/apache zookeeper-47802F?style=for-the-badge&logoColor=white"> 
 <img src="https://img.shields.io/badge/open zeppelin-4E5EE4?style=for-the-badge&logo=openzeppelin&logoColor=white"> 
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> 
+
 
 **Language |** Python 3.8
 
@@ -124,11 +128,13 @@
 <img src="https://img.shields.io/badge/jenkins-111111?style=for-the-badge&logo=jenkins&logoColor=white">
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/mattermost-0058CC?style=for-the-badge&logo=mattermost&logoColor=white">
+<img src="https://img.shields.io/badge/nginx-00953B?style=for-the-badge&logo=nginx&logoColor=white">
 
 
 
 
-**DB |** MariaDB 10.11 LTS
+
+**DB |** MariaDB 10.11, MongoDB
 
 **Server |** GitLab, Jenkins, Docker
 
@@ -146,25 +152,30 @@
 ✨ 회원가입
 
 ✨ 로그인
+
 <img src = "images/페이스아이디.gif" width="150">
 
 <br>
 <br>
 
 ✨ 홈화면 - 혜택 별 카드 리스트
+
 <img src = "images/홈-카드리스트.gif" width="150">
 <br>
 <br>
 ✨ 내 카드 화면
+
 <img src = "images/카드등록.gif" width="150">
 <img src = "images/내카드정보.gif" width="150">
 <br>
 <br>
 ✨ 소비패턴 화면
+
 <img src = "images/소비패턴.gif" width="150">
 <br>
 <br>
 ✨ 추천 카드 화면
+
 <img src = "images/카드추천.gif" width="150">
 <br>
 <br>
@@ -196,8 +207,11 @@
 <br>
 <br>
 
-## 컨벤션
+- 포팅매뉴얼
+
 >[포팅매뉴얼](./exec/distributed_file_system_setting.md)
+
+## 컨벤션
 ## Commit
 
 - 💠 **feat**: 새로운 기능 추가
