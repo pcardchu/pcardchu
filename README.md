@@ -178,19 +178,20 @@
 ✨ 내 카드 화면
 <br>
 <img src = "images/카드등록.gif" width="200">
-<br>
+
 <img src = "images/등록완료.gif" width="200">
+
 - ocr을 통한 카드 등록
 <br>
 <img src = "images/내카드정보.gif" width="200">
 
 - 등록된 카드 이미지와 상세 정보
 - 하루동안의 소비와 카드 혜택을 잘 이용하고 있는지 계산
-  <br>
-  <br>
-  ✨ 소비패턴 화면
-  <br>
-  <img src = "images/소비패턴.gif" width="200">
+<br>
+<br>
+✨ 소비패턴 화면
+<br>
+<img src = "images/소비패턴.gif" width="200">
 
 - 등록한 카드를 바탕으로 소비 패턴 분석
 - 한달 소비 내역 및 카테고리 분석
