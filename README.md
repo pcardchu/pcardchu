@@ -13,6 +13,7 @@
 - [시스템 아키텍처](#시스템-아키텍처)
 - [기능소개](#기능소개)
 - [프로젝트 산출물](#프로젝트-산출물)
+- [컨벤션](#컨벤션)
 
 ## 서비스 개요
 ```
@@ -173,10 +174,10 @@
 
 - API 명세서
 
+>https://www.notion.so/yi219/API-5df77923d2d04ae5ae141e36410670be?pvs=4
 <br>
-https://www.notion.so/yi219/API-5df77923d2d04ae5ae141e36410670be?pvs=4
 <br>
-<br>
+
 - ERD
 
 <div align="middle">
@@ -187,15 +188,16 @@ https://www.notion.so/yi219/API-5df77923d2d04ae5ae141e36410670be?pvs=4
 
 <br>
 <br>
+
 - 와이어프레임
-<br>
-https://www.figma.com/file/7OJJjBJYvG7yZHZMA2RcJ4/D110-%EC%A7%B1%EB%93%A4%EC%9D%98%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=143%3A533&mode=design&t=jmWbTaIamnQybbWO-1
+
+>https://www.figma.com/file/7OJJjBJYvG7yZHZMA2RcJ4/D110-%EC%A7%B1%EB%93%A4%EC%9D%98%EB%94%94%EC%9E%90%EC%9D%B8?type=design&node-id=143%3A533&mode=design&t=jmWbTaIamnQybbWO-1
 
 <br>
 <br>
 
-## Convention
-
+## 컨벤션
+>[포팅매뉴얼](./exec/distributed_file_system_setting.md)
 ## Commit
 
 - 💠 **feat**: 새로운 기능 추가
