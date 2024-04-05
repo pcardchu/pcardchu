@@ -147,12 +147,13 @@
   <br />
 </div>
 
+
 ## 기능소개
 
 ✨ 회원가입
 
 ✨ 로그인
-
+<br>
 <img src = "images/페이스아이디.gif" width="150">
 
 - 카카오 소셜 로그인 (1차)
@@ -162,7 +163,7 @@
 <br>
 
 ✨ 홈화면 - 혜택 별 카드 리스트
-
+<br>
 <img src = "images/홈-카드리스트.gif" width="150">
 
 - 연령 별 소비 데이터를 통한 분석 결과 제공
@@ -172,11 +173,11 @@
 <br>
 <br>
 ✨ 내 카드 화면
-
+<br>
 <img src = "images/카드등록.gif" width="150">
 
 - ocr을 통한 카드 등록
-
+<br>
 <img src = "images/내카드정보.gif" width="150">
 
 - 등록된 카드 이미지와 상세 정보
@@ -184,7 +185,7 @@
 <br>
 <br>
 ✨ 소비패턴 화면
-
+<br>
 <img src = "images/소비패턴.gif" width="150">
 
 - 등록한 카드를 바탕으로 소비 패턴 분석
@@ -194,7 +195,7 @@
 <br>
 <br>
 ✨ 추천 카드 화면
-
+<br>
 <img src = "images/카드추천.gif" width="150">
 
 - 분석한 소비패턴을 기반으로 카드 추천
@@ -229,6 +230,13 @@
 
 <br>
 <br>
+
+- 분산 파이프라인 
+<div align="middle">
+  <br />
+  <img src="images/분산처리구조.png" width="70%"/>
+  <br />
+</div>
 
 - 포팅매뉴얼
 
