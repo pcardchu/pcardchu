@@ -61,10 +61,7 @@ class _CardStackState extends State<CardStack> {
         ]),
         SizedBox(height: 60),
         // 조건부 렌더링
-        if (cardListProvider.cardList.isNotEmpty)
-          Center(child: MyRegisterCard())
-        else
-          Text('등록된 카드가 없습니다.', textAlign: TextAlign.center),
+        Center(child: MyRegisterCard()),
         SizedBox(height: 10),
         Align(
           alignment: Alignment.center,
