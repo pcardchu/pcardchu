@@ -91,7 +91,10 @@ class CardService {
       } else {
         throw Exception('Failed to load cards');
       }
-    } catch (e) {
+    } on DioException catch (e) {
+      if(e.response?.statusCode == 409){
+        /// 여기서 409 ( 이미 중복된 카드 일 때 대응 해주기 )
+      }
       return {'data': false};
       throw Exception('Failed to load cards: $e');
     }
