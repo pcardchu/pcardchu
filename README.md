@@ -122,6 +122,8 @@
 
 ### 인프라
 
+<div align="middle">
+
 <img src="https://img.shields.io/badge/gitlab-F05032?style=for-the-badge&logo=gitlab&logoColor=white">
 <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
 <img src="https://img.shields.io/badge/maria DB-4479A1?style=for-the-badge&logo=mariadb&logoColor=white">
@@ -131,14 +133,14 @@
 <img src="https://img.shields.io/badge/nginx-00953B?style=for-the-badge&logo=nginx&logoColor=white">
 
 
-
-
-
 **DB |** MariaDB 10.11, MongoDB
 
 **Server |** GitLab, Jenkins, Docker
 
+
 </div>
+<br>
+<br>
 
 ## 시스템 아키텍처
 <div align="middle">
