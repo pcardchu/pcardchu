@@ -58,7 +58,7 @@ class CardProvider with ChangeNotifier {
   List get companyList => _cardCompany.companyList;
 
   /// 카드 등록 가능 여부
-  Map<String, dynamic>? cardRegisterResult;
+  String cardRegisterResult = '';
 
   /// 페이지네이션 다음 페이지 있는지 여부 확인용
   bool isNextPage = true;
@@ -271,8 +271,8 @@ class CardProvider with ChangeNotifier {
     // 카드 등록시 선택한 카드사 인덱스를 -1로 초기화
     _companyIndex = -1;
 
-    // 카드 등록 가능 여부를 null로 초기화
-    cardRegisterResult = null;
+    // 카드 등록 가능 여부를 ''로 초기화
+    cardRegisterResult = '';
 
     // 페이지네이션 다음 페이지 있는지 여부를 true로 초기화
     isNextPage = true;

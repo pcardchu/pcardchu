@@ -87,12 +87,15 @@ class CardService {
           });
 
       if (response.statusCode == 200) {
-        return response.data;
+        return '200';
       } else {
         throw Exception('Failed to load cards');
       }
-    } catch (e) {
-      return {'data': false};
+    } on DioException catch (e) {
+      if(e.response?.statusCode == 409){
+        return '409';
+      }
+      return '404';
       throw Exception('Failed to load cards: $e');
     }
   }

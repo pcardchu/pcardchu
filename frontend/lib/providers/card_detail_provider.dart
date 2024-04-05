@@ -4,7 +4,7 @@ import 'package:frontend/card/models/card_detail_model.dart';
 import 'package:frontend/card/models/consumption_model.dart';
 import 'package:frontend/card/models/recommend_model.dart';
 import 'package:frontend/card/services/card_detail_service.dart';
-import 'package:frontend/card/services/consumption_service.dart';
+import 'package:frontend/chart/services/consumption_service.dart';
 
 class CardDetailProvider with ChangeNotifier {
 
@@ -29,6 +29,7 @@ class CardDetailProvider with ChangeNotifier {
     _setLoading(true);
     try {
       _cardDetailModel = await _cardDetailService.getMyCardDetail(id);
+      print(_cardDetailModel);
       _setLoading(false);
     }catch (e) {
       _setLoading(false);

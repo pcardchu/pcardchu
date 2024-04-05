@@ -42,13 +42,13 @@ class _CardDetailState extends State<CardDetail> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
 
         backgroundColor: AppColors.mainWhite,
 
         // 뒤로가기 버튼
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -75,7 +75,7 @@ class _CardDetailState extends State<CardDetail> {
                     DetailTop(),
                     // 구분선
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 23),
+                      margin: const EdgeInsets.symmetric(vertical: 23),
                       height: 16,
                       color: AppColors.bottomGrey,
                     ),
@@ -117,7 +117,7 @@ class _CardDetailState extends State<CardDetail> {
       // 카드 신청 웹 주소
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => CardWebView(),
+          builder: (_) => const CardWebView(),
         ),
       );
     }
@@ -129,7 +129,7 @@ class _CardDetailState extends State<CardDetail> {
       context: context,
       pageBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation) {
-        return LoadingModal();
+        return const LoadingModal();
       },
     );
   }

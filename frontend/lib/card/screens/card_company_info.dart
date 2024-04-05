@@ -42,10 +42,10 @@ class _CardCompanyInfoState extends State<CardCompanyInfo> {
       // 키패드 나와도 위젯 재배치 안하기
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         backgroundColor: AppColors.mainWhite,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.pop(context); // 이전 페이지로 이동
           },
@@ -147,8 +147,8 @@ class _CardCompanyInfoState extends State<CardCompanyInfo> {
 
           // 입력받은 정보로 POST 요청을 했을때 카드 등록이 가능한지 체크용
           // false라면 등록 불가능 하다는 모달창을 띄우는데 사용됩니다
-          bool isPossible =
-              context.read<CardProvider>().cardRegisterResult?['data'];
+          String? isPossible =
+              context.read<CardProvider>().cardRegisterResult;
 
           // 로딩 끝났다고 알림
           setState(() {
@@ -160,13 +160,22 @@ class _CardCompanyInfoState extends State<CardCompanyInfo> {
 
           // 카드 등록 불가한 정보라면
           // 카드 등록 불가 다이얼로그를 보여줍니다
-          if (!isPossible) {
+          if (isPossible == '404') {
             showDialog(
                 context: context,
                 builder: (_) {
-                  return CardRegistrationModal();
+                  return CardRegistrationModal(text: '등록된 고객정보가 존재하지 않아요',);
                 });
           }
+          // 중복이라면
+          else if(isPossible == '409'){
+            showDialog(
+                context: context,
+                builder: (_) {
+                  return CardRegistrationModal(text: '이미 등록된 카드예요',);
+                });
+          }
+
           // 카드 등록 가능한 정보라면
           // 등록 완료 페이지로 이동
           else {

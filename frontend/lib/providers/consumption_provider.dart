@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:frontend/card/models/calendar_model.dart';
 import 'package:frontend/card/models/consumption_model.dart';
 import 'package:frontend/card/models/recommend_model.dart';
-import 'package:frontend/card/services/consumption_service.dart';
+import 'package:frontend/chart/services/consumption_service.dart';
 
 class ConsumptionProvider with ChangeNotifier {
   ConsumptionService consumptionService = ConsumptionService();

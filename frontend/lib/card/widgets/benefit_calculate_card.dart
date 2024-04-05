@@ -11,7 +11,7 @@ class BenefitCalculateCard extends StatelessWidget {
   final String benefitType;
   final int benefitAmount;
 
-  const BenefitCalculateCard({
+  const  BenefitCalculateCard({
     super.key,
     required this.benefitType,
     required this.benefitAmount,
