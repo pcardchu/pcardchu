@@ -29,6 +29,7 @@ class CardDetailProvider with ChangeNotifier {
     _setLoading(true);
     try {
       _cardDetailModel = await _cardDetailService.getMyCardDetail(id);
+      print(_cardDetailModel);
       _setLoading(false);
     }catch (e) {
       _setLoading(false);
