@@ -104,7 +104,7 @@
 <img src="https://img.shields.io/badge/apache cassandra-1287B1?style=for-the-badge&logo=apachecassandra&logoColor=white"> 
 <img src="https://img.shields.io/badge/JASYPT-000000?style=for-the-badge">
 <img src="https://img.shields.io/badge/apache zookeeper-47802F?style=for-the-badge&logoColor=white"> 
-<img src="https://img.shields.io/badge/open zeppelin-4E5EE4?style=for-the-badge&logo=openzeppelin&logoColor=white"> 
+<img src="https://img.shields.io/badge/zeppelin-4E5EE4?style=for-the-badge&logo=zeppelin&logoColor=white"> 
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> 
 
 
@@ -155,28 +155,51 @@
 
 <img src = "images/페이스아이디.gif" width="150">
 
+- 카카오 소셜 로그인 (1차)
+- 지문과 페이스 아이디를 통한 생체 로그인 (2차)
+
 <br>
 <br>
 
 ✨ 홈화면 - 혜택 별 카드 리스트
 
 <img src = "images/홈-카드리스트.gif" width="150">
+
+- 연령 별 소비 데이터를 통한 분석 결과 제공
+- 개인 데이터를 이용하여 같은 집단과 비교 결과 제공
+- 혜택 별로 살펴보는 인기 카드 리스트
+
 <br>
 <br>
 ✨ 내 카드 화면
 
 <img src = "images/카드등록.gif" width="150">
+
+- ocr을 통한 카드 등록
+
 <img src = "images/내카드정보.gif" width="150">
+
+- 등록된 카드 이미지와 상세 정보
+- 하루동안의 소비와 카드 혜택을 잘 이용하고 있는지 계산
 <br>
 <br>
 ✨ 소비패턴 화면
 
 <img src = "images/소비패턴.gif" width="150">
+
+- 등록한 카드를 바탕으로 소비 패턴 분석
+- 한달 소비 내역 및 카테고리 분석
+- 이전 달과 비교한 소비 결과
+
 <br>
 <br>
 ✨ 추천 카드 화면
 
 <img src = "images/카드추천.gif" width="150">
+
+- 분석한 소비패턴을 기반으로 카드 추천
+- 가장 많이 사용한 혜택 내역 위주의 추천
+
 <br>
 <br>
 
