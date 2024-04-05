@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/screens/consumption.dart';
+import 'package:frontend/chart/screens/consumption.dart';
 import 'package:frontend/card/widgets/no_card_notice.dart';
 import 'package:provider/provider.dart';
 

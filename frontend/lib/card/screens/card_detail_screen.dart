@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../providers/card_detail_provider.dart';
 import '../../providers/user_info_provider.dart';
 import '../../utils/app_colors.dart';
-import '../widgets/card_detail/detail_benefit.dart';
 
 class CardDetailScreen extends StatefulWidget {
   final int? cardId;
@@ -43,12 +42,12 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         backgroundColor: AppColors.mainWhite,
         elevation: 0,
         // 뒤로가기 버튼
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -94,11 +93,8 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
 
     if (data == null) {
     // cardDetailData가 null일 경우, 로딩 인디케이터 또는 대체 UI를 표시합니다.
-    return Center(child: CircularProgressIndicator());
+    return const Center(child: CircularProgressIndicator());
     }
-
-
-
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -106,14 +102,14 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Center(
                 child: Container(
                   width: ScreenUtil.w(56),
                   height: ScreenUtil.h(36),
                   child: Image.network("${data.cardImage}"),
                 )),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Text(
               '이번 달 ${userProvider.userName}님이 쓴 금액',
               style: AppFonts.scDream(
@@ -134,7 +130,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
             Container(
               margin: EdgeInsets.only(left: 20),
               child: Text(
@@ -164,18 +160,19 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: Text(
-                '하루 나의 소비',
+                '지난 24시간 나의 소비',
                 style: AppFonts.suit(
                   fontWeight: FontWeight.w500,
-                  fontSize: 14,
+                  fontSize: 16,
                   color: AppColors.lightGrey,
                 ),
               ),
             ),
             Container(
               height: 200,
+              margin: EdgeInsets.only(left: 20),
               child: ListView.separated(
                 //ListView가 차지하는 공간을 자식 크기에 맞춤
                   //shrinkWrap: true,
@@ -205,6 +202,12 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
     // final loading = cardDetailProvider.loading;
     final data = cardDetailProvider.cardDetailModel?.useBenefit ?? {};
 
+    if(data == null){
+      return Text(
+        '카드 혜택이 존재하지 않습니다',
+        style: AppFonts.suit(fontSize: 20, color: AppColors.textBlack, fontWeight: FontWeight.w800),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),

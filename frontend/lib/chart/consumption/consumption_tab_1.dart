@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/consumption/calender_accordion.dart';
-import 'package:frontend/card/widgets/consumption/compare.dart';
-import 'package:frontend/card/widgets/consumption/consumption_chart.dart';
-import 'package:frontend/card/widgets/consumption/consumption_list.dart';
+import 'package:frontend/chart/consumption/calender_accordion.dart';
+import 'package:frontend/chart/consumption/compare.dart';
+import 'package:frontend/chart/consumption/consumption_chart.dart';
+import 'package:frontend/chart/consumption/consumption_list.dart';
 import 'package:frontend/utils/app_colors.dart';
-import 'package:frontend/utils/screen_util.dart';
 
 /// 소비패턴 - 내 소비 탭 화면
 class ConsumptionTab1 extends StatefulWidget {

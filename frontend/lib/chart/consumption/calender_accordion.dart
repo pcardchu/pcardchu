@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/card/widgets/consumption/calender.dart';
+import 'package:frontend/chart/consumption/calender.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:frontend/utils/app_fonts.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 /// 소비패턴 - 캘린더 아코디언바
 class CalenderAccordion extends StatefulWidget {
