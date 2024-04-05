@@ -154,7 +154,7 @@
 
 ✨ 로그인
 <br>
-<img src = "images/페이스아이디.gif" width="150">
+<img src = "images/페이스아이디.gif" width="200">
 
 - 카카오 소셜 로그인 (1차)
 - 지문과 페이스 아이디를 통한 생체 로그인 (2차)
@@ -164,7 +164,7 @@
 
 ✨ 홈화면 - 혜택 별 카드 리스트
 <br>
-<img src = "images/홈-카드리스트.gif" width="150">
+<img src = "images/홈-카드리스트.gif" width="200">
 
 - 연령 별 소비 데이터를 통한 분석 결과 제공
 - 개인 데이터를 이용하여 같은 집단과 비교 결과 제공
@@ -174,11 +174,11 @@
 <br>
 ✨ 내 카드 화면
 <br>
-<img src = "images/카드등록.gif" width="150">
+<img src = "images/카드등록.gif" width="200">
 
 - ocr을 통한 카드 등록
 <br>
-<img src = "images/내카드정보.gif" width="150">
+<img src = "images/내카드정보.gif" width="200">
 
 - 등록된 카드 이미지와 상세 정보
 - 하루동안의 소비와 카드 혜택을 잘 이용하고 있는지 계산
@@ -186,7 +186,7 @@
 <br>
 ✨ 소비패턴 화면
 <br>
-<img src = "images/소비패턴.gif" width="150">
+<img src = "images/소비패턴.gif" width="200">
 
 - 등록한 카드를 바탕으로 소비 패턴 분석
 - 한달 소비 내역 및 카테고리 분석
@@ -196,7 +196,7 @@
 <br>
 ✨ 추천 카드 화면
 <br>
-<img src = "images/카드추천.gif" width="150">
+<img src = "images/카드추천.gif" width="200">
 
 - 분석한 소비패턴을 기반으로 카드 추천
 - 가장 많이 사용한 혜택 내역 위주의 추천
@@ -234,7 +234,7 @@
 - 분산 파이프라인 
 <div align="middle">
   <br />
-  <img src="images/분산처리구조.png" width="70%"/>
+  <img src="images/분산처리구조.png" width="50%"/>
   <br />
 </div>
 
