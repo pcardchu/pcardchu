@@ -87,15 +87,15 @@ class CardService {
           });
 
       if (response.statusCode == 200) {
-        return response.data;
+        return '200';
       } else {
         throw Exception('Failed to load cards');
       }
     } on DioException catch (e) {
       if(e.response?.statusCode == 409){
-        /// 여기서 409 ( 이미 중복된 카드 일 때 대응 해주기 )
+        return '409';
       }
-      return {'data': false};
+      return '404';
       throw Exception('Failed to load cards: $e');
     }
   }

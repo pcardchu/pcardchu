@@ -4,7 +4,12 @@ import 'package:frontend/utils/app_fonts.dart';
 
 // 카드 등록시 입력 정보가 잘못된 경우 보여주는 모달
 class CardRegistrationModal extends StatelessWidget {
-  const CardRegistrationModal({super.key});
+  final String text;
+
+  const CardRegistrationModal({
+    super.key,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ class CardRegistrationModal extends StatelessWidget {
               child: Image.asset('assets/images/xox_logo.png')),
           SizedBox(height: 8),
           Text(
-            '등록된 고객정보가 존재하지 않아요',
+            text,
             style: AppFonts.suit(
               fontSize: 16,
               fontWeight: FontWeight.w800,
