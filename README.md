@@ -213,7 +213,7 @@
 
 - API 명세서
 
-> https://www.notion.so/yi219/API-5df77923d2d04ae5ae141e36410670be?pvs=4 > <br> > <br>
+> https://www.notion.so/yi219/API-5df77923d2d04ae5ae141e36410670be?pvs=4
 
 - ERD
 
