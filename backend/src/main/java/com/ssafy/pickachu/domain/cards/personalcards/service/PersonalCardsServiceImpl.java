@@ -26,7 +26,7 @@ import com.ssafy.pickachu.global.codef.CodefApi;
 import com.ssafy.pickachu.global.exception.ErrorCode;
 import com.ssafy.pickachu.global.exception.ErrorException;
 import com.ssafy.pickachu.global.util.JasyptUtil;
-import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -55,7 +56,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-@Transactional
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -70,7 +70,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
     private final PersonalCardsMapper personalCardsMapper;
     private final CodefRepository codefRepository;
     private final CodefApi codefApi;
-    private final EntityManager em;
+
     private final CardHistoryService cardHistoryService;
     private final JasyptUtil jasyptUtil;
     private final StatisticsMapper statisticsMapper;
@@ -383,8 +383,11 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
     @Override
     public void RegisterMyCards(PrincipalDetails principalDetails, RegisterCardsReq registerCardsReq) {
-        Gson gson = new Gson();
-        // Codef Token 가져오기/생성
+
+        User user = userRepository.findById(principalDetails.getUserDto().getId())
+            .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
+
+        // XXX Codef Token 가져오기/ null -> 생성
         CodefToken codefToken = codefRepository.findById(1)
             .orElseGet(() -> {
                 CodefToken token = CodefToken.builder()
@@ -396,11 +399,8 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             });
         codefRepository.saveAndFlush(codefToken);
 
-        User user = userRepository.findById(principalDetails.getUserDto().getId())
-            .orElseThrow(() -> new ErrorException(ErrorCode.USER_NOT_FOUND));
 
-
-//      토큰 시간 지났으면 갱신
+        // XXX 토큰 유효 7일 -> 지나면 갱신
         if (codefToken.getUpdateTime().plusDays(7).isBefore(LocalDateTime.now())) {
             codefToken.setToken(codefApi.GetToken());
             codefRepository.save(codefToken);
@@ -418,36 +418,41 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
         // XXX 유저에게 connectedId 존재 여부 확인
         if (user.getConnectedId() == null) {
-            // XXX ConnectedId 추가하기
             try {
                 String newConnectedId = codefApi.GetConnectedToken(registerCardsReq, codefToken.getToken());
                 user.setConnectedId(jasyptUtil.encrypt(newConnectedId));
-
+                SaveUser(user); //  다른 Transactional에서 ConnectedId 저장 -> rollBack 안됨
 
             } catch (NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
                      InvalidKeySpecException | BadPaddingException | InvalidKeyException | IOException |
                      ParseException | InterruptedException ignore) {
             }
-        }else {
-            //TODO 여기 .. ..... . . . . 퍼스널 카드 목록에 그 은행이 있는지 확인 없으면 ... connectedID 갱신
-
-            if (!personalCardsRepository.findByUserIdAndCardCompanyAndUseYN(user.getId(), registerCardsReq.getCardCompany(), "Y")) {
-                log.info("connectedId add Bank : " + registerCardsReq.getCardCompany());
-                try {
-                    String newConnectedId = codefApi.AddBankInConnectedId(registerCardsReq, user, codefToken.getToken());
-                    if(!newConnectedId.equals("existBankData")){
-                        throw new ErrorException(ErrorCode.EXIST_BANK_INFO);
-                    }
-                    user.setConnectedId(jasyptUtil.encrypt(newConnectedId));
-                } catch (NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
-                         InvalidKeySpecException | BadPaddingException | InvalidKeyException | IOException |
-                         ParseException | InterruptedException ignore) {
-                }
-            }
         }
 
-        //TODO 카드 이름 넣어야 detail 조회가 가능하다..
+        // XXX 등록한 은행 리스트 가져오기
+        List<String> bankList = null;
+        try {
+            bankList =codefApi.GetAccountList(jasyptUtil.decrypt(user.getConnectedId()), codefToken.getToken());
+        } catch (IOException | ParseException | InterruptedException ignore) {
+
+        }
+        // XXX 없으면 은행 등록
+        if (!bankList.contains(registerCardsReq.getCardCompany())){
+            try {
+                String newConnectedId = codefApi.AddBankInConnectedId(registerCardsReq, user, codefToken.getToken());
+                user.setConnectedId(jasyptUtil.encrypt(newConnectedId));
+                SaveUser(user);
+
+            } catch (NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException |
+                     InvalidKeySpecException | BadPaddingException | InvalidKeyException | IOException |
+                     ParseException | InterruptedException ignore) {}
+        }
+
+
+
+        // XXX 내가 등록한 카드 다 가지고 오기 >> 없으면 내 카드가 아닌 것이구나??
         String userCards;
+        Boolean myCards = true;
         try {
             userCards = codefApi.GetCardsName(registerCardsReq, user, codefToken.getToken());
 
@@ -473,22 +478,25 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        String cardNameTarget = "Card";
+        // mongoDB : 크롤링한 카드 이름과 비교하여 찾기
+        String cardNameTarget = "Card"; // 임시 카드 이름
         for (Object o : cardsListArray) {
 
             Map<String, Object> o1 = gson.fromJson(o.toString(), Map.class);
             log.info(o1.toString());
             String maskedStr1 = null;
+            // 카드 조회 1개면 Object N개 List<Object> 로 옴
             try{
                 Map<String, String> data = (Map<String, String>)o1.get("data");
                 maskedStr1 = data.get("resCardNo");
                 cardNameTarget = data.get("resCardName");
+                cardNameTarget = cardNameTarget.replaceAll("[`~!@#$%^&*()_|+\\-=?;:'\",.<>\\{\\}\\[\\]\\\\\\/ ]", "");
             }catch (NullPointerException ignore){
                 maskedStr1 = (String)o1.get("resCardNo");
                 cardNameTarget = (String)o1.get("resCardName");
+                cardNameTarget = cardNameTarget.replaceAll("[`~!@#$%^&*()_|+\\-=?;:'\",.<>\\{\\}\\[\\]\\\\\\/ ]", "");
             }
-
+            //
             String maskedStr2 = registerCardsReq.getCardNo().replace("-", "");
             int matchingChars = 0;
             for (int i = 0; i < maskedStr1.length(); i++) {
@@ -499,19 +507,25 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
             maskedStr1 = maskedStr1.replaceAll("\\*", "");
             if(maskedStr2.length() - (maskedStr2.length()-maskedStr1.length()) == matchingChars){
-
+                // 일치 -> 내 카드를 찾음 >> 어떤 카드 이름인지 알 수있다
+                myCards = false;
                 break;
             }
         }
-        String cardsIdTarget = "0000";
-        Optional<Cards> optionalCards = cardsRepository.findByCardName(cardNameTarget);
+        if (myCards){
+            throw new ErrorException(ErrorCode.NOT_MY_CARDS);
+        }
+
+        String cardsIdTarget = "0000";  // 임시 카드 타겟
+        // MongoDB 카드 Id와  매칭 하기
+        Optional<Cards> optionalCards = cardsRepository.findByImageNameRegex(cardNameTarget);
         if (optionalCards.isPresent()){
             cardNameTarget = optionalCards.get().getCardName();
             cardsIdTarget = optionalCards.get().getId();
         }
 
-        // url 주소 : https://development.codef.io/v1/kr/card/p/account/result-check-list
-// 카드 저장.. 이거. 안될것 같은데
+
+        // XXX 카드 저장 하기
         PersonalCards personalCards = PersonalCards.builder()
             .name(cardNameTarget)
             .cardCompany(registerCardsReq.getCardCompany())
@@ -529,7 +543,6 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         // 어제 날짜까지
-//        calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.add(Calendar.DATE, -1); // 어제
         String endDay = dateFormat.format(calendar.getTime());
 
@@ -537,9 +550,10 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
         calendar.set(Calendar.DAY_OF_MONTH, 1); // 그 달의 첫 번째 날로 설정
         String startDay = dateFormat.format(calendar.getTime());
 
-//        // TODO 사용내역 가지고 오기
+        // XXX 사용내역 가지고 오기 (저번달 1일 ~ 어제)
         try {
             String payListResult = codefApi.GetUseCardList(registerCardsReq, user, codefToken.getToken(),startDay,endDay);
+            // 저장하러 가기
             cardHistoryService.saveCardHistories(payListResult, user, personalCards.getId());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -549,8 +563,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             throw new RuntimeException(e);
         }
 
-        userRepository.save(user);
-
+        // 분산 실행
         runNotebook();
     }
 
@@ -626,7 +639,6 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             throw new ErrorException(ErrorCode.CARDINFO_NOT_FOUND);
         }
 
-        log.info("HISTORY SIZE : " + cardHistoryEntities.size());
         Map<String, Integer> consumptionHistory = new HashMap<>();
         for (CardHistoryEntity cardHistory : cardHistoryEntities) {
             int useMoney = consumptionHistory.getOrDefault(cardHistory.getCategory(), 0);
@@ -639,7 +651,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             .collect(Collectors.toList());
 
         List<RecommendCard> returnValue = new ArrayList<>();
-        log.info("sortedEntry : " + sortedEntries.toString());
+
         for (int i = 0; i < 3; i++){
             String category;
             try {
@@ -691,7 +703,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
             returnValue.add(topCategoryResult);
 
         }
-        log.info("카드 추천 값 " + returnValue.toString());
+
         return RecommendPersonalCardRes.builder()
             .name(user.getNickname())
             .discount(returnValue)
@@ -701,5 +713,11 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
 
     }
 
+
+    @Transactional
+    public void SaveUser(User user){
+        log.info("HERE USER ????? ? ? ? ?");
+        userRepository.saveAndFlush(user);
+    }
 
 }

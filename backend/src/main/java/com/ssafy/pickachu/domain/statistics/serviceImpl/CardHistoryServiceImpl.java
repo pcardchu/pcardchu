@@ -274,14 +274,17 @@ public class CardHistoryServiceImpl implements CardHistoryService {
         List<String> groups = cards.getGroupCategory();
         Map<String, Integer> totalDiscount = new HashMap<>();
         for (CardHistoryEntity cardHistoryEntity : cardHistoryEntities) {
+
             String category = cardHistoryEntity.getCategory();
             int idxCat = groups.indexOf(category);
+
             if (idxCat < 0){
                 continue;
             }
             Map<String, Object> tt;
             try{
                 tt= (Map<String, Object>) contents.get(keys.get(idxCat)).get(1);
+
             }catch (NullPointerException ignore){
                 continue;
             }
