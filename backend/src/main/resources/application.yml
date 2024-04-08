@@ -23,6 +23,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update #create update none
+      flushMode: ALWAYS
     properties:
       hibernate:
         format_sql: true

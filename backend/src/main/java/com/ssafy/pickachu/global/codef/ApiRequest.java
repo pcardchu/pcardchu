@@ -1,6 +1,10 @@
 package com.ssafy.pickachu.global.codef;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.ssafy.pickachu.global.exception.ErrorCode;
+import com.ssafy.pickachu.global.exception.ErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,7 +12,9 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +25,7 @@ import java.util.Map;
 public class ApiRequest {
 	
 	private static ObjectMapper mapper = new ObjectMapper();
-	
+	private static Gson gson = new Gson();
 	public static String reqeust(String urlPath, HashMap<String, Object> bodyMap, String PUBLIC_KEY, String CLIENT_ID, String SECERET_KEY, String ACCESS_TOKEN) throws IOException, InterruptedException, ParseException {
 		// 리소스서버 접근을 위한 액세스토큰 설정(기존에 발급 받은 토큰이 있다면 유효기간 만료까지 재사용)
 		String accessToken = ACCESS_TOKEN;
@@ -33,16 +39,25 @@ public class ApiRequest {
 		log.info(json.toJSONString());
 		// 새로운 은행 추가 에러 리턴
 		String code = (String) ((Map<String, Object>)json.get("result")).get("code");
+		
+		// XXX 에러 리턴
 		if(code.equals("CF-04000") && urlPath.equals(CommonConstant.TEST_DOMAIN+CommonConstant.ADD_ACCOUNT)){
 			JSONArray errorListArray = (JSONArray) ((Map<String, Object>)json.get("data")).get("errorList");
-
-			// "errorList" 배열의 첫 번째 요소의 "code" 값을 추출
-			String errorMSG = (String) ((Map<String, Object>)errorListArray.get(0)).get("code");
+			String errorMSG = (String) ((Map<String, Object>)errorListArray.get(0)).get("message");
 			if(errorMSG.equals("이미 계정이 등록된 기관입니다. 기존 계정 먼저 삭제하세요.")){
-				return "existBankData";
+				throw new ErrorException(ErrorCode.EXIST_BANK_INFO);
 			}
-			// 다른 에러가 있으면 아래에 추가
+		// 리스트 가져오기 성공 했을 때..
+		} else if (code.equals("CF-00000") && urlPath.equals(CommonConstant.TEST_DOMAIN+CommonConstant.GET_ACCOUNTS)){
+			JSONArray data1 = (JSONArray) ((Map<String, Object>)json.get("data")).get("accountList");
+			List<String> testOye = new ArrayList<>();
+			for (Object o : data1) {
+				JsonObject jsonObject = gson.fromJson(o.toString(), JsonObject.class);
+				testOye.add(String.valueOf(jsonObject.get("organization")));
+			}
+			return testOye.toString();
 		}
+		// 다른 에러가 있으면 아래에 추가
 
 
 		// 액세스 토큰 유효기간 만료시

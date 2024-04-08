@@ -19,5 +19,5 @@ public interface PersonalCardsRepository extends JpaRepository<PersonalCards, Lo
     @Query("SELECT p.cardCompany FROM PersonalCards p where p.userId = :userId and p.useYN = 'Y'")
     List<String> getPersonalCardsCardCompanyListByuser(long userId);
 
-    Boolean findPersonalCardsByUserIdAndCardCompany(long userId, String cardCompany);
+    Optional<PersonalCards> findPersonalCardsByUserIdAndCardCompany(long userId, String cardCompany);
 }

@@ -33,13 +33,13 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER-ERR", "UserNotFoundException: 잘못된 유저 정보입니다."),
 
     // Cards
-    EXIST_BANK_INFO(400, "CARDS-REGISTER-ERR", "이미 등록된 은행 입니다."),
+    EXIST_BANK_INFO(400, "CARDS-REGISTER-ERR", "ApiRequest.class : 이미 등록된 은행 입니다."),
     CARDS_NOT_FOUND(400, "FIND-CARDS-ERR", "카드를 찾을 수 없습니다."),
     CARDINFO_NOT_FOUND(400, "FIND-CARDINFO-ERR", "카드 정보를 찾을 수 없습니다."),
     PERSONAL_CARD_NOT_FOUND(400, "FIND-PERSONAL-CARDS-ERR", "개인 카드를 찾을 수 없습니다."),
     USER_DATA_NOT_FOUND(404, "NOT-FOUND-CONSUMPTION-HISTORY", "카드 사용내역이 없습니다."),
-    DUPLICATE_CARD_NO(409 , "DUPLICATE-CARD-ERR", "중복된 카드 번호입니다.")
-
+    DUPLICATE_CARD_NO(409 , "DUPLICATE-CARD-ERR", "중복된 카드 번호입니다."),
+    NOT_MY_CARDS(400, "NOT-MY-CARD", "내 카드가 아닙니다"),
     
     ;
     private int status;
