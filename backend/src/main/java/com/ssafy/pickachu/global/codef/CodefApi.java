@@ -1,6 +1,7 @@
 package com.ssafy.pickachu.global.codef;
 
 
+import com.google.gson.Gson;
 import com.ssafy.pickachu.domain.cards.personalcards.dto.RegisterCardsReq;
 import com.ssafy.pickachu.domain.user.entity.User;
 import com.ssafy.pickachu.global.util.JasyptUtil;
@@ -37,6 +38,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CodefApi {
 
+    /**	CODEF로부터 발급받은 퍼블릭 키	*/
+    @Value("${codef.public-key}")
+    private String PUBLIC_KEY;
+
     /**	CODEF로부터 발급받은 클라이언트 아이디	*/
     @Value("${codef.client-id}")
     private String CLIENT_ID;
@@ -45,11 +50,9 @@ public class CodefApi {
     @Value("${codef.secret-key}")
     private String SECERET_KEY;
 
-    @Value("${codef.public-key}")
-    private String PUBLIC_KEY;
-    /**	CODEF로부터 발급받은 퍼블릭 키	*/
-
     private final JasyptUtil jasyptUtil;
+    private static Gson gson = new Gson();
+
 
     private static Map<String, String> BANK_CODE = new HashMap<>(){{
         put("KB카드", "0301");
@@ -163,7 +166,6 @@ public class CodefApi {
 
     public String AddBankInConnectedId(RegisterCardsReq registerCardsReq, User user, String ACCESS_TOKEN) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, InvalidKeyException, IOException, ParseException, InterruptedException {
         String urlPath = "https://development.codef.io/v1/account/add";
-
         HashMap<String, Object> bodyMap = new HashMap<String, Object>();
         List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 
@@ -236,5 +238,55 @@ public class CodefApi {
         String result = SandboxApiRequest.reqeust(urlPath, bodyMap, ACCESS_TOKEN);	//  샌드박스 요청 오브젝트 사용
         return result;
     }
+
+    public List<String> GetAccountList(String connectedId, String ACCESS_TOKEN) throws IOException, ParseException, InterruptedException {
+        String urlPath = "https://development.codef.io/v1/account/list";
+
+        HashMap<String, Object> bodyMap = new HashMap<String, Object>();
+
+
+        bodyMap.put("connectedId", connectedId);
+
+        String result = ApiRequest.reqeust(urlPath, bodyMap, PUBLIC_KEY, CLIENT_ID, SECERET_KEY, ACCESS_TOKEN);
+        
+        String[] array = gson.fromJson(result, String[].class);
+        List<String> bankList = new ArrayList<>();
+        for (String s : array) {
+            for (Map.Entry<String, String> entry : BANK_CODE.entrySet()) {
+                if (s.equals(entry.getValue())) {
+                    bankList.add(entry.getKey());
+                }
+            }
+        }
+        
+        return bankList;
+
+    }
+
+    public void DeleteAccont(RegisterCardsReq registerCardsReq, User user, String ACCESS_TOKEN) throws IOException, ParseException, InterruptedException {
+        String urlPath = "https://api.codef.io/v1/account/delete";
+
+        HashMap<String, Object> bodyMap = new HashMap<String, Object>();
+        List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+
+        HashMap<String, Object> accountMap1 = new HashMap<String, Object>();
+        accountMap1.put("countryCode",	"KR");  // 국가코드
+        accountMap1.put("businessType",	"CD");  // 업무구분코드 (CD: 카드, BK: 은행)
+        accountMap1.put("clientType",  	"P");   // 고객구분(P: 개인, B: 기업)
+        accountMap1.put("organization",	BANK_CODE.get(registerCardsReq.getCardCompany())); // 기관코드 (0313: 하나카드, )
+        accountMap1.put("loginType",  	"1");   // 로그인타입 (0: 인증서, 1: ID/PW)
+        list.add(accountMap1);
+
+        bodyMap.put("accountList", list);
+
+        String connectedId = user.getConnectedId();
+        bodyMap.put("connectedId", connectedId);
+
+
+
+        String result = ApiRequest.reqeust(urlPath, bodyMap, PUBLIC_KEY, CLIENT_ID, SECERET_KEY, ACCESS_TOKEN);
+
+    }
+
 
 }
