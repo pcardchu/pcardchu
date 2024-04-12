@@ -76,7 +76,7 @@ public class PersonalCardsServiceImpl implements PersonalCardsService {
     private final StatisticsMapper statisticsMapper;
     private final CardsAggregation cardsAggregation;
 
-    private final String zeppelinUrl = "http://j10d110a.p.ssafy.io:18888";
+    private final String zeppelinUrl = "<zeppelin server url>:18888";
     private RestTemplate restTemplate = new RestTemplate();
 
     private void runNotebook() {
