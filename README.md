@@ -89,7 +89,7 @@
 
 **Build Tool |** Gradle 8.4.0
 
-**ETC |** Chrome: 122.0.6261.112, Chrome Driver: 122.0.6261.111 (크롤링)
+**ETC |** Chrome: 122.0.6261.112, Chrome Driver: 122.0.6261.111 (크롤링), Codef API(카드 사용 내역)
 
 </div>
 
